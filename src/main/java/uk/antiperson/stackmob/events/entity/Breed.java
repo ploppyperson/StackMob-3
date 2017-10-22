@@ -20,13 +20,13 @@ public class Breed implements Listener {
     public void onBreed(EntityBreedEvent event) {
         LivingEntity father = event.getFather();
         LivingEntity mother = event.getMother();
-        if(father.hasMetadata(GlobalValues.curentlyBreeding) && father.getMetadata(GlobalValues.curentlyBreeding).get(0).asBoolean()){
-            father.setMetadata(GlobalValues.curentlyBreeding, new FixedMetadataValue(sm, false));
-            father.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, false));
+        if(father.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && father.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+            father.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
+            father.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
         }
-        if(mother.hasMetadata(GlobalValues.curentlyBreeding) && mother.getMetadata(GlobalValues.curentlyBreeding).get(0).asBoolean()){
-            mother.setMetadata(GlobalValues.curentlyBreeding, new FixedMetadataValue(sm, false));
-            mother.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, false));
+        if(mother.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && mother.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+            mother.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
+            mother.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
         }
     }
 }

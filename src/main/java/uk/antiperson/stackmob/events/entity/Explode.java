@@ -15,8 +15,8 @@ public class Explode implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event){
-        if(event.getEntity().hasMetadata(GlobalValues.metaTag)){
-            int stackSize = event.getEntity().getMetadata(GlobalValues.metaTag).get(0).asInt();
+        if(event.getEntity().hasMetadata(GlobalValues.METATAG)){
+            int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
             event.setYield(stackSize * 2);
         }
     }

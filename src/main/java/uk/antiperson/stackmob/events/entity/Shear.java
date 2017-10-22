@@ -14,8 +14,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.util.Collections;
-
 public class Shear implements Listener {
 
     private StackMob sm;
@@ -26,15 +24,15 @@ public class Shear implements Listener {
 
     @EventHandler
     public void onSheepShear(PlayerShearEntityEvent event) {
-        if(!event.getEntity().hasMetadata(GlobalValues.metaTag)){
+        if(!event.getEntity().hasMetadata(GlobalValues.METATAG)){
             return;
         }
-        if(event.getEntity().getMetadata(GlobalValues.metaTag).get(0).asInt() <= 1){
+        if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() <= 1){
             return;
         }
 
         Entity oldEntity = event.getEntity();
-        int stackSize = event.getEntity().getMetadata(GlobalValues.metaTag).get(0).asInt();
+        int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
 
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
@@ -50,9 +48,9 @@ public class Shear implements Listener {
                 Sheep newEntity = (Sheep) sm.checks.duplicate(oldEntity);
                 newEntity.setSheared(false);
 
-                newEntity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, stackSize - 1));
-                newEntity.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
-                oldEntity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, 1));
+                newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
+                newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                oldEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                 oldEntity.setCustomName(null);
             }
         }
@@ -63,15 +61,15 @@ public class Shear implements Listener {
                 sm.dropTools.dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
                 // Spawn cow for the rest of the cows that where sheared.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
-                cow.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, stackSize - 1));
-                cow.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
+                cow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
+                cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 ItemStack item = event.getPlayer().getItemInHand();
                 item.setDurability((short) (item.getDurability() + stackSize));
                 event.getPlayer().setItemInHand(item);
             }else if (sm.config.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
-                mushroomCow.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, stackSize - 1));
-                mushroomCow.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
+                mushroomCow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
+                mushroomCow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 oldEntity.setCustomName(null);
             }
         }

@@ -8,12 +8,12 @@ import uk.antiperson.stackmob.events.chunk.ChunkUnload;
 import uk.antiperson.stackmob.events.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagUpdater;
+import uk.antiperson.stackmob.tools.DropTools;
+import uk.antiperson.stackmob.tools.EntityTools;
 import uk.antiperson.stackmob.tools.PluginSupport;
 import uk.antiperson.stackmob.tools.Update;
 import uk.antiperson.stackmob.tools.config.Cache;
-import uk.antiperson.stackmob.tools.DropTools;
-import uk.antiperson.stackmob.tools.EntityTools;
-import uk.antiperson.stackmob.tools.config.MainConfiguration;
+import uk.antiperson.stackmob.tools.config.ConfigLoader;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 
@@ -27,7 +27,8 @@ public class StackMob extends JavaPlugin {
      */
 
     private int versionId = 0;
-    public MainConfiguration config = new MainConfiguration(this);
+    public ConfigLoader config = new ConfigLoader(this, "config");
+    public ConfigLoader translation = new ConfigLoader(this, "lang");
     public EntityTools checks = new EntityTools(this);
     public Cache cache = new Cache(this);
     public DropTools dropTools = new DropTools(this);
@@ -40,17 +41,18 @@ public class StackMob extends JavaPlugin {
         // Startup messages
         getLogger().info("StackMob version " + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
-        getLogger().info("GitHub repository can be fount at " + GlobalValues.github);
+        getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
         // Set version id, but if not supported, warn.
         setVersionId();
         if(getVersionId() == 0){
             getLogger().warning("This bukkit version (" + Bukkit.getVersion() + ") is not currently supported!");
-            getLogger().warning("New Minecraft features are not supported so issues may occur!");
+            getLogger().warning("New Minecraft features are not supported, so some issues may occur!");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         config.reloadCustomConfig();
+        translation.reloadCustomConfig();
 
         // Load the cache.
         cache.loadCache();

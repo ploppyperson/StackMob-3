@@ -1,10 +1,7 @@
 package uk.antiperson.stackmob.tools;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -58,13 +55,13 @@ public class DropTools {
             ItemStack newStack = new ItemStack(drop.getType(), drop.getMaxStackSize(), drop.getDurability());
             newStack.setItemMeta(drop.getItemMeta());
             Item item = dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
-            item.setMetadata(GlobalValues.multipliedEgg, new FixedMetadataValue(sm, true));
+            item.setMetadata(GlobalValues.MULTIPLIED_EGG, new FixedMetadataValue(sm, true));
         }
         if(leftOver > 0){
             ItemStack newStack = new ItemStack(drop.getType(), (int) Math.round(leftOver * drop.getMaxStackSize()), drop.getDurability());
             newStack.setItemMeta(drop.getItemMeta());
             Item item = dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
-            item.setMetadata(GlobalValues.multipliedEgg, new FixedMetadataValue(sm, true));
+            item.setMetadata(GlobalValues.MULTIPLIED_EGG, new FixedMetadataValue(sm, true));
         }
     }
 

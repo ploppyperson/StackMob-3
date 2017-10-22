@@ -19,7 +19,7 @@ public class EntityTarget implements Listener {
     @EventHandler
     public void onEntityTarget(EntityTargetLivingEntityEvent event) {
         if(event.getTarget() instanceof Player && event.getEntity() instanceof Monster){
-            if(event.getEntity().hasMetadata(GlobalValues.metaTag)){
+            if(event.getEntity().hasMetadata(GlobalValues.METATAG)){
                 if(!sm.config.getCustomConfig().getStringList("no-targeting.types-blacklist").contains(event.getEntityType().toString())) {
                     event.setCancelled(true);
                 }

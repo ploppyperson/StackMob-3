@@ -18,8 +18,8 @@ public class DamgeDelt implements Listener {
     @EventHandler
     public void onDamgeDelt(EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof Player){
-            if(event.getDamager().hasMetadata(GlobalValues.metaTag)){
-                int stackSize = event.getDamager().getMetadata(GlobalValues.metaTag).get(0).asInt();
+            if(event.getDamager().hasMetadata(GlobalValues.METATAG)){
+                int stackSize = event.getDamager().getMetadata(GlobalValues.METATAG).get(0).asInt();
                 double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.25);
                 event.setDamage(extraDamage);
             }

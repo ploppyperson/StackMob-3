@@ -21,7 +21,7 @@ public class PluginSupport {
         if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && sm.getServer().getPluginManager().getPlugin("mcMMO") != null){
             if(!sm.config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
                     .contains(entity.getType().toString()) && sm.getServer().getPluginManager().isPluginEnabled("mcMMO")){
-                entity.setMetadata(GlobalValues.mcmmoTag, new FixedMetadataValue(sm.getServer().getPluginManager().getPlugin("mcMMO"), false));
+                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(sm.getServer().getPluginManager().getPlugin("mcMMO"), false));
             }
         }
     }

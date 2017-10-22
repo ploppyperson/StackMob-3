@@ -20,7 +20,7 @@ public class StackedEntity {
      * @return Returns the current size.
      */
     public int getSize(){
-        return entity.getMetadata(GlobalValues.metaTag).get(0).asInt();
+        return entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
     }
 
     /**
@@ -29,7 +29,7 @@ public class StackedEntity {
      */
 
     public void setSize(int newSize){
-        entity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, newSize));
+        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, newSize));
     }
 
     /**
@@ -38,8 +38,8 @@ public class StackedEntity {
      */
 
     public boolean isStackingPrevented(){
-        return entity.hasMetadata(GlobalValues.metaTag) &&
-                entity.getMetadata(GlobalValues.metaTag).get(0).asBoolean();
+        return entity.hasMetadata(GlobalValues.NO_STACK_ALL) &&
+                entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
     }
 
     /**
@@ -47,6 +47,6 @@ public class StackedEntity {
      * @param value Boolean value for if entities should be excluded from stacking.
      */
     public void setPreventFromStacking(boolean value){
-        entity.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, value));
+        entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, value));
     }
 }

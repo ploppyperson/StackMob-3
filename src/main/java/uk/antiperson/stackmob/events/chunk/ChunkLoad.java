@@ -27,10 +27,15 @@ public class ChunkLoad implements Listener {
             if(!sm.cache.amountCache.containsKey(currentEntity.getUniqueId())){
                 continue;
             }
-            currentEntity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, sm.cache.amountCache.get(currentEntity.getUniqueId())));
+            if(sm.cache.amountCache.get(currentEntity.getUniqueId()) == -69){
+                currentEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
+            }else{
+                currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, sm.cache.amountCache.get(currentEntity.getUniqueId())));
+            }
 
             // Cleanup.
             sm.cache.amountCache.remove(currentEntity.getUniqueId());
+
         }
     }
 

@@ -48,6 +48,8 @@ no-stack-types:
 # If the entity is located in one of these worlds, then don't stack.
 no-stack-worlds:
     - ''
+# Don't stack until there are more than the number specified of entities of the same type in the check area set above. Set to 0 to disable this feature.
+dont-stack-until: 5
 
 # Enables/disables the comparing of mob type specific attributes before stacking together.
 compare:

@@ -5,7 +5,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -44,10 +43,15 @@ public class Cache {
         }
         for (World world : Bukkit.getWorlds()){
             for(Entity currentEntity : world.getLivingEntities()){
-                if(currentEntity.hasMetadata(GlobalValues.metaTag) &&
-                        currentEntity.getMetadata(GlobalValues.metaTag).size() > 0 &&
-                        currentEntity.getMetadata(GlobalValues.metaTag).get(0).asInt() > 1){
-                    cacheCon.set(currentEntity.getUniqueId().toString(), currentEntity.getMetadata(GlobalValues.metaTag).get(0).asInt());
+                if(currentEntity.hasMetadata(GlobalValues.METATAG) &&
+                        currentEntity.getMetadata(GlobalValues.METATAG).size() > 0 &&
+                        currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
+                    cacheCon.set(currentEntity.getUniqueId().toString(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
+                }
+                if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
+                        currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
+                        currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                    cacheCon.set(currentEntity.getUniqueId().toString(), -69);
                 }
             }
         }

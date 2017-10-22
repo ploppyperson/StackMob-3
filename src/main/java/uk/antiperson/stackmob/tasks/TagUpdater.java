@@ -6,8 +6,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
  * Created by nathat on 25/07/17.
@@ -25,8 +25,11 @@ public class TagUpdater extends BukkitRunnable {
                 continue;
             }
             for(Entity e : w.getLivingEntities()){
-                if(!e.hasMetadata(GlobalValues.metaTag)){
+                if(!e.hasMetadata(GlobalValues.METATAG)){
                     continue;
+                }
+                if(e.getMetadata(GlobalValues.METATAG).size() == 0){
+                    e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                 }
                 String typeString = e.getType().toString();
 
@@ -35,15 +38,8 @@ public class TagUpdater extends BukkitRunnable {
                     removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                 }
 
-                if(e.getMetadata(GlobalValues.metaTag).get(0).asInt() <= removeAt){
+                if(e.getMetadata(GlobalValues.METATAG).get(0).asInt() <= removeAt){
                     continue;
-                }
-
-                // Change if it is a mythic mob.
-                if(sm.pluginSupport.getMythicSupport() != null){
-                    if(sm.pluginSupport.getMythicSupport().isMythicMob(e)){
-                        typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
-                    }
                 }
 
                 String format = sm.config.getCustomConfig().getString("tag.format");
@@ -51,13 +47,18 @@ public class TagUpdater extends BukkitRunnable {
                     format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
                 }
 
+                // Change if it is a mythic mob.
+                if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(e)){
+                    typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
+                }else if(sm.translation.getCustomConfig().getBoolean("enabled")){
+                    typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
+                }
+
                 String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
-
-                String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.metaTag).get(0).asString())
+                String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
                         .replace("%type%", formattedType)
-                        .replace("%bukkit_type%", typeString);
+                        .replace("%bukkit_type%", e.getType().toString());
                 String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
-
                 e.setCustomName(finalString);
 
                 boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");

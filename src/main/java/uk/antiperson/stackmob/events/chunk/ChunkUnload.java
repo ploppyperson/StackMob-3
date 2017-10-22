@@ -28,11 +28,11 @@ public class ChunkUnload implements Listener {
                 continue;
             }
             // Check if stackable
-            if(!currentEntity.hasMetadata(GlobalValues.metaTag)){
+            if(!currentEntity.hasMetadata(GlobalValues.METATAG)){
                 continue;
             }
             // Add to cache
-            sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.metaTag).get(0).asInt());
+            sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
         }
     }
 

@@ -19,6 +19,7 @@ public class Update {
     public String getLatestVersion(){
         try{
             HttpURLConnection connect = (HttpURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=29999").openConnection();
+            connect.setRequestProperty("User-Agent", "StackMob");
             connect.setRequestMethod("GET");
             return new BufferedReader(new InputStreamReader(connect.getInputStream())).readLine();
         }catch (Exception e){

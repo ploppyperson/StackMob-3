@@ -1,8 +1,6 @@
 package uk.antiperson.stackmob.events.entity;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,27 +22,27 @@ public class Interact implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(!entity.hasMetadata(GlobalValues.metaTag)){
+        if(!entity.hasMetadata(GlobalValues.METATAG)){
             return;
         }
-        if(entity.hasMetadata(GlobalValues.curentlyBreeding) && entity.getMetadata(GlobalValues.curentlyBreeding).get(0).asBoolean()){
+        if(entity.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
-        if(entity.getMetadata(GlobalValues.metaTag).get(0).asInt() == 1){
+        if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() == 1){
             return;
         }
 
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getItemInHand(), entity) && ((Animals) entity).canBreed() && sm.config.getCustomConfig().getBoolean("divide-on.breed")){
-                int stackSize = entity.getMetadata(GlobalValues.metaTag).get(0).asInt();
+                int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
 
                 Entity newEntity = sm.checks.duplicate(entity);
-                newEntity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, stackSize - 1));
-                newEntity.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
+                newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
+                newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
 
-                entity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, 1));
-                entity.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, true));
-                entity.setMetadata(GlobalValues.curentlyBreeding, new FixedMetadataValue(sm, true));
+                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
                 entity.setCustomName(null);
 
                 // Allow to stack after breeding
@@ -52,20 +50,20 @@ public class Interact implements Listener {
                     @Override
                     public void run(){
                         if(!entity.isDead()){
-                            entity.setMetadata(GlobalValues.curentlyBreeding, new FixedMetadataValue(sm, false));
-                            entity.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, false));
+                            entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
+                            entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
                         }
                     }
                 }.runTaskLater(sm, 20 * 20);
             }else if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.name")){
-                if(entity.hasMetadata(GlobalValues.metaTag)){
-                    if(entity.getMetadata(GlobalValues.metaTag).get(0).asInt() > 1){
+                if(entity.hasMetadata(GlobalValues.METATAG)){
+                    if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
                         Entity dupe = sm.checks.duplicate(entity);
-                        dupe.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.metaTag).get(0).asInt() - 1));
-                        dupe.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
+                        dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+                        dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                     }
-                    entity.removeMetadata(GlobalValues.metaTag, sm);
-                    entity.setMetadata(GlobalValues.noStackAll, new FixedMetadataValue(sm, true));
+                    entity.removeMetadata(GlobalValues.METATAG, sm);
+                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
                 }
             }
         }

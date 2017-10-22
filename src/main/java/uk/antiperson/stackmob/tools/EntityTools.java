@@ -6,6 +6,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Created by nathat on 24/07/17.
  */
@@ -24,11 +26,11 @@ public class EntityTools {
             return true;
         }
 
-        if(nearby.hasMetadata(GlobalValues.noStackAll) && nearby.getMetadata(GlobalValues.noStackAll).get(0).asBoolean()){
+        if(newe.hasMetadata(GlobalValues.NO_STACK_ALL) && newe.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
-        if(nearby.hasMetadata(GlobalValues.noStackAll) && nearby.getMetadata(GlobalValues.noStackAll).get(0).asBoolean()){
+        if(nearby.hasMetadata(GlobalValues.NO_STACK_ALL) && nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
@@ -153,6 +155,7 @@ public class EntityTools {
             }
         }
 
+
         return false;
     }
 
@@ -252,24 +255,40 @@ public class EntityTools {
         if(e.isDead()){
             return true;
         }
-        if(!e.hasMetadata(GlobalValues.metaTag)){
+        if(e.hasMetadata(GlobalValues.NO_TASK_STACK) && e.getMetadata(GlobalValues.NO_TASK_STACK).get(0).asBoolean()){
             return true;
         }
-        if(e.hasMetadata(GlobalValues.noTaskStack) && e.getMetadata(GlobalValues.noTaskStack).get(0).asBoolean()){
+        if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-        if(e.hasMetadata(GlobalValues.noStackAll) && e.getMetadata(GlobalValues.noStackAll).get(0).asBoolean()){
-            return true;
-        }
-        int maxSize = maxSize = sm.config.getCustomConfig().getInt("stack-max");
+        int maxSize = sm.config.getCustomConfig().getInt("stack-max");
         if(sm.config.getCustomConfig().isInt("custom." + e.getType() + ".stack-max")){
             maxSize = sm.config.getCustomConfig().getInt("custom." + e.getType() + ".stack-max");
         }
-        if(e.getMetadata(GlobalValues.metaTag).get(0).asInt() == maxSize){
+        if(e.hasMetadata(GlobalValues.METATAG)){
+            if(e.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
+                return true;
+            }
+        }else if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
+            if(!e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                return true;
+            }
+        }else{
             return true;
         }
         return false;
     }
+
+    public void spawnMoreSlime(Slime bigSlime, int amountDead){
+        int newSlimeSize = (int) Math.floor(bigSlime.getSize() / 2);
+        for(int i = 0; i < amountDead; i++){
+            Slime smallSlime = (Slime) bigSlime.getWorld().spawnEntity(bigSlime.getLocation(), EntityType.SLIME);
+            smallSlime.setSize(newSlimeSize);
+            smallSlime.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+            smallSlime.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, ThreadLocalRandom.current().nextInt(2,4)));
+        }
+    }
+
 
 
 }

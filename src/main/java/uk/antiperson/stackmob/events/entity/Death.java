@@ -1,12 +1,13 @@
 package uk.antiperson.stackmob.events.entity;
 
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -25,15 +26,15 @@ public class Death implements Listener {
     public void onDeath(EntityDeathEvent e) {
         Entity dead = e.getEntity();
 
-        if(!dead.hasMetadata(GlobalValues.metaTag)){
+        if(!dead.hasMetadata(GlobalValues.METATAG)){
             return;
         }
-        if(dead.getMetadata(GlobalValues.metaTag).get(0).asInt() <= 1){
+        if(dead.getMetadata(GlobalValues.METATAG).get(0).asInt() <= 1){
             return;
         }
 
 
-        int oldSize = dead.getMetadata(GlobalValues.metaTag).get(0).asInt();
+        int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int subtractAmount = 1;
 
 
@@ -44,6 +45,12 @@ public class Death implements Listener {
                         .contains(dead.getType().toString())) {
                     // Do it
                     multiplication(e.getEntity(), e.getDrops(), oldSize - 1, e.getDroppedExp());
+                    if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
+                        e.setDroppedExp((int) Math.round((1.25 + ThreadLocalRandom.current().nextDouble(0.75)) * (oldSize - 1) * e.getDroppedExp()));
+                    }
+                    if(dead instanceof Slime){
+                        sm.checks.spawnMoreSlime((Slime) dead, oldSize - 1);
+                    }
                     return;
                 }
             }
@@ -61,19 +68,26 @@ public class Death implements Listener {
                         subtractAmount = randomStep;
                     }
                     multiplication(e.getEntity(), e.getDrops(), subtractAmount - 1, e.getDroppedExp());
+                    if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
+                        e.setDroppedExp((int) Math.round((1.45 + ThreadLocalRandom.current().nextDouble(0.75)) * (subtractAmount - 1) * e.getDroppedExp()));
+                    }
+                    if(dead instanceof Slime){
+                        sm.checks.spawnMoreSlime((Slime) dead, subtractAmount - 1);
+                    }
                 }
             }
         }
 
         if(oldSize != subtractAmount){
             Entity newe = sm.checks.duplicate(dead);
-            newe.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, oldSize - subtractAmount));
-            newe.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
+            newe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize - subtractAmount));
+            newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
         }
-        dead.removeMetadata(GlobalValues.metaTag, sm);
-        dead.removeMetadata(GlobalValues.noStackAll, sm);
-        dead.removeMetadata(GlobalValues.noTaskStack, sm);
-        dead.removeMetadata(GlobalValues.curentlyBreeding, sm);
+        dead.removeMetadata(GlobalValues.METATAG, sm);
+        dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
+        dead.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
+        dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
+        dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
     }
 
     public void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
@@ -83,10 +97,6 @@ public class Death implements Listener {
             }else{
                 sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), null);
             }
-        }
-        if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled") && subtractAmount > 1){
-            ((ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB))
-                    .setExperience((int) Math.round(((1.25 + ThreadLocalRandom.current().nextDouble(0.75)) * (subtractAmount - 1) * originalExperience)));
         }
     }
 }

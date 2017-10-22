@@ -17,7 +17,8 @@ public class StackTask extends BukkitRunnable {
     public StackTask(StackMob sm){
         this.sm = sm;
     }
-    
+
+    // TODO: Neaten this stuff up, but I cba.
     @Override
     public void run(){
         double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
@@ -31,7 +32,6 @@ public class StackTask extends BukkitRunnable {
                     .contains(world.getName())){
                 continue;
             }
-
             // Loop all entities in the current world
             for(Entity first : world.getLivingEntities()){
                 // Checks on first entity
@@ -51,13 +51,23 @@ public class StackTask extends BukkitRunnable {
                         continue;
                     }
 
+                    if(nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                        continue;
+                    }
+
                     // Check attributes of both
                     if(sm.checks.notMatching(first, nearby)){
                         continue;
                     }
 
-                    int nearbySize = nearby.getMetadata(GlobalValues.metaTag).get(0).asInt();
-                    int firstSize = first.getMetadata(GlobalValues.metaTag).get(0).asInt();
+                    int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                    int firstSize;
+                    if(first.hasMetadata(GlobalValues.METATAG)){
+                        firstSize = first.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                    }else{
+                        firstSize = 1;
+                    }
 
                     if(sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")){
                         maxSize = sm.config.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
@@ -75,10 +85,10 @@ public class StackTask extends BukkitRunnable {
                     // Continue to stack together
                     int amountTotal = nearbySize + firstSize;
                     if(amountTotal > maxSize){
-                        first.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, maxSize));
-                        nearby.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, amountTotal - maxSize));
+                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, maxSize));
+                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal - maxSize));
                     }else{
-                        first.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, amountTotal));
+                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
                         nearby.remove();
                     }
                     break;

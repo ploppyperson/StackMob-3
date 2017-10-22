@@ -1,0 +1,56 @@
+# This is the language translation file for StackMob 2.x, created by antiPerson
+
+# This must be set to 'true' for the translations to take effect.
+enabled: false
+
+# Translations for the entity name shown in the name tag.
+# Note: These are the entity types for Minecraft 1.12.2.
+BAT:
+BLAZE:
+CAVE_SPIDER:
+CHICKEN:
+COW:
+CREEPER:
+DONKEY:
+ELDER_GUARDIAN:
+ENDER_DRAGON:
+ENDERMAN:
+ENDERMITE:
+EVOKER:
+GHAST:
+GIANT:
+GUARDIAN:
+HORSE:
+HUSK:
+ILLUSIONER:
+IRON_GOLEM:
+LLAMA:
+MAGMA_CUBE:
+MULE:
+MUSHROOM_COW:
+OCELOT:
+PARROT:
+PIG:
+PIG_ZOMBIE:
+POLAR_BEAR:
+RABBIT:
+SHEEP:
+SHULKER:
+SILVERFISH:
+SKELETON:
+SKELETON_HORSE:
+SLIME:
+SPIDER:
+SQUID:
+STRAY:
+VEX:
+VILLAGER:
+VINDICATOR:
+WEATHER:
+WITCH:
+WITHER:
+WITHER_SKELETON:
+WOLF:
+ZOMBIE:
+ZOMBIE_HORSE:
+ZOMBIE_VILLAGER:

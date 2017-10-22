@@ -61,7 +61,7 @@ public class Commands implements CommandExecutor {
                     int counter = 0;
                     for(World world : Bukkit.getWorlds()){
                         for(Entity entity : world.getLivingEntities()){
-                            if(entity.hasMetadata(GlobalValues.metaTag)){
+                            if(entity.hasMetadata(GlobalValues.METATAG)){
                                 counter++;
                                 entity.remove();
                             }
@@ -77,9 +77,9 @@ public class Commands implements CommandExecutor {
                     int stackedTotal = 0;
                     for(World world : Bukkit.getWorlds()){
                         for(Entity entity : world.getLivingEntities()){
-                            if(entity.hasMetadata(GlobalValues.metaTag)){
+                            if(entity.hasMetadata(GlobalValues.METATAG)){
                                 stackedCount = stackedCount + 1;
-                                stackedTotal = stackedTotal + entity.getMetadata(GlobalValues.metaTag).get(0).asInt();
+                                stackedTotal = stackedTotal + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                             }
                         }
                     }
@@ -88,16 +88,18 @@ public class Commands implements CommandExecutor {
                     int stackedTotal1 = 0;
                     if(sender instanceof Player){
                         for(Entity entity : ((Player) sender).getLocation().getChunk().getEntities()){
-                            if(entity.hasMetadata(GlobalValues.metaTag)){
+                            if(entity.hasMetadata(GlobalValues.METATAG)){
                                 stackedCount1 = stackedCount1 + 1;
-                                stackedTotal1 = stackedTotal1 + entity.getMetadata(GlobalValues.metaTag).get(0).asInt();
+                                stackedTotal1 = stackedTotal1 + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                             }
                         }
                     }
 
                     int cacheTotal = 0;
                     for(UUID uuid : sm.cache.amountCache.keySet()){
-                        cacheTotal = cacheTotal + sm.cache.amountCache.get(uuid);
+                        if(sm.cache.amountCache.get(uuid) > 0) {
+                            cacheTotal = cacheTotal + sm.cache.amountCache.get(uuid);
+                        }
                     }
 
 
@@ -124,7 +126,7 @@ public class Commands implements CommandExecutor {
                         if(numb != null){
                             int counter = 0;
                             for(Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)){
-                                if(entity.hasMetadata(GlobalValues.metaTag)){
+                                if(entity.hasMetadata(GlobalValues.METATAG)){
                                     entity.remove();
                                     counter++;
                                 }
@@ -165,8 +167,8 @@ public class Commands implements CommandExecutor {
                         }
                         if(contains){
                             Entity newEntity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.valueOf(args[2].toUpperCase()));
-                            newEntity.setMetadata(GlobalValues.noSpawnStack, new FixedMetadataValue(sm, true));
-                            newEntity.setMetadata(GlobalValues.metaTag, new FixedMetadataValue(sm, numb));
+                            newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                            newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, numb));
                             sender.sendMessage(pluginTag + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         }else {
                             sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
