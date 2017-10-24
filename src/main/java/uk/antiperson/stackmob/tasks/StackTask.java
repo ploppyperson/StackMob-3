@@ -39,6 +39,11 @@ public class StackTask extends BukkitRunnable {
                     continue;
                 }
 
+                if(first.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                        && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
+                    sm.checks.notEnoughNearby(first);
+                }
+
                 // Find nearby entities
                 for(Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)){
 

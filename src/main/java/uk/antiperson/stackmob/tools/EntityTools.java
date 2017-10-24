@@ -1,11 +1,14 @@
 package uk.antiperson.stackmob.tools;
 
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import java.util.HashSet;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -266,11 +269,11 @@ public class EntityTools {
             maxSize = sm.config.getCustomConfig().getInt("custom." + e.getType() + ".stack-max");
         }
         if(e.hasMetadata(GlobalValues.METATAG)){
-            if(e.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
+            if(e.getMetadata(GlobalValues.METATAG).size() == 0 || e.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                 return true;
             }
         }else if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
-            if(!e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+            if(e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0 || !e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
                 return true;
             }
         }else{
@@ -289,6 +292,34 @@ public class EntityTools {
         }
     }
 
+    public boolean notEnoughNearby(Entity original){
+        double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
+        double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
+        double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
+        if(sm.config.getCustomConfig().getInt("dont-stack-until") > 0){
+            HashSet<UUID> entities = new HashSet<>();
+            entities.add(original.getUniqueId());
+            for(Entity nearby : original.getNearbyEntities(xLoc, yLoc, zLoc)){
+                if(original.getType() == nearby.getType()) {
+                    if (nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
+                        if (notMatching(original, nearby)) {
+                            continue;
+                        }
+                        entities.add(nearby.getUniqueId());
+                    }
+                }
+            }
+            if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
+                for(UUID uuid : entities){
+                    Bukkit.getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
+                    Bukkit.getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                }
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

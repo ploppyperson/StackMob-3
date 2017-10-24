@@ -16,6 +16,8 @@ import uk.antiperson.stackmob.tools.config.Cache;
 import uk.antiperson.stackmob.tools.config.ConfigLoader;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import java.time.LocalDate;
+
 
 /**
  * Created by nathat on 23/07/17.
@@ -66,6 +68,10 @@ public class StackMob extends JavaPlugin {
         new Metrics(this);
 
         getLogger().info(updater.updateString());
+
+        if(LocalDate.now().getDayOfYear() == 304){
+            getLogger().info("spooky scary skeletons send shivers down your spine dun dun dun dun");
+        }
 
     }
 
