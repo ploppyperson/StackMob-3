@@ -24,10 +24,6 @@ import java.time.LocalDate;
  */
 public class StackMob extends JavaPlugin {
 
-    /*
-    TODO: Slime multiplication with kill-all/kill-step
-     */
-
     private int versionId = 0;
     public ConfigLoader config = new ConfigLoader(this, "config");
     public ConfigLoader translation = new ConfigLoader(this, "lang");
@@ -69,8 +65,8 @@ public class StackMob extends JavaPlugin {
 
         getLogger().info(updater.updateString());
 
-        if(LocalDate.now().getDayOfYear() == 304){
-            getLogger().info("spooky scary skeletons send shivers down your spine dun dun dun dun");
+        if(LocalDate.now().getDayOfYear() >= 357){
+            getLogger().info("Merry Christmas!");
         }
 
     }

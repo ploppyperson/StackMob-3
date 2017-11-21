@@ -33,7 +33,6 @@ public class Death implements Listener {
             return;
         }
 
-
         int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int subtractAmount = 1;
 

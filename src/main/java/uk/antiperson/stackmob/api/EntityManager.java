@@ -51,9 +51,13 @@ public class EntityManager {
 
     /**
      * Adds metadata to stop the entity from becoming a stack on the CreatureSpawnEvent.
+     *
+     * Use the methods in the StackedEntity class instead.
      * @param entity Entity to set the metadata in.
      */
+    @Deprecated
     public void preventFromStacking(Entity entity){
         entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
     }
+
 }

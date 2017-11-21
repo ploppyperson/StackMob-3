@@ -22,11 +22,11 @@ public class ItemDrop implements Listener {
     @EventHandler
     public void onEggDrop(ItemSpawnEvent event) {
         if(event.getEntity().getItemStack().getType() == Material.EGG && !event.getEntity().hasMetadata(GlobalValues.MULTIPLIED_EGG)){
-            for(Entity e : event.getEntity().getNearbyEntities(0, 0.25, 0)){
+            for(Entity e : event.getEntity().getNearbyEntities(0, 0.2, 0)){
                 if(e instanceof Chicken && e.hasMetadata(GlobalValues.METATAG)){
                     int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int dropAmount = (int) Math.round(stackSize * (ThreadLocalRandom.current().nextDouble(0.5) + 0.35));
-                    sm.dropTools.dropEggs(event.getEntity().getItemStack(), dropAmount, event.getEntity().getLocation().add(0.2, 0, 0.2));
+                    sm.dropTools.dropEggs(event.getEntity().getItemStack(), dropAmount, e.getLocation().add(0.2, 0, 0.2));
                     break;
                 }
             }

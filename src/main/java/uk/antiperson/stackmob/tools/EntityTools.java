@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.tools;
 
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
@@ -301,7 +302,9 @@ public class EntityTools {
             entities.add(original.getUniqueId());
             for(Entity nearby : original.getNearbyEntities(xLoc, yLoc, zLoc)){
                 if(original.getType() == nearby.getType()) {
-                    if (nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
+                    if (nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0
+                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                         if (notMatching(original, nearby)) {
                             continue;
                         }
@@ -311,8 +314,8 @@ public class EntityTools {
             }
             if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
                 for(UUID uuid : entities){
-                    Bukkit.getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
-                    Bukkit.getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                    getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
+                    getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                 }
             }else{
                 return true;
@@ -321,5 +324,17 @@ public class EntityTools {
         return false;
     }
 
+    // This is needed because of 1.8
+    public static Entity getEntity(UUID uuid){
+        for(World world : Bukkit.getWorlds()){
+            for(Entity entity : world.getLivingEntities()){
+                if(entity.getUniqueId().equals(uuid)){
+                    return entity;
+                }
+            }
+        }
+        // Lets hope this doesn't happen.
+        return null;
+    }
 
 }
