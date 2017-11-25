@@ -1,5 +1,5 @@
 name: StackMob
-version: ${project.version}
+version: 2.1.2
 author: antiPerson/BaconPied
 main: uk.antiperson.stackmob.StackMob
 website: https://www.spigotmc.org/resources/stackmob.29999/
@@ -7,7 +7,7 @@ softdepends: [MythicMobs, MiniaturePets]
 description: The best entity stacking plugin.
 load: STARTUP
 commands:
-    plugin:
+    sm:
        description: The main command
 permissions:
     stackmob.*:

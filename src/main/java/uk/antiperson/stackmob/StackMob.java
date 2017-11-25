@@ -1,151 +1,141 @@
 package uk.antiperson.stackmob;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.api.EntityManager;
-import uk.antiperson.stackmob.commands.CommandHandler;
-import uk.antiperson.stackmob.config.ConfigLoader;
-import uk.antiperson.stackmob.listeners.ChunkListener;
-import uk.antiperson.stackmob.listeners.entity.*;
-import uk.antiperson.stackmob.services.*;
-import uk.antiperson.stackmob.storage.Cache;
+import uk.antiperson.stackmob.events.chunk.ChunkLoad;
+import uk.antiperson.stackmob.events.chunk.ChunkUnload;
+import uk.antiperson.stackmob.events.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagUpdater;
-import uk.antiperson.stackmob.utils.BukkitVersion;
+import uk.antiperson.stackmob.tools.DropTools;
+import uk.antiperson.stackmob.tools.EntityTools;
+import uk.antiperson.stackmob.tools.PluginSupport;
+import uk.antiperson.stackmob.tools.Update;
+import uk.antiperson.stackmob.tools.config.Cache;
+import uk.antiperson.stackmob.tools.config.ConfigLoader;
+import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-// TODO: use the entity manager instead of directly accessing the metadata values
-public final class StackMob extends JavaPlugin {
 
-    @Getter
-    private static StackMob instance;
+/**
+ * Created by nathat on 23/07/17.
+ */
+public class StackMob extends JavaPlugin {
 
-    // Config
-    private ConfigLoader config;
-    private ConfigLoader translation;
+    private int versionId = 0;
+    public ConfigLoader config = new ConfigLoader(this, "config");
+    public ConfigLoader translation = new ConfigLoader(this, "lang");
+    public EntityTools checks = new EntityTools(this);
+    public Cache cache = new Cache(this);
+    public DropTools dropTools = new DropTools(this);
+    public PluginSupport pluginSupport = new PluginSupport(this);
+    public Update updater = new Update(this);
 
-    // Services
-    private BukkitService bukkitService;
-    @Getter
-    private EntityManager entityManager;
-    private UpdateService updateService;
-    private SupportService supportService;
-    private EntityService entityService;
-    private DropService dropService;
-
-    // Storage
-    private Cache cache;
 
     @Override
-    public void onEnable() {
-        instance = this;
-
-        // Startup messages.
+    public void onEnable(){
+        // Startup messages
         getLogger().info("StackMob version " + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
-        getLogger().info("GitHub repository can be found at https://GITHUB.com/Nathat23/StackMob");
+        getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
-        // Easter eggs.
-        if (LocalDate.now().getDayOfYear() >= 357) {
-            getLogger().info("Merry Christmas!");
-        }
-
-        // Bukkit version warning.
-        if (BukkitVersion.getVersion() == BukkitVersion.UNSUPPORTED) {
-            getLogger().warning("This bukkitService version (" + Bukkit.getVersion() + ") is not currently supported!");
+        // Set version id, but if not supported, warn.
+        setVersionId();
+        if(getVersionId() == 0){
+            getLogger().warning("This bukkit version (" + Bukkit.getVersion() + ") is not currently supported!");
             getLogger().warning("New Minecraft features are not supported, so some issues may occur!");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
-        config = new ConfigLoader(this, "config");
-        config.reload();
-        translation = new ConfigLoader(this, "lang");
-        translation.reload();
+        config.reloadCustomConfig();
+        translation.reloadCustomConfig();
 
-        // Init services
-        bukkitService = new BukkitService(this);
-        entityManager = new EntityManager(bukkitService);
-        updateService = new UpdateService(this, 29999);
-        supportService = new SupportService(config, getServer().getPluginManager());
-        entityService = new EntityService(config, supportService, bukkitService);
-        dropService = new DropService(config, bukkitService);
-
-        // Send metrics and check for updates.
-        new Metrics(this);
-        updateService.checkUpdate().thenAccept(message -> getLogger().info(message));
-
-        // Load the cache data.
-        cache = new Cache(this);
-        long millis = System.currentTimeMillis();
+        // Load the cache.
         cache.loadCache();
-        getLogger().info("Loaded data, took " + millis + "ms");
 
-        // Start tasks.
-        new TagUpdater(config, translation, bukkitService, supportService).runTaskTimer(this, 0, 5);
-        new StackTask(config, entityService, bukkitService).runTaskTimer(this, 0, config.get().getInt("task-delay"));
+        // Essential events/tasks that are needed for the plugin to function correctly.
+        registerEssentialEvents();
 
-        // Register event listeners.
-        registerListeners();
+        // Events that are not required for the plugin to function, however they make a better experience.
+        registerNotEssentialEvents();
 
-        // Register commands.
-        getCommand("sm").setExecutor(new CommandHandler(getDescription(), config, updateService, cache, bukkitService));
+        new Metrics(this);
+
+        getLogger().info(updater.updateString());
+
+        if(LocalDate.now().getDayOfYear() >= 357){
+            getLogger().info("Merry Christmas!");
+        }
+
     }
 
-    @Override
-    public void onDisable() {
-        // Cancel any running task before saving data.
-        HandlerList.unregisterAll(this);
-        getServer().getScheduler().cancelTasks(this);
 
-        // Save the cache so entity amounts aren't lost on restarts.
+    @Override
+    public void onDisable(){
+        getServer().getScheduler().cancelTasks(this);
+        // Save the cache so entity amounts aren't lost on restarts
         cache.saveCache();
     }
 
-    private void registerListeners() {
-        PluginManager pluginManager = getServer().getPluginManager();
-
-        // Essential events/tasks that are needed for the plugin to function correctly.
-        pluginManager.registerEvents(new SpawnListener(config, supportService, entityService, bukkitService), this);
-        pluginManager.registerEvents(new DeathListener(config, entityService, dropService, bukkitService), this);
-        pluginManager.registerEvents(new ChunkListener(config, cache, bukkitService), this);
-
-        // Events that are not required for the plugin to function, however they make a better experience.
-        if (config.get().getBoolean("multiply.creeper-explosion")) {
-            pluginManager.registerEvents(new ExplodeListener(), this);
-        }
-        if (config.get().getBoolean("multiply.chicken-eggs")) {
-            pluginManager.registerEvents(new ItemDropListener(dropService), this);
-        }
-        if (config.get().getBoolean("divide-on.sheep-dye")) {
-            pluginManager.registerEvents(new SheepDyeListener(config, entityService, bukkitService), this);
-        }
-        if (config.get().getBoolean("divide-on.breed")) {
-            pluginManager.registerEvents(new InteractListener(config, entityService, bukkitService), this);
-        }
-        if (config.get().getBoolean("multiply-damage-done")) {
-            pluginManager.registerEvents(new DamageMultiplierListener(), this);
-        }
-        if (config.get().getBoolean("multiply-damage-received.enabled")) {
-            pluginManager.registerEvents(new DamageReceivedListener(config), this);
-        }
-        if (config.get().getBoolean("no-targeting.enabled")) {
-            pluginManager.registerEvents(new EntityTargetListener(config), this);
-        }
-        if (config.get().getBoolean("divide-on.tame")) {
-            pluginManager.registerEvents(new TameListener(bukkitService, entityService), this);
-        }
-
-        pluginManager.registerEvents(new ShearListener(config, dropService, entityService, bukkitService), this);
-        if (BukkitVersion.isAtLeast(BukkitVersion.V1_9)) {
-            pluginManager.registerEvents(new BreedListener(bukkitService), this);
+    // Server version detection, if version isn't currently supported, then versionId is 0.
+    private void setVersionId(){
+        if(Bukkit.getVersion().contains("1.8")){
+            versionId = 1;
+        }else if(Bukkit.getVersion().contains("1.9")){
+            versionId = 2;
+        }else if(Bukkit.getVersion().contains("1.10")){
+            versionId = 3;
+        }else if(Bukkit.getVersion().contains("1.11")){
+            versionId = 4;
+        }else if(Bukkit.getVersion().contains("1.12")){
+            versionId = 5;
         }
     }
 
+    public int getVersionId(){
+        return versionId;
+    }
+
+    private void registerEssentialEvents(){
+        getServer().getPluginManager().registerEvents(new Spawn(this), this);
+        getServer().getPluginManager().registerEvents(new Death(this), this);
+        getServer().getPluginManager().registerEvents(new ChunkLoad(this), this);
+        getServer().getPluginManager().registerEvents(new ChunkUnload(this), this);
+        new TagUpdater(this).runTaskTimer(this, 0, 5);
+        new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
+        getCommand("sm").setExecutor(new Commands(this));
+    }
+
+    private void registerNotEssentialEvents(){
+        if(config.getCustomConfig().getBoolean("multiply.creeper-explosion")){
+            getServer().getPluginManager().registerEvents(new Explode(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("multiply.chicken-eggs")){
+            getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("divide-on.sheep-dye")) {
+            getServer().getPluginManager().registerEvents(new SheepDye(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("divide-on.breed")){
+            getServer().getPluginManager().registerEvents(new Interact(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("multiply-damage-done")){
+            getServer().getPluginManager().registerEvents(new DamgeDelt(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("multiply-damage-received.enabled")){
+            getServer().getPluginManager().registerEvents(new DamageReceived(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("no-targeting.enabled")){
+            getServer().getPluginManager().registerEvents(new EntityTarget(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("divide-on.tame")){
+            getServer().getPluginManager().registerEvents(new Tame(this), this);
+        }
+        getServer().getPluginManager().registerEvents(new Shear(this), this);
+        if(getVersionId() > 1){
+            getServer().getPluginManager().registerEvents(new Breed(this), this);
+        }
+    }
 }
