@@ -9,7 +9,7 @@ import uk.antiperson.stackmob.services.BukkitService;
 public class StackedEntity {
 
     private Entity entity;
-    private BukkitService metadata;
+    private BukkitService bukkitService;
 
     /**
      * Sets the stack size.
@@ -27,11 +27,11 @@ public class StackedEntity {
      */
 
     public void setSize(int newSize) {
-        entity.setMetadata(GlobalValues.METATAG, metadata.fixedMetadata(newSize));
+        bukkitService.setMetadata(entity, GlobalValues.METATAG, newSize);
     }
 
     /**
-     * Entities can have special metadata added to them to prevent them from stacking.
+     * Entities can have special bukkitService added to them to prevent them from stacking.
      *
      * @return Returns if this entity is currently ignored by the stacking task.
      */
@@ -42,7 +42,7 @@ public class StackedEntity {
     }
 
     /**
-     * Entities can have special metadata added to them to prevent them from stacking.
+     * Entities can have special bukkitService added to them to prevent them from stacking.
      *
      * @return Returns if this entity is currently ignored by the stacking task.
      */
@@ -53,21 +53,21 @@ public class StackedEntity {
     }
 
     /**
-     * Entities can have special metadata added to them to prevent them from stacking.
+     * Entities can have special bukkitService added to them to prevent them from stacking.
      *
      * @param value Boolean value for if entities should be excluded from stacking.
      */
     public void setPreventFromStacking(boolean value) {
-        entity.setMetadata(GlobalValues.NO_STACK_ALL, metadata.fixedMetadata(value));
+        bukkitService.setMetadata(entity, GlobalValues.NO_STACK_ALL, value);
     }
 
     /**
-     * Entities can have special metadata added to them to prevent them from stacking on the spawn event only. Useful if special metadata needs to be added.
+     * Entities can have special bukkitService added to them to prevent them from stacking on the spawn event only. Useful if special bukkitService needs to be added.
      *
      * @param value Boolean value for if entities should be excluded from stacking on spawn.
      */
     public void setPreventStackingOnSpawn(boolean value) {
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, metadata.fixedMetadata(value));
+        bukkitService.setMetadata(entity, GlobalValues.NO_SPAWN_STACK, value);
     }
 
 }

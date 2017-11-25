@@ -27,9 +27,9 @@ public class CommandHandler implements CommandExecutor {
 
     private PluginDescriptionFile pluginDescription;
     private ConfigLoader config;
-    private UpdateService updater;
+    private UpdateService updateService;
     private Cache cache;
-    private BukkitService metadata;
+    private BukkitService bukkitService;
 
     @Override
     // The nest of doom.
@@ -73,10 +73,10 @@ public class CommandHandler implements CommandExecutor {
                     }
                     sender.sendMessage(PLUGIN_TAG + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
                 } else if (args[0].equalsIgnoreCase("check")) {
-                    updater.checkUpdate().thenAccept(message ->
+                    updateService.checkUpdate().thenAccept(message ->
                             sender.sendMessage(PLUGIN_TAG + ChatColor.GOLD + message));
                 } else if (args[0].equalsIgnoreCase("update")) {
-                    updater.update().thenAccept(message ->
+                    updateService.update().thenAccept(message ->
                             sender.sendMessage(PLUGIN_TAG + ChatColor.GOLD + message));
                 } else if (args[0].equalsIgnoreCase("stats")) {
                     int stackedCount = 0;
@@ -165,8 +165,8 @@ public class CommandHandler implements CommandExecutor {
                         }
                         if (contains) {
                             Entity newEntity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.valueOf(args[2].toUpperCase()));
-                            newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, metadata.fixedMetadata(true));
-                            newEntity.setMetadata(GlobalValues.METATAG, metadata.fixedMetadata(numb));
+                            bukkitService.setMetadata(newEntity, GlobalValues.NO_SPAWN_STACK, true);
+                            bukkitService.setMetadata(newEntity, GlobalValues.METATAG, numb);
                             sender.sendMessage(PLUGIN_TAG + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         } else {
                             sender.sendMessage(PLUGIN_TAG + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +

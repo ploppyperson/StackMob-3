@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.services.BukkitService;
 @AllArgsConstructor
 public class EntityManager {
 
-    private BukkitService metadata;
+    private BukkitService bukkitService;
 
     /**
      * A class that contains useful stacking tools.
@@ -17,7 +17,7 @@ public class EntityManager {
      * @return An instance of the StackedEntity class, to do above.
      */
     public StackedEntity getStackedEntity(Entity entity) {
-        return new StackedEntity(entity, metadata);
+        return new StackedEntity(entity, bukkitService);
     }
 
     /**
@@ -31,24 +31,24 @@ public class EntityManager {
     }
 
     /**
-     * Adds the appropriate metadata to add an entity as a stack.
+     * Adds the appropriate bukkitService to add an entity as a stack.
      *
-     * @param entity The entity to set this metadata to.
+     * @param entity The entity to set this bukkitService to.
      */
     public void addNewStack(Entity entity) {
-        entity.setMetadata(GlobalValues.METATAG, metadata.fixedMetadata(1));
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, metadata.fixedMetadata(true));
+        bukkitService.setMetadata(entity, GlobalValues.METATAG, 1);
+        bukkitService.setMetadata(entity, GlobalValues.NO_SPAWN_STACK, true);
     }
 
     /**
-     * Adds the appropriate metadata to add an entity as a stack.
+     * Adds the appropriate bukkitService to add an entity as a stack.
      *
-     * @param entity The entity to set this metadata to.
+     * @param entity The entity to set this bukkitService to.
      * @param size   The stack size of the stack.
      */
     public void addNewStack(Entity entity, int size) {
-        entity.setMetadata(GlobalValues.METATAG, metadata.fixedMetadata(size));
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, metadata.fixedMetadata(true));
+        bukkitService.setMetadata(entity, GlobalValues.METATAG, size);
+        bukkitService.setMetadata(entity, GlobalValues.NO_SPAWN_STACK, true);
     }
 
 }
