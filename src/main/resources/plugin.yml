@@ -7,7 +7,7 @@ softdepends: [MythicMobs, MiniaturePets]
 description: The best entity stacking plugin.
 load: STARTUP
 commands:
-    plugin:
+    sm:
        description: The main command
 permissions:
     stackmob.*:

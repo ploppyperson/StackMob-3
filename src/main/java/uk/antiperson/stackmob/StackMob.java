@@ -105,7 +105,9 @@ public final class StackMob extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
 
         // Save the cache so entity amounts aren't lost on restarts.
-        cache.saveCache();
+        if(cache != null) {
+            cache.saveCache();
+        }
     }
 
     private void registerListeners() {
