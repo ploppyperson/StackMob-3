@@ -1,83 +1,76 @@
 package uk.antiperson.stackmob.tasks;
 
+import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.ConfigLoader;
+import uk.antiperson.stackmob.services.BukkitService;
+import uk.antiperson.stackmob.services.SupportService;
 
-/**
- * Created by nathat on 25/07/17.
- */
+import static uk.antiperson.stackmob.utils.StringUtils.toTitleCase;
+
+@AllArgsConstructor
 public class TagUpdater extends BukkitRunnable {
 
-    private StackMob sm;
-    public TagUpdater(StackMob sm){
-        this.sm = sm;
-    }
+    private ConfigLoader config;
+    private ConfigLoader translation;
+    private BukkitService bukkitService;
+    private SupportService supportService;
 
-    public void run(){
-        for(World w : Bukkit.getWorlds()){
-            if(sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(w.getName())){
+    @Override
+    public void run() {
+        for (World world : Bukkit.getWorlds()) {
+            if (config.get().getStringList("no-stack-worlds").contains(world.getName())) {
                 continue;
             }
-            for(Entity e : w.getLivingEntities()){
-                if(!e.hasMetadata(GlobalValues.METATAG)){
+            for (Entity entity : world.getLivingEntities()) {
+                if (!entity.hasMetadata(GlobalValues.METATAG)) {
                     continue;
                 }
-                if(e.getMetadata(GlobalValues.METATAG).size() == 0){
-                    e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                if (entity.getMetadata(GlobalValues.METATAG).size() == 0) {
+                    bukkitService.setMetadata(entity, GlobalValues.METATAG, 1);
                 }
-                String typeString = e.getType().toString();
+                String typeString = entity.getType().toString();
 
-                int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
-                if(sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")){
-                    removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
+                int removeAt = config.get().getInt("tag.remove-at");
+                if (config.get().isString("custom." + typeString + ".tag.remove-at")) {
+                    removeAt = config.get().getInt("custom." + typeString + ".tag.remove-at");
                 }
 
-                if(e.getMetadata(GlobalValues.METATAG).get(0).asInt() <= removeAt){
+                if (entity.getMetadata(GlobalValues.METATAG).get(0).asInt() <= removeAt) {
                     continue;
                 }
 
-                String format = sm.config.getCustomConfig().getString("tag.format");
-                if(sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")){
-                    format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
+                String format = config.get().getString("tag.format");
+                if (config.get().isString("custom." + typeString + ".tag.format")) {
+                    format = config.get().getString("custom." + typeString + ".tag.format");
                 }
 
                 // Change if it is a mythic mob.
-                if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(e)){
-                    typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
-                }else if(sm.translation.getCustomConfig().getBoolean("enabled")){
-                    typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
+                if (supportService.isMythicMob(entity)) {
+                    typeString = supportService.getMythicName(entity);
+                } else if (translation.get().getBoolean("enabled")) {
+                    typeString = "" + translation.get().getString(entity.getType().toString());
                 }
 
                 String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
-                String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
+                String nearlyFinal = format.replace("%size%", entity.getMetadata(GlobalValues.METATAG).get(0).asString())
                         .replace("%type%", formattedType)
-                        .replace("%bukkit_type%", e.getType().toString());
+                        .replace("%bukkit_type%", entity.getType().toString());
                 String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
-                e.setCustomName(finalString);
+                entity.setCustomName(finalString);
 
-                boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
-                if(sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")){
-                    alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
+                boolean alwaysVisible = config.get().getBoolean("tag.always-visible");
+                if (config.get().isString("custom." + typeString + ".tag.always-visible")) {
+                    alwaysVisible = config.get().getBoolean("custom." + typeString + ".tag.always-visible");
                 }
-                e.setCustomNameVisible(alwaysVisible);
+                entity.setCustomNameVisible(alwaysVisible);
             }
         }
     }
 
-    private String toTitleCase(String givenString) {
-        String[] arr = givenString.split(" ");
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(Character.toUpperCase(arr[i].charAt(0)))
-                    .append(arr[i].substring(1)).append(" ");
-        }
-        return sb.toString().trim();
-    }
 }

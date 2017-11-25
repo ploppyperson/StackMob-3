@@ -1,87 +1,85 @@
 package uk.antiperson.stackmob.tasks;
 
+import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.ConfigLoader;
+import uk.antiperson.stackmob.services.BukkitService;
+import uk.antiperson.stackmob.services.EntityService;
 
-/**
- * Created by nathat on 27/07/17.
- */
+@AllArgsConstructor
+// TODO: Neaten this stuff up, but I cba.
 public class StackTask extends BukkitRunnable {
 
-    private StackMob sm;
-    public StackTask(StackMob sm){
-        this.sm = sm;
-    }
+    private ConfigLoader config;
+    private EntityService entityService;
+    private BukkitService bukkitService;
 
-    // TODO: Neaten this stuff up, but I cba.
     @Override
-    public void run(){
-        double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
-        double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
-        double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
+    public void run() {
+        double xLoc = config.get().getDouble("check-area.x");
+        double yLoc = config.get().getDouble("check-area.y");
+        double zLoc = config.get().getDouble("check-area.z");
 
-        int maxSize;
         // Worlds loop, and check that the world isn't blacklisted
-        for(World world : Bukkit.getWorlds()){
-            if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
-                    .contains(world.getName())){
+        for (World world : Bukkit.getWorlds()) {
+            if (config.get().getStringList("no-stack-worlds").contains(world.getName())) {
                 continue;
             }
             // Loop all entities in the current world
-            for(Entity first : world.getLivingEntities()){
+            for (Entity first : world.getLivingEntities()) {
                 // Checks on first entity
-                if(sm.checks.notTaskSuitable(first)){
+                if (entityService.notTaskSuitable(first)) {
                     continue;
                 }
 
-                if(first.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                if (first.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
                         && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
-                    sm.checks.notEnoughNearby(first);
+                    entityService.notEnoughNearby(first);
                 }
 
                 // Find nearby entities
-                for(Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)){
+                for (Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)) {
 
                     //Checks on nearby
-                    if(first.getType() != nearby.getType()){
+                    if (first.getType() != nearby.getType()) {
                         continue;
                     }
 
-                    if(sm.checks.notTaskSuitable(nearby)){
+                    if (entityService.notTaskSuitable(nearby)) {
                         continue;
                     }
 
-                    if(nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
-                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                    if (nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                         continue;
                     }
 
                     // Check attributes of both
-                    if(sm.checks.notMatching(first, nearby)){
+                    if (entityService.notMatching(first, nearby)) {
                         continue;
                     }
 
                     int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int firstSize;
-                    if(first.hasMetadata(GlobalValues.METATAG)){
+                    if (first.hasMetadata(GlobalValues.METATAG)) {
                         firstSize = first.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                    }else{
+                    } else {
                         firstSize = 1;
                     }
 
-                    if(sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")){
-                        maxSize = sm.config.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
-                    }else{
-                        maxSize = sm.config.getCustomConfig().getInt("stack-max");
+                    int maxSize;
+                    if (config.get().isInt("custom." + nearby.getType() + ".stack-max")) {
+                        maxSize = config.get().getInt("custom." + nearby.getType() + ".stack-max");
+                    } else {
+                        maxSize = config.get().getInt("stack-max");
                     }
 
                     // Nearby would normally get removed, but we're swapping it.
-                    if(nearbySize > firstSize && sm.config.getCustomConfig().getBoolean("big-priority")){
+                    if (nearbySize > firstSize && config.get().getBoolean("big-priority")) {
                         Entity holder = nearby;
                         nearby = first;
                         first = holder;
@@ -89,17 +87,18 @@ public class StackTask extends BukkitRunnable {
 
                     // Continue to stack together
                     int amountTotal = nearbySize + firstSize;
-                    if(amountTotal > maxSize){
-                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, maxSize));
-                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal - maxSize));
-                    }else{
-                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
+                    if (amountTotal > maxSize) {
+                        bukkitService.setMetadata(first, GlobalValues.METATAG, maxSize);
+                        bukkitService.setMetadata(nearby, GlobalValues.METATAG, amountTotal - maxSize);
+                    } else {
+                        bukkitService.setMetadata(first, GlobalValues.METATAG, amountTotal);
                         nearby.remove();
                     }
-                    break;
 
+                    break;
                 }
             }
         }
     }
+
 }
