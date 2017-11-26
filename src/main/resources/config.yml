@@ -21,7 +21,7 @@ tag:
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
 
- # Custom rules for specific entities.
+# Custom rules for specific entities.
 custom:
     # Example (remove hashtags to make this work):
     #PIG:
@@ -105,7 +105,6 @@ divide-on:
     # When an entity it named using a nametag.
     name: true
 
-
 # Make every entity die in the stack on death.
 kill-all:
     # Self explanatory
@@ -130,7 +129,6 @@ kill-step:
         - ''
     # The maximum amount by which the stack should decrease by.
     max-step: 5
-
 
 # Multiply the amount of drops depending on the size of the stack killed.
 # Only needed if kill-all OR kill-step is enabled above.
@@ -182,7 +180,6 @@ multiply-drops:
         - NETHER_STAR
         - TOTEM
 
-
 # Multiplies the experience dropped on kill-all/kill-step.
 multiply-exp-enabled: true
 
@@ -203,7 +200,6 @@ no-targeting:
     types-blacklist:
        - ''
 
-
 # Everything to do with mcMMO
 mcmmo:
     # Give no mcmmo experience
@@ -219,5 +215,3 @@ mythicmobs:
     # MythicMob types that shouldn't stack, use the 'internal name'
     blacklist:
        - ''
-
-
