@@ -22,8 +22,8 @@ public class Commands implements CommandExecutor {
         this.sm = sm;
     }
 
-    private String pluginTag = ChatColor.LIGHT_PURPLE + "StackMob " + ChatColor.GRAY + ">> ";
-    private String noPerm = pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+    private final String pluginTag = ChatColor.LIGHT_PURPLE + "StackMob " + ChatColor.GRAY + ">> ";
+    private final String noPerm = pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
 
     @Override
@@ -47,8 +47,9 @@ public class Commands implements CommandExecutor {
         }else if(args.length == 1){
             if(sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")){
                 if(args[0].equalsIgnoreCase("about")){
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson");
+                    sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
+                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Source code can be found at " + GlobalValues.GITHUB);
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 }else if(args[0].equalsIgnoreCase("reset")){
                     sm.config.getF().delete();
