@@ -44,18 +44,26 @@ public class StackMob extends JavaPlugin {
         // Set version id, but if not supported, warn.
         setVersionId();
         if(getVersionId() == 0){
-            getLogger().warning("This bukkit version (" + Bukkit.getVersion() + ") is not currently supported!");
-            getLogger().warning("New Minecraft features are not supported, so some issues may occur!");
+            getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
+            getLogger().warning("The features of this version are not supported, so some issues may occur!");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         config.reloadCustomConfig();
         translation.reloadCustomConfig();
 
+        if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
+            getLogger().info("An old version of the configuration file has been detected!");
+            getLogger().info("A new one will be generated and the old one will be renamed to config.old");
+            config.generateNewVersion();
+        }
+
         // Load the cache.
+        getLogger().info("Loading cached entities...");
         cache.loadCache();
 
         // Essential events/tasks that are needed for the plugin to function correctly.
+        getLogger().info("Registering events...");
         registerEssentialEvents();
 
         // Events that are not required for the plugin to function, however they make a better experience.
