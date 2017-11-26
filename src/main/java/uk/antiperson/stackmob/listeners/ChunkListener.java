@@ -10,7 +10,6 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.storage.Cache;
 

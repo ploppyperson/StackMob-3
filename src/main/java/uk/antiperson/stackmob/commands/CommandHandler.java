@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.UpdateService;
 import uk.antiperson.stackmob.storage.Cache;
@@ -53,8 +52,9 @@ public class CommandHandler implements CommandExecutor {
         } else if (args.length == 1) {
             if (sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")) {
                 if (args[0].equalsIgnoreCase("about")) {
-                    sender.sendMessage(PLUGIN_TAG + ChatColor.GOLD + "StackMob v" + pluginDescription.getVersion() + " by antiPerson");
+                    sender.sendMessage(PLUGIN_TAG + ChatColor.GOLD + "StackMob v" + pluginDescription.getVersion() + " by antiPerson and contributors.");
                     sender.sendMessage(PLUGIN_TAG + ChatColor.YELLOW + "Find out more at " + pluginDescription.getWebsite());
+                    sender.sendMessage(PLUGIN_TAG + ChatColor.YELLOW + "Source code can be found at " + GlobalValues.GITHUB_URL);
                     sender.sendMessage(PLUGIN_TAG + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 } else if (args[0].equalsIgnoreCase("reset")) {
                     config.reset();

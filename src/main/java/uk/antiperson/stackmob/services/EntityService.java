@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.bukkit.entity.*;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.utils.BukkitVersion;
 
 import java.util.HashSet;
@@ -298,7 +297,7 @@ public class EntityService {
                     if (entity == null) {
                         continue;
                     }
-                    bukkitService.setMetadata(entity, GlobalValues.NOT_ENOUGH_NEAR, true);
+                    bukkitService.setMetadata(entity, GlobalValues.NOT_ENOUGH_NEAR, false);
                     bukkitService.setMetadata(entity, GlobalValues.METATAG, 1);
                 }
             } else {

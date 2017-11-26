@@ -2,6 +2,8 @@ package uk.antiperson.stackmob;
 
 public class GlobalValues {
 
+    public static final String GITHUB_URL = "https://github.com/Nathat23/StackMob-2";
+
     public static final String METATAG = "stackmob:stack-size";
     public static final String NO_SPAWN_STACK = "stackmob:no-spawn-stack";
     public static final String NO_TASK_STACK = "stackmob:no-task-stack";

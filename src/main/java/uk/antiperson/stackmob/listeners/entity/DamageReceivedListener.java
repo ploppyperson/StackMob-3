@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 
 @AllArgsConstructor
 public class DamageReceivedListener implements Listener {

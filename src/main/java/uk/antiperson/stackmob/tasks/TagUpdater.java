@@ -7,7 +7,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.config.Translation;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.SupportService;

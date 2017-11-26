@@ -9,7 +9,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.commands.CommandHandler;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.config.Translation;
 import uk.antiperson.stackmob.listeners.ChunkListener;
 import uk.antiperson.stackmob.listeners.entity.*;
@@ -54,7 +53,7 @@ public final class StackMob extends JavaPlugin {
         // Startup messages.
         getLogger().info("StackMob version " + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
-        getLogger().info("GitHub repository can be found at https://github.com/Nathat23/StackMob");
+        getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB_URL);
 
         // Easter eggs.
         if (LocalDate.now().getDayOfYear() >= 357) {

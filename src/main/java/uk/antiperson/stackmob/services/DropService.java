@@ -7,7 +7,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

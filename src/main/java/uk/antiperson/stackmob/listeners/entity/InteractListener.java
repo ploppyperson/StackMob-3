@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.GlobalValues;
 import uk.antiperson.stackmob.config.Config;
-import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.EntityService;
 import uk.antiperson.stackmob.utils.BukkitVersion;

@@ -6,7 +6,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.StackMob;
 
 import java.util.UUID;
 
