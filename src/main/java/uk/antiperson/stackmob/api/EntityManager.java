@@ -1,14 +1,17 @@
 package uk.antiperson.stackmob.api;
 
-import lombok.AllArgsConstructor;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.services.BukkitService;
 
-@AllArgsConstructor
 public class EntityManager {
 
     private BukkitService bukkitService;
+
+    public EntityManager(StackMob stackMob) {
+        bukkitService = stackMob.getBukkitService();
+    }
 
     /**
      * A class that contains useful stacking tools.

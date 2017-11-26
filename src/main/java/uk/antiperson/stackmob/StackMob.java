@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.api.EntityManager;
 import uk.antiperson.stackmob.commands.CommandHandler;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.listeners.ChunkListener;
@@ -21,7 +20,7 @@ import uk.antiperson.stackmob.utils.BukkitVersion;
 import java.time.LocalDate;
 
 @NoArgsConstructor
-// TODO: use the entity manager instead of directly accessing the metadata values
+// TODO: use the api instead of directly accessing the metadata values
 public final class StackMob extends JavaPlugin {
 
     @Getter
@@ -33,8 +32,6 @@ public final class StackMob extends JavaPlugin {
 
     // Services
     private BukkitService bukkitService;
-    @Getter
-    private EntityManager entityManager;
     private UpdateService updateService;
     private SupportService supportService;
     private EntityService entityService;
@@ -42,6 +39,11 @@ public final class StackMob extends JavaPlugin {
 
     // Storage
     private Cache cache;
+
+    @Deprecated
+    public BukkitService getBukkitService() {
+        return bukkitService;
+    }
 
     @Override
     public void onEnable() {
@@ -71,7 +73,6 @@ public final class StackMob extends JavaPlugin {
 
         // Init services
         bukkitService = new BukkitService(this);
-        entityManager = new EntityManager(bukkitService);
         updateService = new UpdateService(this, 29999);
         supportService = new SupportService(config, getServer().getPluginManager());
         entityService = new EntityService(config, supportService, bukkitService);

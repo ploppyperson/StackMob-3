@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.api;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.services.BukkitService;
 
 @AllArgsConstructor
@@ -10,6 +11,12 @@ public class StackedEntity {
 
     private Entity entity;
     private BukkitService bukkitService;
+
+    @Deprecated
+    public StackedEntity(Entity entity, StackMob plugin){
+        this.entity = entity;
+        bukkitService = plugin.getBukkitService();
+    }
 
     /**
      * Sets the stack size.
