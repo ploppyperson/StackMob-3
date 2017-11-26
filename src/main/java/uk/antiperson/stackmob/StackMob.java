@@ -8,7 +8,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.commands.CommandHandler;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
+import uk.antiperson.stackmob.config.Translation;
 import uk.antiperson.stackmob.listeners.ChunkListener;
 import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.services.*;
@@ -27,8 +29,8 @@ public final class StackMob extends JavaPlugin {
     private static StackMob instance;
 
     // Config
-    private ConfigLoader config;
-    private ConfigLoader translation;
+    private Config config;
+    private Translation translation;
 
     // Services
     private BukkitService bukkitService;
@@ -52,7 +54,7 @@ public final class StackMob extends JavaPlugin {
         // Startup messages.
         getLogger().info("StackMob version " + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
-        getLogger().info("GitHub repository can be found at https://GITHUB.com/Nathat23/StackMob");
+        getLogger().info("GitHub repository can be found at https://github.com/Nathat23/StackMob");
 
         // Easter eggs.
         if (LocalDate.now().getDayOfYear() >= 357) {
@@ -66,9 +68,9 @@ public final class StackMob extends JavaPlugin {
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
-        config = new ConfigLoader(this, "config");
+        config = new Config(this);
         config.reload();
-        translation = new ConfigLoader(this, "lang");
+        translation = new Translation(this);
         translation.reload();
 
         // Init services
@@ -89,8 +91,8 @@ public final class StackMob extends JavaPlugin {
         getLogger().info("Loaded data, took " + millis + "ms");
 
         // Start tasks.
-        new TagUpdater(config, translation, bukkitService, supportService).runTaskTimer(this, 0, 5);
-        new StackTask(config, entityService, bukkitService).runTaskTimer(this, 0, config.get().getInt("task-delay"));
+        bukkitService.runTaskTimer(new TagUpdater(config, translation, bukkitService, supportService), 0, 5);
+        bukkitService.runTaskTimer(new StackTask(config, entityService, bukkitService), 0, config.get().getInt("task-delay"));
 
         // Register event listeners.
         registerListeners();
@@ -106,11 +108,12 @@ public final class StackMob extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
 
         // Save the cache so entity amounts aren't lost on restarts.
-        if(cache != null) {
+        if (cache != null) {
             cache.saveCache();
         }
     }
 
+    // Needs a full restart to be reloaded
     private void registerListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
 

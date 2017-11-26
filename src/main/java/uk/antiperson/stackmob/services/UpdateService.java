@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.services;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class UpdateService {
 
-    private JavaPlugin plugin;
+    private Plugin plugin;
     private int resourceId;
 
     private CompletableFuture<String> getLatestVersion() {

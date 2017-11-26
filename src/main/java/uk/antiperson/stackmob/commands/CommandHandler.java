@@ -12,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.UpdateService;
@@ -26,7 +27,7 @@ public class CommandHandler implements CommandExecutor {
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
 
     private PluginDescriptionFile pluginDescription;
-    private ConfigLoader config;
+    private Config config;
     private UpdateService updateService;
     private Cache cache;
     private BukkitService bukkitService;

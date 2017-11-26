@@ -6,6 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @AllArgsConstructor
 public class DropService {
 
-    private ConfigLoader config;
+    private Config config;
     private BukkitService bukkitService;
 
     public void calculateDrops(List<ItemStack> drops, int multiplier, Location dropLocation, ItemStack itemInHand) {

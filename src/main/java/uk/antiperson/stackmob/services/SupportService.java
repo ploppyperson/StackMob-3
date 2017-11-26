@@ -9,12 +9,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginManager;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 
 @AllArgsConstructor
 public class SupportService {
 
-    private ConfigLoader config;
+    private Config config;
     private PluginManager pluginManager;
 
     private boolean isEnabled(String name) {

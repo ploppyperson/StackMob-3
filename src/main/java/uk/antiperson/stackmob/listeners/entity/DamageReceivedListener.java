@@ -6,13 +6,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import uk.antiperson.stackmob.GlobalValues;
-import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 
 @AllArgsConstructor
 public class DamageReceivedListener implements Listener {
 
-    private ConfigLoader config;
+    private Config config;
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamageReceived(EntityDamageEvent event) {

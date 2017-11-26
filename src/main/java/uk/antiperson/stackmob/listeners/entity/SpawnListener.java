@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.EntityService;
@@ -16,7 +17,7 @@ import uk.antiperson.stackmob.services.SupportService;
 @AllArgsConstructor
 public class SpawnListener implements Listener {
 
-    private ConfigLoader config;
+    private Config config;
     private SupportService supportService;
     private EntityService entityService;
     private BukkitService bukkitService;
@@ -83,7 +84,7 @@ public class SpawnListener implements Listener {
                 // Continue to stack, if match is found
                 entity.remove();
                 int oldSize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                bukkitService.setMetadata(entity, GlobalValues.METATAG, oldSize + 1);
+                bukkitService.setMetadata(nearby, GlobalValues.METATAG, oldSize + 1);
 
                 return;
             }

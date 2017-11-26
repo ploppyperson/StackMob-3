@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.storage.Cache;
@@ -16,7 +17,7 @@ import uk.antiperson.stackmob.storage.Cache;
 @AllArgsConstructor
 public class ChunkListener implements Listener {
 
-    private ConfigLoader config;
+    private Config config;
     private Cache cache;
     private BukkitService bukkitService;
 

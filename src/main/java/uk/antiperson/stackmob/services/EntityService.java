@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.services;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.*;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.utils.BukkitVersion;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @SuppressWarnings("deprecation")
 public class EntityService {
 
-    private ConfigLoader config;
+    private Config config;
     private SupportService supportService;
     private BukkitService bukkitService;
 

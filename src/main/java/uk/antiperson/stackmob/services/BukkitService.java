@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BukkitService {
 
-    private StackMob plugin;
+    private Plugin plugin;
 
     private static BukkitRunnable bukkitRunnable(Runnable runnable) {
         return new BukkitRunnable() {

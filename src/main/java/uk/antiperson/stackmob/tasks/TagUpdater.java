@@ -5,19 +5,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
+import uk.antiperson.stackmob.config.Translation;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.SupportService;
 
 import static uk.antiperson.stackmob.utils.StringUtils.toTitleCase;
 
 @AllArgsConstructor
-public class TagUpdater extends BukkitRunnable {
+public class TagUpdater implements Runnable {
 
-    private ConfigLoader config;
-    private ConfigLoader translation;
+    private Config config;
+    private Translation translation;
     private BukkitService bukkitService;
     private SupportService supportService;
 

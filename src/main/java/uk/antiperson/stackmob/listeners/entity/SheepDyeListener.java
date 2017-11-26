@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SheepDyeWoolEvent;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.EntityService;
@@ -15,7 +16,7 @@ import uk.antiperson.stackmob.services.EntityService;
 @AllArgsConstructor
 public class SheepDyeListener implements Listener {
 
-    private ConfigLoader config;
+    private Config config;
     private EntityService entityService;
     private BukkitService bukkitService;
 

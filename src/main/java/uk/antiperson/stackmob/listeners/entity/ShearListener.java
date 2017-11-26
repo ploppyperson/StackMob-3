@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Wool;
 import uk.antiperson.stackmob.GlobalValues;
+import uk.antiperson.stackmob.config.Config;
 import uk.antiperson.stackmob.config.ConfigLoader;
 import uk.antiperson.stackmob.services.BukkitService;
 import uk.antiperson.stackmob.services.DropService;
@@ -21,7 +22,7 @@ import uk.antiperson.stackmob.services.EntityService;
 @AllArgsConstructor
 public class ShearListener implements Listener {
 
-    private ConfigLoader config;
+    private Config config;
     private DropService dropService;
     private EntityService entityService;
     private BukkitService bukkitService;

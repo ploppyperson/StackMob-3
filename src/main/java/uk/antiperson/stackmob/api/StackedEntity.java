@@ -13,7 +13,7 @@ public class StackedEntity {
     private BukkitService bukkitService;
 
     @Deprecated
-    public StackedEntity(Entity entity, StackMob plugin){
+    public StackedEntity(Entity entity, StackMob plugin) {
         this.entity = entity;
         bukkitService = plugin.getBukkitService();
     }

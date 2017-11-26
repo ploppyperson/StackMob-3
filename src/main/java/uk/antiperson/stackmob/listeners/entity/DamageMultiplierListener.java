@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import uk.antiperson.stackmob.GlobalValues;
-import uk.antiperson.stackmob.StackMob;
 
 @NoArgsConstructor
 public class DamageMultiplierListener implements Listener {
