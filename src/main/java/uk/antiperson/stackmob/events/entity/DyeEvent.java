@@ -9,11 +9,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class SheepDye implements Listener {
+public class DyeEvent implements Listener {
 
     private StackMob sm;
 
-    public SheepDye(StackMob sm) {
+    public DyeEvent(StackMob sm) {
         this.sm = sm;
     }
 

@@ -6,10 +6,10 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class Explode implements Listener {
+public class ExplodeEvent implements Listener {
 
     private StackMob sm;
-    public Explode(StackMob sm){
+    public ExplodeEvent(StackMob sm){
         this.sm = sm;
     }
 

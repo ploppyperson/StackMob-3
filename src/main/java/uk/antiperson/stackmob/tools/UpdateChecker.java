@@ -9,10 +9,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Update {
+public class UpdateChecker {
 
     private StackMob sm;
-    public Update(StackMob sm){
+    public UpdateChecker(StackMob sm){
         this.sm = sm;
     }
 

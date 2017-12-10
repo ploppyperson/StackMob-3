@@ -8,11 +8,11 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class ChunkUnload implements Listener {
+public class UnloadEvent implements Listener {
 
     private StackMob sm;
 
-    public ChunkUnload(StackMob sm) {
+    public UnloadEvent(StackMob sm) {
         this.sm = sm;
     }
 

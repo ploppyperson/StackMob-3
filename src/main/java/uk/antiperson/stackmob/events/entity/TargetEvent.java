@@ -8,11 +8,11 @@ import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class EntityTarget implements Listener {
+public class TargetEvent implements Listener {
 
     private StackMob sm;
 
-    public EntityTarget(StackMob sm) {
+    public TargetEvent(StackMob sm) {
         this.sm = sm;
     }
 

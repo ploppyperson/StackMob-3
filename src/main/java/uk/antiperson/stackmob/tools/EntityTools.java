@@ -283,16 +283,6 @@ public class EntityTools {
         return false;
     }
 
-    public void spawnMoreSlime(Slime bigSlime, int amountDead){
-        int newSlimeSize = (int) Math.floor(bigSlime.getSize() / 2);
-        for(int i = 0; i < amountDead; i++){
-            Slime smallSlime = (Slime) bigSlime.getWorld().spawnEntity(bigSlime.getLocation(), EntityType.SLIME);
-            smallSlime.setSize(newSlimeSize);
-            smallSlime.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-            smallSlime.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, ThreadLocalRandom.current().nextInt(2,4)));
-        }
-    }
-
     public boolean notEnoughNearby(Entity original){
         double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
         double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");

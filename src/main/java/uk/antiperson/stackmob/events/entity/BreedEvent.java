@@ -8,11 +8,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class Breed implements Listener {
+public class BreedEvent implements Listener {
 
     private StackMob sm;
 
-    public Breed(StackMob sm) {
+    public BreedEvent(StackMob sm) {
         this.sm = sm;
     }
 

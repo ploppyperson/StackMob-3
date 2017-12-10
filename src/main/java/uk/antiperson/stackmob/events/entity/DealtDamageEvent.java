@@ -7,11 +7,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class DamgeDelt implements Listener {
+public class DealtDamageEvent implements Listener {
 
     private StackMob sm;
 
-    public DamgeDelt(StackMob sm) {
+    public DealtDamageEvent(StackMob sm) {
         this.sm = sm;
     }
 

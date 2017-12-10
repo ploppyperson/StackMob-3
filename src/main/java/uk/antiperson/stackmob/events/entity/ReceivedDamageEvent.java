@@ -6,11 +6,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class DamageReceived implements Listener {
+public class ReceivedDamageEvent implements Listener {
 
     private StackMob sm;
 
-    public DamageReceived(StackMob sm) {
+    public ReceivedDamageEvent(StackMob sm) {
         this.sm = sm;
     }
 

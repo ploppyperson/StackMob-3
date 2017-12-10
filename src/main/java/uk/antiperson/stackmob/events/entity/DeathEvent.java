@@ -14,11 +14,11 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Death implements Listener {
+public class DeathEvent implements Listener {
 
     private StackMob sm;
 
-    public Death(StackMob sm) {
+    public DeathEvent(StackMob sm) {
         this.sm = sm;
     }
 
@@ -47,9 +47,6 @@ public class Death implements Listener {
                     if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
                         e.setDroppedExp((int) Math.round((1.25 + ThreadLocalRandom.current().nextDouble(0.75)) * (oldSize - 1) * e.getDroppedExp()));
                     }
-                    if(dead instanceof Slime){
-                        sm.checks.spawnMoreSlime((Slime) dead, oldSize - 1);
-                    }
                     return;
                 }
             }
@@ -69,9 +66,6 @@ public class Death implements Listener {
                     multiplication(e.getEntity(), e.getDrops(), subtractAmount - 1, e.getDroppedExp());
                     if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
                         e.setDroppedExp((int) Math.round((1.45 + ThreadLocalRandom.current().nextDouble(0.75)) * (subtractAmount - 1) * e.getDroppedExp()));
-                    }
-                    if(dead instanceof Slime){
-                        sm.checks.spawnMoreSlime((Slime) dead, subtractAmount - 1);
                     }
                 }
             }

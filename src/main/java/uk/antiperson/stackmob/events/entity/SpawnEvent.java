@@ -10,10 +10,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class Spawn implements Listener {
+public class SpawnEvent implements Listener {
 
     private StackMob sm;
-    public Spawn(StackMob sm){
+    public SpawnEvent(StackMob sm){
         this.sm = sm;
     }
 

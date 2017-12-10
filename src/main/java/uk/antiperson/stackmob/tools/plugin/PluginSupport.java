@@ -1,11 +1,12 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.tools.plugin;
 
 import com.kirelcodes.miniaturepets.api.APIUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
-import uk.antiperson.stackmob.tools.extras.MythicSupport;
 
 /**
  * Created by nathat on 05/08/17.
@@ -44,5 +45,16 @@ public class PluginSupport {
         return null;
     }
 
+    public ProtocolSupport getProtocolSupport(){
+        Plugin pl = Bukkit.getPluginManager().getPlugin("ProtocolLib");
+        if(pl != null && pl.isEnabled()){
+            return new ProtocolSupport(sm);
+        }
+        return null;
+    }
+
+    public boolean isProtocolSupportEnabled(){
+        return getProtocolSupport() != null;
+    }
 
 }

@@ -8,11 +8,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class ChunkLoad implements Listener {
+public class LoadEvent implements Listener {
 
     private StackMob sm;
 
-    public ChunkLoad(StackMob sm) {
+    public LoadEvent(StackMob sm) {
         this.sm = sm;
     }
 

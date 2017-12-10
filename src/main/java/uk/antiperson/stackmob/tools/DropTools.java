@@ -46,25 +46,6 @@ public class DropTools {
         return (0.75 + ThreadLocalRandom.current().nextDouble(2)) * mutiplier;
     }
 
-    // Method to drop the correct amount of eggs.
-    public void dropEggs(ItemStack drop, double amount, Location dropLocation){
-        double inStacks = amount / drop.getMaxStackSize();
-        double floor = Math.floor(inStacks);
-        double leftOver = inStacks - floor;
-        for(int i = 1; i <= floor; i++){
-            ItemStack newStack = new ItemStack(drop.getType(), drop.getMaxStackSize(), drop.getDurability());
-            newStack.setItemMeta(drop.getItemMeta());
-            Item item = dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
-            item.setMetadata(GlobalValues.MULTIPLIED_EGG, new FixedMetadataValue(sm, true));
-        }
-        if(leftOver > 0){
-            ItemStack newStack = new ItemStack(drop.getType(), (int) Math.round(leftOver * drop.getMaxStackSize()), drop.getDurability());
-            newStack.setItemMeta(drop.getItemMeta());
-            Item item = dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
-            item.setMetadata(GlobalValues.MULTIPLIED_EGG, new FixedMetadataValue(sm, true));
-        }
-    }
-
     // Method to drop the correct amount of drops.
     public void dropDrops(ItemStack drop, double amount, Location dropLocation){
         double inStacks = amount / drop.getMaxStackSize();

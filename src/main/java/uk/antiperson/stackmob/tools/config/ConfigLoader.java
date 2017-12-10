@@ -13,19 +13,17 @@ import java.io.IOException;
  */
 public class ConfigLoader {
 
-    private FileConfiguration fc;
-    private File f;
+    public FileConfiguration fc;
+    public File f;
     private StackMob sm;
     private String filename;
     public ConfigLoader(StackMob sm, String filename){
         this.sm = sm;
         this.filename = filename;
+        this.f = new File(sm.getDataFolder(), filename + ".yml");
     }
 
     public void reloadCustomConfig() {
-        if (f == null) {
-            f = new File(sm.getDataFolder(), filename + ".yml");
-        }
         if(!f.exists()){
             sm.saveResource(filename + ".yml", false);
         }

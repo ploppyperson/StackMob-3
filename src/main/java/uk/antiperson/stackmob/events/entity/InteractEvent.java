@@ -11,11 +11,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class Interact implements Listener {
+public class InteractEvent implements Listener {
 
     private StackMob sm;
 
-    public Interact(StackMob sm) {
+    public InteractEvent(StackMob sm) {
         this.sm = sm;
     }
 

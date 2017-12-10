@@ -3,18 +3,18 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.events.chunk.ChunkLoad;
-import uk.antiperson.stackmob.events.chunk.ChunkUnload;
+import uk.antiperson.stackmob.events.chunk.LoadEvent;
+import uk.antiperson.stackmob.events.chunk.UnloadEvent;
 import uk.antiperson.stackmob.events.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
-import uk.antiperson.stackmob.tasks.TagUpdater;
-import uk.antiperson.stackmob.tools.DropTools;
-import uk.antiperson.stackmob.tools.EntityTools;
-import uk.antiperson.stackmob.tools.PluginSupport;
-import uk.antiperson.stackmob.tools.Update;
-import uk.antiperson.stackmob.tools.config.Cache;
+import uk.antiperson.stackmob.tasks.TagTask;
+import uk.antiperson.stackmob.tools.*;
+import uk.antiperson.stackmob.tools.config.CacheFile;
+import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.ConfigLoader;
+import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
 import java.time.LocalDate;
 
@@ -25,19 +25,19 @@ import java.time.LocalDate;
 public class StackMob extends JavaPlugin {
 
     private int versionId = 0;
-    public ConfigLoader config = new ConfigLoader(this, "config");
-    public ConfigLoader translation = new ConfigLoader(this, "lang");
+    public ConfigFile config = new ConfigFile(this);
+    public TranslationFile translation = new TranslationFile(this);
     public EntityTools checks = new EntityTools(this);
-    public Cache cache = new Cache(this);
+    public CacheFile cache = new CacheFile(this);
     public DropTools dropTools = new DropTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
-    public Update updater = new Update(this);
+    public UpdateChecker updater = new UpdateChecker(this);
 
 
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMob version " + getDescription().getVersion() + " created by antiPerson/BaconPied");
+        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
@@ -58,6 +58,13 @@ public class StackMob extends JavaPlugin {
             config.generateNewVersion();
         }
 
+        if(config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
+            if(!pluginSupport.isProtocolSupportEnabled()){
+                getLogger().info("ProtocolLib is required for certain features, but it cannot be found!");
+                getLogger().info("These feature(s) will not work until ProtocolLib is installed.");
+            }
+        }
+
         // Load the cache.
         getLogger().info("Loading cached entities...");
         cache.loadCache();
@@ -73,8 +80,8 @@ public class StackMob extends JavaPlugin {
 
         getLogger().info(updater.updateString());
 
-        if(LocalDate.now().getDayOfYear() >= 357){
-            getLogger().info("Merry Christmas!");
+        if(LocalDate.now().getDayOfYear() >= 357 && LocalDate.now().getDayOfYear() < 3){
+            getLogger().info("Merry Christmas and Happy new year!");
         }
 
     }
@@ -82,7 +89,9 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onDisable(){
+        getLogger().info("Cancelling currently running tasks...");
         getServer().getScheduler().cancelTasks(this);
+        getLogger().info("Saving entity amount cache...");
         // Save the cache so entity amounts aren't lost on restarts
         cache.saveCache();
     }
@@ -99,6 +108,8 @@ public class StackMob extends JavaPlugin {
             versionId = 4;
         }else if(Bukkit.getVersion().contains("1.12")){
             versionId = 5;
+        }else if(Bukkit.getVersion().contains("1.13")){
+            versionId = 6;
         }
     }
 
@@ -107,43 +118,46 @@ public class StackMob extends JavaPlugin {
     }
 
     private void registerEssentialEvents(){
-        getServer().getPluginManager().registerEvents(new Spawn(this), this);
-        getServer().getPluginManager().registerEvents(new Death(this), this);
-        getServer().getPluginManager().registerEvents(new ChunkLoad(this), this);
-        getServer().getPluginManager().registerEvents(new ChunkUnload(this), this);
-        new TagUpdater(this).runTaskTimer(this, 0, 5);
-        new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
+        getServer().getPluginManager().registerEvents(new SpawnEvent(this), this);
+        getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
+        getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
+        getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
         getCommand("sm").setExecutor(new Commands(this));
+        new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
+        new TagTask(this).runTaskTimer(this, 0, 5);
     }
 
     private void registerNotEssentialEvents(){
         if(config.getCustomConfig().getBoolean("multiply.creeper-explosion")){
-            getServer().getPluginManager().registerEvents(new Explode(this), this);
+            getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
         }
         if(config.getCustomConfig().getBoolean("divide-on.sheep-dye")) {
-            getServer().getPluginManager().registerEvents(new SheepDye(this), this);
+            getServer().getPluginManager().registerEvents(new DyeEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("divide-on.breed")){
-            getServer().getPluginManager().registerEvents(new Interact(this), this);
+            getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("multiply.small-slimes")) {
+            getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-done")){
-            getServer().getPluginManager().registerEvents(new DamgeDelt(this), this);
+            getServer().getPluginManager().registerEvents(new DealtDamageEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-received.enabled")){
-            getServer().getPluginManager().registerEvents(new DamageReceived(this), this);
+            getServer().getPluginManager().registerEvents(new ReceivedDamageEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("no-targeting.enabled")){
-            getServer().getPluginManager().registerEvents(new EntityTarget(this), this);
+            getServer().getPluginManager().registerEvents(new TargetEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("divide-on.tame")){
-            getServer().getPluginManager().registerEvents(new Tame(this), this);
+            getServer().getPluginManager().registerEvents(new TameEvent(this), this);
         }
-        getServer().getPluginManager().registerEvents(new Shear(this), this);
-        if(getVersionId() > 1){
-            getServer().getPluginManager().registerEvents(new Breed(this), this);
+        getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
+        if(getVersionId() > 2){
+            getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
         }
     }
 }

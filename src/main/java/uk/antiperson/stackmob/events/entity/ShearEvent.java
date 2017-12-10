@@ -14,11 +14,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-public class Shear implements Listener {
+public class ShearEvent implements Listener {
 
     private StackMob sm;
 
-    public Shear(StackMob sm) {
+    public ShearEvent(StackMob sm) {
         this.sm = sm;
     }
 
@@ -59,7 +59,7 @@ public class Shear implements Listener {
             if(sm.config.getCustomConfig().getBoolean("multiply.mooshroom-mushrooms")){
                 ItemStack mushrooms = new ItemStack(Material.RED_MUSHROOM,1);
                 sm.dropTools.dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
-                // Spawn cow for the rest of the cows that where sheared.
+                // SpawnEvent cow for the rest of the cows that where sheared.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
                 cow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
                 cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));

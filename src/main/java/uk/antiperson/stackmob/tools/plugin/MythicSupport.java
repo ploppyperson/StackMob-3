@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.tools.extras;
+package uk.antiperson.stackmob.tools.plugin;
 
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
