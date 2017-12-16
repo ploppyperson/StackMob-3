@@ -2,9 +2,9 @@ name: StackMob
 version: 2.2.0
 author: antiPerson/BaconPied
 main: uk.antiperson.stackmob.StackMob
-website: https://www.spigotmc.org/resources/stackmob.29999/
-softdepend: [MythicMobs,MiniaturePets,ProtocolLib]
-description: The best entity stacking plugin.
+website: www.spigotmc.org/resources/29999/
+softdepend: [MythicMobs, MiniaturePets, ProtocolLib, WorldGuard]
+description: The only mob-stacking plugin that you will never need.
 load: STARTUP
 commands:
     sm:

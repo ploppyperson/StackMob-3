@@ -20,7 +20,7 @@ public class TameEvent implements Listener {
     public void onTame(EntityTameEvent event) {
         if(event.getEntity().hasMetadata(GlobalValues.METATAG)){
             if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
-                Entity dupe = sm.checks.duplicate(event.getEntity());
+                Entity dupe = sm.tools.duplicate(event.getEntity());
                 dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
                 dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             }

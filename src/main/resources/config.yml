@@ -98,6 +98,8 @@ multiply:
      mooshroom-mushrooms: false
      # Multiply the amount of small slimes spawned when a big slime is killed.
      small-slimes: true
+     # When an entity is fed it's food, spawn a new stack with the correct number of children.
+     breed: false
 
 # If the stack should split into more when these things happen.
 divide-on:
@@ -222,3 +224,6 @@ mythicmobs:
     # MythicMob types that shouldn't stack, use the 'internal name'
     blacklist:
        - ''
+
+# If WorldGuard is installed, enable support for it.
+worldguard-support: true

@@ -8,6 +8,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import javax.xml.bind.annotation.XmlElementDecl;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -36,6 +37,12 @@ public class EntityTools {
 
         if(nearby.hasMetadata(GlobalValues.NO_STACK_ALL) && nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
+        }
+
+        if(sm.pluginSupport.isWorldGuardEnabled() && sm.config.getCustomConfig().getBoolean("worldguard-support")){
+            if(!sm.pluginSupport.getWorldGuard().checkCanStack(newe.getLocation())){
+                return true;
+            }
         }
 
         // Checks on the nearby entity
@@ -171,7 +178,7 @@ public class EntityTools {
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
             dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
         }else{
-            dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
+            dupe = original.getWorld().spawnEntity(original.getLocation().add(0.1,0,0.1), original.getType());
         }
 
         if (dupe instanceof Tameable) {
@@ -265,21 +272,17 @@ public class EntityTools {
         if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-        int maxSize = sm.config.getCustomConfig().getInt("stack-max");
-        if(sm.config.getCustomConfig().isInt("custom." + e.getType() + ".stack-max")){
-            maxSize = sm.config.getCustomConfig().getInt("custom." + e.getType() + ".stack-max");
-        }
-        if(e.hasMetadata(GlobalValues.METATAG)){
-            if(e.getMetadata(GlobalValues.METATAG).size() == 0 || e.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
-                return true;
-            }
-        }else if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
-            if(e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0 || !e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
-                return true;
-            }
-        }else{
+
+        if(!(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) || e.hasMetadata(GlobalValues.METATAG))){
             return true;
         }
+
+        if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
+            if(e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0){
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -304,8 +307,13 @@ public class EntityTools {
             }
             if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
                 for(UUID uuid : entities){
-                    getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
-                    getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                    if(getEntity(uuid) == null){
+                        entities.remove(uuid);
+                        return true;
+                    }else{
+                        getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
+                        getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                    }
                 }
             }else{
                 return true;
@@ -315,7 +323,7 @@ public class EntityTools {
     }
 
     // This is needed because of 1.8
-    public static Entity getEntity(UUID uuid){
+    public Entity getEntity(UUID uuid){
         for(World world : Bukkit.getWorlds()){
             for(Entity entity : world.getLivingEntities()){
                 if(entity.getUniqueId().equals(uuid)){

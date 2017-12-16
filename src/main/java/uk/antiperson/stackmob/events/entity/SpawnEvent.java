@@ -66,7 +66,7 @@ public class SpawnEvent implements Listener {
                    if(!nearby.hasMetadata(GlobalValues.METATAG)){
                        continue;
                    }
-                   if(sm.checks.notMatching(newEntity, nearby)){
+                   if(sm.tools.notMatching(newEntity, nearby)){
                        continue;
                    }else{
                        noMatch = false;
@@ -90,7 +90,7 @@ public class SpawnEvent implements Listener {
                }
 
                if(sm.config.getCustomConfig().getInt("dont-stack-until") > 0 && noMatch){
-                   if(sm.checks.notEnoughNearby(newEntity)){
+                   if(sm.tools.notEnoughNearby(newEntity)){
                        newEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
                    }
                }else{

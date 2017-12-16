@@ -27,12 +27,19 @@ public class StackMob extends JavaPlugin {
     private int versionId = 0;
     public ConfigFile config = new ConfigFile(this);
     public TranslationFile translation = new TranslationFile(this);
-    public EntityTools checks = new EntityTools(this);
+    public EntityTools tools = new EntityTools(this);
     public CacheFile cache = new CacheFile(this);
     public DropTools dropTools = new DropTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
+    @Override
+    public void onLoad(){
+        if(pluginSupport.isWorldGuardEnabled() && config.getCustomConfig().getBoolean("worldguard-support")){
+            pluginSupport.getWorldGuard().registerFlag();
+            getLogger().info("Registered WorldGuard region flag.");
+        }
+    }
 
     @Override
     public void onEnable(){
@@ -46,6 +53,9 @@ public class StackMob extends JavaPlugin {
         if(getVersionId() == 0){
             getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
             getLogger().warning("The features of this version are not supported, so some issues may occur!");
+        }else if(getVersionId() == 6){
+            getLogger().info("Minecraft 1.13 is not currently supported completely.");
+            getLogger().info("Report any issues on the GitHub issues tracker.");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
@@ -59,7 +69,9 @@ public class StackMob extends JavaPlugin {
         }
 
         if(config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
-            if(!pluginSupport.isProtocolSupportEnabled()){
+            if(getVersionId() == 1){
+                getLogger().info("At the present movement, the feature 'show-player-nearby' is only supported on Minecraft 1.9 and above.");
+            }else if(!pluginSupport.isProtocolSupportEnabled()) {
                 getLogger().info("ProtocolLib is required for certain features, but it cannot be found!");
                 getLogger().info("These feature(s) will not work until ProtocolLib is installed.");
             }

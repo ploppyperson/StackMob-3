@@ -2,8 +2,8 @@ package uk.antiperson.stackmob.events.entity;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +22,7 @@ public class DeathEvent implements Listener {
         this.sm = sm;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onDeath(EntityDeathEvent e) {
         Entity dead = e.getEntity();
 
@@ -72,7 +72,7 @@ public class DeathEvent implements Listener {
         }
 
         if(oldSize != subtractAmount){
-            Entity newe = sm.checks.duplicate(dead);
+            Entity newe = sm.tools.duplicate(dead);
             newe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize - subtractAmount));
             newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
         }

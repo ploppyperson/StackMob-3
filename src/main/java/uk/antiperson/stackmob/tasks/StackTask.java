@@ -8,6 +8,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import javax.xml.bind.annotation.XmlElementDecl;
+
 /**
  * Created by nathat on 27/07/17.
  */
@@ -25,6 +27,7 @@ public class StackTask extends BukkitRunnable {
         double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
         double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
 
+
         int maxSize;
         // Worlds loop, and check that the world isn't blacklisted
         for(World world : Bukkit.getWorlds()){
@@ -35,14 +38,14 @@ public class StackTask extends BukkitRunnable {
             // Loop all entities in the current world
             for(Entity first : world.getLivingEntities()){
                 // Checks on first entity
-                if(sm.checks.notTaskSuitable(first)){
+                if(sm.tools.notTaskSuitable(first)){
                     continue;
                 }
-
                 if(first.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
                         && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
-                    sm.checks.notEnoughNearby(first);
+                        sm.tools.notEnoughNearby(first);
                 }
+                // don't need a check because of the entity might have Not-enough-near
 
                 // Find nearby entities
                 for(Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)){
@@ -51,18 +54,22 @@ public class StackTask extends BukkitRunnable {
                     if(first.getType() != nearby.getType()){
                         continue;
                     }
+                    maxSize = sm.config.getCustomConfig().getInt("stack-max");
+                    if(sm.config.getCustomConfig().isInt("custom." + first.getType() + ".stack-max")){
+                        maxSize = sm.config.getCustomConfig().getInt("custom." + first.getType() + ".stack-max");
+                    }
 
-                    if(sm.checks.notTaskSuitable(nearby)){
+                    if(!nearby.hasMetadata(GlobalValues.METATAG) || nearby.getMetadata(GlobalValues.METATAG).size() == 0
+                            || nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }
 
-                    if(nearby.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
-                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                    if(sm.tools.notTaskSuitable(nearby)){
                         continue;
                     }
 
                     // Check attributes of both
-                    if(sm.checks.notMatching(first, nearby)){
+                    if(sm.tools.notMatching(first, nearby)){
                         continue;
                     }
 
@@ -73,14 +80,7 @@ public class StackTask extends BukkitRunnable {
                     }else{
                         firstSize = 1;
                     }
-
-                    if(sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")){
-                        maxSize = sm.config.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
-                    }else{
-                        maxSize = sm.config.getCustomConfig().getInt("stack-max");
-                    }
-
-                    // Nearby would normally get removed, but we're swapping it.
+                                        // Nearby would normally get removed, but we're swapping it.
                     if(nearbySize > firstSize && sm.config.getCustomConfig().getBoolean("big-priority")){
                         Entity holder = nearby;
                         nearby = first;

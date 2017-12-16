@@ -9,7 +9,7 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
- * Created by nathat on 05/08/17.
+ * This could do with being completely redone.
  */
 public class PluginSupport {
 
@@ -53,8 +53,19 @@ public class PluginSupport {
         return null;
     }
 
+    public WorldGuardSupport getWorldGuard(){
+        Plugin pl = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        if(pl != null){
+            return new WorldGuardSupport(sm);
+        }
+        return null;
+    }
+
     public boolean isProtocolSupportEnabled(){
         return getProtocolSupport() != null;
     }
 
+    public boolean isWorldGuardEnabled(){
+        return getWorldGuard() != null;
+    }
 }

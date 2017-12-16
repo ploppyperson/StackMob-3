@@ -26,7 +26,7 @@ public class DyeEvent implements Listener {
         Entity oldEntity = event.getEntity();
 
         if (sm.config.getCustomConfig().getBoolean("divide-on.sheep-dye") && stackSize > 1) {
-            Sheep newEntity = (Sheep) sm.checks.duplicate(oldEntity);
+            Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
             newEntity.setColor(event.getEntity().getColor());
             newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
             newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));

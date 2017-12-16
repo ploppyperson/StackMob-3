@@ -23,7 +23,8 @@ public class Commands implements CommandExecutor {
     }
 
     private final String pluginTag = ChatColor.LIGHT_PURPLE + "StackMob " + ChatColor.GRAY + ">> ";
-    private final String noPerm = pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+    private final String errorTag = ChatColor.RED + "" + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED;
+    private final String noPerm = pluginTag + errorTag +
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
 
     @Override
@@ -34,7 +35,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(pluginTag + ChatColor.GOLD + "Plugin commands:");
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
-                sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the radius.");
+                sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm stats " + ChatColor.GREEN + "Displays entity statistics.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reload " + ChatColor.GREEN + "Reloads the configuration file.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reset " + ChatColor.GREEN + "Resets the configuration file.");
@@ -48,8 +49,8 @@ public class Commands implements CommandExecutor {
             if(sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")){
                 if(args[0].equalsIgnoreCase("about")){
                     sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Source code can be found at " + GlobalValues.GITHUB);
+                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Website: " + sm.getDescription().getWebsite());
+                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Source code: " + GlobalValues.GITHUB);
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 }else if(args[0].equalsIgnoreCase("reset")){
                     sm.config.getF().delete();
@@ -109,7 +110,7 @@ public class Commands implements CommandExecutor {
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
                 }else{
-                    sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                    sender.sendMessage(pluginTag + errorTag +
                             "Incorrect command parameters!");
                 }
             }else{
@@ -134,18 +135,18 @@ public class Commands implements CommandExecutor {
                             }
                             sender.sendMessage(pluginTag + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
                         }else{
-                            sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                            sender.sendMessage(pluginTag + errorTag +
                                     "Invalid number format!");
                         }
                     }else{
-                        sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                        sender.sendMessage(pluginTag + errorTag +
                                 "You need to be a player to do this!");
                     }
                 }else{
                     sender.sendMessage(noPerm);
                 }
             }else{
-                sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                sender.sendMessage(pluginTag + errorTag +
                         "Incorrect command parameters!");
             }
         }else if(args.length == 3){
@@ -156,7 +157,7 @@ public class Commands implements CommandExecutor {
                         try{
                             numb = Integer.valueOf(args[1]);
                         }catch (NumberFormatException e){
-                            sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                            sender.sendMessage(pluginTag + errorTag +
                                     "Invalid number format!");
                             return false;
                         }
@@ -172,22 +173,22 @@ public class Commands implements CommandExecutor {
                             newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, numb));
                             sender.sendMessage(pluginTag + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         }else {
-                            sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                            sender.sendMessage(pluginTag + errorTag +
                                     "Invalid entity type!");
                         }
                     }else{
-                        sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                        sender.sendMessage(pluginTag + errorTag +
                                 "You need to be a player to do this!");
                     }
                 }else{
                     sender.sendMessage(noPerm);
                 }
             }else{
-                sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+                sender.sendMessage(pluginTag + errorTag +
                         "Incorrect command parameters!");
             }
         }else{
-            sender.sendMessage(pluginTag + ChatColor.RED + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED +
+            sender.sendMessage(pluginTag + errorTag +
                     "Incorrect command parameters!");
         }
         return false;
