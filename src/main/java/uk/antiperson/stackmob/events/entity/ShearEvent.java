@@ -45,7 +45,7 @@ public class ShearEvent implements Listener {
                 event.getPlayer().setItemInHand(item);
 
             }else if(sm.config.getCustomConfig().getBoolean("divide-on.sheep-shear")){
-                Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
+                Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity, true);
                 newEntity.setSheared(false);
 
                 newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));

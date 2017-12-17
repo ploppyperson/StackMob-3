@@ -41,24 +41,24 @@ public class InteractEvent implements Listener {
                     if(foodAmount > stackSize){
                         foodAmount = stackSize;
                     }else{
-                        Animals canBreed = (Animals) sm.tools.duplicate(entity);
+                        Animals canBreed = (Animals) sm.tools.duplicate(entity, true);
                         canBreed.setBreed(true);
                         canBreed.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - foodAmount));
                         canBreed.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, foodAmount));
                     }
-                    int babySize = (int) Math.floor(foodAmount / 2);
 
-                    Animals small = (Animals) sm.tools.duplicate(entity);
-                    small.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, babySize));
-                    small.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                    small.setBaby();
-
-                    ((Animals) entity).setBreed(false);
+                    if(foodAmount > 1){
+                        Animals small = (Animals) sm.tools.duplicate(entity,true);
+                        small.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, (int) Math.floor(foodAmount / 2)));
+                        small.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                        small.setBaby();
+                    }
 
                     ItemStack hand = event.getPlayer().getItemInHand();
                     hand.setAmount(hand.getAmount() - foodAmount);
                 }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
-                    Entity newEntity = sm.tools.duplicate(entity);
+                    Entity newEntity = sm.tools.duplicate(entity, true);
                     newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
                     newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
 

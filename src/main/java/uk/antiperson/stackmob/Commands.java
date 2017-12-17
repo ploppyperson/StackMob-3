@@ -49,8 +49,8 @@ public class Commands implements CommandExecutor {
             if(sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")){
                 if(args[0].equalsIgnoreCase("about")){
                     sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Website: " + sm.getDescription().getWebsite());
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Source code: " + GlobalValues.GITHUB);
+                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
+                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 }else if(args[0].equalsIgnoreCase("reset")){
                     sm.config.getF().delete();

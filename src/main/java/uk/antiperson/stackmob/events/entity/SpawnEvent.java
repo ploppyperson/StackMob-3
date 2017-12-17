@@ -39,6 +39,7 @@ public class SpawnEvent implements Listener {
             return;
         }
 
+
         // BukkitRunnable to delay this, so the needed metadata can be set before attempting to merge.
         new BukkitRunnable(){
            @Override
