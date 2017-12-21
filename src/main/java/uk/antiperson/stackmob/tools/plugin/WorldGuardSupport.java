@@ -33,5 +33,7 @@ public class WorldGuardSupport {
         return ars.testState(null, ENTITY_FLAG);
     }
 
-
+    public WorldGuardPlugin getWgp() {
+        return wgp;
+    }
 }

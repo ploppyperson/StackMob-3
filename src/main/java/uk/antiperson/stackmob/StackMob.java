@@ -36,6 +36,10 @@ public class StackMob extends JavaPlugin {
     @Override
     public void onLoad(){
         if(pluginSupport.isWorldGuardEnabled() && config.getCustomConfig().getBoolean("worldguard-support")){
+            if(Integer.valueOf(pluginSupport.getWorldGuard().getWgp().getDescription().getVersion().replace(".", "").split(";")[0]) < 620){
+                getLogger().info("In order for this functionality to work, WorldGuard 6.2 or later needs to be installed.");
+                return;
+            }
             pluginSupport.getWorldGuard().registerFlag();
             getLogger().info("Registered WorldGuard region flag.");
         }
@@ -70,7 +74,7 @@ public class StackMob extends JavaPlugin {
 
         if(config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
             if(getVersionId() == 1){
-                getLogger().info("At the present movement, the feature 'show-player-nearby' is only supported on Minecraft 1.9 and above.");
+                getLogger().info("At the present moment, the feature 'show-player-nearby' is only supported on Minecraft 1.9 and above.");
             }else if(!pluginSupport.isProtocolSupportEnabled()) {
                 getLogger().info("ProtocolLib is required for certain features, but it cannot be found!");
                 getLogger().info("These feature(s) will not work until ProtocolLib is installed.");

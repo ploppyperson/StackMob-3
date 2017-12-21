@@ -34,32 +34,48 @@ public class DropTools {
             }
             if(itemInHand != null && itemInHand.getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
                 double enchantmentTimes = 1 + itemInHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
-                dropDrops(itemStack, Math.round(calculateAmount(multiplier) * enchantmentTimes), dropLocation);
+                dropDrops(itemStack, (int) Math.round(calculateAmount(multiplier) * enchantmentTimes), dropLocation);
                 continue;
             }
-            dropDrops(itemStack, Math.round(calculateAmount(multiplier)), dropLocation);
+            dropDrops(itemStack, calculateAmount(multiplier), dropLocation);
         }
     }
 
     // Calculate a random drop amount.
-    public double calculateAmount(int mutiplier){
-        return (0.75 + ThreadLocalRandom.current().nextDouble(2)) * mutiplier;
+    public int calculateAmount(int mutiplier){
+        return (int) Math.round((0.75 + ThreadLocalRandom.current().nextDouble(2)) * mutiplier);
+    }
+
+    public void dropDrops(ItemStack drop, int amount, Location dropLocation){
+        dropAllDrops(drop, amount, dropLocation, false);
+    }
+
+    public void dropEggs(ItemStack drop, int amount, Location dropLocation){
+        dropAllDrops(drop, amount, dropLocation, true);
     }
 
     // Method to drop the correct amount of drops.
-    public void dropDrops(ItemStack drop, double amount, Location dropLocation){
-        double inStacks = amount / drop.getMaxStackSize();
+    private void dropAllDrops(ItemStack drop, int amount, Location dropLocation, boolean addEnchantment){
+        double inStacks = (double) amount / (double) drop.getMaxStackSize();
         double floor = Math.floor(inStacks);
         double leftOver = inStacks - floor;
         for(int i = 1; i <= floor; i++){
             ItemStack newStack = new ItemStack(drop.getType(), drop.getMaxStackSize(), drop.getDurability());
             newStack.setItemMeta(drop.getItemMeta());
+            if(addEnchantment){
+                newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
+            }
             dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
         }
         if(leftOver > 0){
             ItemStack newStack = new ItemStack(drop.getType(), (int) Math.round(leftOver * drop.getMaxStackSize()), drop.getDurability());
+            sm.getLogger().info(newStack.getAmount() + "");
             newStack.setItemMeta(drop.getItemMeta());
+            if(addEnchantment){
+                newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
+            }
             dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
         }
     }
+
 }
