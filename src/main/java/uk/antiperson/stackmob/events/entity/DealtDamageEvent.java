@@ -9,12 +9,6 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class DealtDamageEvent implements Listener {
 
-    private StackMob sm;
-
-    public DealtDamageEvent(StackMob sm) {
-        this.sm = sm;
-    }
-
     @EventHandler
     public void onDamgeDelt(EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof Player){

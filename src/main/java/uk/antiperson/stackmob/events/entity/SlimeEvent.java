@@ -10,12 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlimeEvent implements Listener {
 
-    private StackMob sm;
-
-    public SlimeEvent(StackMob sm) {
-        this.sm = sm;
-    }
-
     @EventHandler
     public void onSlimeEvent(SlimeSplitEvent e) {
         if(e.getEntity().hasMetadata(GlobalValues.METATAG)){
