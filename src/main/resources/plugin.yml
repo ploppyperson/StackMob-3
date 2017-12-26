@@ -1,6 +1,6 @@
 name: StackMob
 version: 2.2.3
-author: antiPerson/BaconPied
+author: antiPerson
 main: uk.antiperson.stackmob.StackMob
 website: https://www.spigotmc.org/resources/stackmob.29999/
 softdepend: [MythicMobs, MiniaturePets, ProtocolLib, WorldGuard]

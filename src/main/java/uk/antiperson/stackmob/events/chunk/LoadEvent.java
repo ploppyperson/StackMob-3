@@ -24,17 +24,17 @@ public class LoadEvent implements Listener {
         }
         for(Entity currentEntity : e.getChunk().getEntities()){
             // Check if has been cached.
-            if(!sm.cache.amountCache.containsKey(currentEntity.getUniqueId())){
+            if(!sm.cache.getCache().contains(currentEntity.getUniqueId())){
                 continue;
             }
-            if(sm.cache.amountCache.get(currentEntity.getUniqueId()) == -69){
+            if(sm.cache.getCache().read(currentEntity.getUniqueId()) == -69){
                 currentEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
             }else{
-                currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, sm.cache.amountCache.get(currentEntity.getUniqueId())));
+                currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, sm.cache.getCache().read(currentEntity.getUniqueId())));
             }
 
             // Cleanup.
-            sm.cache.amountCache.remove(currentEntity.getUniqueId());
+            sm.cache.getCache().remove(currentEntity.getUniqueId());
 
         }
     }

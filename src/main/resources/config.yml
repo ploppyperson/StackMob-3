@@ -20,7 +20,7 @@ tag:
     always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
-    # Only show the name tag if the player is near the entity. (requires ProtocolLib)
+    # Only show the name tag if the player is near the entity. (requires ProtocolLib and Minecraft 1.9 or above)
     show-player-nearby:
         enabled: true
         # Only display the tag to the player if the player is in this area of the entity.
@@ -225,5 +225,8 @@ mythicmobs:
     blacklist:
        - ''
 
-# If WorldGuard is installed, enable support for it.
+# If WorldGuard is installed, enable support for it. (requires WorldGuard 6.2 and newer)
+# You can disable stacking in regions by setting 'DENY' on the 'entity-stacking' flag.
 worldguard-support: true
+
+

@@ -9,7 +9,8 @@ import uk.antiperson.stackmob.events.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
-import uk.antiperson.stackmob.tools.config.CacheFile;
+import uk.antiperson.stackmob.tools.cache.Cache;
+import uk.antiperson.stackmob.tools.cache.CacheLoader;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
@@ -27,7 +28,7 @@ public class StackMob extends JavaPlugin {
     public ConfigFile config = new ConfigFile(this);
     public TranslationFile translation = new TranslationFile(this);
     public EntityTools tools = new EntityTools(this);
-    public CacheFile cache = new CacheFile(this);
+    public CacheLoader cache = new CacheLoader(this);
     public DropTools dropTools = new DropTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
@@ -82,7 +83,7 @@ public class StackMob extends JavaPlugin {
 
         // Load the cache.
         getLogger().info("Loading cached entities...");
-        cache.loadCache();
+        cache.getCache().load();
 
         // Essential events/tasks that are needed for the plugin to function correctly.
         getLogger().info("Registering events...");
@@ -108,7 +109,7 @@ public class StackMob extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
         getLogger().info("Saving entity amount cache...");
         // Save the cache so entity amounts aren't lost on restarts
-        cache.saveCache();
+        cache.getCache().close();
     }
 
     // Server version detection, if version isn't currently supported, then versionId is 0.

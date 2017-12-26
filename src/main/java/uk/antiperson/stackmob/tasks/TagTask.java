@@ -51,7 +51,9 @@ public class TagTask extends BukkitRunnable {
                                     .replace("%type%", formattedType)
                                     .replace("%bukkit_type%", e.getType().toString());
                             String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
-                            e.setCustomName(finalString);
+                            if(!finalString.equals(e.getCustomName())){
+                                e.setCustomName(finalString);
+                            }
 
                             if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
                                 Bukkit.getOnlinePlayers().forEach(player -> sm.pluginSupport.getProtocolSupport().sendUpdatePacket(player, e));

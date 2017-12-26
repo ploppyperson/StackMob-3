@@ -32,7 +32,7 @@ public class UnloadEvent implements Listener {
                 continue;
             }
             // Add to cache
-            sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
+            sm.cache.getCache().write(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
         }
     }
 

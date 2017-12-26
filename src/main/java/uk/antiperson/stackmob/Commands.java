@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.util.UUID;
+import java.util.*;
 
 
 public class Commands implements CommandExecutor {
@@ -77,13 +77,24 @@ public class Commands implements CommandExecutor {
                 }else if(args[0].equalsIgnoreCase("stats")){
                     int stackedCount = 0;
                     int stackedTotal = 0;
+                    Map<EntityType, Integer> entityTypeMap = new HashMap<>();
                     for(World world : Bukkit.getWorlds()){
                         for(Entity entity : world.getLivingEntities()){
                             if(entity.hasMetadata(GlobalValues.METATAG)){
                                 stackedCount = stackedCount + 1;
                                 stackedTotal = stackedTotal + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                                if(entityTypeMap.containsKey(entity.getType())){
+                                    entityTypeMap.put(entity.getType(), entityTypeMap.get(entity.getType()) + 1);
+                                }else{
+                                    entityTypeMap.put(entity.getType(), 1);
+                                }
                             }
                         }
+                    }
+
+                    String individualAmounts = "";
+                    for(EntityType et : entityTypeMap.keySet()){
+                        individualAmounts = individualAmounts + et.toString() + " x" + entityTypeMap.get(et) + ", ";
                     }
 
                     int stackedCount1 = 0;
@@ -98,9 +109,9 @@ public class Commands implements CommandExecutor {
                     }
 
                     int cacheTotal = 0;
-                    for(UUID uuid : sm.cache.amountCache.keySet()){
-                        if(sm.cache.amountCache.get(uuid) > 0) {
-                            cacheTotal = cacheTotal + sm.cache.amountCache.get(uuid);
+                    for(UUID uuid : sm.cache.getCache().getKeys()){
+                        if(sm.cache.getCache().read(uuid) > 0) {
+                            cacheTotal = cacheTotal + sm.cache.getCache().read(uuid);
                         }
                     }
 
@@ -108,7 +119,10 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(pluginTag + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
-                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.getCache().getKeys().size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Detailed stack information: ");
+                    sender.sendMessage(ChatColor.GREEN + individualAmounts);
+
                 }else{
                     sender.sendMessage(pluginTag + errorTag +
                             "Incorrect command parameters!");
