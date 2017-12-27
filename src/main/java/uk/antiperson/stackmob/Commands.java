@@ -53,7 +53,7 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 }else if(args[0].equalsIgnoreCase("reset")){
-                    sm.config.getF().delete();
+                    sm.config.file.delete();
                     sm.config.reloadCustomConfig();
                     sender.sendMessage(pluginTag + ChatColor.GREEN + "The configuration has been reset and reloaded.");
                 }else if(args[0].equalsIgnoreCase("reload")){

@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.events.chunk.LoadEvent;
 import uk.antiperson.stackmob.events.chunk.UnloadEvent;
 import uk.antiperson.stackmob.events.entity.*;
+import uk.antiperson.stackmob.tasks.CacheTask;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
@@ -170,6 +171,9 @@ public class StackMob extends JavaPlugin {
         }
         if(config.getCustomConfig().getBoolean("divide-on.tame")){
             getServer().getPluginManager().registerEvents(new TameEvent(this), this);
+        }
+        if(config.getCustomConfig().getBoolean("caching.autosave.enabled")){
+            new CacheTask(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("caching.autosave.interval") * 20);
         }
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
         if(getVersionId() > 2){

@@ -13,38 +13,34 @@ import java.io.IOException;
  */
 public class ConfigLoader {
 
-    public FileConfiguration fc;
-    public File f;
+    public FileConfiguration fileConfiguration;
+    public File file;
     private StackMob sm;
     private String filename;
     public ConfigLoader(StackMob sm, String filename){
         this.sm = sm;
         this.filename = filename;
-        this.f = new File(sm.getDataFolder(), filename + ".yml");
+        this.file = new File(sm.getDataFolder(), filename + ".yml");
     }
 
     public void reloadCustomConfig() {
-        if(!f.exists()){
+        if(!file.exists()){
             sm.saveResource(filename + ".yml", false);
         }
-        fc = YamlConfiguration.loadConfiguration(f);
+        fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
     public FileConfiguration getCustomConfig() {
-        if (fc == null) {
+        if (fileConfiguration == null) {
             reloadCustomConfig();
         }
-        return fc;
-    }
-
-    public File getF(){
-        return f;
+        return fileConfiguration;
     }
 
     public void generateNewVersion(){
-        File file = new File(sm.getDataFolder(), filename + ".old");
+        File oldFile = new File(sm.getDataFolder(), filename + ".old");
         try{
-            FileUtils.moveFile(getF(), file);
+            FileUtils.moveFile(file, oldFile);
         }catch (IOException e){
             e.printStackTrace();
         }

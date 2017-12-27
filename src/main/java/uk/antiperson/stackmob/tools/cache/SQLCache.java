@@ -34,4 +34,8 @@ public class SQLCache implements Cache {
     public Set<UUID> getKeys(){
         return null;
     }
+
+    public CacheType getType() {
+        return CacheType.SQL;
+    }
 }

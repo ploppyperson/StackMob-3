@@ -4,19 +4,25 @@ import uk.antiperson.stackmob.StackMob;
 
 public class CacheLoader {
 
-    private boolean flatFileCache = true;
     private Cache cache;
     private StackMob sm;
     public CacheLoader(StackMob sm){
         this.sm = sm;
-        if(flatFileCache){
-            cache = new FlatCache(sm);
-        }else{
+        if(sm.config.getCustomConfig().getBoolean("mysql.enabled")){
             cache = new SQLCache();
+        }else{
+            cache = new FlatCache(sm);
         }
     }
 
     public Cache getCache(){
         return cache;
     }
+
+    public CacheType getCacheType(){
+        return cache.getType();
+    }
+
+
 }
+
