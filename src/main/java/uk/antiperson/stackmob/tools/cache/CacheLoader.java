@@ -19,10 +19,5 @@ public class CacheLoader {
         return cache;
     }
 
-    public CacheType getCacheType(){
-        return cache.getType();
-    }
-
-
 }
 

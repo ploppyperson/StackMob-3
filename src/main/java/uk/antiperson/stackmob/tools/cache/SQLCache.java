@@ -1,6 +1,10 @@
 package uk.antiperson.stackmob.tools.cache;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -74,6 +78,20 @@ public class SQLCache implements Cache{
 
     public void close(){
         try {
+            for(World world : Bukkit.getWorlds()){
+                for(Entity entity : world.getEntities()){
+                    if(entity.hasMetadata(GlobalValues.METATAG) &&
+                            entity.getMetadata(GlobalValues.METATAG).size() > 0 &&
+                            entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
+                        write(entity.getUniqueId(), entity.getMetadata(GlobalValues.METATAG).get(0).asInt());
+                    }else if(entity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
+                            entity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
+                            entity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+                        write(entity.getUniqueId(), -69);
+                    }
+                }
+            }
+
             con.close();
         }catch (SQLException e){
             e.printStackTrace();
@@ -92,10 +110,6 @@ public class SQLCache implements Cache{
         }
 
         return keys;
-    }
-
-    public CacheType getType() {
-        return CacheType.SQL;
     }
 
     public void inialize() throws SQLException{

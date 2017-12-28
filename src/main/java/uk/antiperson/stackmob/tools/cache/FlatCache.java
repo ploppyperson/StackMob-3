@@ -31,6 +31,7 @@ public class FlatCache extends ConfigLoader implements Cache {
     }
 
     public void close(){
+        file.delete();
         fileConfiguration.options().header("This file should not be modified.");
         amountCache.keySet().forEach(key -> fileConfiguration.set(key.toString(), amountCache.get(key)));
 
@@ -76,7 +77,4 @@ public class FlatCache extends ConfigLoader implements Cache {
         return amountCache.keySet();
     }
 
-    public CacheType getType() {
-        return CacheType.YAML;
-    }
 }

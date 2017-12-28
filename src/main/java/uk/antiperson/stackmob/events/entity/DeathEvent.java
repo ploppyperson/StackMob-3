@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.cache.SQLCache;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.List;
@@ -81,6 +82,9 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
         dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
+        if(sm.cache.getCache() instanceof SQLCache){
+            sm.cache.getCache().remove(dead.getUniqueId());
+        }
     }
 
     public void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){

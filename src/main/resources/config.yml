@@ -232,7 +232,7 @@ worldguard-support: true
 
 # When the server is restarted, all the stack sizes are saved to disk.
 caching:
-    # Only for YAML files, the data can be saved to disk every x minutes.
+    # Stack data can be saved to disk every x minutes.
     # This is useful so that in the event of a server crash, not all stack data will be lost.
     autosave:
         enabled: true

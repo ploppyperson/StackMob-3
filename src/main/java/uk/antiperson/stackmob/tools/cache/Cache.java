@@ -11,6 +11,5 @@ public interface Cache {
     void close();
     void remove(UUID key);
     boolean contains(UUID key);
-    CacheType getType();
     Set<UUID> getKeys();
 }
