@@ -238,6 +238,7 @@ caching:
         enabled: true
         # The amount of time between saves, in seconds.
         interval: 150
+    # Instead of using flat files for storage, a mysql server can be used.
     mysql:
         enabled: false
         server-ip: localhost
