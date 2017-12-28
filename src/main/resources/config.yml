@@ -238,3 +238,9 @@ caching:
         enabled: true
         # The amount of time between saves, in seconds.
         interval: 150
+    mysql:
+        enabled: false
+        server-ip: localhost
+        server-port: 3306
+        username: root
+        password:

@@ -8,8 +8,8 @@ public class CacheLoader {
     private StackMob sm;
     public CacheLoader(StackMob sm){
         this.sm = sm;
-        if(sm.config.getCustomConfig().getBoolean("mysql.enabled")){
-            cache = new SQLCache();
+        if(sm.config.getCustomConfig().getBoolean("caching.mysql.enabled")){
+            cache = new SQLCache(sm);
         }else{
             cache = new FlatCache(sm);
         }
