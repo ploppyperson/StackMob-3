@@ -66,10 +66,14 @@ public class PluginSupport {
     }
 
     public boolean isWorldGuardEnabled(){
-        return getWorldGuardPlugin() != null && Integer.valueOf(getWorldGuardPlugin().getDescription().getVersion().replace(".", "").split(";")[0]) >= 620;
+        return getWorldGuardPlugin() != null && !oldWorldGuardVersion();
     }
 
     public Plugin getWorldGuardPlugin(){
         return Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
+    }
+
+    public boolean oldWorldGuardVersion(){
+        return Integer.valueOf(getWorldGuardPlugin().getDescription().getVersion().replace(".", "").split(";")[0]) < 620;
     }
 }

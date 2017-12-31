@@ -36,9 +36,16 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onLoad(){
-        if(pluginSupport.isWorldGuardEnabled() && config.getCustomConfig().getBoolean("worldguard-support")){
-            pluginSupport.getWorldGuard().registerFlag();
-            getLogger().info("Registered WorldGuard region flag.");
+        if(config.getCustomConfig().getBoolean("worldguard-support")){
+            if(pluginSupport.oldWorldGuardVersion()){
+                getLogger().info("WorldGuard support is enabled, but this server is currently running an old version.");
+                getLogger().info("Upgrading to 6.2 is required to use this feature. Alternately, this can be disabled in the config.");
+            }
+
+            if(pluginSupport.isWorldGuardEnabled()) {
+                pluginSupport.getWorldGuard().registerFlag();
+                getLogger().info("Registered WorldGuard region flag.");
+            }
         }
     }
 

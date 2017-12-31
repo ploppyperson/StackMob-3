@@ -19,14 +19,12 @@ public class SQLCache implements Cache{
     private String password;
     private String finalUrl;
     private Connection con;
-    private StackMob sm;
     public SQLCache(StackMob sm){
         String serverUrl = sm.config.getCustomConfig().getString("caching.mysql.server-ip");
         int serverPort = sm.config.getCustomConfig().getInt("caching.mysql.server-port");
         username = sm.config.getCustomConfig().getString("caching.mysql.username");
         password = sm.config.getCustomConfig().getString("caching.mysql.password");
         finalUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/stackmob?autoReconnect=true&useSSL=false";
-        this.sm = sm;
     }
 
 

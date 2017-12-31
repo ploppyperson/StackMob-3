@@ -22,6 +22,7 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
+
         if(!entity.hasMetadata(GlobalValues.METATAG)){
             return;
         }

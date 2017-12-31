@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.tools.extras;
 
+import org.bukkit.ChatColor;
+
 /**
  * Created by nathat on 24/07/17.
  */

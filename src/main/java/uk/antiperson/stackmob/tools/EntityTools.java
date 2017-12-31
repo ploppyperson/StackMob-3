@@ -171,7 +171,7 @@ public class EntityTools {
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
             dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
         }else if(slightMovement){
-            dupe = original.getWorld().spawnEntity(original.getLocation().add(0.05,0,0.05), original.getType());
+            dupe = original.getWorld().spawnEntity(original.getLocation().add(0,0.1,0), original.getType());
         }else{
             dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
         }
