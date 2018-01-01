@@ -198,7 +198,7 @@ multiply-damage-done: true
 
 # Multiplies the damage that the entities receives, if multiplied damage is more than the max health, remove stacks.
 multiply-damage-received:
-    enabled: true
+    enabled: false
     # Blacklist of damage causes.
     cause-blacklist:
         - ''

@@ -18,6 +18,7 @@ public class SQLCache implements Cache{
     private String username;
     private String password;
     private String finalUrl;
+    private String firstUrl;
     private Connection con;
     public SQLCache(StackMob sm){
         String serverUrl = sm.config.getCustomConfig().getString("caching.mysql.server-ip");
@@ -25,6 +26,7 @@ public class SQLCache implements Cache{
         username = sm.config.getCustomConfig().getString("caching.mysql.username");
         password = sm.config.getCustomConfig().getString("caching.mysql.password");
         finalUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/stackmob?autoReconnect=true&useSSL=false";
+        firstUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/?autoReconnect=true&useSSL=false";
     }
 
 
@@ -67,6 +69,8 @@ public class SQLCache implements Cache{
 
     public void load(){
         try{
+            inialize();
+            con.createStatement().execute("CREATE DATABASE IF NOT EXISTS STACKMOB;");
             inialize();
             con.createStatement().execute("CREATE TABLE IF NOT EXISTS CACHE (UUID varchar(255), Size int);");
         }catch (SQLException e){
@@ -111,6 +115,10 @@ public class SQLCache implements Cache{
     }
 
     public void inialize() throws SQLException{
-        con = DriverManager.getConnection(finalUrl, username, password);
+        if(con == null){
+            con = DriverManager.getConnection(firstUrl, username, password);
+        }else{
+            con = DriverManager.getConnection(finalUrl, username, password);
+        }
     }
 }
