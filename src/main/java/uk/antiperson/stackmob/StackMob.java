@@ -88,6 +88,7 @@ public class StackMob extends JavaPlugin {
         // Load the cache.
         getLogger().info("Loading cached entities...");
         cache.getCache().load();
+        cache.getCache().convert();
 
         // Essential events/tasks that are needed for the plugin to function correctly.
         getLogger().info("Registering events...");

@@ -229,7 +229,6 @@ mythicmobs:
 # You can disable stacking in regions by setting 'DENY' on the 'entity-stacking' flag.
 worldguard-support: true
 
-
 # When the server is restarted, all the stack sizes are saved to disk.
 caching:
     # Stack data can be saved to disk every x minutes.

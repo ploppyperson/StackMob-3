@@ -9,6 +9,7 @@ public interface Cache {
     int read(UUID key);
     void load();
     void close();
+    void convert();
     void remove(UUID key);
     boolean contains(UUID key);
     Set<UUID> getKeys();

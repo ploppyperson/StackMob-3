@@ -20,13 +20,15 @@ public class SQLCache implements Cache{
     private String finalUrl;
     private String firstUrl;
     private Connection con;
+    private StackMob sm;
     public SQLCache(StackMob sm){
         String serverUrl = sm.config.getCustomConfig().getString("caching.mysql.server-ip");
         int serverPort = sm.config.getCustomConfig().getInt("caching.mysql.server-port");
         username = sm.config.getCustomConfig().getString("caching.mysql.username");
         password = sm.config.getCustomConfig().getString("caching.mysql.password");
-        finalUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/stackmob?autoReconnect=true&useSSL=false";
+        finalUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/STACKMOB?autoReconnect=true&useSSL=false";
         firstUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/?autoReconnect=true&useSSL=false";
+        this.sm = sm;
     }
 
 
@@ -69,9 +71,9 @@ public class SQLCache implements Cache{
 
     public void load(){
         try{
-            inialize();
+            inialize(true);
             con.createStatement().execute("CREATE DATABASE IF NOT EXISTS STACKMOB;");
-            inialize();
+            inialize(false);
             con.createStatement().execute("CREATE TABLE IF NOT EXISTS CACHE (UUID varchar(255), Size int);");
         }catch (SQLException e){
             e.printStackTrace();
@@ -114,11 +116,49 @@ public class SQLCache implements Cache{
         return keys;
     }
 
-    public void inialize() throws SQLException{
-        if(con == null){
+    public void inialize(boolean firstTime) throws SQLException{
+        if(firstTime){
             con = DriverManager.getConnection(firstUrl, username, password);
         }else{
             con = DriverManager.getConnection(finalUrl, username, password);
+        }
+    }
+
+    public void convert(){
+        FlatCache flat = new FlatCache(sm);
+        if(flat.file.exists()){
+            sm.getLogger().info("Converting YAML cache file to SQL database...");
+            flat.load();
+            for(UUID uuid : flat.getKeys()){
+                write(uuid, flat.read(uuid));
+            }
+        }
+    }
+
+    public void drop(){
+        try {
+            con.createStatement().execute("DROP TABLE CACHE;");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public boolean hasSqlBeenUsedBefore(){
+        try {
+            inialize(false);
+            con.createStatement().execute("SELECT * FROM CACHE");
+            return true;
+        }catch (SQLException e){
+            return false;
+        }
+    }
+
+    public void closeWithoutSaving(){
+        try {
+            con.close();
+        }catch (SQLException e){
+            e.printStackTrace();
         }
     }
 }

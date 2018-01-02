@@ -9,6 +9,7 @@ import uk.antiperson.stackmob.tools.config.ConfigLoader;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -20,8 +21,10 @@ public class FlatCache extends ConfigLoader implements Cache {
 
     private HashMap<UUID, Integer> amountCache = new HashMap<>();
 
+    private StackMob sm;
     public FlatCache(StackMob sm){
         super(sm, "cache");
+        this.sm = sm;
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
@@ -77,4 +80,13 @@ public class FlatCache extends ConfigLoader implements Cache {
         return amountCache.keySet();
     }
 
+    public void convert(){
+        SQLCache sql = new SQLCache(sm);
+        if(sql.hasSqlBeenUsedBefore()){
+            sm.getLogger().info("Converting SQL cache to YAML cache...");
+            sql.getKeys().forEach(uuid -> write(uuid, sql.read(uuid)));
+            sql.drop();
+            sql.closeWithoutSaving();
+        }
+    }
 }
