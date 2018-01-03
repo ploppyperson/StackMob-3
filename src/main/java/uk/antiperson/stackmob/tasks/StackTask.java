@@ -25,7 +25,6 @@ public class StackTask extends BukkitRunnable {
         double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
         double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
 
-
         int maxSize;
         // Worlds loop, and check that the world isn't blacklisted
         for(World world : Bukkit.getWorlds()){

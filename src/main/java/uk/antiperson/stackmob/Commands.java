@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 public class Commands implements CommandExecutor {
@@ -123,9 +125,15 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.YELLOW + "Detailed stack information: ");
                     sender.sendMessage(ChatColor.GREEN + individualAmounts);
 
-                }else{
-                    sender.sendMessage(pluginTag + errorTag +
-                            "Incorrect command parameters!");
+                }else if(args[0].equalsIgnoreCase("fix")){
+                    if(sender instanceof Player){
+                        sm.worldTools.fixEntities(((Player)sender).getLocation().getChunk());
+                    }else{
+                        sender.sendMessage(pluginTag + errorTag +
+                                "You need to be a player to do this!");
+                    }
+                }else if(args[0].equalsIgnoreCase("fixall")){
+                    sm.worldTools.fixAllEntities();
                 }
             }else{
                 if(args[0].equalsIgnoreCase("nick")){

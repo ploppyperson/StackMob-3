@@ -6,7 +6,10 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +20,6 @@ public class SQLCache implements Cache{
 
     private String username;
     private String password;
-    private String finalUrl;
     private String firstUrl;
     private Connection con;
     private StackMob sm;
@@ -26,7 +28,6 @@ public class SQLCache implements Cache{
         int serverPort = sm.config.getCustomConfig().getInt("caching.mysql.server-port");
         username = sm.config.getCustomConfig().getString("caching.mysql.username");
         password = sm.config.getCustomConfig().getString("caching.mysql.password");
-        finalUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/STACKMOB?autoReconnect=true&useSSL=false";
         firstUrl = "jdbc:mysql://" + serverUrl + ":" + serverPort + "/?autoReconnect=true&useSSL=false";
         this.sm = sm;
     }
@@ -71,9 +72,9 @@ public class SQLCache implements Cache{
 
     public void load(){
         try{
-            inialize(true);
-            con.createStatement().execute("CREATE DATABASE IF NOT EXISTS STACKMOB;");
-            inialize(false);
+            inialize();
+            con.createStatement().execute("CREATE DATABASE IF NOT EXISTS " + getDatabaseName() + ";");
+            calalog();
             con.createStatement().execute("CREATE TABLE IF NOT EXISTS CACHE (UUID varchar(255), Size int);");
         }catch (SQLException e){
             e.printStackTrace();
@@ -116,12 +117,8 @@ public class SQLCache implements Cache{
         return keys;
     }
 
-    public void inialize(boolean firstTime) throws SQLException{
-        if(firstTime){
-            con = DriverManager.getConnection(firstUrl, username, password);
-        }else{
-            con = DriverManager.getConnection(finalUrl, username, password);
-        }
+    public void inialize() throws SQLException{
+        con = DriverManager.getConnection(firstUrl, username, password);
     }
 
     public void convert(){
@@ -143,10 +140,14 @@ public class SQLCache implements Cache{
         }
     }
 
+    public void calalog() throws SQLException{
+        con.setCatalog(getDatabaseName());
+    }
 
     public boolean hasSqlBeenUsedBefore(){
         try {
-            inialize(false);
+            inialize();
+            calalog();
             con.createStatement().execute("SELECT * FROM CACHE");
             return true;
         }catch (SQLException e){
@@ -159,6 +160,14 @@ public class SQLCache implements Cache{
             con.close();
         }catch (SQLException e){
             e.printStackTrace();
+        }
+    }
+
+    public String getDatabaseName(){
+        if(sm.config.getCustomConfig().isString("caching.mysql.database-name")){
+            return  sm.config.getCustomConfig().getString("caching.mysql.database-name");
+        }else{
+            return "STACKMOB";
         }
     }
 }

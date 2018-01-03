@@ -240,7 +240,9 @@ caching:
     # Instead of using flat files for storage, a mysql server can be used.
     mysql:
         enabled: false
+        # Server details should be entered below, if enabled above.
         server-ip: localhost
         server-port: 3306
         username: root
         password:
+        database-name: STACKMOB
