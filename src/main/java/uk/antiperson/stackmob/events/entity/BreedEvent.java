@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.events.entity;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.metadata.FixedMetadataValue;

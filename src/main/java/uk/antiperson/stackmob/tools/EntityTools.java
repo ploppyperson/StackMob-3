@@ -8,8 +8,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import javax.xml.bind.annotation.XmlElementDecl;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by nathat on 24/07/17.
@@ -158,7 +160,9 @@ public class EntityTools {
                         .contains(mm.getMythicMobInstance(newe).getType().getInternalName())){
                     return true;
                 }
-                return !mm.getMythicMobInstance(nearby).getType().getInternalName().equals(mm.getMythicMobInstance(newe).getType().getInternalName());
+                if(!mm.getMythicMobInstance(nearby).getType().getInternalName().equals(mm.getMythicMobInstance(newe).getType().getInternalName())){
+                    return true;
+                }
             }
         }
 
@@ -288,7 +292,9 @@ public class EntityTools {
         }
 
         if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
-            return e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0;
+            if(e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0){
+                return true;
+            }
         }
 
         return false;

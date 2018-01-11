@@ -2,8 +2,11 @@ package uk.antiperson.stackmob.tools;
 
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -66,6 +69,7 @@ public class DropTools {
         }
         if(leftOver > 0){
             ItemStack newStack = new ItemStack(drop.getType(), (int) Math.round(leftOver * drop.getMaxStackSize()), drop.getDurability());
+            sm.getLogger().info(newStack.getAmount() + "");
             newStack.setItemMeta(drop.getItemMeta());
             if(addEnchantment){
                 newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);

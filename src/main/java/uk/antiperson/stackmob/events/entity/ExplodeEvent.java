@@ -8,6 +8,11 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class ExplodeEvent implements Listener {
 
+    private StackMob sm;
+    public ExplodeEvent(StackMob sm){
+        this.sm = sm;
+    }
+
     @EventHandler
     public void onExplode(EntityExplodeEvent event){
         if(event.getEntity().hasMetadata(GlobalValues.METATAG)){

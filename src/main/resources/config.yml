@@ -103,7 +103,7 @@ multiply:
 
 # If the stack should split into more when these things happen.
 divide-on:
-    # If sheep should split into separate stacks when sheared.
+    # If sheep should split into serperate stacks when sheared.
     sheep-shear: true
     # If dying sheep should cause the stack to split.
     sheep-dye: true
@@ -113,7 +113,7 @@ divide-on:
     breed: true
     # When a player tames an entity.
     tame: true
-    # When an entity it named using a name tag.
+    # When an entity it named using a nametag.
     name: true
 
 # Make every entity die in the stack on death.

@@ -71,10 +71,11 @@ public class TagTask extends BukkitRunnable {
 
     private String toTitleCase(String givenString) {
         String[] arr = givenString.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String s : arr){
-             sb.append(Character.toUpperCase(s.charAt(0)))
-                    .append(s.substring(1)).append(" ");
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(Character.toUpperCase(arr[i].charAt(0)))
+                    .append(arr[i].substring(1)).append(" ");
         }
         return sb.toString().trim();
     }

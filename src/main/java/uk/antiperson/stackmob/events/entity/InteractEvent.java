@@ -124,7 +124,9 @@ public class InteractEvent implements Listener {
             return true;
         }
         if(sm.getVersionId() >= 4){
-            return entity instanceof Llama && is.getType() == Material.HAY_BLOCK;
+            if(entity instanceof Llama && is.getType() == Material.HAY_BLOCK){
+                return true;
+            }
         }
         return false;
     }
