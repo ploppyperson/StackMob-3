@@ -8,8 +8,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import javax.xml.bind.annotation.XmlElementDecl;
-
 /**
  * Created by nathat on 27/07/17.
  */

@@ -11,7 +11,6 @@ import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
-import uk.antiperson.stackmob.tools.config.ConfigLoader;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
@@ -96,7 +95,7 @@ public class StackMob extends JavaPlugin {
 
         getLogger().info(updater.updateString());
 
-        if(LocalDate.now().getDayOfYear() >= 357 && LocalDate.now().getDayOfYear() < 3){
+        if(LocalDate.now().getDayOfYear() >= 357 || LocalDate.now().getDayOfYear() < 3){
             getLogger().info("Merry Christmas and Happy new year!");
         }
 
@@ -145,7 +144,7 @@ public class StackMob extends JavaPlugin {
 
     private void registerNotEssentialEvents(){
         if(config.getCustomConfig().getBoolean("multiply.creeper-explosion")){
-            getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new ExplodeEvent(), this);
         }
         if(config.getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
@@ -157,10 +156,10 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply.small-slimes")) {
-            getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new SlimeEvent(), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-done")){
-            getServer().getPluginManager().registerEvents(new DealtDamageEvent(this), this);
+            getServer().getPluginManager().registerEvents(new DealtDamageEvent(), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-received.enabled")){
             getServer().getPluginManager().registerEvents(new ReceivedDamageEvent(this), this);
