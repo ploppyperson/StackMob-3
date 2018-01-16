@@ -91,7 +91,6 @@ public class InteractEvent implements Listener {
                 }
             }
         }
-
     }
 
     // There should be a method in bukkit for this...
@@ -105,7 +104,7 @@ public class InteractEvent implements Listener {
         if((entity instanceof Chicken) && is.getType().toString().contains("SEED")){
             return true;
         }
-        if(entity instanceof Horse && is.getType() == Material.GOLDEN_APPLE || is.getType() == Material.GOLDEN_CARROT){
+        if(entity instanceof Horse && (is.getType() == Material.GOLDEN_APPLE || is.getType() == Material.GOLDEN_CARROT)){
             if(((Horse)entity).isTamed()){
                 return true;
             }

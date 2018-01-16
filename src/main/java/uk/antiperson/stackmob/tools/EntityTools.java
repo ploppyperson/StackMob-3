@@ -171,11 +171,11 @@ public class EntityTools {
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
             dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
         }else if(slightMovement){
-            dupe = original.getWorld().spawnEntity(original.getLocation().add(0.05,0,0.05), original.getType());
+            dupe = original.getWorld().spawnEntity(original.getLocation().add(0,0.1,0), original.getType());
         }else{
             dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
         }
-        return duplicateValues(original, dupe);
+        return cloneTraits(original, dupe);
     }
 
     public Entity duplicate(Entity original){
@@ -185,12 +185,12 @@ public class EntityTools {
         }else {
             dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
         }
-        return duplicateValues(original, dupe);
+        return cloneTraits(original, dupe);
     }
 
     // Copies all of the attributes of one entity and gives them to another.
     // TODO: fire ticks, no ai if you don't want faction server owners screaming at you.
-    public Entity duplicateValues(Entity original, Entity dupe){
+    public Entity cloneTraits(Entity original, Entity dupe){
         if (dupe instanceof Tameable) {
             if (!sm.config.getCustomConfig().getBoolean("check.tamed")) {
                 ((Tameable)dupe).setTamed(((Tameable)original).isTamed());

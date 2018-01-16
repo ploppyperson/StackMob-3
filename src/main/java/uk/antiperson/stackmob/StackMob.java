@@ -8,15 +8,14 @@ import uk.antiperson.stackmob.events.chunk.UnloadEvent;
 import uk.antiperson.stackmob.events.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
-import uk.antiperson.stackmob.tools.*;
+import uk.antiperson.stackmob.tools.DropTools;
+import uk.antiperson.stackmob.tools.EntityTools;
+import uk.antiperson.stackmob.tools.UpdateChecker;
 import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
-
-import java.time.LocalDate;
-
 
 /**
  * Created by nathat on 23/07/17.
@@ -34,8 +33,9 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onLoad(){
-        if(pluginSupport.isWorldGuardEnabled() && config.getCustomConfig().getBoolean("worldguard-support")){
-            if(Integer.valueOf(pluginSupport.getWorldGuard().getWgp().getDescription().getVersion().replace(".", "").split(";")[0]) < 620){
+        pluginSupport.setupWorldGuard();
+        if(pluginSupport.getWorldGuard() != null && config.getCustomConfig().getBoolean("worldguard-support")){
+            if(pluginSupport.getWorldGuardVersion() < 620){
                 getLogger().info("In order for this functionality to work, WorldGuard 6.2 or later needs to be installed.");
                 return;
             }
@@ -64,6 +64,9 @@ public class StackMob extends JavaPlugin {
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         config.reloadCustomConfig();
         translation.reloadCustomConfig();
+
+        // Initialize support for other plugins.
+        pluginSupport.startup();
 
         if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
@@ -94,10 +97,6 @@ public class StackMob extends JavaPlugin {
         new Metrics(this);
 
         getLogger().info(updater.updateString());
-
-        if(LocalDate.now().getDayOfYear() >= 357 || LocalDate.now().getDayOfYear() < 3){
-            getLogger().info("Merry Christmas and Happy new year!");
-        }
 
     }
 

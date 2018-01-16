@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,6 +37,10 @@ public class StackTask extends BukkitRunnable {
             // Loop all entities in the current world
             for(Entity first : world.getLivingEntities()){
                 // Checks on first entity
+                if(first instanceof ArmorStand){
+                    continue;
+                }
+
                 if(sm.tools.notTaskSuitable(first)){
                     continue;
                 }
@@ -78,7 +83,8 @@ public class StackTask extends BukkitRunnable {
                     }else{
                         firstSize = 1;
                     }
-                                        // Nearby would normally get removed, but we're swapping it.
+
+                    // Nearby would normally get removed, but we're swapping it.
                     if(nearbySize > firstSize && sm.config.getCustomConfig().getBoolean("big-priority")){
                         Entity holder = nearby;
                         nearby = first;

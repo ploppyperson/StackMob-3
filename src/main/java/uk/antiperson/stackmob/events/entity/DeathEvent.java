@@ -22,7 +22,7 @@ public class DeathEvent implements Listener {
         this.sm = sm;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         Entity dead = e.getEntity();
 
