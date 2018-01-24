@@ -14,7 +14,6 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 public class PluginSupport {
 
     private StackMob sm;
-    private int wgVersion;
     private MythicSupport mythicSupport;
     private WorldGuardSupport worldGuardSupport;
     private ProtocolSupport protocolSupport;
@@ -24,9 +23,8 @@ public class PluginSupport {
 
     public void setupWorldGuard(){
         Plugin pl = Bukkit.getPluginManager().getPlugin("WorldGuard");
-        if(pl != null){
+        if(pl != null && isWorldGuardCorrectVersion()){
             worldGuardSupport = new WorldGuardSupport(sm);
-            wgVersion = Integer.valueOf(pl.getDescription().getVersion().replaceAll("\\D+",""));
         }
     }
 
@@ -78,10 +76,15 @@ public class PluginSupport {
     }
 
     public boolean isWorldGuardEnabled(){
-        return getWorldGuard() != null && getWorldGuardVersion() > 620;
+        return getWorldGuard() != null;
     }
 
-    public int getWorldGuardVersion(){
-        return wgVersion;
+    public boolean isWorldGuardCorrectVersion(){
+        try {
+            Class.forName("com.sk89q.worldguard.protection.flags.registry.FlagConflictException");
+            return true;
+        }catch (ClassNotFoundException e){
+            return false;
+        }
     }
 }

@@ -27,12 +27,12 @@ public class UnloadEvent implements Listener {
             if(currentEntity instanceof Monster){
                 continue;
             }
-            // Check if stackable
-            if(!currentEntity.hasMetadata(GlobalValues.METATAG)){
-                continue;
-            }
             // Add to cache
-            sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
+            if(currentEntity.hasMetadata(GlobalValues.METATAG)){
+                sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
+            }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
+                sm.cache.amountCache.put(currentEntity.getUniqueId(), -1);
+            }
         }
     }
 

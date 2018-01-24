@@ -138,6 +138,7 @@ kill-step:
     type-blacklist:
         - ''
     # The maximum amount by which the stack should decrease by.
+    # Setting this to 0 will cause errors!
     max-step: 5
 
 # Multiply the amount of drops depending on the size of the stack killed.

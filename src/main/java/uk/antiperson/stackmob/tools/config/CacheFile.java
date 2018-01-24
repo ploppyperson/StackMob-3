@@ -9,6 +9,7 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -32,8 +33,8 @@ public class CacheFile extends ConfigLoader{
 
     public void saveCache(){
         fc.options().header("This file should not be modified.");
-        for(UUID key : amountCache.keySet()){
-            fc.set(key.toString(), amountCache.get(key));
+        for(Map.Entry<UUID, Integer> entry: amountCache.entrySet()){
+            fc.set(entry.getKey().toString(), entry.getValue());
         }
         for (World world : Bukkit.getWorlds()){
             for(Entity currentEntity : world.getLivingEntities()){
@@ -45,7 +46,7 @@ public class CacheFile extends ConfigLoader{
                 if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
                         currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
                         currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
-                    fc.set(currentEntity.getUniqueId().toString(), -69);
+                    fc.set(currentEntity.getUniqueId().toString(), -1);
                 }
             }
         }
