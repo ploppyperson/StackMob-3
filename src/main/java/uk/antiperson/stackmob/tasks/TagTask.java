@@ -51,7 +51,7 @@ public class TagTask extends BukkitRunnable {
                                     .replace("%type%", formattedType)
                                     .replace("%bukkit_type%", e.getType().toString());
                             String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
-                            if(!e.getCustomName().equals(finalString)){
+                            if(!finalString.equals(e.getCustomName())){
                                 e.setCustomName(finalString);
                             }
 
