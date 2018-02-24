@@ -43,6 +43,8 @@ custom:
 
 # The delay between each time the stacking task is ran (in ticks.)
 task-delay: 100
+# The time to update the Stacking tag
+tag-update: 5
 # The maximum size a single stack can be.
 stack-max: 20
 # If bigger stacks should get priority when stacking on the task.
