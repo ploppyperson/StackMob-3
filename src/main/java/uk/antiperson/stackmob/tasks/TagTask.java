@@ -2,8 +2,9 @@ package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
@@ -20,9 +21,12 @@ public class TagTask extends BukkitRunnable {
     }
 
     public void run() {
-        for (World w : Bukkit.getWorlds()) {
-            if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(w.getName())) {
-                for (Entity e : w.getLivingEntities()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(p.getWorld().getName())) {
+                for(Entity e : p.getNearbyEntities(20, 20, 20)){
+                    if(!(e instanceof LivingEntity)){
+                        continue;
+                    }
                     if (e.hasMetadata(GlobalValues.METATAG)) {
                         if (e.getMetadata(GlobalValues.METATAG).size() == 0) {
                             e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
