@@ -23,7 +23,7 @@ public class TagTask extends BukkitRunnable {
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(p.getWorld().getName())) {
-                for(Entity e : p.getNearbyEntities(20, 20, 20)){
+                for(Entity e : p.getNearbyEntities(15, 15, 15)){
                     if(!(e instanceof LivingEntity)){
                         continue;
                     }
@@ -59,9 +59,7 @@ public class TagTask extends BukkitRunnable {
                                 e.setCustomName(finalString);
                             }
 
-                            if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
-                                Bukkit.getOnlinePlayers().forEach(player -> sm.pluginSupport.getProtocolSupport().sendUpdatePacket(player, e));
-                            }else{
+                            if(!(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1)){
                                 boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
                                 if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
                                     alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
@@ -69,6 +67,11 @@ public class TagTask extends BukkitRunnable {
                                 e.setCustomNameVisible(alwaysVisible);
                             }
                         }
+                    }
+                }
+                for(Entity e : p.getNearbyEntities(30, 30, 30)){
+                    if(e.hasMetadata(GlobalValues.METATAG)) {
+                        sm.pluginSupport.getProtocolSupport().sendUpdatePacket(p, e);
                     }
                 }
             }

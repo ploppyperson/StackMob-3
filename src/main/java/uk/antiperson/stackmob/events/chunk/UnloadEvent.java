@@ -30,7 +30,9 @@ public class UnloadEvent implements Listener {
             // Add to cache
             if(currentEntity.hasMetadata(GlobalValues.METATAG)){
                 sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
-            }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) && currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
+            }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
+                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
+                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
                 sm.cache.amountCache.put(currentEntity.getUniqueId(), -1);
             }
         }

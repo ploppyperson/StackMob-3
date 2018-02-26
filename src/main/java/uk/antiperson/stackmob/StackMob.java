@@ -138,7 +138,11 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
         getCommand("sm").setExecutor(new Commands(this));
         new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
-        new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag-update"));
+        int tagUpdate = 5;
+        if(config.getCustomConfig().isInt("tag.interval")){
+            tagUpdate = config.getCustomConfig().getInt("tag.interval");
+        }
+        new TagTask(this).runTaskTimer(this, 0, tagUpdate);
     }
 
     private void registerNotEssentialEvents(){

@@ -32,8 +32,8 @@ public class LoadEvent implements Listener {
                     currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, cacheSize));
                 }
 
-                // Cleanup.
-                sm.cache.amountCache.remove(currentEntity.getUniqueId());
+                // Removing this would surely make the entities keep their data, if data is lost?
+                //sm.cache.amountCache.remove(currentEntity.getUniqueId());
             }
         }
     }

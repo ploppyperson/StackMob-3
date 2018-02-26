@@ -9,6 +9,8 @@ check-area:
 
 # Everything related to the tag seen above entities
 tag:
+    # The delay between updates of the name tag.
+    interval: 5
     # The formatting of the tag.
     # Placeholders:
     # %size% - Stack size.
@@ -16,8 +18,6 @@ tag:
     # %bukkit_type% - The entity type as bukkit calls it.
     # Normal Minecraft color codes are also supported, by using '&' before the letter/number.
     format: '&d%size%x &6%type%'
-    # Whether the tag above the entity should be seen at all times, or only when hovering over.
-    always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
     # Only update the tag when a player is near that entity.
@@ -43,8 +43,6 @@ custom:
 
 # The delay between each time the stacking task is ran (in ticks.)
 task-delay: 100
-# The time to update the Stacking tag
-tag-update: 5
 # The maximum size a single stack can be.
 stack-max: 20
 # If bigger stacks should get priority when stacking on the task.

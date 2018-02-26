@@ -24,7 +24,6 @@ public class ProtocolSupport{
         xLoc = sm.config.getCustomConfig().getDouble("tag.show-player-nearby.x");
     }
 
-
     public void sendUpdatePacket(Player player, Entity entity){
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         // Cloning the packet and getting the entity involved.

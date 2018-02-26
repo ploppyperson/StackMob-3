@@ -25,8 +25,6 @@ public class StackTask extends BukkitRunnable {
         double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
         double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
         double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
-
-
         int maxSize;
         // Worlds loop, and check that the world isn't blacklisted
         for(World world : Bukkit.getWorlds()){
@@ -49,6 +47,15 @@ public class StackTask extends BukkitRunnable {
                         sm.tools.notEnoughNearby(first);
                 }
                 // don't need a check because of the entity might have Not-enough-near
+                maxSize = sm.config.getCustomConfig().getInt("stack-max");
+                if(sm.config.getCustomConfig().isInt("custom." + first.getType() + ".stack-max")){
+                    maxSize = sm.config.getCustomConfig().getInt("custom." + first.getType() + ".stack-max");
+                }
+                if(first.hasMetadata(GlobalValues.METATAG) && first.getMetadata(GlobalValues.METATAG).size() == 0){
+                    if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
+                        continue;
+                    }
+                }
 
                 // Find nearby entities
                 for(Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)){
@@ -56,10 +63,6 @@ public class StackTask extends BukkitRunnable {
                     //Checks on nearby
                     if(first.getType() != nearby.getType()){
                         continue;
-                    }
-                    maxSize = sm.config.getCustomConfig().getInt("stack-max");
-                    if(sm.config.getCustomConfig().isInt("custom." + first.getType() + ".stack-max")){
-                        maxSize = sm.config.getCustomConfig().getInt("custom." + first.getType() + ".stack-max");
                     }
 
                     if(!nearby.hasMetadata(GlobalValues.METATAG) || nearby.getMetadata(GlobalValues.METATAG).size() == 0
