@@ -71,7 +71,9 @@ public class TagTask extends BukkitRunnable {
                 }
                 for(Entity e : p.getNearbyEntities(30, 30, 30)){
                     if(e.hasMetadata(GlobalValues.METATAG)) {
-                        sm.pluginSupport.getProtocolSupport().sendUpdatePacket(p, e);
+                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1) {
+                            sm.pluginSupport.getProtocolSupport().sendUpdatePacket(p, e);
+                        }
                     }
                 }
             }
