@@ -17,6 +17,8 @@ import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
+import java.time.LocalDate;
+
 /**
  * Created by nathat on 23/07/17.
  */
@@ -47,7 +49,7 @@ public class StackMob extends JavaPlugin {
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson/BaconPied");
+        getLogger().info("StackMob v" + GlobalValues.VERSION + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 

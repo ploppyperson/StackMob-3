@@ -18,6 +18,8 @@ tag:
     # %bukkit_type% - The entity type as bukkit calls it.
     # Normal Minecraft color codes are also supported, by using '&' before the letter/number.
     format: '&d%size%x &6%type%'
+    # If the tag should be seen when the entity is not hovered over.
+    always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
     # Only update the tag when a player is near that entity.
@@ -147,6 +149,9 @@ kill-step:
 # Only needed if kill-all OR kill-step is enabled above.
 multiply-drops:
     enabled: true
+    # The amount of entities that the loot should be dropped for in a stack.
+    # Useful if there is a high max-stack value, to prevent lag.
+    entity-limit: 50
     # Item types that should be duplicated.
     # A list of materials can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
     drops-whitelist:

@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.tools.extras;
 
+import java.time.LocalDate;
+
 /**
  * Created by nathat on 24/07/17.
  */
@@ -13,5 +15,11 @@ public class GlobalValues {
     public static final String NOT_ENOUGH_NEAR = "stackmob:csbneia";
     public static final String GITHUB = "https://www.github.com/Nathat23/StackMob-2";
     public static final String MCMMO_META = "mcMMO: Spawned Entity";
+    public static String VERSION = "2.2.8";
+    public GlobalValues(){
+        if(LocalDate.now().getDayOfYear() == 91){
+            VERSION = "69.69.69";
+        }
+    }
 
 }

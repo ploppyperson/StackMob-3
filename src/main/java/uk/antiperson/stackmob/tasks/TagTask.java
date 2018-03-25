@@ -80,6 +80,7 @@ public class TagTask extends BukkitRunnable {
         }
     }
 
+    // Blame 1.8
     private String toTitleCase(String givenString) {
         String[] arr = givenString.split(" ");
         StringBuilder sb = new StringBuilder();

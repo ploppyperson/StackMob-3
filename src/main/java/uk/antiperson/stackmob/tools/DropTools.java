@@ -24,6 +24,11 @@ public class DropTools {
                     .contains(itemStack.getType().toString())){
                 continue;
             }
+            if(sm.config.getCustomConfig().isInt("multiply-drops.entity-limit")){
+                if(multiplier > sm.config.getCustomConfig().getInt("multiply-drops.entity-limit")){
+                    multiplier = sm.config.getCustomConfig().getInt("multiply-drops.entity-limit");
+                }
+            }
             if(sm.config.getCustomConfig().getStringList("multiply-drops.drop-one-per")
                     .contains(itemStack.getType().toString())){
                 dropDrops(itemStack, multiplier, dropLocation);
