@@ -47,6 +47,11 @@ public class DeathEvent implements Listener {
                     if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
                         e.setDroppedExp((int) Math.round((1.25 + ThreadLocalRandom.current().nextDouble(0.75)) * (oldSize - 1) * e.getDroppedExp()));
                     }
+                    dead.removeMetadata(GlobalValues.METATAG, sm);
+                    dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
+                    dead.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
+                    dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
+                    dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
                     return;
                 }
             }
