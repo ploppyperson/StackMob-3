@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob.tasks;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -21,61 +20,59 @@ public class TagTask extends BukkitRunnable {
     }
 
     public void run() {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(p.getWorld().getName())) {
-                for(Entity e : p.getNearbyEntities(15, 15, 15)){
-                    if(!(e instanceof LivingEntity)){
-                        continue;
+        for (Entity e : sm.worldTools.getLoadedEntities()) {
+            if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
+                if(!(e instanceof LivingEntity)){
+                    continue;
+                }
+                if (e.hasMetadata(GlobalValues.METATAG)) {
+                    if (e.getMetadata(GlobalValues.METATAG).size() == 0) {
+                        e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }
-                    if (e.hasMetadata(GlobalValues.METATAG)) {
-                        if (e.getMetadata(GlobalValues.METATAG).size() == 0) {
-                            e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                    String typeString = e.getType().toString();
+
+                    int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
+                    if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
+                        removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
+                    }
+                    if (e.getMetadata(GlobalValues.METATAG).get(0).asInt() > removeAt) {
+                        String format = sm.config.getCustomConfig().getString("tag.format");
+                        if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
+                              format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
                         }
-                        String typeString = e.getType().toString();
 
-                        int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
-                        if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
-                            removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
+                        // Change if it is a mythic mob.
+                        if (sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(e)) {
+                            typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
+                        } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
+                            typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
-                        if (e.getMetadata(GlobalValues.METATAG).get(0).asInt() > removeAt) {
-                            String format = sm.config.getCustomConfig().getString("tag.format");
-                            if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
-                                format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
-                            }
 
-                            // Change if it is a mythic mob.
-                            if (sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(e)) {
-                                typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
-                            } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
-                                typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
-                            }
+                        String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
+                        String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
+                               .replace("%type%", formattedType)
+                               .replace("%bukkit_type%", e.getType().toString());
+                        String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
+                        if(!finalString.equals(e.getCustomName())){
+                             e.setCustomName(finalString);
+                        }
 
-                            String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
-                            String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
-                                    .replace("%type%", formattedType)
-                                    .replace("%bukkit_type%", e.getType().toString());
-                            String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
-                            if(!finalString.equals(e.getCustomName())){
-                                e.setCustomName(finalString);
-                            }
-
-                            if(!(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1)){
-                                boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
-                                if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
-                                    alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
+                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
+                            for(Entity entity : e.getNearbyEntities(30, 30, 30)){
+                                if(entity instanceof Player){
+                                    sm.pluginSupport.getProtocolSupport().sendUpdatePacket((Player) entity, e);
                                 }
-                                e.setCustomNameVisible(alwaysVisible);
                             }
+                        }else{
+                            boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
+                            if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
+                                alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
+                            }
+                            e.setCustomNameVisible(alwaysVisible);
                         }
                     }
                 }
-                for(Entity e : p.getNearbyEntities(30, 30, 30)){
-                    if(e.hasMetadata(GlobalValues.METATAG)) {
-                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1) {
-                            sm.pluginSupport.getProtocolSupport().sendUpdatePacket(p, e);
-                        }
-                    }
-                }
+
             }
         }
     }

@@ -158,7 +158,7 @@ public class EntityTools {
                         .contains(mm.getMythicMobInstance(newe).getType().getInternalName())){
                     return true;
                 }
-                return !mm.getMythicMobInstance(nearby).getType().getInternalName().equals(mm.getMythicMobInstance(newe).getType().getInternalName());
+                return !mm.getMythicMobInstance(nearby).getType().equals(mm.getMythicMobInstance(newe).getType());
             }
         }
 

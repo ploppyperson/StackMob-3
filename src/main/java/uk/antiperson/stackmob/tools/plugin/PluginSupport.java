@@ -30,12 +30,12 @@ public class PluginSupport {
 
     public void startup(){
         Plugin pl = Bukkit.getPluginManager().getPlugin("ProtocolLib");
-        if(pl != null && pl.isEnabled()){
+        if(pl != null){
             protocolSupport = new ProtocolSupport(sm);
         }
         Plugin pl2 = Bukkit.getPluginManager().getPlugin("MythicMobs");
         if(sm.config.getCustomConfig().getBoolean("mythicmobs.enabled")){
-            if(pl2 != null && pl2.isEnabled()){
+            if(pl2 != null){
                 mythicSupport = new MythicSupport(sm);
             }
         }
@@ -60,6 +60,7 @@ public class PluginSupport {
     }
 
     public MythicSupport getMythicSupport(){
+
         return mythicSupport;
     }
 

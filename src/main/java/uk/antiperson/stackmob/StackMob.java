@@ -11,6 +11,7 @@ import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.DropTools;
 import uk.antiperson.stackmob.tools.EntityTools;
 import uk.antiperson.stackmob.tools.UpdateChecker;
+import uk.antiperson.stackmob.tools.WorldTools;
 import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
@@ -30,6 +31,7 @@ public class StackMob extends JavaPlugin {
     public EntityTools tools = new EntityTools(this);
     public CacheFile cache = new CacheFile(this);
     public DropTools dropTools = new DropTools(this);
+    public WorldTools worldTools = new WorldTools();
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
@@ -49,7 +51,7 @@ public class StackMob extends JavaPlugin {
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMob v" + GlobalValues.VERSION + " created by antiPerson/BaconPied");
+        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson/BaconPied");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
