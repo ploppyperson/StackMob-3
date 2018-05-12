@@ -31,6 +31,7 @@ public class CacheFile extends ConfigLoader{
     }
 
     public void saveCache(){
+        f.delete();
         fc.options().header("This file should not be modified.");
         for(Map.Entry<UUID, Integer> entry: amountCache.entrySet()){
             fc.set(entry.getKey().toString(), entry.getValue());

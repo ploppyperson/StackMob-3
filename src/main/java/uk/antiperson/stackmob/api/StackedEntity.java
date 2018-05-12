@@ -74,7 +74,7 @@ public class StackedEntity {
     /**
      * Kills the entity, while only reducing the stack by one.
      */
-    public void killSingleNautually(){
+    public void killSingleNaturally(){
         entity.setMetadata(GlobalValues.KILL_ONE_OFF, new FixedMetadataValue(sm, true));
         ((LivingEntity) entity).setHealth(0);
     }
