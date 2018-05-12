@@ -28,7 +28,6 @@ public class CacheFile extends ConfigLoader{
         for(String key : fc.getKeys(false)){
             amountCache.put(UUID.fromString(key), fc.getInt(key));
         }
-        f.delete();
     }
 
     public void saveCache(){

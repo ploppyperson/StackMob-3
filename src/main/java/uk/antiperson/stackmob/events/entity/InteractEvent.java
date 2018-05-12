@@ -31,6 +31,9 @@ public class InteractEvent implements Listener {
         if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() == 1){
             return;
         }
+        if(!(entity instanceof Animals || entity instanceof Villager)){
+            return;
+        }
 
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getItemInHand(), entity) && ((Animals) entity).canBreed()){
@@ -79,18 +82,19 @@ public class InteractEvent implements Listener {
                     }.runTaskLater(sm, 20 * 20);
                 }
 
-            }else if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.name")){
-                if(entity.hasMetadata(GlobalValues.METATAG)){
-                    if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
-                        Entity dupe = sm.tools.duplicate(entity);
-                        dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
-                        dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                    }
-                    entity.removeMetadata(GlobalValues.METATAG, sm);
-                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+            }
+        }else if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.name")){
+            if(entity.hasMetadata(GlobalValues.METATAG)){
+                if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
+                    Entity dupe = sm.tools.duplicate(entity);
+                    dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+                    dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 }
+                entity.removeMetadata(GlobalValues.METATAG, sm);
+                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
             }
         }
+
     }
 
     // There should be a method in bukkit for this...
