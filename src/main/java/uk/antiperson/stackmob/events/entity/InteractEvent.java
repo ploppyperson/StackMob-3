@@ -99,7 +99,7 @@ public class InteractEvent implements Listener {
         if((entity instanceof Cow || entity instanceof Sheep) && is.getType() == Material.WHEAT){
             return true;
         }
-        if((entity instanceof Pig) && is.getType() == Material.CARROT_ITEM){
+        if((entity instanceof Pig) && (is.getType() == Material.CARROT_ITEM || (sm.getVersionId() >= 2 && (is.getType() == Material.BEETROOT || is.getType() == Material.POTATO_ITEM)))){
             return true;
         }
         if((entity instanceof Chicken) && is.getType().toString().contains("SEED")){
