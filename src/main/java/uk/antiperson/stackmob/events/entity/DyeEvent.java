@@ -22,6 +22,9 @@ public class DyeEvent implements Listener {
         if (!event.getEntity().hasMetadata(GlobalValues.METATAG)) {
             return;
         }
+        if(event.isCancelled()){
+            return;
+        }
         int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
         Entity oldEntity = event.getEntity();
 

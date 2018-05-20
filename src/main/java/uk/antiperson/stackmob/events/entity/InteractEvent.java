@@ -31,6 +31,9 @@ public class InteractEvent implements Listener {
         if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() == 1){
             return;
         }
+        if(event.isCancelled()){
+            return;
+        }
 
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getItemInHand(), entity) && ((Animals) entity).canBreed()){

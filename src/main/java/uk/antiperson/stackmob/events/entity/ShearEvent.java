@@ -30,6 +30,9 @@ public class ShearEvent implements Listener {
         if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() <= 1){
             return;
         }
+        if(event.isCancelled()){
+            return;
+        }
 
         Entity oldEntity = event.getEntity();
         int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
