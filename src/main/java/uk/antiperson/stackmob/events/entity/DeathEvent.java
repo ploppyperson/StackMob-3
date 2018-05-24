@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.events.entity;
 
+import me.healpotion.stackmob.events.StackKilledEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -44,6 +46,7 @@ public class DeathEvent implements Listener {
                     if (!sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
                             .contains(dead.getType().toString())) {
                         // Do it
+                        Bukkit.getServer().getPluginManager().callEvent(new StackKilledEvent(e.getEntity().getKiller(),e.getEntity().getType(), oldSize));
                         multiplication(e.getEntity(), e.getDrops(), oldSize - 1, e.getDroppedExp());
                         if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
                             e.setDroppedExp((int) Math.round((1.25 + ThreadLocalRandom.current().nextDouble(0.75)) * (oldSize - 1) * e.getDroppedExp()));
