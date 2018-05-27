@@ -60,9 +60,9 @@ public class StackMob extends JavaPlugin {
         if(getVersionId() == 0){
             getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
             getLogger().warning("The features of this version are not supported, so some issues may occur!");
-        }else if(getVersionId() == 6){
-            getLogger().info("Minecraft 1.13 is not currently supported completely.");
-            getLogger().info("Report any issues on the GitHub issues tracker.");
+        }else if(getVersionId() == 7){
+            getLogger().info("Minecraft 1.13 is not currently supported.");
+            getLogger().info("Issues may occur, so it is recommended that you update StackMob as soon as possible.");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
@@ -126,8 +126,10 @@ public class StackMob extends JavaPlugin {
             versionId = 4;
         }else if(Bukkit.getVersion().contains("1.12")){
             versionId = 5;
-        }else if(Bukkit.getVersion().contains("1.13")){
+        }else if(Bukkit.getVersion().contains("1.12.2")){
             versionId = 6;
+        }else if(Bukkit.getVersion().contains("1.13")){
+            versionId = 7;
         }
     }
 

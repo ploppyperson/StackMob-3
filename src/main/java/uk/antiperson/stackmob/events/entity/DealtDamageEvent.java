@@ -14,7 +14,7 @@ public class DealtDamageEvent implements Listener {
         if(event.getEntity() instanceof Player){
             if(event.getDamager().hasMetadata(GlobalValues.METATAG)){
                 int stackSize = event.getDamager().getMetadata(GlobalValues.METATAG).get(0).asInt();
-                double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.25);
+                double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.1);
                 event.setDamage(extraDamage);
             }
         }

@@ -4,7 +4,7 @@ author: antiPerson/BaconPied
 main: uk.antiperson.stackmob.StackMob
 website: https://www.spigotmc.org/resources/stackmob.29999/
 softdepend: [MythicMobs, MiniaturePets, ProtocolLib, WorldGuard]
-description: The only mob-stacking plugin that you will never need.
+description: The only mob-stacking plugin that you will ever need.
 load: STARTUP
 commands:
     sm:
