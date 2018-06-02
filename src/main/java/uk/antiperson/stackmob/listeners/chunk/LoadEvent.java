@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.events.chunk;
+package uk.antiperson.stackmob.listeners.chunk;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;

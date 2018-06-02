@@ -62,6 +62,11 @@ public class EntityTools {
                 if (((Villager) newe).getProfession() != ((Villager) nearby).getProfession()) {
                     return true;
                 }
+                if(sm.getVersionId() >= 6){
+                    if(((Villager) newe).getCareer() != ((Villager) nearby).getCareer()){
+                        return true;
+                    }
+                }
             }
         }
         if (newe instanceof Sheep) {
@@ -200,6 +205,9 @@ public class EntityTools {
         if (dupe instanceof Villager) {
             if (sm.config.getCustomConfig().getBoolean("compare.villager-profession")) {
                 ((Villager) dupe).setProfession(((Villager) original).getProfession());
+                if(sm.getVersionId() >= 6){
+                    ((Villager) dupe).setCareer(((Villager) original).getCareer());
+                }
             }
         }
 

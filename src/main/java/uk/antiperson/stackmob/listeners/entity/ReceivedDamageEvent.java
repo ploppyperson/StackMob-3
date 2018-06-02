@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.events.entity;
+package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +19,7 @@ public class ReceivedDamageEvent implements Listener {
         if(!sm.config.getCustomConfig().getStringList("multiply-damage-received.cause-blacklist").contains(event.getCause().toString())) {
             if (event.getEntity().hasMetadata(GlobalValues.METATAG)) {
                 int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
-                double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.25);
+                double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.15);
                 event.setDamage(extraDamage);
             }
         }

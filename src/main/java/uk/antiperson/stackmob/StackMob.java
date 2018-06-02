@@ -3,9 +3,9 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.events.chunk.LoadEvent;
-import uk.antiperson.stackmob.events.chunk.UnloadEvent;
-import uk.antiperson.stackmob.events.entity.*;
+import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
+import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
+import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.DropTools;
@@ -17,8 +17,6 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
-
-import java.time.LocalDate;
 
 /**
  * Created by nathat on 23/07/17.
@@ -60,9 +58,9 @@ public class StackMob extends JavaPlugin {
         if(getVersionId() == 0){
             getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
             getLogger().warning("The features of this version are not supported, so some issues may occur!");
-        }else if(getVersionId() == 6){
-            getLogger().info("Minecraft 1.13 is not currently supported completely.");
-            getLogger().info("Report any issues on the GitHub issues tracker.");
+        }else if(getVersionId() == 7){
+            getLogger().info("Minecraft 1.13 is not currently supported.");
+            getLogger().info("Issues may occur, so it is recommended that you update StackMob as soon as possible.");
         }
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
@@ -91,8 +89,8 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Loading cached entities...");
         cache.loadCache();
 
-        // Essential events/tasks that are needed for the plugin to function correctly.
-        getLogger().info("Registering events...");
+        // Essential listeners/tasks that are needed for the plugin to function correctly.
+        getLogger().info("Registering listeners...");
         registerEssentialEvents();
 
         // Events that are not required for the plugin to function, however they make a better experience.
@@ -126,8 +124,10 @@ public class StackMob extends JavaPlugin {
             versionId = 4;
         }else if(Bukkit.getVersion().contains("1.12")){
             versionId = 5;
-        }else if(Bukkit.getVersion().contains("1.13")){
+        }else if(Bukkit.getVersion().contains("1.12.2")){
             versionId = 6;
+        }else if(Bukkit.getVersion().contains("1.13")){
+            versionId = 7;
         }
     }
 

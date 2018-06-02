@@ -1,9 +1,8 @@
-package uk.antiperson.stackmob.events.entity;
+package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class ExplodeEvent implements Listener {
@@ -12,7 +11,7 @@ public class ExplodeEvent implements Listener {
     public void onExplode(EntityExplodeEvent event){
         if(event.getEntity().hasMetadata(GlobalValues.METATAG)){
             int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
-            event.setYield(stackSize * 2);
+            event.setYield(event.getYield() + (event.getYield() * (stackSize - 1) * 0.5f));
         }
     }
 }

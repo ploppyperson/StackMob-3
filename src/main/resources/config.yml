@@ -142,7 +142,7 @@ kill-step:
     type-blacklist:
         - ''
     # The maximum amount by which the stack should decrease by.
-    # Setting this to 0 will cause errors!
+    # Setting this to less than 2 will cause errors! If you want entities to be killed on a one-by-one basis, disable kill-all and kill-step.
     max-step: 5
 
 # Multiply the amount of drops depending on the size of the stack killed.
