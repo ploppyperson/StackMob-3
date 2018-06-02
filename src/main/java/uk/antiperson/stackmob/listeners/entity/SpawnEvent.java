@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.events.entity;
+package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;

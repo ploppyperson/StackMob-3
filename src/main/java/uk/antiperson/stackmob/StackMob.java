@@ -3,9 +3,9 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.events.chunk.LoadEvent;
-import uk.antiperson.stackmob.events.chunk.UnloadEvent;
-import uk.antiperson.stackmob.events.entity.*;
+import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
+import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
+import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.DropTools;
@@ -17,8 +17,6 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
-
-import java.time.LocalDate;
 
 /**
  * Created by nathat on 23/07/17.
@@ -91,8 +89,8 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Loading cached entities...");
         cache.loadCache();
 
-        // Essential events/tasks that are needed for the plugin to function correctly.
-        getLogger().info("Registering events...");
+        // Essential listeners/tasks that are needed for the plugin to function correctly.
+        getLogger().info("Registering listeners...");
         registerEssentialEvents();
 
         // Events that are not required for the plugin to function, however they make a better experience.
