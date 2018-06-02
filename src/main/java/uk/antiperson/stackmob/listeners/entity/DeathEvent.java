@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.listeners.entity;
 
+import me.healpotion.stackmob.events.StackKilledEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
@@ -71,6 +73,8 @@ public class DeathEvent implements Listener {
             Entity newe = sm.tools.duplicate(dead);
             newe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize - subtractAmount));
             newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+            // API event fired.
+            Bukkit.getServer().getPluginManager().callEvent(new StackKilledEvent(e.getEntity().getKiller(),e.getEntity().getType(), subtractAmount));
         }
         dead.removeMetadata(GlobalValues.METATAG, sm);
         dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);

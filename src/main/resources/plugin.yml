@@ -1,6 +1,7 @@
 name: StackMob
 version: 2.2.10
 author: antiPerson/BaconPied
+authors: [antiPerson, HealPotion]
 main: uk.antiperson.stackmob.StackMob
 website: https://www.spigotmc.org/resources/stackmob.29999/
 softdepend: [MythicMobs, MiniaturePets, ProtocolLib, WorldGuard]
