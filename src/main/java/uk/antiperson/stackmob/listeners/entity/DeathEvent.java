@@ -14,7 +14,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.io.Console;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -83,7 +82,7 @@ public class DeathEvent implements Listener {
         }
         if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
         	double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
-            ((ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB)).setExperience((int)newExperience);
+            ((ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB)).setExperience((int) Math.round(newExperience));
         }
     }
 
