@@ -191,10 +191,13 @@ public class EntityTools {
         Location dupeLoc;
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
             dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
-        }else {
+        }else if (original.getType() == EntityType.PIG_ZOMBIE || original.getType() == EntityType.ZOMBIE_VILLAGER || original.getType() == EntityType.ZOMBIE){
         	// will spawn the dupe in the middle of the block the original died in, prevents mobs from glitching through walls due to "safe spawn errors"
         	dupeLoc = new Location(original.getWorld(), original.getLocation().getBlockX()+0.5, original.getLocation().getY(), original.getLocation().getBlockZ()+0.5);
-            dupe = original.getWorld().spawnEntity(dupeLoc, original.getType());	
+            dupe = original.getWorld().spawnEntity(dupeLoc, original.getType());
+        }
+        else{
+        	dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
         }
         return cloneTraits(original, dupe);
     }
