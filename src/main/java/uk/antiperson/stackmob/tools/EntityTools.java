@@ -1,10 +1,13 @@
 package uk.antiperson.stackmob.tools;
 
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
+
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -185,10 +188,16 @@ public class EntityTools {
 
     public Entity duplicate(Entity original){
         Entity dupe;
+        Location dupeLoc;
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
             dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
-        }else {
-            dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
+        }else if (original.getType() == EntityType.PIG_ZOMBIE || original.getType() == EntityType.ZOMBIE_VILLAGER || original.getType() == EntityType.ZOMBIE){
+        	// will spawn the dupe in the middle of the block the original died in, prevents mobs from glitching through walls due to "safe spawn errors"
+        	dupeLoc = new Location(original.getWorld(), original.getLocation().getBlockX()+0.5, original.getLocation().getY(), original.getLocation().getBlockZ()+0.5);
+            dupe = original.getWorld().spawnEntity(dupeLoc, original.getType());
+        }
+        else{
+        	dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
         }
         return cloneTraits(original, dupe);
     }

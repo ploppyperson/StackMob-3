@@ -200,6 +200,7 @@ multiply-drops:
 
 # Multiplies the experience dropped on kill-all/kill-step.
 multiply-exp-enabled: true
+multiply-exp-scaling: 1
 
 # Multiplies the damage that an entity gives to the player.
 multiply-damage-done: true

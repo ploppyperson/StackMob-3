@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -42,9 +43,9 @@ public class DeathEvent implements Listener {
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
                 if (!sm.config.getCustomConfig().getStringList("kill-all.reason-blacklist")
-                        .contains(dead.getLastDamageCause().getCause().toString())) {
+                        .contains(dead.getLastDamageCause().getCause().toString())){
                     if (!sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
-                            .contains(dead.getType().toString())) {
+                            .contains(dead.getType().toString())){
                         // Do it
                         multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
                         finished(oldSize, oldSize, dead);
@@ -80,8 +81,8 @@ public class DeathEvent implements Listener {
             }
         }
         if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
-            int newExperience = (int) Math.round(originalExperience * (subtractAmount - 1) * (0.75 + ThreadLocalRandom.current().nextDouble(0.5)));
-            ((ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB)).setExperience(newExperience);
+        	double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
+            ((ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB)).setExperience((int) Math.round(newExperience));
         }
     }
 
