@@ -8,10 +8,7 @@ import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
-import uk.antiperson.stackmob.tools.DropTools;
-import uk.antiperson.stackmob.tools.EntityTools;
-import uk.antiperson.stackmob.tools.UpdateChecker;
-import uk.antiperson.stackmob.tools.WorldTools;
+import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
@@ -30,6 +27,7 @@ public class StackMob extends JavaPlugin {
     public CacheFile cache = new CacheFile(this);
     public DropTools dropTools = new DropTools(this);
     public WorldTools worldTools = new WorldTools();
+    public ExperienceTools expTools = new ExperienceTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
 

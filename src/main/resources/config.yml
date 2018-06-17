@@ -10,7 +10,7 @@ check-area:
 # Everything related to the tag seen above entities
 tag:
     # The delay between updates of the name tag.
-    interval: 5
+    interval: 10
     # The formatting of the tag.
     # Placeholders:
     # %size% - Stack size.
@@ -24,7 +24,7 @@ tag:
     remove-at: 1
     # Only update the tag when a player is near that entity.
     update-nearby: true
-    # Only show the name tag if the player is near the entity. (requires ProtocolLib)
+    # Only show the name tag if the player is near the entity. (requires ProtocolLib and Bukkit 1.9 or above)
     show-player-nearby:
         enabled: true
         # Only display the tag to the player if the player is in this area of the entity.
@@ -146,7 +146,7 @@ kill-step:
     max-step: 5
 
 # Multiply the amount of drops depending on the size of the stack killed.
-# Only needed if kill-all OR kill-step is enabled above.
+# Only required if kill-all OR kill-step is enabled above.
 multiply-drops:
     enabled: true
     # The amount of entities that the loot should be dropped for in a stack.
@@ -199,8 +199,18 @@ multiply-drops:
         - TOTEM
 
 # Multiplies the experience dropped on kill-all/kill-step.
-multiply-exp-enabled: true
-multiply-exp-scaling: 1
+multiply-exp:
+    enabled: true
+    # Algorithms that should be used for multiplying experience.
+    # LEGACY - algorithm used in StackMob v2.2.9 and older
+    # MINIMAL - only add a small amount of extra experience.
+    # NORMAL - the default amount of extra experience.
+    # GENEROUS - adds a significant amount of extra expierence.
+    # CUSTOM - use a custom multiplier for the extra experience.
+    # CUSTOM_RANDOM - same as CUSTOM but makes multiplier a bit random.
+    algorithm: NORMAL
+    # Used when the CUSTOM or CUSTOM_RANDOM mode is used above.
+    custom-multiplier: 1.0
 
 # Multiplies the damage that an entity gives to the player.
 multiply-damage-done: true
@@ -235,4 +245,5 @@ mythicmobs:
        - ''
 
 # If WorldGuard is installed, enable support for it.
+# Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
