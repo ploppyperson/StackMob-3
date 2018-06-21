@@ -80,7 +80,7 @@ public class DeathEvent implements Listener {
                 sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), null);
             }
         }
-        if(sm.config.getCustomConfig().getBoolean("multiply-exp-enabled")){
+        if(sm.config.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
             ExperienceOrb exp = (ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB);
             exp.setExperience(sm.expTools.multiplyExperience(originalExperience, subtractAmount));

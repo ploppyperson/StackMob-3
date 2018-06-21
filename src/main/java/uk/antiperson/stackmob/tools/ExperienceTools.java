@@ -12,7 +12,7 @@ public class ExperienceTools {
     public ExperienceTools(StackMob sm){
         this.sm = sm;
     }
-    
+
     public int multiplyExperience(int originalExperience, int entityAmount){
         int newExperience;
         if(sm.config.getCustomConfig().isDouble("multiply-exp.custom-multiplier")) {
