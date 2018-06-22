@@ -4,8 +4,10 @@ import io.lumine.xikage.mythicmobs.mobs.MobManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
@@ -25,14 +27,14 @@ public class EntityTools {
     }
 
     // Compares the differences between two entities
-    // newe and nearby are ALWAYS the same entity type!
-    public boolean notMatching(Entity newe, Entity nearby) {
+    // firstEntity and nearby are ALWAYS the same entity type!
+    public boolean notMatching(Entity firstEntity, Entity nearby) {
         // Just checking if the entity is dead or not, just to be sure.
         if(nearby.isDead()){
             return true;
         }
 
-        if(newe.hasMetadata(GlobalValues.NO_STACK_ALL) && newe.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(firstEntity.hasMetadata(GlobalValues.NO_STACK_ALL) && firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
@@ -41,7 +43,7 @@ public class EntityTools {
         }
 
         if(sm.pluginSupport.isWorldGuardEnabled() && sm.config.getCustomConfig().getBoolean("worldguard-support")){
-            if(!sm.pluginSupport.getWorldGuard().checkCanStack(newe.getLocation())){
+            if(!sm.pluginSupport.getWorldGuard().checkCanStack(firstEntity.getLocation())){
                 return true;
             }
         }
@@ -58,96 +60,97 @@ public class EntityTools {
             if (sm.config.getCustomConfig().getBoolean("check.leashed")) {
                 return true;
             }
+
         }
         // Checks on both entities
-        if (newe instanceof Villager) {
+        if (firstEntity instanceof Villager) {
             if (sm.config.getCustomConfig().getBoolean("compare.villager-profession")) {
-                if (((Villager) newe).getProfession() != ((Villager) nearby).getProfession()) {
+                if (((Villager) firstEntity).getProfession() != ((Villager) nearby).getProfession()) {
                     return true;
                 }
                 if(sm.getVersionId() >= 6){
-                    if(((Villager) newe).getCareer() != ((Villager) nearby).getCareer()){
+                    if(((Villager) firstEntity).getCareer() != ((Villager) nearby).getCareer()){
                         return true;
                     }
                 }
             }
         }
-        if (newe instanceof Sheep) {
+        if (firstEntity instanceof Sheep) {
             if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-sheared")) {
-                if (((Sheep) newe).isSheared() != ((Sheep) nearby).isSheared()) {
+                if (((Sheep) firstEntity).isSheared() != ((Sheep) nearby).isSheared()) {
                     return true;
                 }
             }
             if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-color")) {
-                if (((Sheep) newe).getColor() != ((Sheep) nearby).getColor()) {
+                if (((Sheep) firstEntity).getColor() != ((Sheep) nearby).getColor()) {
                     return true;
                 }
             }
         }
-        if (newe instanceof Slime) {
+        if (firstEntity instanceof Slime) {
             if (sm.config.getCustomConfig().getBoolean("compare.slime-size")) {
-                if (((Slime) newe).getSize() != ((Slime) nearby).getSize()) {
+                if (((Slime) firstEntity).getSize() != ((Slime) nearby).getSize()) {
                     return true;
                 }
             }
         }
-        if (newe instanceof Ageable) {
+        if (firstEntity instanceof Ageable) {
             if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-                if (((Ageable) newe).isAdult() != ((Ageable) nearby).isAdult()) {
+                if (((Ageable) firstEntity).isAdult() != ((Ageable) nearby).isAdult()) {
                     return true;
                 }
             }
         }
-        if (newe instanceof Zombie) {
+        if (firstEntity instanceof Zombie) {
             if (sm.config.getCustomConfig().getBoolean("compare.zombie-is-villager") && sm.getVersionId() == 1) {
-                if (((Zombie) newe).isVillager() != ((Zombie) nearby).isVillager()) {
+                if (((Zombie) firstEntity).isVillager() != ((Zombie) nearby).isVillager()) {
                     return true;
                 }
             }
             if (sm.config.getCustomConfig().getBoolean("compare.zombie-villager-profession") && sm.getVersionId() <= 3  && sm.getVersionId() > 1) {
-                if (((Zombie) newe).getVillagerProfession() != ((Zombie) nearby).getVillagerProfession()) {
+                if (((Zombie) firstEntity).getVillagerProfession() != ((Zombie) nearby).getVillagerProfession()) {
                     return true;
                 }
             }
             if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-                if (((Zombie) newe).isBaby() != ((Zombie) nearby).isBaby()) {
+                if (((Zombie) firstEntity).isBaby() != ((Zombie) nearby).isBaby()) {
                     return true;
                 }
             }
         }
-        if (newe instanceof Skeleton) {
+        if (firstEntity instanceof Skeleton) {
             if (sm.config.getCustomConfig().getBoolean("compare.skeleton-type") && sm.getVersionId() <= 3) {
-                if (((Skeleton) newe).getSkeletonType() != ((Skeleton) nearby).getSkeletonType()) {
+                if (((Skeleton) firstEntity).getSkeletonType() != ((Skeleton) nearby).getSkeletonType()) {
                     return true;
                 }
             }
         }
-        if(newe instanceof Animals){
+        if(firstEntity instanceof Animals){
             if (sm.config.getCustomConfig().getBoolean("compare.can-breed")){
-                if (((Animals) newe).canBreed() != ((Animals) nearby).canBreed()) {
+                if (((Animals) firstEntity).canBreed() != ((Animals) nearby).canBreed()) {
                     return true;
                 }
             }
         }
-        if(newe instanceof Horse){
+        if(firstEntity instanceof Horse){
             if(sm.config.getCustomConfig().getBoolean("compare.horse-color")){
-                if(((Horse)newe).getColor() != ((Horse) nearby).getColor()){
+                if(((Horse)firstEntity).getColor() != ((Horse) nearby).getColor()){
                     return true;
                 }
             }
         }
         if(sm.getVersionId() >= 4){
-            if(newe instanceof Llama){
+            if(firstEntity instanceof Llama){
                 if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
-                    if (((Llama) newe).getColor() != ((Llama) nearby).getColor()) {
+                    if (((Llama) firstEntity).getColor() != ((Llama) nearby).getColor()) {
                         return true;
                     }
                 }
             }
             if(sm.getVersionId() >= 5) {
-                if (newe instanceof Parrot) {
+                if (firstEntity instanceof Parrot) {
                     if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                        if (((Parrot) newe).getVariant() != ((Parrot) nearby).getVariant()) {
+                        if (((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant()) {
                             return true;
                         }
                     }
@@ -157,21 +160,32 @@ public class EntityTools {
 
         if(sm.pluginSupport.getMythicSupport() != null){
             MobManager mm = sm.pluginSupport.getMythicSupport().getMythicMobs();
-            if(mm.isActiveMob(nearby.getUniqueId()) && mm.isActiveMob(newe.getUniqueId())){
+            if(mm.isActiveMob(nearby.getUniqueId()) && mm.isActiveMob(firstEntity.getUniqueId())){
                 if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
                         .contains(mm.getMythicMobInstance(nearby).getType().getInternalName())){
                     return true;
                 }
                 if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
-                        .contains(mm.getMythicMobInstance(newe).getType().getInternalName())){
+                        .contains(mm.getMythicMobInstance(firstEntity).getType().getInternalName())){
                     return true;
                 }
-                return !mm.getMythicMobInstance(nearby).getType().equals(mm.getMythicMobInstance(newe).getType());
+                return !mm.getMythicMobInstance(nearby).getType().equals(mm.getMythicMobInstance(firstEntity).getType());
             }
         }
 
 
         return false;
+    }
+
+    public void onceStacked(Entity firstEntity, Entity nearby){
+        if(((LivingEntity)firstEntity).isLeashed()){
+            ItemStack leash = new ItemStack(Material.LEASH, 1);
+            firstEntity.getWorld().dropItemNaturally(firstEntity.getLocation(), leash);
+        }else if(((LivingEntity)nearby).isLeashed()){
+            ItemStack leash = new ItemStack(Material.LEASH, 1);
+            nearby.getWorld().dropItemNaturally(nearby.getLocation(), leash);
+        }
+
     }
 
     public Entity duplicate(Entity original, boolean slightMovement){

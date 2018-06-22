@@ -94,6 +94,8 @@ public class StackTask extends BukkitRunnable {
                         first = holder;
                     }
 
+                    sm.tools.onceStacked(first, nearby);
+
                     // Continue to stack together
                     int amountTotal = nearbySize + firstSize;
                     if(amountTotal > maxSize){
