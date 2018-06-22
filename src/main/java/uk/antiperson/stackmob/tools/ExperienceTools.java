@@ -20,17 +20,17 @@ public class ExperienceTools {
             if(algorithm == LEGACY) {
                 newExperience = (int) Math.round((1.45 + ThreadLocalRandom.current().nextDouble(0.75)) * (entityAmount - 1) * originalExperience);
             }else if(algorithm == MINIMAL) {
-                newExperience = (int) Math.round(originalExperience + (((0.25 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
+                newExperience = (int) Math.round(originalExperience + (originalExperience * ((0.25 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
             }else if(algorithm == NORMAL) {
-                newExperience = (int) Math.round(originalExperience + (((0.75 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
+                newExperience = (int) Math.round(originalExperience + (originalExperience * ((0.75 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
             }else if(algorithm == GENEROUS) {
-                newExperience = (int) Math.round(originalExperience + (((1.25 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
+                newExperience = (int) Math.round(originalExperience + (originalExperience * ((1.25 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
             }else if(algorithm == CUSTOM) {
                 double customMultiplier = sm.config.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
-                newExperience = (int) Math.round(originalExperience + ((customMultiplier * entityAmount)));
+                newExperience = (int) Math.round(originalExperience + (originalExperience * (customMultiplier * entityAmount)));
             }else{
                 double customMultiplier = sm.config.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
-                newExperience = (int) Math.round(originalExperience + ((customMultiplier + ThreadLocalRandom.current().nextDouble(0.5) * entityAmount)));
+                newExperience = (int) Math.round(originalExperience + (originalExperience * (customMultiplier + ThreadLocalRandom.current().nextDouble(0.5) * entityAmount)));
             }
         }else{
             newExperience = (int) Math.round(originalExperience + (((0.75 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount)));
