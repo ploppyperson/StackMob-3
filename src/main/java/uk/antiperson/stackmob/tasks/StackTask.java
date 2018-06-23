@@ -52,9 +52,10 @@ public class StackTask extends BukkitRunnable {
                     maxSize = sm.config.getCustomConfig().getInt("custom." + first.getType() + ".stack-max");
                 }
                 if(first.hasMetadata(GlobalValues.METATAG) && first.getMetadata(GlobalValues.METATAG).size() == 0){
-                    if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
-                        continue;
-                    }
+                    continue;
+                }
+                if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
+                    continue;
                 }
 
                 // Find nearby entities
