@@ -314,15 +314,8 @@ public class EntityTools {
             return true;
         }
 
-        if(!(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) || e.hasMetadata(GlobalValues.METATAG))){
-            return true;
-        }
+        return !(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) || e.hasMetadata(GlobalValues.METATAG));
 
-        if(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)){
-            return e.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() == 0;
-        }
-
-        return false;
     }
 
     public boolean notEnoughNearby(Entity original){
@@ -346,12 +339,13 @@ public class EntityTools {
             }
             if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
                 for(UUID uuid : entities){
-                    if(getEntity(uuid) == null){
+                    Entity nearby = getEntity(uuid);
+                    if(nearby == null){
                         entities.remove(uuid);
                         return true;
                     }else{
-                        getEntity(uuid).setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
-                        getEntity(uuid).setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                        nearby.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
+                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }
                 }
             }else{

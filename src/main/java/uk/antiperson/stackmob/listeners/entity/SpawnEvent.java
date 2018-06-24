@@ -57,40 +57,38 @@ public class SpawnEvent implements Listener {
                double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
                double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
                double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
-               boolean noMatch = true;
+               //boolean wasMatchButTooBig = false;
 
                for(Entity nearby : newEntity.getNearbyEntities(xLoc, yLoc, zLoc)){
                    // EntityTools on both entities
                    if(newEntity.getType() != nearby.getType()){
                        continue;
                    }
-                   if(!nearby.hasMetadata(GlobalValues.METATAG)){
-                       continue;
-                   }
-                   if(sm.tools.notMatching(newEntity, nearby)){
-                       continue;
-                   }else{
-                       noMatch = false;
-                   }
-                   if(sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")){
-                       if(nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() + 1 > sm.config.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max")){
+                   if(nearby.hasMetadata(GlobalValues.METATAG)) {
+                       if (sm.tools.notMatching(newEntity, nearby)) {
                            continue;
                        }
-                   }else {
-                       if (nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() + 1 > sm.config.getCustomConfig().getInt("stack-max")) {
+
+                       int newSize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() + 1;
+                       int maxSize = sm.config.getCustomConfig().getInt("stack-max");
+                       if (sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")) {
+                           maxSize =  sm.config.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
+                       }
+                       if (newSize > maxSize) {
+                           //wasMatchButTooBig = true;
                            continue;
                        }
+
+
+                       // Continue to stack, if match is found
+                       nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, newSize));
+                       newEntity.remove();
+                       return;
                    }
-
-                   // Continue to stack, if match is found
-                   newEntity.remove();
-                   int oldSize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                   nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize + 1));
-
-                   return;
                }
 
-               if(sm.config.getCustomConfig().getInt("dont-stack-until") > 0 && noMatch){
+               // A match was not found, so we will set the appropriate metadata.
+               if(sm.config.getCustomConfig().getInt("dont-stack-until") > 0 /*&& !wasMatchButTooBig*/){
                    if(sm.tools.notEnoughNearby(newEntity)){
                        newEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
                    }
