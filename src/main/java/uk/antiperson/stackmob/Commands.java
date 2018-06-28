@@ -113,12 +113,6 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(pluginTag + errorTag +
                             "Incorrect command parameters!");
                 }
-            }else{
-                if(args[0].equalsIgnoreCase("nick")){
-                    sender.sendMessage("england is my city");
-                }else{
-                    sender.sendMessage(noPerm);
-                }
             }
         }else if(args.length == 2){
             if(args[0].equalsIgnoreCase("remove")){
