@@ -69,9 +69,12 @@ public class EntityTools {
                     return true;
                 }
                 if(sm.getVersionId() >= 6){
-                    if(((Villager) firstEntity).getCareer() == 0 || ((Villager) nearby).getCareer() == 0) {
-                        return true;
-                    }else if(!((Villager) firstEntity).getCareer().equals(((Villager) nearby).getCareer())){
+                    try
+                    {
+                        if(!((Villager) firstEntity).getCareer().equals(((Villager) nearby).getCareer())){
+                            return true
+                        }
+                    }catch(IllegalArgumentException e){
                         return true;
                     }
                 }
