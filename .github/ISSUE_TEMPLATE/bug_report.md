@@ -16,7 +16,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots/Videos**
 If applicable, add screenshots to help explain your problem.
 
-**Bukkit/Spigot version:**
+**Bukkit/Spigot AND StackMob version:**
 Self explanatory.
 
 **Additional context**
