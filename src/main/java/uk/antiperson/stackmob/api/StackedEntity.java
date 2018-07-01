@@ -1,9 +1,7 @@
 package uk.antiperson.stackmob.api;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
@@ -72,10 +70,9 @@ public class StackedEntity {
     }
 
     /**
-     * Kills the entity, while only reducing the stack by one.
+     * Adds metadata so when the entity is killed, only one is removed from the stack.
      */
-    public void killSingleNaturally(){
+    public void setSingleDeath(){
         entity.setMetadata(GlobalValues.KILL_ONE_OFF, new FixedMetadataValue(sm, true));
-        ((LivingEntity) entity).setHealth(0);
     }
 }
