@@ -53,7 +53,7 @@ public class StackTask extends BukkitRunnable {
                 }
 
                 // If the first entity has metatag, check if it is maxSize to save performance
-                if(first.hasMetadata(GlobalValues.METATAG) && first.getMetadata(GlobalValues.METATAG).size() == 0){
+                if(first.hasMetadata(GlobalValues.METATAG) && first.getMetadata(GlobalValues.METATAG).size() != 0){
                     if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }
