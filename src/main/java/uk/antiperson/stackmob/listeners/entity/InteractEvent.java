@@ -84,7 +84,7 @@ public class InteractEvent implements Listener {
                 return;
             }
         }
-        if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.name")){
+        if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && event.getPlayer().getItemInHand().getItemMeta().hasDisplayName() && sm.config.getCustomConfig().getBoolean("divide-on.name")){
             if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
                 Entity dupe = sm.tools.duplicate(entity);
                 dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
