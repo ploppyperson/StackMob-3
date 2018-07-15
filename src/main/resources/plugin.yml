@@ -1,10 +1,11 @@
 name: StackMob
-version: 2.2.13
+version: 2.2.14
 author: antiPerson/BaconPied
 main: uk.antiperson.stackmob.StackMob
 website: https://www.spigotmc.org/resources/stackmob.29999/
 softdepend: [MythicMobs, MiniaturePets, ProtocolLib, WorldGuard]
 description: The only mob-stacking plugin that you will ever need.
+api-version: 1.13
 load: STARTUP
 commands:
     sm:

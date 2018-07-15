@@ -43,9 +43,9 @@ public class ShearEvent implements Listener {
                 Wool wool = new Wool(oldSheep.getColor());
                 sm.dropTools.dropDrops(wool.toItemStack(1), sm.dropTools.calculateAmount(stackSize), oldEntity.getLocation());
 
-                ItemStack item = event.getPlayer().getItemInHand();
+                ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
                 item.setDurability((short) (item.getDurability() + stackSize));
-                event.getPlayer().setItemInHand(item);
+                event.getPlayer().getInventory().setItemInMainHand(item);
 
             }else if(sm.config.getCustomConfig().getBoolean("divide-on.sheep-shear")){
                 Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity, true);
@@ -69,9 +69,9 @@ public class ShearEvent implements Listener {
                 cow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
                 cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 // Set the required damage as if done separately
-                ItemStack item = event.getPlayer().getItemInHand();
+                ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
                 item.setDurability((short) (item.getDurability() + stackSize));
-                event.getPlayer().setItemInHand(item);
+                event.getPlayer().getInventory().setItemInMainHand(item);
             }else if (sm.config.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
                 mushroomCow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));

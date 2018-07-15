@@ -75,7 +75,7 @@ public class DeathEvent implements Listener {
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.config.getCustomConfig().getBoolean("multiply-drops.enabled")){
             if(dead.getKiller() != null){
-                sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), dead.getKiller().getItemInHand());
+                sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), dead.getKiller().getInventory().getItemInMainHand());
             }else{
                 sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), null);
             }

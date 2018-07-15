@@ -39,7 +39,7 @@ public class InteractEvent implements Listener {
         }
 
         if(entity instanceof Animals){
-            if(correctFood(event.getPlayer().getItemInHand(), entity) && ((Animals) entity).canBreed()){
+            if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && ((Animals) entity).canBreed()){
                 int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                 if(stackSize <= 1){
                     return;
@@ -47,8 +47,10 @@ public class InteractEvent implements Listener {
 
                 if(sm.config.getCustomConfig().getBoolean("multiply.breed")){
                     int breedSize = stackSize;
-                    if(event.getPlayer().getItemInHand().getAmount() < breedSize){
-                        breedSize = event.getPlayer().getItemInHand().getAmount();
+                    int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                    if(handSize < breedSize){
+                        breedSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                        event.getPlayer().getInventory().setItemInMainHand(null);
                     }
 
                     int childAmount = (int) Math.floor(breedSize / 2);
@@ -56,8 +58,9 @@ public class InteractEvent implements Listener {
                     child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
                     child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                     child.setBaby();
-                    ((Animals) entity).setBreed(false);
 
+                    event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
+                    ((Animals) entity).setBreed(false);
                 }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
                     Entity newEntity = sm.tools.duplicate(entity, true);
                     newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
@@ -83,7 +86,7 @@ public class InteractEvent implements Listener {
             }
         }
         if(sm.config.getCustomConfig().getBoolean("divide-on.name")) {
-            if (event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && event.getPlayer().getItemInHand().getItemMeta().hasDisplayName()) {
+            if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NAME_TAG && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
                 if (entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1) {
                     Entity dupe = sm.tools.duplicate(entity);
                     dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
@@ -97,10 +100,11 @@ public class InteractEvent implements Listener {
 
     // There should be a method in bukkit for this...
     private boolean correctFood(ItemStack is, Entity entity){
+        sm.getLogger().info(is.getType().toString());
         if((entity instanceof Cow || entity instanceof Sheep) && is.getType() == Material.WHEAT){
             return true;
         }
-        if((entity instanceof Pig) && (is.getType() == Material.CARROT_ITEM || (sm.getVersionId() >= 2 && (is.getType() == Material.BEETROOT || is.getType() == Material.POTATO_ITEM)))){
+        if((entity instanceof Pig) && (is.getType() == Material.CARROT || (sm.getVersionId() >= 2 && (is.getType() == Material.BEETROOT || is.getType() == Material.POTATO)))){
             return true;
         }
         if((entity instanceof Chicken) && is.getType().toString().contains("SEED")){
@@ -117,16 +121,20 @@ public class InteractEvent implements Listener {
                 return true;
             }
         }
-        if(entity instanceof Ocelot && is.getType() == Material.RAW_FISH && ((Ocelot) entity).isTamed()){
+        if(entity instanceof Ocelot && (is.getType() == Material.SALMON || is.getType() == Material.COD ||
+                is.getType() == Material.TROPICAL_FISH || is.getType() == Material.PUFFERFISH) && ((Ocelot) entity).isTamed()){
             return true;
         }
-        if(entity instanceof Rabbit && (is.getType() == Material.CARROT_ITEM || is.getType() == Material.GOLDEN_CARROT
-                || is.getType() == Material.YELLOW_FLOWER)){
+        if(entity instanceof Rabbit && (is.getType() == Material.CARROT|| is.getType() == Material.GOLDEN_CARROT
+                || is.getType() == Material.DANDELION)){
             return true;
         }
         if(sm.getVersionId() >= 4){
-            return entity instanceof Llama && is.getType() == Material.HAY_BLOCK;
+            if(entity instanceof Llama && is.getType() == Material.HAY_BLOCK){
+                return true;
+            }
         }
-        return false;
+        return entity instanceof Turtle && is.getType() == Material.SEAGRASS;
+
     }
 }

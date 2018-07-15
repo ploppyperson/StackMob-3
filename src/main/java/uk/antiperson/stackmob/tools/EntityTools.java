@@ -179,10 +179,10 @@ public class EntityTools {
 
     public void onceStacked(Entity firstEntity, Entity nearby){
         if(((LivingEntity)firstEntity).isLeashed()){
-            ItemStack leash = new ItemStack(Material.LEASH, 1);
+            ItemStack leash = new ItemStack(Material.LEAD, 1);
             firstEntity.getWorld().dropItemNaturally(firstEntity.getLocation(), leash);
         }else if(((LivingEntity)nearby).isLeashed()){
-            ItemStack leash = new ItemStack(Material.LEASH, 1);
+            ItemStack leash = new ItemStack(Material.LEAD, 1);
             nearby.getWorld().dropItemNaturally(nearby.getLocation(), leash);
         }
     }
