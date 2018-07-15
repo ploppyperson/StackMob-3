@@ -30,7 +30,7 @@ public class InteractEvent implements Listener {
             return;
         }
         if(sm.getVersionId() > 1){
-            if(!(event.getHand() == EquipmentSlot.HAND)){
+            if(event.getHand() == EquipmentSlot.OFF_HAND){
                 return;
             }
         }
@@ -47,7 +47,6 @@ public class InteractEvent implements Listener {
 
                 if(sm.config.getCustomConfig().getBoolean("multiply.breed")){
                     int breedSize = stackSize;
-                    sm.getLogger().info("fired");
                     if(event.getPlayer().getItemInHand().getAmount() < breedSize){
                         breedSize = event.getPlayer().getItemInHand().getAmount();
                     }
@@ -57,6 +56,7 @@ public class InteractEvent implements Listener {
                     child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
                     child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                     child.setBaby();
+                    ((Animals) entity).setBreed(false);
 
                 }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
                     Entity newEntity = sm.tools.duplicate(entity, true);
