@@ -185,7 +185,6 @@ public class EntityTools {
             ItemStack leash = new ItemStack(Material.LEASH, 1);
             nearby.getWorld().dropItemNaturally(nearby.getLocation(), leash);
         }
-
     }
 
     public Entity duplicate(Entity original, boolean slightMovement){

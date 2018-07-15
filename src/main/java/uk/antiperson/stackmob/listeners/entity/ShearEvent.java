@@ -60,12 +60,15 @@ public class ShearEvent implements Listener {
 
         if(oldEntity instanceof MushroomCow){
             if(sm.config.getCustomConfig().getBoolean("multiply.mooshroom-mushrooms")){
+                // Duplicate mushrooms
                 ItemStack mushrooms = new ItemStack(Material.RED_MUSHROOM,1);
                 sm.dropTools.dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
-                // SpawnEvent cow for the rest of the cows that where sheared.
+
+                // Spawn separate normal cow for the rest of the stack.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
                 cow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
                 cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                // Set the required damage as if done separately
                 ItemStack item = event.getPlayer().getItemInHand();
                 item.setDurability((short) (item.getDurability() + stackSize));
                 event.getPlayer().setItemInHand(item);

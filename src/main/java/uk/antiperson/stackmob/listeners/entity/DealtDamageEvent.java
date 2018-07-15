@@ -9,7 +9,7 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 public class DealtDamageEvent implements Listener {
 
     @EventHandler
-    public void onDamgeDelt(EntityDamageByEntityEvent event) {
+    public void onDamageDealt(EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof Player){
             if(event.getDamager().hasMetadata(GlobalValues.METATAG)){
                 int stackSize = event.getDamager().getMetadata(GlobalValues.METATAG).get(0).asInt();

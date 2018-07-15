@@ -5,6 +5,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +29,11 @@ public class InteractEvent implements Listener {
         if(entity.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
+        if(sm.getVersionId() > 1){
+            if(!(event.getHand() == EquipmentSlot.HAND)){
+                return;
+            }
+        }
         if(event.isCancelled()){
             return;
         }
@@ -40,26 +46,18 @@ public class InteractEvent implements Listener {
                 }
 
                 if(sm.config.getCustomConfig().getBoolean("multiply.breed")){
-                    int foodAmount = event.getPlayer().getItemInHand().getAmount();
-                    if(foodAmount > stackSize){
-                        foodAmount = stackSize;
-                    }else{
-                        Animals canBreed = (Animals) sm.tools.duplicate(entity, true);
-                        canBreed.setBreed(true);
-                        canBreed.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - foodAmount));
-                        canBreed.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, foodAmount));
+                    int breedSize = stackSize;
+                    sm.getLogger().info("fired");
+                    if(event.getPlayer().getItemInHand().getAmount() < breedSize){
+                        breedSize = event.getPlayer().getItemInHand().getAmount();
                     }
 
-                    if(foodAmount > 1){
-                        Animals small = (Animals) sm.tools.duplicate(entity,true);
-                        small.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, (int) Math.floor(foodAmount / 2)));
-                        small.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                        small.setBaby();
-                    }
+                    int childAmount = (int) Math.floor(breedSize / 2);
+                    Animals child = (Animals) sm.tools.duplicate(entity);
+                    child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
+                    child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                    child.setBaby();
 
-                    ItemStack hand = event.getPlayer().getItemInHand();
-                    hand.setAmount(hand.getAmount() - foodAmount);
                 }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
                     Entity newEntity = sm.tools.duplicate(entity, true);
                     newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
@@ -84,14 +82,16 @@ public class InteractEvent implements Listener {
                 return;
             }
         }
-        if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && event.getPlayer().getItemInHand().getItemMeta().hasDisplayName() && sm.config.getCustomConfig().getBoolean("divide-on.name")){
-            if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
-                Entity dupe = sm.tools.duplicate(entity);
-                dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
-                dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+        if(sm.config.getCustomConfig().getBoolean("divide-on.name")) {
+            if (event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && event.getPlayer().getItemInHand().getItemMeta().hasDisplayName()) {
+                if (entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1) {
+                    Entity dupe = sm.tools.duplicate(entity);
+                    dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+                    dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                }
+                entity.removeMetadata(GlobalValues.METATAG, sm);
+                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
             }
-            entity.removeMetadata(GlobalValues.METATAG, sm);
-            entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
         }
     }
 

@@ -44,8 +44,8 @@ public class DropTools {
     }
 
     // Calculate a random drop amount.
-    public int calculateAmount(int mutiplier){
-        return (int) Math.round((0.75 + ThreadLocalRandom.current().nextDouble(2)) * mutiplier);
+    public int calculateAmount(int multiplier){
+        return (int) Math.round((0.75 + ThreadLocalRandom.current().nextDouble(2)) * multiplier);
     }
 
     public void dropDrops(ItemStack drop, int amount, Location dropLocation){
