@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.tasks;
 
+import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -49,17 +51,17 @@ public class TagTask extends BukkitRunnable {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
 
-                        String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
-                        String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
-                               .replace("%type%", formattedType)
-                               .replace("%bukkit_type%", e.getType().toString());
+                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(typeString),"_", " "));
+                        String nearly = StringUtils.replace(format, "%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString());
+                        String nearly1 = StringUtils.replace(nearly,"%type%", formattedType);
+                        String nearlyFinal = StringUtils.replace(nearly1,"%bukkit_type%", e.getType().toString());
                         String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
                         if(!finalString.equals(e.getCustomName())){
                              e.setCustomName(finalString);
                         }
 
                         if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
-                            for(Entity entity : e.getNearbyEntities(30, 30, 30)){
+                            for(Entity entity : e.getNearbyEntities(20, 20, 20)){
                                 if(entity instanceof Player){
                                     sm.pluginSupport.getProtocolSupport().sendUpdatePacket((Player) entity, e);
                                 }
@@ -76,16 +78,5 @@ public class TagTask extends BukkitRunnable {
 
             }
         }
-    }
-
-    // Blame 1.8
-    private String toTitleCase(String givenString) {
-        String[] arr = givenString.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String s : arr){
-             sb.append(Character.toUpperCase(s.charAt(0)))
-                    .append(s.substring(1)).append(" ");
-        }
-        return sb.toString().trim();
     }
 }

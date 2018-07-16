@@ -11,7 +11,7 @@ public class WorldTools {
     public HashSet<Entity> getLoadedEntities() {
         HashSet<Entity> loadedEntities = new HashSet<>();
         for(Player player : Bukkit.getOnlinePlayers()){
-            loadedEntities.addAll(player.getNearbyEntities(25, 25, 25));
+            loadedEntities.addAll(player.getNearbyEntities(20, 20, 20));
         }
         return loadedEntities;
     }

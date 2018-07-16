@@ -15,6 +15,9 @@ import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 /**
  * Created by nathat on 23/07/17.
  */
@@ -30,6 +33,8 @@ public class StackMob extends JavaPlugin {
     public ExperienceTools expTools = new ExperienceTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
+
+    public HashMap<UUID, Integer> amountMap = new HashMap<>();
 
     @Override
     public void onLoad(){
@@ -90,12 +95,13 @@ public class StackMob extends JavaPlugin {
         cache.loadCache();
 
         // Essential listeners/tasks that are needed for the plugin to function correctly.
-        getLogger().info("Registering listeners...");
+        getLogger().info("Registering listeners, tasks and commands...");
         registerEssentialEvents();
 
         // Events that are not required for the plugin to function, however they make a better experience.
         registerNotEssentialEvents();
 
+        getLogger().info("Starting metrics...");
         new Metrics(this);
 
         getLogger().info(updater.updateString());
