@@ -29,10 +29,8 @@ public class InteractEvent implements Listener {
         if(entity.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
-        if(sm.getVersionId() > 1){
-            if(event.getHand() == EquipmentSlot.OFF_HAND){
-                return;
-            }
+        if(event.getHand() == EquipmentSlot.OFF_HAND){
+            return;
         }
         if(event.isCancelled()){
             return;
@@ -104,7 +102,7 @@ public class InteractEvent implements Listener {
         if((entity instanceof Cow || entity instanceof Sheep) && is.getType() == Material.WHEAT){
             return true;
         }
-        if((entity instanceof Pig) && (is.getType() == Material.CARROT || (sm.getVersionId() >= 2 && (is.getType() == Material.BEETROOT || is.getType() == Material.POTATO)))){
+        if((entity instanceof Pig) && (is.getType() == Material.CARROT || is.getType() == Material.BEETROOT || is.getType() == Material.POTATO)){
             return true;
         }
         if((entity instanceof Chicken) && is.getType().toString().contains("SEED")){
@@ -129,12 +127,9 @@ public class InteractEvent implements Listener {
                 || is.getType() == Material.DANDELION)){
             return true;
         }
-        if(sm.getVersionId() >= 4){
-            if(entity instanceof Llama && is.getType() == Material.HAY_BLOCK){
-                return true;
-            }
+        if(entity instanceof Llama && is.getType() == Material.HAY_BLOCK){
+            return true;
         }
         return entity instanceof Turtle && is.getType() == Material.SEAGRASS;
-
     }
 }

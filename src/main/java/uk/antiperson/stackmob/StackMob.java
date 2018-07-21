@@ -15,9 +15,6 @@ import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 /**
  * Created by nathat on 23/07/17.
  */
@@ -33,8 +30,6 @@ public class StackMob extends JavaPlugin {
     public ExperienceTools expTools = new ExperienceTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
-
-    public HashMap<UUID, Integer> amountMap = new HashMap<>();
 
     @Override
     public void onLoad(){
@@ -60,10 +55,8 @@ public class StackMob extends JavaPlugin {
         setVersionId();
         if(getVersionId() == 0){
             getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
-            getLogger().warning("The features of this version are not supported, so some issues may occur!");
-        }else if(getVersionId() == 7){
-            getLogger().info("Minecraft 1.13 is not currently supported.");
-            getLogger().info("Issues may occur, so it is recommended that you update StackMob as soon as possible.");
+            getLogger().warning("The features of this version are not supported, so the plugin will not enable!");
+            return;
         }
 
         getLogger().info("Detected server version: " + getVersionId());
@@ -82,9 +75,7 @@ public class StackMob extends JavaPlugin {
         }
 
         if(config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
-            if(getVersionId() == 1){
-                getLogger().info("At the present moment, the feature 'show-player-nearby' is only supported on Minecraft 1.9 and above.");
-            }else if(!pluginSupport.isProtocolSupportEnabled()) {
+          if(!pluginSupport.isProtocolSupportEnabled()) {
                 getLogger().info("ProtocolLib is required for certain features, but it cannot be found!");
                 getLogger().info("These feature(s) will not work until ProtocolLib is installed.");
             }
@@ -120,21 +111,8 @@ public class StackMob extends JavaPlugin {
 
     // Server version detection, if version isn't currently supported, then versionId is 0.
     private void setVersionId(){
-        if(Bukkit.getVersion().contains("1.8")){
+        if(Bukkit.getVersion().contains("1.13")){
             versionId = 1;
-        }else if(Bukkit.getVersion().contains("1.9")){
-            versionId = 2;
-        }else if(Bukkit.getVersion().contains("1.10")){
-            versionId = 3;
-        }else if(Bukkit.getVersion().contains("1.11")){
-            versionId = 4;
-        }else if(Bukkit.getVersion().contains("1.12")){
-            versionId = 5;
-            if(Bukkit.getVersion().contains("1.12.2")){
-                versionId = 6;
-            }
-        }else if(Bukkit.getVersion().contains("1.13")){
-            versionId = 7;
         }
     }
 
@@ -149,11 +127,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
         getCommand("sm").setExecutor(new Commands(this));
         new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
-        int tagUpdate = 5;
-        if(config.getCustomConfig().isInt("tag.interval")){
-            tagUpdate = config.getCustomConfig().getInt("tag.interval");
-        }
-        new TagTask(this).runTaskTimer(this, 0, tagUpdate);
+        new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
     }
 
     private void registerNotEssentialEvents(){
@@ -185,8 +159,6 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new TameEvent(this), this);
         }
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
-        if(getVersionId() > 2){
-            getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
-        }
+        getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
     }
 }

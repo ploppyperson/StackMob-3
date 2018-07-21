@@ -5,11 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.antiperson.stackmob</groupId>
-    <artifactId>StackMob</artifactId>
+    <artifactId>StackMob-2</artifactId>
     <version>2.4.0-SNAPSHOT</version>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
+        <finalName>StackMob-${project.version}</finalName>
         <resources>
             <resource>
                 <targetPath>.</targetPath>
@@ -100,12 +101,12 @@
             <version>1.13-pre7-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Bukkit API-->
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.13-pre7-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>org.apache</groupId>
+            <artifactId>commons</artifactId>
+            <version>2.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/commons-io-2.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>MPets</groupId>
@@ -127,13 +128,6 @@
             <version>LATEST</version>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/jars/commons-io-2.5.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib-API</artifactId>
             <version>4.3.0</version>
@@ -148,5 +142,6 @@
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 </project>

@@ -71,18 +71,11 @@ compare:
     sheep-wool-color: true
     slime-size: true
     horse-color: true
-    # Apply to more than one type of entity.
+    llama-color: true
+    parrot-color: true
+    # Applies to more than one type of entity:
     entity-age: true
     can-breed: true
-    # Only for 1.8.x and below.
-    zombie-is-villager: true
-    # Only 1.10.x and below.
-    skeleton-type: true
-    zombie-villager-profession: true
-    # 1.11 and above.
-    llama-color: true
-    # 1.12 and above.
-    parrot-color: true
 
 # Check these attributes before stacking.
 check:

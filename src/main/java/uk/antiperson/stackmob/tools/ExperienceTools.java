@@ -40,11 +40,3 @@ public class ExperienceTools {
 
 }
 
-enum Algorithm{
-    LEGACY,
-    MINIMAL,
-    NORMAL,
-    GENEROUS,
-    CUSTOM,
-    CUSTOM_RANDOM
-}

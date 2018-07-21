@@ -33,12 +33,13 @@ public class TagTask extends BukkitRunnable {
                     }
                     String typeString = e.getType().toString();
 
+                    int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
                     if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
                         removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                     }
                     //TODO: Replace with apache commons replace function.
-                    if (e.getMetadata(GlobalValues.METATAG).get(0).asInt() > removeAt) {
+                    if (stackSize > removeAt) {
                         String format = sm.config.getCustomConfig().getString("tag.format");
                         if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
                               format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
@@ -51,16 +52,17 @@ public class TagTask extends BukkitRunnable {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
 
-                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(typeString),"_", " "));
-                        String nearly = StringUtils.replace(format, "%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString());
-                        String nearly1 = StringUtils.replace(nearly,"%type%", formattedType);
-                        String nearlyFinal = StringUtils.replace(nearly1,"%bukkit_type%", e.getType().toString());
+                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(format),"_", " "));
+                        String nearlyFinal = StringUtils.replace(StringUtils.replace(StringUtils.replace(formattedType,
+                                "%bukkit_type%", e.getType().toString()),
+                                "%type%", formattedType),
+                                "%size%", String.valueOf(stackSize));
                         String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
                         if(!finalString.equals(e.getCustomName())){
                              e.setCustomName(finalString);
                         }
 
-                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
+                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled()){
                             for(Entity entity : e.getNearbyEntities(20, 20, 20)){
                                 if(entity instanceof Player){
                                     sm.pluginSupport.getProtocolSupport().sendUpdatePacket((Player) entity, e);

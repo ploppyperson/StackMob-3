@@ -5,7 +5,6 @@ import io.lumine.xikage.mythicmobs.mobs.MobManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -68,10 +67,8 @@ public class EntityTools {
                 if (((Villager) firstEntity).getProfession() != ((Villager) nearby).getProfession()) {
                     return true;
                 }
-                if(sm.getVersionId() >= 6){
-                    if(((Villager) firstEntity).getCareer() != ((Villager) nearby).getCareer()){
-                        return true;
-                    }
+                if(((Villager) firstEntity).getCareer() != ((Villager) nearby).getCareer()){
+                    return true;
                 }
             }
         }
@@ -102,25 +99,8 @@ public class EntityTools {
             }
         }
         if (firstEntity instanceof Zombie) {
-            if (sm.config.getCustomConfig().getBoolean("compare.zombie-is-villager") && sm.getVersionId() == 1) {
-                if (((Zombie) firstEntity).isVillager() != ((Zombie) nearby).isVillager()) {
-                    return true;
-                }
-            }
-            if (sm.config.getCustomConfig().getBoolean("compare.zombie-villager-profession") && sm.getVersionId() <= 3  && sm.getVersionId() > 1) {
-                if (((Zombie) firstEntity).getVillagerProfession() != ((Zombie) nearby).getVillagerProfession()) {
-                    return true;
-                }
-            }
             if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
                 if (((Zombie) firstEntity).isBaby() != ((Zombie) nearby).isBaby()) {
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Skeleton) {
-            if (sm.config.getCustomConfig().getBoolean("compare.skeleton-type") && sm.getVersionId() <= 3) {
-                if (((Skeleton) firstEntity).getSkeletonType() != ((Skeleton) nearby).getSkeletonType()) {
                     return true;
                 }
             }
@@ -139,21 +119,17 @@ public class EntityTools {
                 }
             }
         }
-        if(sm.getVersionId() >= 4){
-            if(firstEntity instanceof Llama){
-                if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
-                    if (((Llama) firstEntity).getColor() != ((Llama) nearby).getColor()) {
-                        return true;
-                    }
+        if(firstEntity instanceof Llama){
+            if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
+                if (((Llama) firstEntity).getColor() != ((Llama) nearby).getColor()) {
+                    return true;
                 }
             }
-            if(sm.getVersionId() >= 5) {
-                if (firstEntity instanceof Parrot) {
-                    if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                        if (((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant()) {
-                            return true;
-                        }
-                    }
+        }
+        if (firstEntity instanceof Parrot) {
+            if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
+                if (((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant()) {
+                    return true;
                 }
             }
         }
@@ -227,9 +203,7 @@ public class EntityTools {
         if (dupe instanceof Villager) {
             if (sm.config.getCustomConfig().getBoolean("compare.villager-profession")) {
                 ((Villager) dupe).setProfession(((Villager) original).getProfession());
-                if(sm.getVersionId() >= 6){
-                    ((Villager) dupe).setCareer(((Villager) original).getCareer());
-                }
+                ((Villager) dupe).setCareer(((Villager) original).getCareer());
             }
         }
 
@@ -258,20 +232,8 @@ public class EntityTools {
             }
         }
         if (dupe instanceof Zombie) {
-            if (sm.config.getCustomConfig().getBoolean("compare.zombie-is-villager") && sm.getVersionId() == 1) {
-                ((Zombie) dupe).setVillager(((Zombie) original).isVillager());
-            }
-            if (sm.config.getCustomConfig().getBoolean("compare.zombie-villager-profession") && sm.getVersionId() <= 3 && sm.getVersionId() > 1) {
-                ((Zombie) dupe).setVillagerProfession(((Zombie) original).getVillagerProfession());
-            }
             if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
                 ((Zombie) dupe).setBaby(((Zombie) original).isBaby());
-            }
-        }
-
-        if (dupe instanceof Skeleton) {
-            if (sm.config.getCustomConfig().getBoolean("compare.skeleton-type") && sm.getVersionId() <= 3) {
-                ((Skeleton) dupe).setSkeletonType(((Skeleton) original).getSkeletonType());
             }
         }
 
@@ -280,19 +242,14 @@ public class EntityTools {
                 ((Animals) dupe).setBreed(((Animals) original).canBreed());
             }
         }
-
-        if(sm.getVersionId() >= 4){
-            if(dupe instanceof Llama){
-                if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
-                    ((Llama) dupe).setColor(((Llama) original).getColor());
-                }
+        if(dupe instanceof Llama){
+            if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
+                ((Llama) dupe).setColor(((Llama) original).getColor());
             }
-            if(sm.getVersionId() >= 5) {
-                if (dupe instanceof Parrot) {
-                    if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                        ((Parrot) dupe).setVariant(((Parrot) original).getVariant());
-                    }
-                }
+        }
+        if (dupe instanceof Parrot) {
+            if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
+                ((Parrot) dupe).setVariant(((Parrot) original).getVariant());
             }
         }
 
@@ -338,7 +295,7 @@ public class EntityTools {
             }
             if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
                 for(UUID uuid : entities){
-                    Entity nearby = getEntity(uuid);
+                    Entity nearby = Bukkit.getEntity(uuid);
                     if(nearby == null){
                         entities.remove(uuid);
                         return true;
@@ -352,19 +309,6 @@ public class EntityTools {
             }
         }
         return false;
-    }
-
-    // This is needed because of 1.8
-    public Entity getEntity(UUID uuid){
-        for(World world : Bukkit.getWorlds()){
-            for(Entity entity : world.getLivingEntities()){
-                if(entity.getUniqueId().equals(uuid)){
-                    return entity;
-                }
-            }
-        }
-        // Lets hope this doesn't happen.
-        return null;
     }
 
 }
