@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
+import uk.antiperson.stackmob.tasks.CacheSave;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
@@ -129,6 +130,7 @@ public class StackMob extends JavaPlugin {
         getCommand("sm").setExecutor(new Commands(this));
         new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
         new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
+        new CacheSave(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
     }
 
     private void registerNotEssentialEvents(){

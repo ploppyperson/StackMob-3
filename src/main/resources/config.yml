@@ -45,6 +45,8 @@ custom:
 
 # The delay between each time the stacking task is ran (in ticks.)
 task-delay: 100
+# The delay between each save of the cache (in seconds.)
+autosave-delay: 120
 # The maximum size a single stack can be.
 stack-max: 20
 # If bigger stacks should get priority when stacking on the task.
