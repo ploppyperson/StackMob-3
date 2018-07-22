@@ -52,8 +52,8 @@ public class TagTask extends BukkitRunnable {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
 
-                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(format),"_", " "));
-                        String nearlyFinal = StringUtils.replace(StringUtils.replace(StringUtils.replace(formattedType,
+                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(typeString),"_", " "));
+                        String nearlyFinal = StringUtils.replace(StringUtils.replace(StringUtils.replace(format,
                                 "%bukkit_type%", e.getType().toString()),
                                 "%type%", formattedType),
                                 "%size%", String.valueOf(stackSize));

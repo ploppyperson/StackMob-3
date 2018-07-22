@@ -35,7 +35,7 @@ public class StickInteractEvent implements Listener {
                     p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
                 } else {
                     for (Entity entity : p.getNearbyEntities(15, 15, 15)) {
-                        if(!(entity instanceof LivingEntity && entity instanceof Player && entity instanceof ArmorStand)){
+                        if(entity instanceof LivingEntity && !(entity instanceof Player && entity instanceof ArmorStand)){
                             entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                         }
                     }
