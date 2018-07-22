@@ -27,6 +27,7 @@ public class StackMob extends JavaPlugin {
     public CacheFile cache = new CacheFile(this);
     public DropTools dropTools = new DropTools(this);
     public WorldTools worldTools = new WorldTools();
+    public StickTools stickTools = new StickTools(this);
     public ExperienceTools expTools = new ExperienceTools(this);
     public PluginSupport pluginSupport = new PluginSupport(this);
     public UpdateChecker updater = new UpdateChecker(this);
@@ -160,5 +161,6 @@ public class StackMob extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
         getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
+        getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
     }
 }

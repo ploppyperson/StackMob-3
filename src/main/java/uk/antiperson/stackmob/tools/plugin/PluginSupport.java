@@ -42,17 +42,19 @@ public class PluginSupport {
     }
 
     public void setMcmmoMetadata(Entity entity){
-        if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && sm.getServer().getPluginManager().getPlugin("mcMMO") != null){
+        Plugin mcmmo = sm.getServer().getPluginManager().getPlugin("mcMMO");
+        if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && mcmmo != null){
             if(!sm.config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
-                    .contains(entity.getType().toString()) && sm.getServer().getPluginManager().isPluginEnabled("mcMMO")){
-                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(sm.getServer().getPluginManager().getPlugin("mcMMO"), false));
+                    .contains(entity.getType().toString()) && mcmmo.isEnabled()){
+                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(mcmmo,false));
             }
         }
     }
 
     public boolean isMiniPet(Entity entity){
-        if(sm.config.getCustomConfig().getBoolean("check.is-miniature-pet") && sm.getServer().getPluginManager().getPlugin("MiniaturePets") != null){
-            if(sm.getServer().getPluginManager().isPluginEnabled("MiniaturePets")){
+        Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
+        if(sm.config.getCustomConfig().getBoolean("check.is-miniature-pet") && miniPet != null){
+            if(miniPet.isEnabled()){
                 return APIUtils.isEntityMob(entity);
             }
         }

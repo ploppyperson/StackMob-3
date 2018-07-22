@@ -35,8 +35,9 @@ public class Commands implements CommandExecutor {
             if (args.length == 0) {
                 sender.sendMessage(pluginTag + ChatColor.GOLD + "Plugin commands:");
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
-                sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
+                sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
+                sender.sendMessage(ChatColor.AQUA + "/sm stick " + ChatColor.GREEN + "Gives you the stick of stacking.");
                 sender.sendMessage(ChatColor.AQUA + "/sm stats " + ChatColor.GREEN + "Displays entity statistics.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reload " + ChatColor.GREEN + "Reloads the configuration file.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reset " + ChatColor.GREEN + "Resets the configuration file.");
@@ -106,6 +107,13 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
+                } else if (args[0].equalsIgnoreCase("stick")){
+                    if (sender instanceof Player) {
+                        sm.stickTools.giveStackingStick((Player) sender);
+                    } else {
+                        sender.sendMessage(pluginTag + errorTag +
+                                "You need to be a player to do this!");
+                    }
                 } else {
                     sender.sendMessage(pluginTag + errorTag +
                             "Incorrect command parameters!");

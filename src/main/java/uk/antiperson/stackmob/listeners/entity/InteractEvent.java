@@ -98,7 +98,6 @@ public class InteractEvent implements Listener {
 
     // There should be a method in bukkit for this...
     private boolean correctFood(ItemStack is, Entity entity){
-        sm.getLogger().info(is.getType().toString());
         if((entity instanceof Cow || entity instanceof Sheep) && is.getType() == Material.WHEAT){
             return true;
         }

@@ -118,9 +118,9 @@
         <dependency>
             <groupId>MythicMobs</groupId>
             <artifactId>io.lumine.xikage</artifactId>
-            <version>4.2</version>
+            <version>4.3.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/jars/MythicMobs-4.2.0.jar</systemPath>
+            <systemPath>${project.basedir}/jars/MythicMobs-4.3.2-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>

@@ -1,6 +1,12 @@
 # This is the language translation file for StackMob 2.x, created by antiPerson
 
-# This must be set to 'true' for the translations to take effect.
+stack-stick:
+    name: '&aThe Stick Of Stacking'
+    lore:
+        - '&eRight-click an entity to stack it.'
+        - '&eShift + right-click an entity to stack all entities nearby.'
+
+# This must be set to 'true' for the below translations to take effect.
 enabled: false
 
 # Translations for the entity name shown in the name tag.
