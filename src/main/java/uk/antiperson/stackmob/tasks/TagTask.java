@@ -38,7 +38,6 @@ public class TagTask extends BukkitRunnable {
                     if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
                         removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                     }
-                    //TODO: Replace with apache commons replace function.
                     if (stackSize > removeAt) {
                         String format = sm.config.getCustomConfig().getString("tag.format");
                         if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {

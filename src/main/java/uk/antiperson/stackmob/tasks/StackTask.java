@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
@@ -35,7 +36,7 @@ public class StackTask extends BukkitRunnable {
             // Loop all entities in the current world
             for(Entity first : world.getLivingEntities()){
                 // Checks on first entity
-                if(first instanceof ArmorStand){
+                if(first instanceof ArmorStand || first instanceof Player){
                     continue;
                 }
 

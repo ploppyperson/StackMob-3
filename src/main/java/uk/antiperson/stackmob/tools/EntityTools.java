@@ -138,11 +138,13 @@ public class EntityTools {
             MobManager mm = sm.pluginSupport.getMythicSupport().getMythicMobs();
             if(mm.isActiveMob(nearby.getUniqueId()) && mm.isActiveMob(firstEntity.getUniqueId())){
                 if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
-                        .contains(mm.getMythicMobInstance(nearby).getType().getInternalName())){
+                        .contains(mm.getMythicMobInstance(nearby).getType().getInternalName()) ||
+                        sm.config.getCustomConfig().getStringList("mythicmobs.blacklist").contains("ALL")){
                     return true;
                 }
                 if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
-                        .contains(mm.getMythicMobInstance(firstEntity).getType().getInternalName())){
+                        .contains(mm.getMythicMobInstance(firstEntity).getType().getInternalName()) ||
+                        sm.config.getCustomConfig().getStringList("mythicmobs.blacklist").contains("ALL")){
                     return true;
                 }
                 return !mm.getMythicMobInstance(nearby).getType().equals(mm.getMythicMobInstance(firstEntity).getType());
