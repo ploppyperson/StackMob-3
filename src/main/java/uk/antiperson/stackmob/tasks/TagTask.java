@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.tasks;
 
+import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -31,12 +33,13 @@ public class TagTask extends BukkitRunnable {
                     }
                     String typeString = e.getType().toString();
 
+                    int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
                     if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
                         removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                     }
                     //TODO: Replace with apache commons replace function.
-                    if (e.getMetadata(GlobalValues.METATAG).get(0).asInt() > removeAt) {
+                    if (stackSize > removeAt) {
                         String format = sm.config.getCustomConfig().getString("tag.format");
                         if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
                               format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
@@ -49,17 +52,18 @@ public class TagTask extends BukkitRunnable {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
 
-                        String formattedType = toTitleCase(typeString.toLowerCase().replace("_", " "));
-                        String nearlyFinal = format.replace("%size%", e.getMetadata(GlobalValues.METATAG).get(0).asString())
-                               .replace("%type%", formattedType)
-                               .replace("%bukkit_type%", e.getType().toString());
+                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(typeString),"_", " "));
+                        String nearlyFinal = StringUtils.replace(StringUtils.replace(StringUtils.replace(format,
+                                "%bukkit_type%", e.getType().toString()),
+                                "%type%", formattedType),
+                                "%size%", String.valueOf(stackSize));
                         String finalString = ChatColor.translateAlternateColorCodes('&', nearlyFinal);
                         if(!finalString.equals(e.getCustomName())){
                              e.setCustomName(finalString);
                         }
 
-                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled() && sm.getVersionId() > 1){
-                            for(Entity entity : e.getNearbyEntities(30, 30, 30)){
+                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled()){
+                            for(Entity entity : e.getNearbyEntities(20, 20, 20)){
                                 if(entity instanceof Player){
                                     sm.pluginSupport.getProtocolSupport().sendUpdatePacket((Player) entity, e);
                                 }
@@ -76,16 +80,5 @@ public class TagTask extends BukkitRunnable {
 
             }
         }
-    }
-
-    // Blame 1.8
-    private String toTitleCase(String givenString) {
-        String[] arr = givenString.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String s : arr){
-             sb.append(Character.toUpperCase(s.charAt(0)))
-                    .append(s.substring(1)).append(" ");
-        }
-        return sb.toString().trim();
     }
 }
