@@ -1,4 +1,4 @@
-# StackMob-2 - With 1.13 support
+# StackMob-2, with 1.13 support
 
 
 Welcome! StackMob is a bukkit plugin that is used by many servers - big and small - to enhance the experience of their players by
