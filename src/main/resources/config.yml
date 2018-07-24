@@ -115,6 +115,9 @@ divide-on:
     # When an entity it named using a name tag.
     name: true
 
+# Enables the requirement for a permission for use of 'kill-all' or 'kill-step'.
+death-type-permission: true
+
 # Make every entity die in the stack on death.
 kill-all:
     enabled: false

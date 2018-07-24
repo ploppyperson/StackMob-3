@@ -1,9 +1,6 @@
 package uk.antiperson.stackmob.listeners.entity;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -42,30 +39,23 @@ public class DeathEvent implements Listener {
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
-                if (!sm.config.getCustomConfig().getStringList("kill-all.reason-blacklist")
-                        .contains(dead.getLastDamageCause().getCause().toString())){
-                    if (!sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
-                            .contains(dead.getType().toString())){
-                        // Do it
-                        multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
-                        finished(oldSize, oldSize, dead);
-                        return;
-                    }
+               if(isKillAllAllowed(dead, dead.getKiller())){
+                   // Do it
+                   multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
+                   finished(oldSize, oldSize, dead);
+                   return;
                 }
             }
+
             if(sm.config.getCustomConfig().getBoolean("kill-step.enabled")){
-                if (!sm.config.getCustomConfig().getStringList("kill-step.reason-blacklist")
-                        .contains(dead.getLastDamageCause().getCause().toString())) {
-                    if (!sm.config.getCustomConfig().getStringList("kill-step.type-blacklist")
-                            .contains(dead.getType().toString())) {
-                        int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
-                        if(randomStep >= oldSize){
-                            subtractAmount = oldSize;
-                        }else{
-                            subtractAmount = randomStep;
-                        }
-                        multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
+                if(isKillStepAllowed(dead, dead.getKiller())) {
+                    int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
+                    if (randomStep >= oldSize) {
+                        subtractAmount = oldSize;
+                    } else {
+                        subtractAmount = randomStep;
                     }
+                    multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
                 }
             }
         }
@@ -99,5 +89,37 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
         dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
+    }
+
+    private boolean isKillAllAllowed(Entity dead, Player killer){
+        if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
+            if(killer != null){
+                if(!(killer.hasPermission("stackmob.killall"))){
+                    return false;
+                }
+            }
+        }
+        if (!(sm.config.getCustomConfig().getStringList("kill-all.reason-blacklist")
+                .contains(dead.getLastDamageCause().getCause().toString()))){
+            return !(sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
+                    .contains(dead.getType().toString()));
+        }
+        return false;
+    }
+
+    private boolean isKillStepAllowed(Entity dead, Player killer){
+        if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
+            if(killer != null){
+                if(!(killer.hasPermission("stackmob.killstep"))){
+                    return false;
+                }
+            }
+        }
+        if (!sm.config.getCustomConfig().getStringList("kill-step.reason-blacklist")
+                .contains(dead.getLastDamageCause().getCause().toString())){
+            return !sm.config.getCustomConfig().getStringList("kill-step.type-blacklist")
+                    .contains(dead.getType().toString());
+        }
+        return false;
     }
 }
