@@ -121,8 +121,8 @@ public class Commands implements CommandExecutor {
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("remove")) {
                     if (sender instanceof Player) {
-                        Integer numb = Integer.valueOf(args[1]);
-                        if (numb != null) {
+                        try{
+                            Integer numb = Integer.valueOf(args[1]);
                             int counter = 0;
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
                                 if (entity.hasMetadata(GlobalValues.METATAG)) {
@@ -131,7 +131,7 @@ public class Commands implements CommandExecutor {
                                 }
                             }
                             sender.sendMessage(pluginTag + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
-                        } else {
+                        } catch (NumberFormatException e){
                             sender.sendMessage(pluginTag + errorTag +
                                     "Invalid number format!");
                         }
