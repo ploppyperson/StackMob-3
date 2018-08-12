@@ -51,7 +51,7 @@ public class InteractEvent implements Listener {
                         event.getPlayer().getInventory().setItemInMainHand(null);
                     }
 
-                    int childAmount = (int) Math.floor(breedSize / 2);
+                    int childAmount = breedSize / 2;
                     Animals child = (Animals) sm.tools.duplicate(entity);
                     child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
                     child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
