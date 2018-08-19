@@ -22,15 +22,13 @@ tag:
     always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
-    # Only update the tag when a player is near that entity.
-    update-nearby: true
     # Only show the name tag if the player is near the entity. (requires ProtocolLib and Bukkit 1.9 or above)
     show-player-nearby:
         enabled: true
         # Only display the tag to the player if the player is in this area of the entity.
-        x: 10
+        x: 8
         y: 3
-        z: 10
+        z: 8
 
 
  # Custom rules for specific entities.
@@ -132,8 +130,6 @@ kill-all:
 # Only kill some of the stack
 kill-step:
     enabled: true
-    # Rather than having the stack decrease by a random amount, decrease by the damage done.
-    damage-dependant: false
     # DeathEvent reasons that shouldn't trigger kill-step.
     # List of bukkit names for death reasons can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     reason-blacklist:
@@ -143,7 +139,6 @@ kill-step:
         - ''
     # The maximum amount by which the stack should decrease by.
     # Setting this to less than 2 will cause errors! If you want entities to be killed on a one-by-one basis, disable kill-all and kill-step.
-    # This value will not be used if damage-dependant is used above.
     max-step: 5
 
 # Multiply the amount of drops depending on the size of the stack killed.
@@ -215,7 +210,7 @@ multiply-exp:
     # Used when the CUSTOM or CUSTOM_RANDOM mode is used above.
     custom-multiplier: 1.0
 
-# Multiplies the damage that an entity gives to the player.
+# Multiplies the damage that the player receives.
 multiply-damage-done: true
 
 # Multiplies the damage that the entities receives, if multiplied damage is more than the max health, remove stacks.
