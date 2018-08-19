@@ -85,6 +85,9 @@ public class DropTools {
     }
 
     private boolean dropIsArmor(LivingEntity entity, ItemStack drop){
+        if(entity.getEquipment().getItemInMainHand().equals(drop) || entity.getEquipment().getItemInOffHand().equals(drop)){
+            return true;
+        }
         for(ItemStack itemStack : entity.getEquipment().getArmorContents()){
             if(itemStack.equals(drop)){
                 return true;
