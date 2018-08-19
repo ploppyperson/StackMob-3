@@ -36,7 +36,6 @@ public class DeathEvent implements Listener {
         int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int subtractAmount = 1;
 
-
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
                if(isKillAllAllowed(dead, dead.getKiller())){
@@ -65,9 +64,9 @@ public class DeathEvent implements Listener {
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.config.getCustomConfig().getBoolean("multiply-drops.enabled")){
             if(dead.getKiller() != null){
-                sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), dead.getKiller().getInventory().getItemInMainHand());
+                sm.dropTools.calculateDrops(drops, subtractAmount, dead, dead.getKiller().getInventory().getItemInMainHand());
             }else{
-                sm.dropTools.calculateDrops(drops, subtractAmount, dead.getLocation(), null);
+                sm.dropTools.calculateDrops(drops, subtractAmount, dead, null);
             }
         }
         if(sm.config.getCustomConfig().getBoolean("multiply-exp.enabled")){

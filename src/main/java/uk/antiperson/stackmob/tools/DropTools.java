@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.tools;
 
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.StackMob;
 
@@ -18,8 +19,12 @@ public class DropTools {
         this.sm = sm;
     }
 
-    public void calculateDrops(List<ItemStack> drops, int multiplier, Location dropLocation, ItemStack itemInHand){
+    public void calculateDrops(List<ItemStack> drops, int multiplier, LivingEntity dead, ItemStack itemInHand){
         for(ItemStack itemStack : drops){
+            if(dropIsArmor(dead, itemStack)){
+                continue;
+            }
+
             if(!sm.config.getCustomConfig().getStringList("multiply-drops.drops-whitelist")
                     .contains(itemStack.getType().toString())){
                 continue;
@@ -31,15 +36,15 @@ public class DropTools {
             }
             if(sm.config.getCustomConfig().getStringList("multiply-drops.drop-one-per")
                     .contains(itemStack.getType().toString())){
-                dropDrops(itemStack, multiplier, dropLocation);
+                dropDrops(itemStack, multiplier, dead.getLocation());
                 continue;
             }
             if(itemInHand != null && itemInHand.getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
                 double enchantmentTimes = 1 + itemInHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
-                dropDrops(itemStack, (int) Math.round(calculateAmount(multiplier) * enchantmentTimes), dropLocation);
+                dropDrops(itemStack, (int) Math.round(calculateAmount(multiplier) * enchantmentTimes), dead.getLocation());
                 continue;
             }
-            dropDrops(itemStack, calculateAmount(multiplier), dropLocation);
+            dropDrops(itemStack, calculateAmount(multiplier), dead.getLocation());
         }
     }
 
@@ -62,16 +67,16 @@ public class DropTools {
         double floor = Math.floor(inStacks);
         double leftOver = inStacks - floor;
         for(int i = 1; i <= floor; i++){
-            ItemStack newStack = new ItemStack(drop.getType(), drop.getMaxStackSize(), drop.getDurability());
-            newStack.setItemMeta(drop.getItemMeta());
+            ItemStack newStack = drop.clone();
+            newStack.setAmount(drop.getMaxStackSize());
             if(addEnchantment){
                 newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
             }
             dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
         }
         if(leftOver > 0){
-            ItemStack newStack = new ItemStack(drop.getType(), (int) Math.round(leftOver * drop.getMaxStackSize()), drop.getDurability());
-            newStack.setItemMeta(drop.getItemMeta());
+            ItemStack newStack = drop.clone();
+            newStack.setAmount((int) Math.round(leftOver * drop.getMaxStackSize()));
             if(addEnchantment){
                 newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
             }
@@ -79,4 +84,12 @@ public class DropTools {
         }
     }
 
+    private boolean dropIsArmor(LivingEntity entity, ItemStack drop){
+        for(ItemStack itemStack : entity.getEquipment().getArmorContents()){
+            if(itemStack.equals(drop)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
