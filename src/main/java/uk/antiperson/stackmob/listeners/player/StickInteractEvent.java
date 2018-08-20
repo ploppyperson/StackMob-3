@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.StickMode;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -55,6 +56,13 @@ public class StickInteractEvent implements Listener {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1,1);
                             break;
                         case STACK_NEARBY:
+                            for(Entity nearby : entity.getLocation().getChunk().getEntities()){
+                                if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
+                                    if(GeneralTools.hasInvaildMetadata(nearby)){
+                                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                                    }
+                                }
+                            }
 
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Stacked all in this chunk!"));
                             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
@@ -67,6 +75,16 @@ public class StickInteractEvent implements Listener {
                             entity.setCustomName(null);
                             break;
                         case UNSTACK_NEARBY:
+                            for(Entity nearby : entity.getLocation().getChunk().getEntities()){
+                                if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
+                                    if(!(GeneralTools.hasInvaildMetadata(nearby))){
+                                        nearby.removeMetadata(GlobalValues.METATAG, sm);
+                                    }
+                                }
+                            }
+
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Stacked all in this chunk!"));
+                            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
                             break;
                     }
                 }
