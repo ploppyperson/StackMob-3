@@ -6,6 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
+import uk.antiperson.stackmob.listeners.player.ChatEvent;
+import uk.antiperson.stackmob.listeners.player.QuitEvent;
+import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
 import uk.antiperson.stackmob.tasks.CacheSave;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
@@ -164,5 +167,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
         getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
+        getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
+        getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
     }
 }

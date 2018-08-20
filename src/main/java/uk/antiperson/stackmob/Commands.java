@@ -23,9 +23,8 @@ public class Commands implements CommandExecutor {
         this.sm = sm;
     }
 
-    private final String pluginTag = ChatColor.LIGHT_PURPLE + "StackMob " + ChatColor.GRAY + ">> ";
-    private final String errorTag = ChatColor.RED + "" + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED;
-    private final String noPerm = pluginTag + errorTag +
+
+    private final String noPerm = GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
 
     @Override
@@ -33,7 +32,7 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args) {
         if(sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")) {
             if (args.length == 0) {
-                sender.sendMessage(pluginTag + ChatColor.GOLD + "Plugin commands:");
+                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Plugin commands:");
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
@@ -46,17 +45,17 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.AQUA + "/sm about " + ChatColor.GREEN + "Shows plugin information.");
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("about")) {
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
-                    sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 } else if (args[0].equalsIgnoreCase("reset")) {
                     sm.config.getF().delete();
                     sm.config.reloadCustomConfig();
-                    sender.sendMessage(pluginTag + ChatColor.GREEN + "The configuration has been reset and reloaded.");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reset and reloaded.");
                 } else if (args[0].equalsIgnoreCase("reload")) {
                     sm.config.reloadCustomConfig();
-                    sender.sendMessage(pluginTag + ChatColor.GREEN + "The configuration has been reloaded.");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reloaded.");
                 } else if (args[0].equalsIgnoreCase("removeall")) {
                     int counter = 0;
                     for (World world : Bukkit.getWorlds()) {
@@ -67,11 +66,11 @@ public class Commands implements CommandExecutor {
                             }
                         }
                     }
-                    sender.sendMessage(pluginTag + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
                 } else if (args[0].equalsIgnoreCase("check")) {
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + sm.updater.updateString());
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.updater.updateString());
                 } else if (args[0].equalsIgnoreCase("update")) {
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + sm.updater.update());
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.updater.update());
                 } else if (args[0].equalsIgnoreCase("stats")) {
                     int stackedCount = 0;
                     int stackedTotal = 0;
@@ -103,7 +102,7 @@ public class Commands implements CommandExecutor {
                     }
 
 
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + "Entity stacking statistics:");
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
@@ -111,11 +110,11 @@ public class Commands implements CommandExecutor {
                     if (sender instanceof Player) {
                         sm.stickTools.giveStackingStick((Player) sender);
                     } else {
-                        sender.sendMessage(pluginTag + errorTag +
+                        sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
                     }
                 } else {
-                    sender.sendMessage(pluginTag + errorTag +
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                             "Incorrect command parameters!");
                 }
             } else if (args.length == 2) {
@@ -130,18 +129,18 @@ public class Commands implements CommandExecutor {
                                     counter++;
                                 }
                             }
-                            sender.sendMessage(pluginTag + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
+                            sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
                         } catch (NumberFormatException e){
-                            sender.sendMessage(pluginTag + errorTag +
+                            sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                     "Invalid number format!");
                         }
                     } else {
-                        sender.sendMessage(pluginTag + errorTag +
+                        sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
                     }
 
                 } else {
-                    sender.sendMessage(pluginTag + errorTag +
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                             "Incorrect command parameters!");
                 }
             } else if (args.length == 3) {
@@ -152,7 +151,7 @@ public class Commands implements CommandExecutor {
                         try {
                             numb = Integer.valueOf(args[1]);
                         } catch (NumberFormatException e) {
-                            sender.sendMessage(pluginTag + errorTag +
+                            sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                     "Invalid number format!");
                             return false;
                         }
@@ -166,21 +165,21 @@ public class Commands implements CommandExecutor {
                             Entity newEntity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.valueOf(args[2].toUpperCase()));
                             newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                             newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, numb));
-                            sender.sendMessage(pluginTag + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
+                            sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         } else {
-                            sender.sendMessage(pluginTag + errorTag +
+                            sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                     "Invalid entity type!");
                         }
                     } else {
-                        sender.sendMessage(pluginTag + errorTag +
+                        sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
                     }
                 } else {
-                    sender.sendMessage(pluginTag + errorTag +
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                             "Incorrect command parameters!");
                 }
             } else {
-                sender.sendMessage(pluginTag + errorTag +
+                sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                         "Incorrect command parameters!");
             }
         }else{

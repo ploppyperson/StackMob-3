@@ -3,8 +3,8 @@
 stack-stick:
     name: '&aThe Stick Of Stacking'
     lore:
-        - '&eRight-click an entity to stack it.'
-        - '&eShift + right-click an entity to stack all entities nearby.'
+        - '&eRight-click an entity to perform selected action.'
+        - '&eShift + right-click an entity to change current action.'
 
 # This must be set to 'true' for the below translations to take effect.
 enabled: false
