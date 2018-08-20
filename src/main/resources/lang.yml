@@ -1,10 +1,16 @@
 # This is the language translation file for StackMob 2.x, created by antiPerson
 
+# The display information for the 'stick of stacking' which can be obtained with the command '/sm stick'.
 stack-stick:
-    name: '&aThe Stick Of Stacking'
+    name: '&6The Stick Of Stacking'
     lore:
-        - '&eRight-click an entity to perform selected action.'
-        - '&eShift + right-click an entity to change current action.'
+        - '&eRight-click an entity to perform selected mode.'
+        - '&eShift + right-click an entity to change current mode.'
+        - '&bAvailable modes:'
+        - '&dSTACK_ONE &7-&a Stack one entity.'
+        - '&dSTACK_NEARBY &7-&a Stack all entities in the chunk.'
+        - '&dUNSTACK_ONE &7-&a Removes the stack meta from one entity'
+        - '&dUNSTACK_NEARBY &7-&a Removes the stack meta from all entities in the chunk.'
 
 # This must be set to 'true' for the below translations to take effect.
 enabled: false
@@ -25,7 +31,6 @@ ENDER_DRAGON:
 ENDERMAN:
 ENDERMITE:
 EVOKER:
-EVOKER_FANGS:
 GHAST:
 GIANT:
 GUARDIAN:
@@ -34,7 +39,6 @@ HUSK:
 ILLUSIONER:
 IRON_GOLEM:
 LLAMA:
-LLAMA_SPIT:
 MAGMA_CUBE:
 MULE:
 MUSHROOM_COW:
