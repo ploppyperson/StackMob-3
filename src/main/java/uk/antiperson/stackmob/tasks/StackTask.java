@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
@@ -43,7 +44,7 @@ public class StackTask extends BukkitRunnable {
                 if(sm.tools.notTaskSuitable(first)){
                     continue;
                 }
-                if(first.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR)
+                if(!(GeneralTools.hasInvaildMetadata(first, GlobalValues.NOT_ENOUGH_NEAR))
                         && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                         sm.tools.notEnoughNearby(first);
                 }
@@ -54,7 +55,7 @@ public class StackTask extends BukkitRunnable {
                 }
 
                 // If the first entity has metatag, check if it is maxSize to save performance
-                if(first.hasMetadata(GlobalValues.METATAG) && first.getMetadata(GlobalValues.METATAG).size() != 0){
+                if(!(GeneralTools.hasInvaildMetadata(first))){
                     if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }
@@ -68,7 +69,7 @@ public class StackTask extends BukkitRunnable {
                         continue;
                     }
 
-                    if(!nearby.hasMetadata(GlobalValues.METATAG) || nearby.getMetadata(GlobalValues.METATAG).size() == 0
+                    if(GeneralTools.hasInvaildMetadata(nearby)
                             || nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }

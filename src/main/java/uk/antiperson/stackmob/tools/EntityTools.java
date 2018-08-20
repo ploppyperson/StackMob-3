@@ -285,7 +285,7 @@ public class EntityTools {
             entities.add(original.getUniqueId());
             for(Entity nearby : original.getNearbyEntities(xLoc, yLoc, zLoc)){
                 if(original.getType() == nearby.getType()) {
-                    if (GeneralTools.hasInvaildMetadata(nearby, GlobalValues.NOT_ENOUGH_NEAR)
+                    if (!(GeneralTools.hasInvaildMetadata(nearby, GlobalValues.NOT_ENOUGH_NEAR))
                             && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                         if (notMatching(original, nearby)) {
                             continue;
