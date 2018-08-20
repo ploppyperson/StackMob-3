@@ -83,7 +83,7 @@ public class StickInteractEvent implements Listener {
                                 }
                             }
 
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Stacked all in this chunk!"));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Unstacked all in this chunk!"));
                             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
                             break;
                     }
