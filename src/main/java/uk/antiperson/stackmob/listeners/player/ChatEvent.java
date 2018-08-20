@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class ChatEvent implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        if(player.hasMetadata(GlobalValues.WAITING_FOR_INPUT)){
+        if(!(GeneralTools.hasInvaildMetadata(player, GlobalValues.WAITING_FOR_INPUT))){
             if(!(player.getMetadata(GlobalValues.WAITING_FOR_INPUT).get(0).asBoolean())){
                 return;
             }
