@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.List;
@@ -26,12 +27,10 @@ public class DeathEvent implements Listener {
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
 
-        if(!dead.hasMetadata(GlobalValues.METATAG)){
+        if(GeneralTools.hasInvaildMetadata(dead)){
             return;
         }
-        if(dead.getMetadata(GlobalValues.METATAG).get(0).asInt() <= 1){
-            return;
-        }
+
 
         int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int subtractAmount = 1;

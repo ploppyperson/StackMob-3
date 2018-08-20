@@ -33,11 +33,11 @@ public class EntityTools {
             return true;
         }
 
-        if(firstEntity.hasMetadata(GlobalValues.NO_STACK_ALL) && firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvaildMetadata(firstEntity, GlobalValues.NO_STACK_ALL)) && firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
-        if(nearby.hasMetadata(GlobalValues.NO_STACK_ALL) && nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvaildMetadata(nearby, GlobalValues.NO_STACK_ALL)) && nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 

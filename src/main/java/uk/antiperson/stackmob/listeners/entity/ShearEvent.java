@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class ShearEvent implements Listener {
@@ -24,10 +25,7 @@ public class ShearEvent implements Listener {
 
     @EventHandler
     public void onSheepShear(PlayerShearEntityEvent event) {
-        if(!event.getEntity().hasMetadata(GlobalValues.METATAG)){
-            return;
-        }
-        if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() <= 1){
+        if(GeneralTools.hasInvaildMetadata(event.getEntity())){
             return;
         }
         if(event.isCancelled()){

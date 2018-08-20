@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class TargetEvent implements Listener {
@@ -19,7 +20,7 @@ public class TargetEvent implements Listener {
     @EventHandler
     public void onEntityTarget(EntityTargetLivingEntityEvent event) {
         if(event.getTarget() instanceof Player && event.getEntity() instanceof Monster){
-            if(event.getEntity().hasMetadata(GlobalValues.METATAG)){
+            if(GeneralTools.hasInvaildMetadata(event.getEntity())){
                 if(!sm.config.getCustomConfig().getStringList("no-targeting.types-blacklist").contains(event.getEntityType().toString())) {
                     event.setCancelled(true);
                 }

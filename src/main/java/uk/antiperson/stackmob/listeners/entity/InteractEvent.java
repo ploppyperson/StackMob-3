@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class InteractEvent implements Listener {
@@ -23,10 +24,10 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(!entity.hasMetadata(GlobalValues.METATAG)){
+        if(GeneralTools.hasInvaildMetadata(entity)){
             return;
         }
-        if(entity.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvaildMetadata(entity, GlobalValues.CURRENTLY_BREEDING)) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
         if(event.getHand() == EquipmentSlot.OFF_HAND){

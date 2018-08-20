@@ -8,6 +8,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class SpawnEvent implements Listener {
@@ -64,7 +65,7 @@ public class SpawnEvent implements Listener {
                    if(newEntity.getType() != nearby.getType()){
                        continue;
                    }
-                   if(nearby.hasMetadata(GlobalValues.METATAG)) {
+                   if(!(GeneralTools.hasInvaildMetadata(nearby))) {
                        if (sm.tools.notMatching(newEntity, nearby)) {
                            continue;
                        }

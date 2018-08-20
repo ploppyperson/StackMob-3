@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SheepDyeWoolEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class DyeEvent implements Listener {
@@ -19,7 +20,7 @@ public class DyeEvent implements Listener {
 
     @EventHandler
     public void onSheepDye(SheepDyeWoolEvent event) {
-        if (!event.getEntity().hasMetadata(GlobalValues.METATAG)) {
+        if (GeneralTools.hasInvaildMetadata(event.getEntity())) {
             return;
         }
         if(event.isCancelled()){

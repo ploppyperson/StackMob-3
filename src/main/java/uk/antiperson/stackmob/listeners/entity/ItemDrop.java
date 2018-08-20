@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,7 +31,7 @@ public class ItemDrop implements Listener {
                 return;
             }
             for(Entity e : event.getEntity().getNearbyEntities(0.2, 0.3, 0.2)){
-                if(e instanceof Chicken && e.hasMetadata(GlobalValues.METATAG)){
+                if(e instanceof Chicken && !(GeneralTools.hasInvaildMetadata(e))){
                     int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int dropAmount = (int) Math.round(stackSize * ((ThreadLocalRandom.current().nextDouble(0.5) + 0.35)));
                     sm.dropTools.dropEggs(event.getEntity().getItemStack(), dropAmount, e.getLocation());
