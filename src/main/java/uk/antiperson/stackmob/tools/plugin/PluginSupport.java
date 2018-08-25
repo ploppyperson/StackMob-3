@@ -84,7 +84,7 @@ public class PluginSupport {
 
     public boolean isWorldGuardCorrectVersion(){
         try {
-            Class.forName("com.sk89q.worldguard.protection.flags.registry.FlagConflictException");
+            Class.forName("com.sk89q.worldguard.WorldGuard");
             return true;
         }catch (ClassNotFoundException e){
             return false;
