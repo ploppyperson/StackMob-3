@@ -26,11 +26,9 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
-
         if(GeneralTools.hasInvaildMetadata(dead)){
             return;
         }
-
 
         int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int subtractAmount = 1;
@@ -38,7 +36,6 @@ public class DeathEvent implements Listener {
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
                if(isKillAllAllowed(dead, dead.getKiller())){
-                   // Do it
                    multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
                    finished(oldSize, oldSize, dead);
                    return;

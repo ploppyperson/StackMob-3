@@ -258,6 +258,9 @@ public class EntityTools {
         // mcMMO stuff
         sm.pluginSupport.setMcmmoMetadata(dupe);
 
+        // noAi
+        setAi((LivingEntity) dupe);
+
         return dupe;
     }
 
@@ -312,4 +315,14 @@ public class EntityTools {
         return false;
     }
 
+    public void setAi(LivingEntity entity){
+        if(sm.config.getCustomConfig().getBoolean("no-ai.enabled")){
+            if(sm.config.getCustomConfig().getBoolean("no-ai.use-whitelist")){
+                if(!(sm.config.getCustomConfig().getList("no-ai.type-whitelist").contains(entity.getType().toString()))){
+                    return;
+                }
+            }
+            entity.setAI(false);
+        }
+    }
 }

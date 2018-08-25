@@ -225,7 +225,13 @@ multiply-damage-received:
 no-targeting:
     enabled: false
     types-blacklist:
-       - ''
+        - ''
+
+no-ai:
+    enabled: false
+    use-whitelist: false
+    types-whitelist:
+        -
 
 # Everything to do with mcMMO
 mcmmo:

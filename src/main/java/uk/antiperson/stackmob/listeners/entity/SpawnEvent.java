@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -20,7 +21,7 @@ public class SpawnEvent implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent e){
-        final Entity newEntity = e.getEntity();
+        final LivingEntity newEntity = e.getEntity();
         final CreatureSpawnEvent.SpawnReason sr = e.getSpawnReason();
 
         // EntityTools before running task
@@ -101,6 +102,9 @@ public class SpawnEvent implements Listener {
 
                // Set mcMMO stuff
                sm.pluginSupport.setMcmmoMetadata(newEntity);
+
+               // Set noAI
+               sm.tools.setAi(newEntity);
            }
        }.runTaskLater(sm, 1);
     }
