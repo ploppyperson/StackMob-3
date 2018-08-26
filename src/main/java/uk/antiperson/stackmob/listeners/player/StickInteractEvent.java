@@ -35,7 +35,7 @@ public class StickInteractEvent implements Listener {
                     int newStickMode = 1;
                     if(!(GeneralTools.hasInvaildMetadata(player, GlobalValues.STICK_MODE))){
                         int stickMode = player.getMetadata(GlobalValues.STICK_MODE).get(0).asInt();
-                        if(stickMode != 4){
+                        if(stickMode != StickMode.values().length){
                             newStickMode = stickMode + 1;
                         }
                     }
