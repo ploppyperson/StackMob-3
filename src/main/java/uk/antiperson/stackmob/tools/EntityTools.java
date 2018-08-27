@@ -194,7 +194,7 @@ public class EntityTools {
     }
 
     // Copies all of the attributes of one entity and gives them to another.
-    // TODO: fire ticks, no ai if you don't want faction server owners screaming at you.
+    // TODO: fire ticks.
     public Entity cloneTraits(Entity original, Entity dupe){
         if (dupe instanceof Tameable) {
             if (!sm.config.getCustomConfig().getBoolean("check.tamed")) {
