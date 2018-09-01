@@ -35,16 +35,15 @@ public class DeathEvent implements Listener {
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
-               if(isAllowed("kill-all", dead, dead.getKiller())){
+               if(isAllowed("kill-all", dead)){
                    multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
                    finished(oldSize, oldSize, dead);
                    return;
                 }
             }
 
-
             if(sm.config.getCustomConfig().getBoolean("kill-step.enabled")){
-                if(isAllowed("kill-step", dead, dead.getKiller())) {
+                if(isAllowed("kill-step", dead)) {
                     int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
                     if (randomStep >= oldSize) {
                         subtractAmount = oldSize;
@@ -87,10 +86,10 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
     }
 
-    private boolean isAllowed(String type, Entity dead, Player killer){
+    private boolean isAllowed(String type, LivingEntity dead){
         if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
-            if(killer != null){
-                if(!(killer.hasPermission("stackmob." + type))){
+            if(dead.getKiller() != null){
+                if(!(dead.getKiller().hasPermission("stackmob." + type))){
                     return false;
                 }
             }
