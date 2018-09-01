@@ -13,7 +13,9 @@ commands:
 permissions:
     stackmob.*:
         description: All administrator commands
-    stackmob.killall:
+    stackmob.kill-all:
         description: Allows for the kill-all method of killing mobs.
-    stackmob.killstep:
+    stackmob.kill-step:
         description: Allows for the kill-step method of killing mobs.
+    stackmob.kill-step-damage:
+        description: Allows for the kill-step-damage method of killing mobs.
