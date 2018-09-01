@@ -19,6 +19,7 @@ public class GlobalValues {
     public static final String WAITING_FOR_INPUT = "stackmob:waiting-for-input";
     public static final String STICK_MODE = "stackmob:stick-mode";
     public static final String SELECTED_ENTITY = "stackmob:selected-entity";
+    public static final String LEFTOVER_DAMAGE = "stackmob:leftover-damage";
     public static final String PLUGIN_TAG = ChatColor.LIGHT_PURPLE + "StackMob " + ChatColor.GRAY + ">> ";
     public static final String ERROR_TAG = ChatColor.RED + "" + ChatColor.BOLD + "Error: " + ChatColor.RESET + ChatColor.RED;
 
