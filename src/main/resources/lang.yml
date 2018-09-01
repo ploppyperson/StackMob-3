@@ -18,6 +18,7 @@ enabled: false
 # Translations for the entity name shown in the name tag.
 # Note: These are the entity types for Minecraft 1.13.
 BAT:
+BLAZE:
 CAVE_SPIDER:
 CHICKEN:
 COD:
