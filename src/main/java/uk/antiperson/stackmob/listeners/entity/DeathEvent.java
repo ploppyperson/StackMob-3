@@ -35,15 +35,16 @@ public class DeathEvent implements Listener {
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
-               if(isKillAllAllowed(dead, dead.getKiller())){
+               if(isAllowed("kill-all", dead, dead.getKiller())){
                    multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
                    finished(oldSize, oldSize, dead);
                    return;
                 }
             }
 
+
             if(sm.config.getCustomConfig().getBoolean("kill-step.enabled")){
-                if(isKillStepAllowed(dead, dead.getKiller())) {
+                if(isAllowed("kill-step", dead, dead.getKiller())) {
                     int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
                     if (randomStep >= oldSize) {
                         subtractAmount = oldSize;
@@ -86,34 +87,18 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
     }
 
-    private boolean isKillAllAllowed(Entity dead, Player killer){
+    private boolean isAllowed(String type, Entity dead, Player killer){
         if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
             if(killer != null){
-                if(!(killer.hasPermission("stackmob.killall"))){
+                if(!(killer.hasPermission("stackmob." + type))){
                     return false;
                 }
             }
         }
-        if (!(sm.config.getCustomConfig().getStringList("kill-all.reason-blacklist")
+        if (!(sm.config.getCustomConfig().getStringList(type + ".reason-blacklist")
                 .contains(dead.getLastDamageCause().getCause().toString()))){
-            return !(sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
+            return !(sm.config.getCustomConfig().getStringList(type + ".type-blacklist")
                     .contains(dead.getType().toString()));
-        }
-        return false;
-    }
-
-    private boolean isKillStepAllowed(Entity dead, Player killer){
-        if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
-            if(killer != null){
-                if(!(killer.hasPermission("stackmob.killstep"))){
-                    return false;
-                }
-            }
-        }
-        if (!sm.config.getCustomConfig().getStringList("kill-step.reason-blacklist")
-                .contains(dead.getLastDamageCause().getCause().toString())){
-            return !sm.config.getCustomConfig().getStringList("kill-step.type-blacklist")
-                    .contains(dead.getType().toString());
         }
         return false;
     }
