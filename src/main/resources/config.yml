@@ -238,11 +238,12 @@ no-targeting:
     types-blacklist:
         - ''
 
+# Disables the ai on entities.
 no-ai:
     enabled: false
     use-whitelist: false
     types-whitelist:
-        -
+        - ''
 
 # Everything to do with mcMMO
 mcmmo:
@@ -258,7 +259,7 @@ mythicmobs:
     # MythicMob types that shouldn't stack, use the 'internal name'
     # To prevent all stacking, add 'ALL' to the list below.
     blacklist:
-       - ''
+        - ''
 
 # If WorldGuard is installed, enable support for it.
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
