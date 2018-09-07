@@ -34,6 +34,9 @@ public class ShearEvent implements Listener {
 
         Entity oldEntity = event.getEntity();
         int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
+        if(stackSize <= 1){
+            return;
+        }
 
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
