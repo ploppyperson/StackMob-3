@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,7 +39,9 @@ public class CacheFile extends ConfigLoader{
             fc.set(entry.getKey().toString(), entry.getValue());
         }
         for (World world : Bukkit.getWorlds()){
-            for(Entity currentEntity : world.getLivingEntities()){
+            Iterator<LivingEntity> iterator = world.getLivingEntities().iterator();
+            while (iterator.hasNext()){
+                Entity currentEntity = iterator.next();
                 if(currentEntity.hasMetadata(GlobalValues.METATAG) &&
                         currentEntity.getMetadata(GlobalValues.METATAG).size() > 0 &&
                         currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
