@@ -41,7 +41,7 @@ public class PluginSupport {
         }
         if(!(isMiniPetCorrectVersion())){
             sm.getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
-            sm.getLogger().info("MiniaturePet related checks will not work unless a supported version is installed.");
+            sm.getLogger().warning("MiniaturePets related mob checks will not work!");
         }
     }
 
@@ -95,8 +95,11 @@ public class PluginSupport {
     }
 
     public boolean isMiniPetCorrectVersion(){
-        Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
-        int unformattedVersion = Integer.parseInt(miniPet.getDescription().getVersion().replaceAll("[^0-9.]", ""));
-        return unformattedVersion < 200;
+        try {
+            Class.forName("com.kirelcodes.miniaturepets.api.APIUtils");
+            return true;
+        }catch (ClassNotFoundException e){
+            return false;
+        }
     }
 }
