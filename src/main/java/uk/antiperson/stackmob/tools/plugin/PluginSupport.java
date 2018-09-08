@@ -39,6 +39,10 @@ public class PluginSupport {
                 mythicSupport = new MythicSupport(sm);
             }
         }
+        if(!(isMiniPetCorrectVersion())){
+            sm.getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
+            sm.getLogger().info("MiniaturePet related checks will not work unless a supported version is installed.");
+        }
     }
 
     public void setMcmmoMetadata(Entity entity){
@@ -54,7 +58,7 @@ public class PluginSupport {
     public boolean isMiniPet(Entity entity){
         Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
         if(sm.config.getCustomConfig().getBoolean("check.is-miniature-pet") && miniPet != null){
-            if(miniPet.isEnabled()){
+            if(miniPet.isEnabled() && isMiniPetCorrectVersion()){
                 return APIUtils.isEntityMob(entity);
             }
         }
@@ -62,7 +66,6 @@ public class PluginSupport {
     }
 
     public MythicSupport getMythicSupport(){
-
         return mythicSupport;
     }
 
@@ -89,5 +92,11 @@ public class PluginSupport {
         }catch (ClassNotFoundException e){
             return false;
         }
+    }
+
+    public boolean isMiniPetCorrectVersion(){
+        Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
+        int unformattedVersion = Integer.parseInt(miniPet.getDescription().getVersion().replaceAll("[^0-9.]", ""));
+        return unformattedVersion < 200;
     }
 }
