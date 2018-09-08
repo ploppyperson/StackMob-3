@@ -21,6 +21,10 @@ public class DropTools {
 
     public void calculateDrops(List<ItemStack> drops, int multiplier, LivingEntity dead, ItemStack itemInHand){
         for(ItemStack itemStack : drops){
+            if(itemStack == null){
+                continue;
+            }
+
             if(dropIsArmor(dead, itemStack)){
                 continue;
             }
