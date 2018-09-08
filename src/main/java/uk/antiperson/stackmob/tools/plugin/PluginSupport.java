@@ -39,20 +39,26 @@ public class PluginSupport {
                 mythicSupport = new MythicSupport(sm);
             }
         }
+        if(!(isMiniPetCorrectVersion())){
+            sm.getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
+            sm.getLogger().info("MiniaturePet related checks will not work unless a supported version is installed.");
+        }
     }
 
     public void setMcmmoMetadata(Entity entity){
-        if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && sm.getServer().getPluginManager().getPlugin("mcMMO") != null){
+        Plugin mcmmo = sm.getServer().getPluginManager().getPlugin("mcMMO");
+        if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && mcmmo != null){
             if(!sm.config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
-                    .contains(entity.getType().toString()) && sm.getServer().getPluginManager().isPluginEnabled("mcMMO")){
-                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(sm.getServer().getPluginManager().getPlugin("mcMMO"), false));
+                    .contains(entity.getType().toString()) && mcmmo.isEnabled()){
+                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(mcmmo,false));
             }
         }
     }
 
     public boolean isMiniPet(Entity entity){
-        if(sm.config.getCustomConfig().getBoolean("check.is-miniature-pet") && sm.getServer().getPluginManager().getPlugin("MiniaturePets") != null){
-            if(sm.getServer().getPluginManager().isPluginEnabled("MiniaturePets")){
+        Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
+        if(sm.config.getCustomConfig().getBoolean("check.is-miniature-pet") && miniPet != null){
+            if(miniPet.isEnabled() && isMiniPetCorrectVersion()){
                 return APIUtils.isEntityMob(entity);
             }
         }
@@ -60,7 +66,6 @@ public class PluginSupport {
     }
 
     public MythicSupport getMythicSupport(){
-
         return mythicSupport;
     }
 
@@ -82,10 +87,16 @@ public class PluginSupport {
 
     public boolean isWorldGuardCorrectVersion(){
         try {
-            Class.forName("com.sk89q.worldguard.protection.flags.registry.FlagConflictException");
+            Class.forName("com.sk89q.worldguard.WorldGuard");
             return true;
         }catch (ClassNotFoundException e){
             return false;
         }
+    }
+
+    public boolean isMiniPetCorrectVersion(){
+        Plugin miniPet = sm.getServer().getPluginManager().getPlugin("MiniaturePets");
+        int unformattedVersion = Integer.parseInt(miniPet.getDescription().getVersion().replaceAll("[^0-9.]", ""));
+        return unformattedVersion < 200;
     }
 }
