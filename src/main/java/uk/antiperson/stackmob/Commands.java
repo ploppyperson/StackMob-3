@@ -2,6 +2,7 @@ package uk.antiperson.stackmob;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -108,7 +109,10 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick")){
                     if (sender instanceof Player) {
-                        sm.stickTools.giveStackingStick((Player) sender);
+                        Player player = (Player) sender;
+                        sm.stickTools.giveStackingStick(player);
+                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
+                        player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "The stacking stick has been added to your inventory.");
                     } else {
                         sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
