@@ -1,14 +1,13 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.MushroomCow;
-import org.bukkit.entity.Sheep;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
@@ -45,7 +44,9 @@ public class ShearEvent implements Listener {
                 sm.dropTools.dropDrops(wool.toItemStack(1), sm.dropTools.calculateAmount(stackSize), oldEntity.getLocation());
 
                 ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-                item.setDurability((short) (item.getDurability() + stackSize));
+                Damageable meta = (Damageable) item.getItemMeta();
+                meta.setDamage(meta.getDamage() + stackSize);
+                item.setItemMeta((ItemMeta) meta);
                 event.getPlayer().getInventory().setItemInMainHand(item);
 
             }else if(sm.config.getCustomConfig().getBoolean("divide-on.sheep-shear")){
