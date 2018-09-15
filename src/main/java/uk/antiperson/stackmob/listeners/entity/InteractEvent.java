@@ -24,10 +24,10 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(GeneralTools.hasInvaildMetadata(entity)){
+        if(GeneralTools.hasInvalidMetadata(entity)){
             return;
         }
-        if(!(GeneralTools.hasInvaildMetadata(entity, GlobalValues.CURRENTLY_BREEDING)) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvalidMetadata(entity, GlobalValues.CURRENTLY_BREEDING)) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
         if(event.getHand() == EquipmentSlot.OFF_HAND){

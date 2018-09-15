@@ -27,7 +27,7 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
-        if(GeneralTools.hasInvaildMetadata(dead)){
+        if(GeneralTools.hasInvalidMetadata(dead)){
             return;
         }
 

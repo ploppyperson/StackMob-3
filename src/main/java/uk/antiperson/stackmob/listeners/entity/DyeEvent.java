@@ -20,7 +20,7 @@ public class DyeEvent implements Listener {
 
     @EventHandler
     public void onSheepDye(SheepDyeWoolEvent event) {
-        if (GeneralTools.hasInvaildMetadata(event.getEntity())) {
+        if (GeneralTools.hasInvalidMetadata(event.getEntity())) {
             return;
         }
         if(event.isCancelled()){

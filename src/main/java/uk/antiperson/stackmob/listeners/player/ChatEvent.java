@@ -27,7 +27,7 @@ public class ChatEvent implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        if(!(GeneralTools.hasInvaildMetadata(player, GlobalValues.WAITING_FOR_INPUT))){
+        if(!(GeneralTools.hasInvalidMetadata(player, GlobalValues.WAITING_FOR_INPUT))){
             if(!(player.getMetadata(GlobalValues.WAITING_FOR_INPUT).get(0).asBoolean())){
                 return;
             }

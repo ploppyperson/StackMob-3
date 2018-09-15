@@ -44,7 +44,7 @@ public class StackTask extends BukkitRunnable {
                 if(sm.tools.notTaskSuitable(first)){
                     continue;
                 }
-                if(!(GeneralTools.hasInvaildMetadata(first, GlobalValues.NOT_ENOUGH_NEAR))
+                if(!(GeneralTools.hasInvalidMetadata(first, GlobalValues.NOT_ENOUGH_NEAR))
                         && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                         sm.tools.notEnoughNearby(first);
                 }
@@ -55,7 +55,7 @@ public class StackTask extends BukkitRunnable {
                 }
 
                 // If the first entity has metatag, check if it is maxSize to save performance
-                if(!(GeneralTools.hasInvaildMetadata(first))){
+                if(!(GeneralTools.hasInvalidMetadata(first))){
                     if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }
@@ -69,7 +69,7 @@ public class StackTask extends BukkitRunnable {
                         continue;
                     }
 
-                    if(GeneralTools.hasInvaildMetadata(nearby)
+                    if(GeneralTools.hasInvalidMetadata(nearby)
                             || nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
                         continue;
                     }

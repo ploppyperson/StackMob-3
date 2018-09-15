@@ -24,7 +24,7 @@ public class ShearEvent implements Listener {
 
     @EventHandler
     public void onSheepShear(PlayerShearEntityEvent event) {
-        if(GeneralTools.hasInvaildMetadata(event.getEntity())){
+        if(GeneralTools.hasInvalidMetadata(event.getEntity())){
             return;
         }
         if(event.isCancelled()){

@@ -66,7 +66,7 @@ public class SpawnEvent implements Listener {
                    if(newEntity.getType() != nearby.getType()){
                        continue;
                    }
-                   if(!(GeneralTools.hasInvaildMetadata(nearby))) {
+                   if(!(GeneralTools.hasInvalidMetadata(nearby))) {
                        if (sm.tools.notMatching(newEntity, nearby)) {
                            continue;
                        }

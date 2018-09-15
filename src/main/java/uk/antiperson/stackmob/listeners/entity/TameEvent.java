@@ -19,7 +19,7 @@ public class TameEvent implements Listener {
 
     @EventHandler
     public void onTame(EntityTameEvent event) {
-        if(!(GeneralTools.hasInvaildMetadata(event.getEntity()))){
+        if(!(GeneralTools.hasInvalidMetadata(event.getEntity()))){
             if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
                 Entity dupe = sm.tools.duplicate(event.getEntity());
                 dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));

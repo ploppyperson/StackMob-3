@@ -29,7 +29,7 @@ public class UnloadEvent implements Listener {
                 continue;
             }
             // Add to cache
-            if(!(GeneralTools.hasInvaildMetadata(currentEntity))){
+            if(!(GeneralTools.hasInvalidMetadata(currentEntity))){
                 sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
             }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
                     currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
