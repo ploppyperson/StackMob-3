@@ -72,7 +72,9 @@ public class ShearEvent implements Listener {
                 cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 // Set the required damage as if done separately
                 ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-                item.setDurability((short) (item.getDurability() + stackSize));
+                Damageable meta = (Damageable) item.getItemMeta();
+                meta.setDamage(meta.getDamage() + stackSize);
+                item.setItemMeta((ItemMeta) meta);
                 event.getPlayer().getInventory().setItemInMainHand(item);
             }else if (sm.config.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
