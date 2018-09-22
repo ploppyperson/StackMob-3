@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
@@ -28,7 +29,7 @@ public class TagTask extends BukkitRunnable {
                     continue;
                 }
                 if (e.hasMetadata(GlobalValues.METATAG)) {
-                    if (e.getMetadata(GlobalValues.METATAG).size() == 0) {
+                    if (e.getMetadata(GlobalValues.METATAG).size() == 0 && !(e.hasMetadata(GlobalValues.NO_STACK_ALL))) {
                         e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }
                     String typeString = e.getType().toString();
