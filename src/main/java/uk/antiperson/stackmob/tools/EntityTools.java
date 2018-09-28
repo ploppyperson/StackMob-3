@@ -47,6 +47,10 @@ public class EntityTools {
             }
         }
 
+        if(sm.pluginSupport.isNPC(firstEntity) || sm.pluginSupport.isNPC(nearby)){
+            return true;
+        }
+
         // Checks on the nearby entity
         if (nearby instanceof Tameable) {
             if (sm.config.getCustomConfig().getBoolean("check.tamed")) {
