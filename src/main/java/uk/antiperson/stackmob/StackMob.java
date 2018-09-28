@@ -19,6 +19,8 @@ import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
+import java.time.LocalDate;
+
 /**
  * Created by nathat on 23/07/17.
  */
@@ -102,6 +104,10 @@ public class StackMob extends JavaPlugin {
 
         getLogger().info(updater.updateString());
 
+        if(LocalDate.now().getDayOfYear() == 275) {
+            getLogger().info("StackMob is now two years old!");
+            getLogger().info("Thanks for all your continued support.");
+        }
     }
 
 

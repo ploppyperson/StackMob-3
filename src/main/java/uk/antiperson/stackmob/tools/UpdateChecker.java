@@ -31,10 +31,10 @@ public class UpdateChecker {
     public String updateString(){
         String latestVersion = getLatestVersion();
         if(latestVersion == null){
-            return "Unable to obtain latest version information.";
+            return "Unable to obtain latest version information. Is your server offline?";
         }
         if(!latestVersion.replace("v", "").equals(sm.getDescription().getVersion())){
-            return "A new version (" + latestVersion + ") is currently available!";
+            return "A new version (" + latestVersion + ") is currently available! Type '/sm update' to download, then restart your server.";
         }
          return "There is no new version at this time.";
     }
