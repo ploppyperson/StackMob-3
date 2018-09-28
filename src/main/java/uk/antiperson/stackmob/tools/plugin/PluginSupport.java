@@ -65,6 +65,16 @@ public class PluginSupport {
         return false;
     }
 
+    public boolean isNPC(Entity entity){
+        Plugin citizens = sm.getServer().getPluginManager().getPlugin("Citizens");
+        if(sm.config.getCustomConfig().getBoolean("check.is-citizens-npc")){
+            if(citizens.isEnabled()){
+                return entity.hasMetadata("NPC");
+            }
+        }
+        return false;
+    }
+
     public MythicSupport getMythicSupport(){
         return mythicSupport;
     }

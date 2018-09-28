@@ -89,6 +89,7 @@ check:
     tamed: true
     leashed: true
     is-miniature-pet: true
+    is-citizens-npc: true
 
 # Things that should be duplicated.
 multiply:
