@@ -104,9 +104,8 @@ public class StackMob extends JavaPlugin {
 
         getLogger().info(updater.updateString());
 
-        if(LocalDate.now().getDayOfYear() == 275) {
-            getLogger().info("StackMob is now two years old!");
-            getLogger().info("Thanks for all your continued support.");
+        if(LocalDate.now().getDayOfYear() == 304) {
+            getLogger().info("BOO!");
         }
     }
 
