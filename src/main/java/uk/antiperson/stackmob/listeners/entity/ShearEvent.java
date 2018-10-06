@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,11 +9,14 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
+import org.bukkit.loot.LootContext;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
+
+import java.util.Collection;
+import java.util.Random;
 
 public class ShearEvent implements Listener {
 
@@ -40,8 +44,13 @@ public class ShearEvent implements Listener {
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.config.getCustomConfig().getBoolean("multiply.sheep-wool")){
-                Wool wool = new Wool(oldSheep.getColor());
-                sm.dropTools.dropDrops(wool.toItemStack(1), sm.dropTools.calculateAmount(stackSize), oldEntity.getLocation());
+                LootContext lootContext = new LootContext.Builder(oldSheep.getLocation()).lootedEntity(oldSheep).build();
+                Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(new Random(), lootContext);
+                for(ItemStack itemStack : loot){
+                    if(Tag.WOOL.isTagged(itemStack.getType())){
+                        sm.dropTools.dropDrops(itemStack, sm.dropTools.calculateAmount(stackSize), oldEntity.getLocation());
+                    }
+                }
 
                 ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
                 Damageable meta = (Damageable) item.getItemMeta();
@@ -84,4 +93,5 @@ public class ShearEvent implements Listener {
             }
         }
     }
+
 }
