@@ -68,7 +68,7 @@ public class PluginSupport {
     public boolean isNPC(Entity entity){
         Plugin citizens = sm.getServer().getPluginManager().getPlugin("Citizens");
         if(sm.config.getCustomConfig().getBoolean("check.is-citizens-npc")){
-            if(citizens.isEnabled()){
+            if(citizens != null && citizens.isEnabled()){
                 return entity.hasMetadata("NPC");
             }
         }
