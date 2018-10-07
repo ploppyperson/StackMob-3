@@ -1,5 +1,6 @@
-# StackMob-2, with 1.13 support
+# StackMob 3, with 1.13 support
 
+StackMob 3 is the next big update with lots of code refactoring and additions.
 
 Welcome! StackMob is a bukkit plugin that is used by many servers - big and small - to enhance the experience of their players by
 'stacking' mobs. This is especially useful for monster grinders as there are usually many of the same type in one place.
