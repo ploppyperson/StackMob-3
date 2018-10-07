@@ -36,7 +36,7 @@ public class MythicMobsHook extends PluginHook implements Comparable {
             }
             return isInBlacklist(activeMobO);
         }
-        return !(isMythicMob(original) || isMythicMob(nearby));
+        return (isMythicMob(original) || isMythicMob(nearby));
     }
 
 

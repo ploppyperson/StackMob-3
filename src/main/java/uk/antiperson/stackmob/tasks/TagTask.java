@@ -25,6 +25,7 @@ public class TagTask extends BukkitRunnable {
     }
 
     public void run() {
+        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
         for (Entity e : sm.worldTools.getLoadedEntities()) {
             if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
                 if(!(e instanceof LivingEntity)){
@@ -48,8 +49,8 @@ public class TagTask extends BukkitRunnable {
                         }
 
                         // Change if it is a mythic mob.
-                        if (sm.hookManager.isHookRegistered(PluginCompat.MYTHICMOBS)) {
-                            MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
+
+                        if (sm.hookManager.isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
                             typeString = mobsHook.getDisplayName(e);
                         } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
