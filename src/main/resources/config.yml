@@ -154,7 +154,7 @@ kill-step-damage:
         - ''
 
 # Multiply the amount of drops depending on the size of the stack killed.
-# Only required if kill-all OR kill-step is enabled above.
+# Only required if kill-all, kill-step or kill-step-damage is enabled above.
 multiply-drops:
     enabled: true
     # The amount of entities that the loot should be dropped for in a stack.
