@@ -3,6 +3,7 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
@@ -17,7 +18,6 @@ import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
-import uk.antiperson.stackmob.tools.plugin.PluginSupport;
 
 import java.time.LocalDate;
 
@@ -35,20 +35,12 @@ public class StackMob extends JavaPlugin {
     public WorldTools worldTools = new WorldTools();
     public StickTools stickTools = new StickTools(this);
     public ExperienceTools expTools = new ExperienceTools(this);
-    public PluginSupport pluginSupport = new PluginSupport(this);
+    public HookManager hookManager = new HookManager(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
     @Override
     public void onLoad(){
-        pluginSupport.setupWorldGuard();
-        if(pluginSupport.getWorldGuard() != null && config.getCustomConfig().getBoolean("worldguard-support")){
-            if(!pluginSupport.isWorldGuardCorrectVersion()){
-                getLogger().info("In order for this functionality to work, WorldGuard 7.0 or later needs to be installed.");
-                return;
-            }
-            pluginSupport.getWorldGuard().registerFlag();
-            getLogger().info("Registered WorldGuard region flag.");
-        }
+        hookManager.onServerLoad();
     }
 
     @Override
@@ -73,19 +65,12 @@ public class StackMob extends JavaPlugin {
         translation.reloadCustomConfig();
 
         // Initialize support for other plugins.
-        pluginSupport.startup();
+        hookManager.onServerStart();
 
         if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
             getLogger().info("A new one will be generated and the old one will be renamed to config.old");
             config.generateNewVersion();
-        }
-
-        if(config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
-          if(!pluginSupport.isProtocolSupportEnabled()) {
-                getLogger().info("ProtocolLib is required for certain features, but it cannot be found!");
-                getLogger().info("These feature(s) will not work until ProtocolLib is installed.");
-            }
         }
 
         // Load the cache.

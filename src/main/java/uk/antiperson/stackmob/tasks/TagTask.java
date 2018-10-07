@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.compat.PluginCompat;
+import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
+import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
@@ -46,8 +48,9 @@ public class TagTask extends BukkitRunnable {
                         }
 
                         // Change if it is a mythic mob.
-                        if (sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(e)) {
-                            typeString = sm.pluginSupport.getMythicSupport().getMythicMobs().getMythicMobInstance(e).getType().getInternalName();
+                        if (sm.hookManager.isHookRegistered(PluginCompat.MYTHICMOBS)) {
+                            MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
+                            typeString = mobsHook.getDisplayName(e);
                         } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
@@ -62,10 +65,11 @@ public class TagTask extends BukkitRunnable {
                              e.setCustomName(finalString);
                         }
 
-                        if(sm.config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled") && sm.pluginSupport.isProtocolSupportEnabled()){
+                        if(sm.hookManager.isHookRegistered(PluginCompat.PROCOTOLLIB)){
+                            ProtocolLibHook plh = (ProtocolLibHook) sm.hookManager.getHook(PluginCompat.PROCOTOLLIB);
                             for(Entity entity : e.getNearbyEntities(20, 20, 20)){
                                 if(entity instanceof Player){
-                                    sm.pluginSupport.getProtocolSupport().sendUpdatePacket((Player) entity, e);
+                                    plh.sendUpdatePacket((Player)entity, e);
                                 }
                             }
                         }else{
