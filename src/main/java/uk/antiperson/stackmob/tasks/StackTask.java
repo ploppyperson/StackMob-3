@@ -98,8 +98,6 @@ public class StackTask extends BukkitRunnable {
                         first = holder;
                     }
 
-                    sm.tools.onceStacked(first, nearby);
-
                     // Continue to stack together
                     int amountTotal = nearbySize + firstSize;
                     if(amountTotal > maxSize){
@@ -107,6 +105,7 @@ public class StackTask extends BukkitRunnable {
                         nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal - maxSize));
                     }else{
                         first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
+                        sm.tools.onceStacked(nearby);
                         nearby.remove();
                     }
                     break;
