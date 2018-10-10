@@ -37,11 +37,11 @@ public class PluginSupport {
         if(sm.config.getCustomConfig().getBoolean("mythicmobs.enabled")){
             if(pl2 != null){
                 mythicSupport = new MythicSupport(sm);
+                if(!(isMiniPetCorrectVersion())){
+                    sm.getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
+                    sm.getLogger().warning("MiniaturePets related mob checks will not work!");
+                }
             }
-        }
-        if(!(isMiniPetCorrectVersion())){
-            sm.getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
-            sm.getLogger().warning("MiniaturePets related mob checks will not work!");
         }
     }
 
