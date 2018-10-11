@@ -134,13 +134,10 @@ public class EntityTools {
         return false;
     }
 
-    public void onceStacked(Entity firstEntity, Entity nearby){
-        if(((LivingEntity)firstEntity).isLeashed()){
+    public void onceStacked(Entity entity){
+        if(((LivingEntity)entity).isLeashed()){
             ItemStack leash = new ItemStack(Material.LEAD, 1);
-            firstEntity.getWorld().dropItemNaturally(firstEntity.getLocation(), leash);
-        }else if(((LivingEntity)nearby).isLeashed()){
-            ItemStack leash = new ItemStack(Material.LEAD, 1);
-            nearby.getWorld().dropItemNaturally(nearby.getLocation(), leash);
+            entity.getWorld().dropItemNaturally(entity.getLocation(), leash);
         }
     }
 

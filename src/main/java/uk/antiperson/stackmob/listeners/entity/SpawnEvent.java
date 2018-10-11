@@ -81,6 +81,7 @@ public class SpawnEvent implements Listener {
 
                        // Continue to stack, if match is found
                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, newSize));
+                       sm.tools.onceStacked(newEntity);
                        newEntity.remove();
                        return;
                    }
