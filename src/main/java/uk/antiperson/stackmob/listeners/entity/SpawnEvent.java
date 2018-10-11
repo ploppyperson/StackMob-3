@@ -51,9 +51,6 @@ public class SpawnEvent implements Listener {
                    newEntity.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
                    return;
                }
-               if(sm.pluginSupport.isMiniPet(newEntity)){
-                   return;
-               }
 
                // Check for nearby entities, and merge if compatible.
                double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
@@ -102,7 +99,7 @@ public class SpawnEvent implements Listener {
 
 
                // Set mcMMO stuff
-               sm.pluginSupport.setMcmmoMetadata(newEntity);
+               sm.hookManager.onEntityClone(newEntity);
 
                // Set noAI
                sm.tools.setAi(newEntity);

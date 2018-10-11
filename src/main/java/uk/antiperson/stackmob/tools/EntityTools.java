@@ -1,7 +1,5 @@
 package uk.antiperson.stackmob.tools;
 
-import io.lumine.xikage.mythicmobs.mobs.MobManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.compat.PluginCompat;
+import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashSet;
@@ -17,6 +17,8 @@ import java.util.UUID;
 
 /**
  * Created by nathat on 24/07/17.
+ *
+ * TODO: Seperate methods.
  */
 public class EntityTools {
 
@@ -41,13 +43,7 @@ public class EntityTools {
             return true;
         }
 
-        if(sm.pluginSupport.isWorldGuardEnabled() && sm.config.getCustomConfig().getBoolean("worldguard-support")){
-            if(!sm.pluginSupport.getWorldGuard().checkCanStack(firstEntity.getLocation())){
-                return true;
-            }
-        }
-
-        if(sm.pluginSupport.isNPC(firstEntity) || sm.pluginSupport.isNPC(nearby)){
+        if(sm.hookManager.onEntityComparison(firstEntity, nearby)){
             return true;
         }
 
@@ -132,30 +128,9 @@ public class EntityTools {
         }
         if (firstEntity instanceof Parrot) {
             if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                if (((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant()) {
-                    return true;
-                }
+                return ((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant();
             }
         }
-
-        if(sm.pluginSupport.getMythicSupport() != null){
-            MobManager mm = sm.pluginSupport.getMythicSupport().getMythicMobs();
-            if(mm.isActiveMob(nearby.getUniqueId()) && mm.isActiveMob(firstEntity.getUniqueId())){
-                if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
-                        .contains(mm.getMythicMobInstance(nearby).getType().getInternalName()) ||
-                        sm.config.getCustomConfig().getStringList("mythicmobs.blacklist").contains("ALL")){
-                    return true;
-                }
-                if(sm.config.getCustomConfig().getStringList("mythicmobs.blacklist")
-                        .contains(mm.getMythicMobInstance(firstEntity).getType().getInternalName()) ||
-                        sm.config.getCustomConfig().getStringList("mythicmobs.blacklist").contains("ALL")){
-                    return true;
-                }
-                return !mm.getMythicMobInstance(nearby).getType().equals(mm.getMythicMobInstance(firstEntity).getType());
-            }
-        }
-
-
         return false;
     }
 
@@ -168,8 +143,9 @@ public class EntityTools {
 
     public Entity duplicate(Entity original, boolean slightMovement){
         Entity dupe;
-        if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
-            dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
+        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
+        if(mobsHook != null && mobsHook.isMythicMob(original)){
+            dupe = mobsHook.spawnMythicMob(original);
         }else if(slightMovement){
             dupe = original.getWorld().spawnEntity(original.getLocation().add(0,0.1,0), original.getType());
         }else{
@@ -181,8 +157,9 @@ public class EntityTools {
     public Entity duplicate(Entity original){
         Entity dupe;
         Location dupeLoc;
-        if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
-            dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
+        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
+        if(mobsHook != null && mobsHook.isMythicMob(original)){
+            dupe = mobsHook.spawnMythicMob(original);
         }else if (original instanceof Zombie || original instanceof Skeleton){
         	// will spawn the dupe in the middle of the block the original died in, prevents mobs from glitching through walls due to "safe spawn errors"
         	dupeLoc = new Location(original.getWorld(), original.getLocation().getBlockX()+0.5, original.getLocation().getY(), original.getLocation().getBlockZ()+0.5);
@@ -256,8 +233,8 @@ public class EntityTools {
             }
         }
 
-        // mcMMO stuff
-        sm.pluginSupport.setMcmmoMetadata(dupe);
+        // other plugin stuff
+        sm.hookManager.onEntityClone(dupe);
 
         // noAi
         setAi((LivingEntity) dupe);
