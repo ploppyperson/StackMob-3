@@ -13,7 +13,7 @@ public class FlatFile extends StackStorage {
     private FileConfiguration fileCon;
     public FlatFile(StorageManager storageManager){
         super(storageManager, StorageType.FLATFILE);
-        file = new File(storageManager.getStackMob().getDataFolder(), "storage.yml");
+        file = new File(storageManager.getStackMob().getDataFolder(), "cache.yml");
         reloadFile();
     }
 
