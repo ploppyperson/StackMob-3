@@ -12,6 +12,6 @@ public class CacheSave extends BukkitRunnable {
 
     @Override
     public void run() {
-        sm.cache.saveCache();
+        sm.storageManager.getStackStorage().saveData();
     }
 }

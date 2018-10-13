@@ -24,8 +24,8 @@ public class LoadEvent implements Listener {
         }
         for(Entity currentEntity : e.getChunk().getEntities()){
             // Check if has been cached.
-            if(sm.cache.amountCache.containsKey(currentEntity.getUniqueId())){
-                int cacheSize = sm.cache.amountCache.get(currentEntity.getUniqueId());
+            if(sm.storageManager.getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
+                int cacheSize = sm.storageManager.getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
                 if(cacheSize == -69 || cacheSize == -1){
                     currentEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
                 }else{
@@ -33,7 +33,7 @@ public class LoadEvent implements Listener {
                 }
 
                 // Removing this would surely make the entities keep their data, if data is lost?
-                //sm.cache.amountCache.remove(currentEntity.getUniqueId());
+                //sm.storage.amountCache.remove(currentEntity.getUniqueId());
             }
         }
     }

@@ -3,6 +3,7 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.antiperson.stackmob.storage.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
@@ -14,7 +15,6 @@ import uk.antiperson.stackmob.tasks.CacheSave;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
-import uk.antiperson.stackmob.tools.config.CacheFile;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
@@ -30,7 +30,7 @@ public class StackMob extends JavaPlugin {
     public ConfigFile config = new ConfigFile(this);
     public TranslationFile translation = new TranslationFile(this);
     public EntityTools tools = new EntityTools(this);
-    public CacheFile cache = new CacheFile(this);
+    public StorageManager storageManager = new StorageManager(this);
     public DropTools dropTools = new DropTools(this);
     public WorldTools worldTools = new WorldTools();
     public StickTools stickTools = new StickTools(this);
@@ -73,9 +73,9 @@ public class StackMob extends JavaPlugin {
             config.generateNewVersion();
         }
 
-        // Load the cache.
+        // Load the storage.
         getLogger().info("Loading cached entities...");
-        cache.loadCache();
+        storageManager.onServerEnable();
 
         // Essential listeners/tasks that are needed for the plugin to function correctly.
         getLogger().info("Registering listeners, tasks and commands...");
@@ -99,9 +99,9 @@ public class StackMob extends JavaPlugin {
     public void onDisable(){
         getLogger().info("Cancelling currently running tasks...");
         getServer().getScheduler().cancelTasks(this);
-        getLogger().info("Saving entity amount cache...");
-        // Save the cache so entity amounts aren't lost on restarts
-        cache.saveCache();
+        getLogger().info("Saving entity amount storage...");
+        // Save the storage so entity amounts aren't lost on restarts
+        storageManager.onServerDisable();
     }
 
     // Server version detection, if version isn't currently supported, then versionId is 0.
