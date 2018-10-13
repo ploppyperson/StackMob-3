@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.storage;
+package uk.antiperson.stackmob.cache;
 
 public enum StorageType {
     MYSQL,

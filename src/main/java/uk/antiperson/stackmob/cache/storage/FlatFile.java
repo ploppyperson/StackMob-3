@@ -1,7 +1,10 @@
-package uk.antiperson.stackmob.storage;
+package uk.antiperson.stackmob.cache.storage;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import uk.antiperson.stackmob.cache.StackStorage;
+import uk.antiperson.stackmob.cache.StorageManager;
+import uk.antiperson.stackmob.cache.StorageType;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,14 +21,14 @@ public class FlatFile extends StackStorage {
     }
 
     @Override
-    public void loadCache(){
+    public void loadStorage(){
         for(String key : fileCon.getKeys(false)){
             getAmountCache().put(UUID.fromString(key), fileCon.getInt(key));
         }
     }
 
     @Override
-    public void saveCache(){
+    public void saveStorage(){
         getFile().delete();
         reloadFile();
 

@@ -1,12 +1,12 @@
-package uk.antiperson.stackmob.storage;
+package uk.antiperson.stackmob.cache;
 
 import java.util.UUID;
 
 public interface StorageMethod {
 
-    void saveCache();
+    void saveStorage();
 
-    void loadCache();
+    void loadStorage();
 
     void setValue(UUID uuid, int size);
 

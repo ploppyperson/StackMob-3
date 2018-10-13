@@ -1,6 +1,7 @@
-package uk.antiperson.stackmob.storage;
+package uk.antiperson.stackmob.cache;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.cache.storage.FlatFile;
 
 public class StorageManager {
 
@@ -16,11 +17,11 @@ public class StorageManager {
         cacheType = StorageType.FLATFILE;
         stackStorage = new FlatFile(this);
 
-        stackStorage.loadCache();
+        stackStorage.loadStorage();
     }
 
     public void onServerDisable(){
-        stackStorage.saveCache();
+        stackStorage.saveStorage();
     }
 
     public StackMob getStackMob() {

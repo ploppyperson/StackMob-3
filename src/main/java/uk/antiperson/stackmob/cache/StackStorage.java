@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.storage;
+package uk.antiperson.stackmob.cache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

@@ -3,7 +3,7 @@ package uk.antiperson.stackmob;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.antiperson.stackmob.storage.StorageManager;
+import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
