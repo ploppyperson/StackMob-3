@@ -18,7 +18,7 @@ public class UpdateChecker {
 
     public String getLatestVersion(){
         try{
-            HttpURLConnection connect = (HttpURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=29999").openConnection();
+            HttpURLConnection connect = (HttpURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=61578").openConnection();
             connect.setRequestProperty("User-Agent", "StackMob");
             connect.setRequestMethod("GET");
             return new BufferedReader(new InputStreamReader(connect.getInputStream())).readLine();
@@ -41,7 +41,7 @@ public class UpdateChecker {
 
     public String update(){
         try{
-            FileUtils.copyURLToFile(new URL("https://api.spiget.org/v2/resources/29999/download"),
+            FileUtils.copyURLToFile(new URL("https://api.spiget.org/v2/resources/61578/download"),
                     new File(sm.getDataFolder().toString().replace("StackMob", "") + File.separator + "update", "StackMob.jar"));
             return "Downloaded latest version successfully!";
         }catch (Exception e){
