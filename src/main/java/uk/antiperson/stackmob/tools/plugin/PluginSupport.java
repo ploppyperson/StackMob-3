@@ -88,7 +88,7 @@ public class PluginSupport {
     }
 
     public boolean isProtocolSupportEnabled(){
-        return getProtocolSupport() != null;
+        return getProtocolSupport() != null && sm.getVersionId() > 1;
     }
 
     public boolean isWorldGuardEnabled(){
