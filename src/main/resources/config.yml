@@ -160,48 +160,6 @@ multiply-drops:
     # The amount of entities that the loot should be dropped for in a stack.
     # Useful if there is a high max-stack value, to prevent lag.
     entity-limit: 50
-    # Item types that should be duplicated.
-    # A list of materials can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-    drops-whitelist:
-        - STRING
-        - SULPHUR
-        - ROTTEN_FLESH
-        - BONE
-        - BLAZE_ROD
-        - GHAST_TEAR
-        - ENDER_PEARL
-        - MAGMA_CREAM
-        - ARROW
-        - SLIME_BALL
-        - COOKED_BEEF
-        - COOKED_CHICKEN
-        - COOKED_MUTTON
-        - COOKED_RABBIT
-        - GRILLED_PORK
-        - RAW_FISH
-        - RAW_BEEF
-        - RAW_CHICKEN
-        - MUTTON
-        - PORK
-        - RABBIT
-        - FEATHER
-        - RED_MUSHROOM
-        - LEATHER
-        - RABBIT_FOOT
-        - RABBIT_HIDE
-        - NETHER_STAR
-        - GLASS_BOTTLE
-        - GLOWSTONE_DUST
-        - REDSTONE
-        - SPIDER_EYE
-        - SUGAR
-        - STICK
-        - IRON_INGOT
-        - GOLD_NUGGET
-        - GOLD_INGOT
-        - PRISMARINE_SHARD
-        - SEA_LANTERN
-        - EMERALD
     # Only drop one item per entity.
     drop-one-per:
         - EMERALD
