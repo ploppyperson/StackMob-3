@@ -48,91 +48,7 @@ public class EntityTools {
             return true;
         }
 
-        // Checks on the nearby entity
-        if (nearby instanceof Tameable) {
-            if (sm.config.getCustomConfig().getBoolean("check.tamed")) {
-                if (((Tameable) nearby).isTamed()) {
-                    return true;
-                }
-            }
-        }
-        if (((LivingEntity) nearby).isLeashed()) {
-            if (sm.config.getCustomConfig().getBoolean("check.leashed")) {
-                return true;
-            }
-
-        }
-        // Checks on both entities
-        if (firstEntity instanceof Villager) {
-            if (sm.config.getCustomConfig().getBoolean("compare.villager-profession")) {
-                if (((Villager) firstEntity).getProfession() != ((Villager) nearby).getProfession()) {
-                    return true;
-                }
-                if(((Villager) firstEntity).getCareer() != ((Villager) nearby).getCareer()){
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Sheep) {
-            if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-sheared")) {
-                if (((Sheep) firstEntity).isSheared() != ((Sheep) nearby).isSheared()) {
-                    return true;
-                }
-            }
-            if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-color")) {
-                if (((Sheep) firstEntity).getColor() != ((Sheep) nearby).getColor()) {
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Slime) {
-            if (sm.config.getCustomConfig().getBoolean("compare.slime-size")) {
-                if (((Slime) firstEntity).getSize() != ((Slime) nearby).getSize()) {
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Ageable) {
-            if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-                if (((Ageable) firstEntity).isAdult() != ((Ageable) nearby).isAdult()) {
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Zombie) {
-            if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-                if (((Zombie) firstEntity).isBaby() != ((Zombie) nearby).isBaby()) {
-                    return true;
-                }
-            }
-        }
-        if(firstEntity instanceof Animals){
-            if (sm.config.getCustomConfig().getBoolean("compare.can-breed")){
-                if (((Animals) firstEntity).canBreed() != ((Animals) nearby).canBreed()) {
-                    return true;
-                }
-            }
-        }
-        if(firstEntity instanceof Horse){
-            if(sm.config.getCustomConfig().getBoolean("compare.horse-color")){
-                if(((Horse)firstEntity).getColor() != ((Horse) nearby).getColor()){
-                    return true;
-                }
-            }
-        }
-        if(firstEntity instanceof Llama){
-            if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
-                if (((Llama) firstEntity).getColor() != ((Llama) nearby).getColor()) {
-                    return true;
-                }
-            }
-        }
-        if (firstEntity instanceof Parrot) {
-            if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                return ((Parrot) firstEntity).getVariant() != ((Parrot) nearby).getVariant();
-            }
-        }
-        return false;
+        return sm.tc.checkTraits(firstEntity, nearby);
     }
 
     public void onceStacked(Entity entity){
@@ -175,35 +91,8 @@ public class EntityTools {
     // Copies all of the attributes of one entity and gives them to another.
     // TODO: fire ticks.
     public Entity cloneTraits(Entity original, Entity dupe){
-        if (dupe instanceof Tameable) {
-            if (!sm.config.getCustomConfig().getBoolean("check.tamed")) {
-                ((Tameable)dupe).setTamed(((Tameable)original).isTamed());
-                ((Tameable)dupe).setOwner(((Tameable)original).getOwner());
-            }
-        }
-        if (dupe instanceof Villager) {
-            if (sm.config.getCustomConfig().getBoolean("compare.villager-profession")) {
-                ((Villager) dupe).setProfession(((Villager) original).getProfession());
-                ((Villager) dupe).setCareer(((Villager) original).getCareer());
-            }
-        }
 
-        if (dupe instanceof Sheep) {
-            if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-sheared")) {
-                ((Sheep)dupe).setSheared(((Sheep)original).isSheared());
-            }
-            if (sm.config.getCustomConfig().getBoolean("compare.sheep-wool-color")) {
-                ((Sheep)dupe).setColor(((Sheep)original).getColor());
-            }
-        }
-
-        if (dupe instanceof Slime) {
-            if (sm.config.getCustomConfig().getBoolean("compare.slime-size")) {
-                ((Slime)dupe).setSize(((Slime) original).getSize());
-            }
-        }
-
-        if (dupe instanceof Ageable) {
+        /*if (dupe instanceof Ageable) {
             if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
                if(((Ageable) original).isAdult()){
                    ((Ageable) dupe).setAdult();
@@ -211,28 +100,8 @@ public class EntityTools {
                    ((Ageable) dupe).setBaby();
                }
             }
-        }
-        if (dupe instanceof Zombie) {
-            if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-                ((Zombie) dupe).setBaby(((Zombie) original).isBaby());
-            }
-        }
-
-        if(dupe instanceof Animals){
-            if (sm.config.getCustomConfig().getBoolean("compare.can-breed")){
-                ((Animals) dupe).setBreed(((Animals) original).canBreed());
-            }
-        }
-        if(dupe instanceof Llama){
-            if (sm.config.getCustomConfig().getBoolean("compare.llama-color")){
-                ((Llama) dupe).setColor(((Llama) original).getColor());
-            }
-        }
-        if (dupe instanceof Parrot) {
-            if (sm.config.getCustomConfig().getBoolean("compare.parrot-color")) {
-                ((Parrot) dupe).setVariant(((Parrot) original).getVariant());
-            }
-        }
+        }*/
+        sm.tc.applyTraits(original, dupe);
 
         // other plugin stuff
         sm.hookManager.onEntityClone(dupe);

@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.entity.EntityTools;
+import uk.antiperson.stackmob.entity.checks.TraitChecks;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
@@ -39,6 +40,7 @@ public class StackMob extends JavaPlugin {
     public StickTools stickTools = new StickTools(this);
     public ExperienceTools expTools = new ExperienceTools(this);
     public HookManager hookManager = new HookManager(this);
+    public TraitChecks tc = new TraitChecks(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
     @Override
@@ -69,6 +71,8 @@ public class StackMob extends JavaPlugin {
 
         // Initialize support for other plugins.
         hookManager.onServerStart();
+
+        tc.registerTraits();
 
         if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
