@@ -91,16 +91,6 @@ public class EntityTools {
     // Copies all of the attributes of one entity and gives them to another.
     // TODO: fire ticks.
     public Entity cloneTraits(Entity original, Entity dupe){
-
-        /*if (dupe instanceof Ageable) {
-            if (sm.config.getCustomConfig().getBoolean("compare.entity-age")) {
-               if(((Ageable) original).isAdult()){
-                   ((Ageable) dupe).setAdult();
-               }else{
-                   ((Ageable) dupe).setBaby();
-               }
-            }
-        }*/
         sm.tc.applyTraits(original, dupe);
 
         // other plugin stuff
