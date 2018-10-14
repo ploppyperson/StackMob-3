@@ -1,10 +1,9 @@
-package uk.antiperson.stackmob.entity.checks.trait;
+package uk.antiperson.stackmob.checks.trait;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
-import uk.antiperson.stackmob.entity.checks.ApplicableTrait;
-import uk.antiperson.stackmob.entity.checks.ComparableTrait;
-import uk.antiperson.stackmob.entity.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.ApplicableTrait;
+import uk.antiperson.stackmob.checks.TraitChecks;
 
 public class VillagerTrait implements ApplicableTrait {
 

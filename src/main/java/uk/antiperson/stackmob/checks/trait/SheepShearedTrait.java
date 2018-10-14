@@ -1,9 +1,9 @@
-package uk.antiperson.stackmob.entity.checks.trait;
+package uk.antiperson.stackmob.checks.trait;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
-import uk.antiperson.stackmob.entity.checks.ApplicableTrait;
-import uk.antiperson.stackmob.entity.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.ApplicableTrait;
+import uk.antiperson.stackmob.checks.TraitChecks;
 
 public class SheepShearedTrait implements ApplicableTrait {
 

@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.entity.EntityTools;
-import uk.antiperson.stackmob.entity.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitChecks;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;

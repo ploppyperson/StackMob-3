@@ -1,8 +1,8 @@
-package uk.antiperson.stackmob.entity.checks;
+package uk.antiperson.stackmob.checks;
 
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.entity.checks.trait.*;
+import uk.antiperson.stackmob.checks.trait.*;
 
 import java.util.HashSet;
 
