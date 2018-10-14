@@ -1,10 +1,10 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.entity.expierence;
 
 import uk.antiperson.stackmob.StackMob;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static uk.antiperson.stackmob.tools.Algorithm.*;
+import static uk.antiperson.stackmob.entity.expierence.Algorithm.*;
 
 public class ExperienceTools {
 

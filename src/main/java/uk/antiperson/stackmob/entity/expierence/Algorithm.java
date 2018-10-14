@@ -1,6 +1,6 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.entity.expierence;
 
-enum Algorithm{
+public enum Algorithm{
     LEGACY,
     MINIMAL,
     NORMAL,

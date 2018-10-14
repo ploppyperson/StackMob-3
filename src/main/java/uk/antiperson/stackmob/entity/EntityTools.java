@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.entity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,6 +10,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashSet;
