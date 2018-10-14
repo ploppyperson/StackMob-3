@@ -28,7 +28,9 @@ public class DropTools {
             if(dropIsArmor(dead, itemStack)){
                 continue;
             }
-            
+            if(sm.config.getCustomConfig().getStringList("multiply-drops.drops-blacklist").contains(itemStack.toString())){
+                continue;
+            }
             if(sm.config.getCustomConfig().isInt("multiply-drops.entity-limit")){
                 if(multiplier > sm.config.getCustomConfig().getInt("multiply-drops.entity-limit")){
                     multiplier = sm.config.getCustomConfig().getInt("multiply-drops.entity-limit");

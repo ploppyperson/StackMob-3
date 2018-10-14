@@ -160,6 +160,9 @@ multiply-drops:
     # The amount of entities that the loot should be dropped for in a stack.
     # Useful if there is a high max-stack value, to prevent lag.
     entity-limit: 50
+    # Prevent certain drops from being multiplied.
+    drops-blacklist:
+        - ''
     # Only drop one item per entity.
     drop-one-per:
         - EMERALD
