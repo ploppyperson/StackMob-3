@@ -226,3 +226,21 @@ mythicmobs:
 # If WorldGuard is installed, enable support for it.
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
+
+# The caching of entity stack sizes.
+storage:
+    # The storage method used.
+    # FLATFILE = YAML file storage.
+    # MYSQL = MySQL database storage.
+    # SQLITE = SQLite database storage.
+    type: FLATFILE
+    # Database  details
+    database:
+        # Server details.
+        ip: ''
+        port: 3306
+        # The name of the database you want to use.
+        name: ''
+        # Login details.
+        username: ''
+        password: ''

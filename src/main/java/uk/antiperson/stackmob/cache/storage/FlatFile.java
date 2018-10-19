@@ -36,7 +36,7 @@ public class FlatFile extends StackStorage {
         for(Map.Entry<UUID, Integer> entry : getAmountCache().entrySet()){
             fileCon.set(entry.getKey().toString(), entry.getValue());
         }
-        
+
         try{
             fileCon.save(file);
         }catch (IOException e){
