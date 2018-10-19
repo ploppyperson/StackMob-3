@@ -8,6 +8,7 @@ import uk.antiperson.stackmob.cache.StorageType;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 public class FlatFile extends StackStorage {
@@ -32,22 +33,15 @@ public class FlatFile extends StackStorage {
         getFile().delete();
         reloadFile();
 
-        saveData();
+        for(Map.Entry<UUID, Integer> entry : getAmountCache().entrySet()){
+            fileCon.set(entry.getKey().toString(), entry.getValue());
+        }
+        
         try{
             fileCon.save(file);
         }catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void setValue(UUID uuid, int size){
-        fileCon.set(uuid.toString(), size);
-    }
-
-    @Override
-    public int getValue(UUID uuid){
-        return fileCon.getInt(uuid.toString());
     }
 
     private void reloadFile(){

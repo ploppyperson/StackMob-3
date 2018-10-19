@@ -21,6 +21,7 @@ public class StorageManager {
     }
 
     public void onServerDisable(){
+        stackStorage.cacheWorldData();
         stackStorage.saveStorage();
     }
 
