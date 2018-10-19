@@ -45,7 +45,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.AQUA + "/sm about " + ChatColor.GREEN + "Shows plugin information.");
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("about")) {
-                    sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
+                    sender.sendMessage(pluginTag + ChatColor.GOLD + "StackMob Legacy v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
                     sender.sendMessage(pluginTag + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
