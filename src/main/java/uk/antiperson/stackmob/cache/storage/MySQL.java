@@ -17,7 +17,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
     private String username;
     private String password;
 
-    private Connection connection;
+    public Connection connection;
     public MySQL(StorageManager storageManager){
         super(storageManager, StorageType.MYSQL);
         hostname = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.ip");
@@ -29,14 +29,17 @@ public class MySQL extends StackStorage implements DisableCleanup {
 
     @Override
     public void loadStorage(){
-        makeConnection();
+        getStorageManager().getStackMob().getLogger().info("Connecting to database...");
         try {
+            makeConnection();
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (UUID CHAR(36) NOT NULL UNIQUE, Size INT NOT NULL)").execute();
             ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob").executeQuery();
             while (rs.next()){
                 getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
             }
         }catch (SQLException e){
+            getStorageManager().getStackMob().getLogger().warning("An issue occurred while connecting to the database.");
+            getStorageManager().getStackMob().getLogger().warning("Please make sure that your database details are correct.");
             e.printStackTrace();
         }
 
@@ -51,7 +54,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
                 statement.setInt(2, entry.getValue());
                 statement.addBatch();
             }
-            statement.execute();
+            statement.executeBatch();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -62,17 +65,10 @@ public class MySQL extends StackStorage implements DisableCleanup {
         closeConnection();
     }
 
-    private void makeConnection(){
-        getStorageManager().getStackMob().getLogger().info("Connecting to database...");
+    public void makeConnection() throws SQLException{
         String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName;
-        try{
-            connection = DriverManager.getConnection(url, username, password);
-            getStorageManager().getStackMob().getLogger().info("Database connection successful!");
-        }catch (SQLException e){
-            getStorageManager().getStackMob().getLogger().warning("An issue occurred while connecting to the database.");
-            getStorageManager().getStackMob().getLogger().warning("Please make sure that your database details are correct.");
-            e.printStackTrace();
-        }
+        connection = DriverManager.getConnection(url, username, password);
+        getStorageManager().getStackMob().getLogger().info("Database connection successful!");
     }
 
     private void closeConnection(){
