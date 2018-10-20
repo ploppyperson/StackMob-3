@@ -45,13 +45,13 @@ public class MySQL extends StackStorage implements DisableCleanup {
     @Override
     public void saveStorage(){
         try {
-            PreparedStatement statement = connection.prepareStatement("REPLACE INTO stackmob VALUES (?, ?) ");
+            PreparedStatement statement = connection.prepareStatement("REPLACE INTO stackmob VALUES (?, ?)");
             for(Map.Entry<UUID, Integer> entry : getAmountCache().entrySet()){
                 statement.setString(1, entry.getKey().toString());
                 statement.setInt(2, entry.getValue());
-                statement.executeUpdate();
+                statement.addBatch();
             }
-
+            statement.execute();
         }catch (SQLException e){
             e.printStackTrace();
         }
