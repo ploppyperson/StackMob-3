@@ -6,11 +6,11 @@ import uk.antiperson.stackmob.checks.trait.*;
 
 import java.util.HashSet;
 
-public class TraitChecks {
+public class TraitManager {
 
     private HashSet<ComparableTrait> comparableTraits = new HashSet<>();
     private StackMob sm;
-    public TraitChecks(StackMob sm){
+    public TraitManager(StackMob sm){
         this.sm = sm;
     }
 

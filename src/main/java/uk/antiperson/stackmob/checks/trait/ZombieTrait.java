@@ -3,11 +3,11 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
 import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 
 public class ZombieTrait implements ApplicableTrait {
 
-    public ZombieTrait(TraitChecks tc){
+    public ZombieTrait(TraitManager tc){
         if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.entity-age")) {
             tc.registerTrait(this);
         }

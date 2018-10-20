@@ -3,11 +3,11 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 
 public class AnimalsTrait implements ApplicableTrait {
 
-    public AnimalsTrait(TraitChecks tc){
+    public AnimalsTrait(TraitManager tc){
         if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.can-breed")){
             tc.registerTrait(this);
         }

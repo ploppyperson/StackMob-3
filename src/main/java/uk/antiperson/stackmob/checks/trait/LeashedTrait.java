@@ -3,11 +3,11 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import uk.antiperson.stackmob.checks.ComparableTrait;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 
 public class LeashedTrait implements ComparableTrait {
 
-    public LeashedTrait(TraitChecks tc){
+    public LeashedTrait(TraitManager tc){
         if (tc.getStackMob().config.getCustomConfig().getBoolean("check.leashed")) {
             tc.registerTrait(this);
         }

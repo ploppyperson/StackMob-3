@@ -3,11 +3,11 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
 import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 
 public class SheepColorTrait implements ApplicableTrait {
 
-    public SheepColorTrait(TraitChecks tc){
+    public SheepColorTrait(TraitManager tc){
         if (tc.getStackMob().config.getCustomConfig().getBoolean("compare.sheep-wool-color")) {
             tc.registerTrait(this);
         }

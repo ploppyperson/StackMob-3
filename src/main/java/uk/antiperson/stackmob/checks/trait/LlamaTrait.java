@@ -3,11 +3,11 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
 import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 
 public class LlamaTrait implements ApplicableTrait {
 
-    public LlamaTrait(TraitChecks tc){
+    public LlamaTrait(TraitManager tc){
         if (tc.getStackMob().config.getCustomConfig().getBoolean("compare.llama-color")){
             tc.registerTrait(this);
         }
