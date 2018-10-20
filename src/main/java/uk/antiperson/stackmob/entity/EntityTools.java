@@ -111,10 +111,7 @@ public class EntityTools {
         if(e.hasMetadata(GlobalValues.NO_TASK_STACK) && e.getMetadata(GlobalValues.NO_TASK_STACK).get(0).asBoolean()){
             return true;
         }
-        if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
-            return true;
-        }
-        return !(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR));
+        return e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
     }
 
     public boolean notEnoughNearby(Entity original){
