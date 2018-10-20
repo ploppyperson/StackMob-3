@@ -173,11 +173,9 @@ public class StackMob extends JavaPlugin {
 
     private void startTasks(){
         List<World> worlds = Bukkit.getWorlds();
-        int delay = config.getCustomConfig().getInt("task-delay");
-        int maxDelay = delay * worlds.size();
         for(int i = 0; i < worlds.size(); i++){
-            int period = config.getCustomConfig().getInt("task-delay") * (i + 1);
-            new StackTask(this, worlds.get(i)).runTaskTimer(this, maxDelay - period, period);
+            int period = config.getCustomConfig().getInt("task-delay") * i;
+            new StackTask(this, worlds.get(i)).runTaskTimer(this, period, 100);
         }
 
         new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
