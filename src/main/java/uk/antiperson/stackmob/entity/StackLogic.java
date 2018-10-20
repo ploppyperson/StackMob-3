@@ -21,7 +21,7 @@ public class StackLogic {
         if(GeneralTools.hasInvalidMetadata(nearby)){
             return false;
         }
-        if(sm.getTools().notTaskSuitable(nearby)){
+        if(sm.getTools().notTaskSuitable(original) || sm.getTools().notTaskSuitable(nearby)){
             return false;
         }
         if(sm.getTools().notMatching(original, nearby)) {

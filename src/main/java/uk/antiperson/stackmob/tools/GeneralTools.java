@@ -10,6 +10,6 @@ public class GeneralTools {
     }
 
     public static boolean hasInvalidMetadata(Entity entity, String metaTag){
-        return !(entity.hasMetadata(metaTag)) || entity.getMetadata(metaTag).size() == 0;
+        return !(entity.hasMetadata(metaTag)) && entity.getMetadata(metaTag).size() == 0;
     }
 }

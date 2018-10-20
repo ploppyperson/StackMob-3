@@ -114,7 +114,7 @@ public class EntityTools {
         if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-        return !(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR));
+        return (!(GeneralTools.hasInvalidMetadata(e, GlobalValues.NOT_ENOUGH_NEAR)));
     }
 
     public boolean notEnoughNearby(Entity original){
@@ -142,7 +142,7 @@ public class EntityTools {
                         entities.remove(uuid);
                         return true;
                     }else{
-                        nearby.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, false));
+                        nearby.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
                         nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }
                 }
