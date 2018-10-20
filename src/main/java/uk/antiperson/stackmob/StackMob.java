@@ -41,7 +41,7 @@ public class StackMob extends JavaPlugin {
     public StickTools stickTools = new StickTools(this);
     public ExperienceTools expTools = new ExperienceTools(this);
     public HookManager hookManager = new HookManager(this);
-    public TraitManager tc = new TraitManager(this);
+    public TraitManager traitManager = new TraitManager(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
     @Override
@@ -73,7 +73,7 @@ public class StackMob extends JavaPlugin {
         // Initialize support for other plugins.
         hookManager.onServerStart();
 
-        tc.registerTraits();
+        getTraitManager().registerTraits();
 
         if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
@@ -171,5 +171,17 @@ public class StackMob extends JavaPlugin {
 
     public FileConfiguration getCustomConfig(){
         return config.getCustomConfig();
+    }
+
+    public HookManager getHookManager() {
+        return hookManager;
+    }
+
+    public StorageManager getStorageManager() {
+        return storageManager;
+    }
+
+    public TraitManager getTraitManager() {
+        return traitManager;
     }
 }
