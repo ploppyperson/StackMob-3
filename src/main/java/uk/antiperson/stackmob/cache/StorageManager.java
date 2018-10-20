@@ -14,7 +14,7 @@ public class StorageManager {
     }
 
     public void onServerEnable(){
-        cacheType = StorageType.valueOf(getStackMob().config.getCustomConfig().getString("storage.type"));
+        cacheType = StorageType.valueOf(getStackMob().getCustomConfig().getString("storage.type"));
         switch (cacheType){
             case MYSQL:
                 stackStorage = new MySQL(this);

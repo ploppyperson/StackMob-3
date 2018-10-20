@@ -20,11 +20,11 @@ public class MySQL extends StackStorage implements DisableCleanup {
     private Connection connection;
     public MySQL(StorageManager storageManager){
         super(storageManager, StorageType.MYSQL);
-        hostname = getStorageManager().getStackMob().config.getCustomConfig().getString("storage.database.ip");
-        port = getStorageManager().getStackMob().config.getCustomConfig().getInt("storage.database.port");
-        dbName = getStorageManager().getStackMob().config.getCustomConfig().getString("storage.database.name");
-        username = getStorageManager().getStackMob().config.getCustomConfig().getString("storage.database.username");
-        password = getStorageManager().getStackMob().config.getCustomConfig().getString("storage.database.password");
+        hostname = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.ip");
+        port = getStorageManager().getStackMob().getCustomConfig().getInt("storage.database.port");
+        dbName = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.name");
+        username = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.username");
+        password = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.password");
     }
 
     @Override

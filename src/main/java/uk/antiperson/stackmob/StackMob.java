@@ -2,11 +2,12 @@ package uk.antiperson.stackmob;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.entity.EntityTools;
-import uk.antiperson.stackmob.checks.TraitChecks;
+import uk.antiperson.stackmob.checks.TraitManager;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
@@ -40,7 +41,7 @@ public class StackMob extends JavaPlugin {
     public StickTools stickTools = new StickTools(this);
     public ExperienceTools expTools = new ExperienceTools(this);
     public HookManager hookManager = new HookManager(this);
-    public TraitChecks tc = new TraitChecks(this);
+    public TraitManager tc = new TraitManager(this);
     public UpdateChecker updater = new UpdateChecker(this);
 
     @Override
@@ -166,5 +167,9 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
+    }
+
+    public FileConfiguration getCustomConfig(){
+        return config.getCustomConfig();
     }
 }
