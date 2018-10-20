@@ -20,19 +20,25 @@ public class StackLogic {
         if(GeneralTools.hasInvalidMetadata(nearby)){
             return false;
         }
+        if(sm.getTools().notTaskSuitable(original) || sm.getTools().notTaskSuitable(nearby)){
+            return false;
+        }
         if(sm.getTools().notMatching(original, nearby)) {
             return false;
         }
 
         int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        int originalSize = 1;
-        if(!(GeneralTools.hasInvalidMetadata(original))){
-            originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        }
-
         int maxSize = sm.getCustomConfig().getInt("stack-max");
         if (sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")) {
             maxSize =  sm.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
+        }
+        if(nearbySize == maxSize){
+            return false;
+        }
+
+        int originalSize = 1;
+        if(!(GeneralTools.hasInvalidMetadata(original))){
+            originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
         }
 
         if(nearbySize > originalSize && sm.config.getCustomConfig().getBoolean("big-priority")){

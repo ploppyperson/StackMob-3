@@ -4,7 +4,6 @@ import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
@@ -23,9 +22,6 @@ public class StackTask extends StackingTask {
             if(entity instanceof ArmorStand || entity instanceof Player){
                 continue;
             }
-            if(getStackMob().getTools().notTaskSuitable(entity)){
-                continue;
-            }
             if(!(GeneralTools.hasInvalidMetadata(entity, GlobalValues.NOT_ENOUGH_NEAR))
                     && entity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
                 getStackMob().getTools().notEnoughNearby(entity);
@@ -41,21 +37,7 @@ public class StackTask extends StackingTask {
                     continue;
                 }
             }
-
             for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
-                //Checks on nearby
-                if(entity.getType() != nearby.getType()){
-                    continue;
-                }
-
-                if(GeneralTools.hasInvalidMetadata(nearby)){
-                    continue;
-                }
-
-                if(getStackMob().getTools().notTaskSuitable(nearby)){
-                    continue;
-                }
-
                 if(!(getStackMob().getLogic().attemptMerge(entity, nearby))){
                     continue;
                 }
