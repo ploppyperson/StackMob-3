@@ -17,10 +17,11 @@ public class StackLogic {
         if(original.getType() != nearby.getType()){
             return false;
         }
+        // Checks are only on nearby because it might have not-enough-near.
         if(GeneralTools.hasInvalidMetadata(nearby)){
             return false;
         }
-        if(sm.getTools().notTaskSuitable(original) || sm.getTools().notTaskSuitable(nearby)){
+        if(sm.getTools().notTaskSuitable(nearby)){
             return false;
         }
         if(sm.getTools().notMatching(original, nearby)) {

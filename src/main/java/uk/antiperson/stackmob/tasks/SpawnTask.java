@@ -20,7 +20,6 @@ public class SpawnTask extends StackingTask {
             entity.removeMetadata(GlobalValues.NO_SPAWN_STACK, getStackMob());
             return;
         }
-
         for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
             if(getStackMob().getLogic().attemptMerge(entity, nearby)){
                 return;
