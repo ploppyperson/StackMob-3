@@ -36,19 +36,20 @@ public class EntityTools {
             return true;
         }
 
-        if(!(GeneralTools.hasInvalidMetadata(firstEntity, GlobalValues.NO_STACK_ALL)) && firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvalidMetadata(firstEntity, GlobalValues.NO_STACK_ALL)) &&
+                firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
-        if(!(GeneralTools.hasInvalidMetadata(nearby, GlobalValues.NO_STACK_ALL)) && nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(!(GeneralTools.hasInvalidMetadata(nearby, GlobalValues.NO_STACK_ALL)) &&
+                nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
-        if(sm.hookManager.onEntityComparison(firstEntity, nearby)){
+        if(sm.getHookManager().onEntityComparison(firstEntity, nearby)){
             return true;
         }
-
-        return sm.tc.checkTraits(firstEntity, nearby);
+        return sm.getTraitManager().checkTraits(firstEntity, nearby);
     }
 
     public void onceStacked(Entity entity){
@@ -58,6 +59,7 @@ public class EntityTools {
         }
     }
 
+    @Deprecated
     public Entity duplicate(Entity original, boolean slightMovement){
         Entity dupe;
         MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
@@ -91,7 +93,7 @@ public class EntityTools {
     // Copies all of the attributes of one entity and gives them to another.
     // TODO: fire ticks.
     public Entity cloneTraits(Entity original, Entity dupe){
-        sm.tc.applyTraits(original, dupe);
+        sm.getTraitManager().applyTraits(original, dupe);
 
         // other plugin stuff
         sm.hookManager.onEntityClone(dupe);
@@ -112,9 +114,7 @@ public class EntityTools {
         if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-
-        return !(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) || e.hasMetadata(GlobalValues.METATAG));
-
+        return !(e.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR));
     }
 
     public boolean notEnoughNearby(Entity original){

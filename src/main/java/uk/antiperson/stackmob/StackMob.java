@@ -2,12 +2,14 @@ package uk.antiperson.stackmob;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.entity.EntityTools;
 import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.entity.StackLogic;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
@@ -25,6 +27,7 @@ import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by nathat on 23/07/17.
@@ -35,6 +38,7 @@ public class StackMob extends JavaPlugin {
     public ConfigFile config = new ConfigFile(this);
     public TranslationFile translation = new TranslationFile(this);
     public EntityTools tools = new EntityTools(this);
+    public StackLogic logic = new StackLogic(this);
     public StorageManager storageManager = new StorageManager(this);
     public DropTools dropTools = new DropTools(this);
     public WorldTools worldTools = new WorldTools();
@@ -71,7 +75,7 @@ public class StackMob extends JavaPlugin {
         translation.reloadCustomConfig();
 
         // Initialize support for other plugins.
-        hookManager.onServerStart();
+        getHookManager().onServerStart();
 
         getTraitManager().registerTraits();
 
@@ -129,9 +133,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
         getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
         getCommand("sm").setExecutor(new Commands(this));
-        new StackTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("task-delay"));
-        new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
-        new CacheSave(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
+        startTasks();
     }
 
     private void registerNotEssentialEvents(){
@@ -169,6 +171,19 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
     }
 
+    private void startTasks(){
+        List<World> worlds = Bukkit.getWorlds();
+        int delay = config.getCustomConfig().getInt("task-delay");
+        int maxDelay = delay * worlds.size();
+        for(int i = 0; i < worlds.size(); i++){
+            int period = config.getCustomConfig().getInt("task-delay") * (i + 1);
+            new StackTask(this, worlds.get(i)).runTaskTimer(this, maxDelay - period, period);
+        }
+
+        new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
+        new CacheSave(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
+    }
+
     public FileConfiguration getCustomConfig(){
         return config.getCustomConfig();
     }
@@ -183,5 +198,13 @@ public class StackMob extends JavaPlugin {
 
     public TraitManager getTraitManager() {
         return traitManager;
+    }
+
+    public EntityTools getTools() {
+        return tools;
+    }
+
+    public StackLogic getLogic() {
+        return logic;
     }
 }
