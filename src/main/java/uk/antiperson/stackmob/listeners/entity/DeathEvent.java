@@ -27,7 +27,7 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
-        if(GeneralTools.hasInvalidMetadata(dead)){
+        if(!(GeneralTools.hasValidStackData(dead))){
             return;
         }
 
@@ -96,9 +96,7 @@ public class DeathEvent implements Listener {
     private Entity spawnNewEntity(int oldSize, int subtractAmount, Entity dead){
         dead.removeMetadata(GlobalValues.METATAG, sm);
         dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-        dead.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-        dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         if(oldSize != subtractAmount){

@@ -20,6 +20,9 @@ public class SpawnTask extends StackingTask {
             entity.removeMetadata(GlobalValues.NO_SPAWN_STACK, getStackMob());
             return;
         }
+        // Set metadata to we can stack.
+        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), 1));
+        // Find nearby stacks to merge with.
         for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
             if(getStackMob().getLogic().attemptMerge(entity, nearby)){
                 return;
@@ -27,16 +30,13 @@ public class SpawnTask extends StackingTask {
         }
 
         // A match was not found, so we will set the appropriate metadata.
-        if(getStackMob().getCustomConfig().getInt("dont-stack-until") > 0 /*&& !wasMatchButTooBig*/){
+        if(getStackMob().getCustomConfig().getInt("dont-stack-until") > 0){
             if(getStackMob().tools.notEnoughNearby(entity)){
-                entity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(getStackMob(), true));
+                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), GlobalValues.NOT_ENOUGH_NEAR));
             }
-        }else{
-            // No match was found
-            entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), 1));
         }
 
-        // Set mcMMO stuff
+        // Set other plugin traits.
         getStackMob().getHookManager().onEntityClone(entity);
         // Set noAI
         getStackMob().getTools().setAi(entity);

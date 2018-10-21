@@ -36,12 +36,12 @@ public class EntityTools {
             return true;
         }
 
-        if(!(GeneralTools.hasInvalidMetadata(firstEntity, GlobalValues.NO_STACK_ALL)) &&
+        if(GeneralTools.hasValidMetadata(firstEntity, GlobalValues.NO_STACK_ALL) &&
                 firstEntity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
 
-        if(!(GeneralTools.hasInvalidMetadata(nearby, GlobalValues.NO_STACK_ALL)) &&
+        if(GeneralTools.hasValidMetadata(nearby, GlobalValues.NO_STACK_ALL) &&
                 nearby.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
@@ -108,13 +108,7 @@ public class EntityTools {
         if(e.isDead()){
             return true;
         }
-        if(e.hasMetadata(GlobalValues.NO_TASK_STACK) && e.getMetadata(GlobalValues.NO_TASK_STACK).get(0).asBoolean()){
-            return true;
-        }
-        if(e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
-            return true;
-        }
-        return (!(GeneralTools.hasInvalidMetadata(e, GlobalValues.NOT_ENOUGH_NEAR)));
+        return e.hasMetadata(GlobalValues.NO_STACK_ALL) && e.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
     }
 
     public boolean notEnoughNearby(Entity original){
@@ -126,8 +120,7 @@ public class EntityTools {
             entities.add(original.getUniqueId());
             for(Entity nearby : original.getNearbyEntities(xLoc, yLoc, zLoc)){
                 if(original.getType() == nearby.getType()) {
-                    if (!(GeneralTools.hasInvalidMetadata(nearby, GlobalValues.NOT_ENOUGH_NEAR))
-                            && nearby.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
+                    if (GeneralTools.hasNotEnoughNear(nearby)) {
                         if (notMatching(original, nearby)) {
                             continue;
                         }
@@ -142,7 +135,6 @@ public class EntityTools {
                         entities.remove(uuid);
                         return true;
                     }else{
-                        nearby.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
                         nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }
                 }
@@ -162,5 +154,13 @@ public class EntityTools {
             }
             entity.setAI(false);
         }
+    }
+
+    public boolean checkIfMaximumSize(Entity entity, int stackSize){
+        int maxStackSize = sm.getCustomConfig().getInt("stack-max");
+        if (sm.config.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
+            maxStackSize =  sm.getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");
+        }
+        return maxStackSize == stackSize;
     }
 }

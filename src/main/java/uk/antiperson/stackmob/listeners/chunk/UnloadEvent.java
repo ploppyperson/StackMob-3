@@ -29,13 +29,9 @@ public class UnloadEvent implements Listener {
                 continue;
             }
             // Add to storage
-            if(!(GeneralTools.hasInvalidMetadata(currentEntity))){
+            if(GeneralTools.hasValidMetadata(currentEntity)){
                 int stackSize = currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                 sm.storageManager.getStackStorage().getAmountCache().put(currentEntity.getUniqueId(), stackSize);
-            }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
-                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
-                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
-                sm.storageManager.getStackStorage().getAmountCache().put(currentEntity.getUniqueId(), -1);
             }
         }
     }

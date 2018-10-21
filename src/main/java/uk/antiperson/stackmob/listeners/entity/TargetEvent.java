@@ -19,7 +19,7 @@ public class TargetEvent implements Listener {
     @EventHandler
     public void onEntityTarget(EntityTargetLivingEntityEvent event) {
         if(event.getTarget() instanceof Player && event.getEntity() instanceof Monster){
-            if(GeneralTools.hasInvalidMetadata(event.getEntity())){
+            if(GeneralTools.hasValidStackData(event.getEntity())){
                 if(!sm.config.getCustomConfig().getStringList("no-targeting.types-blacklist").contains(event.getEntityType().toString())) {
                     event.setCancelled(true);
                 }

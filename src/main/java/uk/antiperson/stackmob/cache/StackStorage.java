@@ -33,14 +33,9 @@ public abstract class StackStorage implements StorageMethod {
                 if (entity instanceof Monster) {
                     continue;
                 }
-                if (!(GeneralTools.hasInvalidMetadata(entity)) &&
-                        entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1) {
+                if (GeneralTools.hasValidMetadata(entity)) {
                     int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     amountCache.put(entity.getUniqueId(), stackSize);
-                }
-                if (!(GeneralTools.hasInvalidMetadata(entity, GlobalValues.NOT_ENOUGH_NEAR)) &&
-                        entity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
-                    amountCache.put(entity.getUniqueId(), -1);
                 }
             }
         }

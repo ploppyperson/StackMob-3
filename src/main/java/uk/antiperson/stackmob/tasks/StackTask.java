@@ -22,20 +22,20 @@ public class StackTask extends StackingTask {
             if(entity instanceof ArmorStand || entity instanceof Player){
                 continue;
             }
-            if(!(GeneralTools.hasInvalidMetadata(entity, GlobalValues.NOT_ENOUGH_NEAR))
-                    && entity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
-                getStackMob().getTools().notEnoughNearby(entity);
-            }
-            // don't need a check because of the entity might have Not-enough-near
-            int maxSize = getMaxStackSize();
-            if(getStackMob().getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")){
-                maxSize = getStackMob().getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");
-            }
-            // If the first entity has metatag, check if it is maxSize to save performance
-            if(!(GeneralTools.hasInvalidMetadata(entity))){
-                if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
+            if(GeneralTools.hasNotEnoughNear(entity)) {
+                if(getStackMob().getTools().notEnoughNearby(entity)){
                     continue;
                 }
+            }
+            if(!(GeneralTools.hasValidStackData(entity))){
+                continue;
+            }
+            if(getStackMob().getTools().notTaskSuitable(entity)){
+                continue;
+            }
+            int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+            if(getStackMob().getTools().checkIfMaximumSize(entity, stackSize)){
+                continue;
             }
             for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
                 if(!(getStackMob().getLogic().attemptMerge(entity, nearby))){

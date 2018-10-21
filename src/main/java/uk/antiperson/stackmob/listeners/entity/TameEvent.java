@@ -19,13 +19,13 @@ public class TameEvent implements Listener {
 
     @EventHandler
     public void onTame(EntityTameEvent event) {
-        if(!(GeneralTools.hasInvalidMetadata(event.getEntity()))){
+        if(GeneralTools.hasValidStackData(event.getEntity())){
             if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
                 Entity dupe = sm.tools.duplicate(event.getEntity());
                 dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
                 dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             }
-            event.getEntity().setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 0));
+            event.getEntity().removeMetadata(GlobalValues.METATAG, sm);
             event.getEntity().setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
             event.getEntity().setCustomName(null);
             event.getEntity().setCustomNameVisible(false);

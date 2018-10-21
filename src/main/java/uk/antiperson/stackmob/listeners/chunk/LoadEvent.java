@@ -26,14 +26,7 @@ public class LoadEvent implements Listener {
             // Check if has been cached.
             if(sm.storageManager.getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
                 int cacheSize = sm.storageManager.getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
-                if(cacheSize == -69 || cacheSize == -1){
-                    currentEntity.setMetadata(GlobalValues.NOT_ENOUGH_NEAR, new FixedMetadataValue(sm, true));
-                }else{
-                    currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, cacheSize));
-                }
-
-                // Removing this would surely make the entities keep their data, if data is lost?
-                //sm.storage.amountCache.remove(currentEntity.getUniqueId());
+                currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, cacheSize));
             }
         }
     }

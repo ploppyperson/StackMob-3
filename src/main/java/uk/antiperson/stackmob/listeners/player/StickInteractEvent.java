@@ -33,7 +33,7 @@ public class StickInteractEvent implements Listener {
             if (sm.stickTools.isStackingStick(player.getInventory().getItemInMainHand())) {
                 if (player.isSneaking()) {
                     int newStickMode = 1;
-                    if(!(GeneralTools.hasInvalidMetadata(player, GlobalValues.STICK_MODE))){
+                    if(GeneralTools.hasValidMetadata(player, GlobalValues.STICK_MODE)){
                         int stickMode = player.getMetadata(GlobalValues.STICK_MODE).get(0).asInt();
                         if(stickMode != StickMode.values().length){
                             newStickMode = stickMode + 1;
@@ -45,7 +45,7 @@ public class StickInteractEvent implements Listener {
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,2);
                     //sm.getLogger().info(entity.getUniqueId().toString() + ", " + entity.getMetadata(GlobalValues.METATAG).get(0).asInt());
                 } else {
-                    if(GeneralTools.hasInvalidMetadata(player, GlobalValues.STICK_MODE)){
+                    if(!(GeneralTools.hasValidMetadata(player, GlobalValues.STICK_MODE))){
                         player.setMetadata(GlobalValues.STICK_MODE, new FixedMetadataValue(sm, 1));
                     }
                     int stickMode = player.getMetadata(GlobalValues.STICK_MODE).get(0).asInt();
@@ -59,7 +59,7 @@ public class StickInteractEvent implements Listener {
                         case STACK_NEARBY:
                             for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                                 if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                                    if(GeneralTools.hasInvalidMetadata(nearby)){
+                                    if(!(GeneralTools.hasValidStackData(nearby))){
                                         nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                                     }
                                 }
@@ -78,7 +78,7 @@ public class StickInteractEvent implements Listener {
                         case UNSTACK_NEARBY:
                             for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                                 if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                                    if(!(GeneralTools.hasInvalidMetadata(nearby))){
+                                    if(GeneralTools.hasValidStackData(nearby)){
                                         nearby.removeMetadata(GlobalValues.METATAG, sm);
                                     }
                                 }

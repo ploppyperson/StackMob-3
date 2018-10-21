@@ -10,7 +10,7 @@ public class ExplodeEvent implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event){
-        if(!(GeneralTools.hasInvalidMetadata(event.getEntity()))){
+        if(GeneralTools.hasValidStackData(event.getEntity())){
             int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
             event.setYield(event.getYield() + (event.getYield() * (stackSize - 1) * 0.5f));
         }

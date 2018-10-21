@@ -31,7 +31,7 @@ public class ItemDrop implements Listener {
                 return;
             }
             for(Entity e : event.getEntity().getNearbyEntities(0.2, 0.3, 0.2)){
-                if(e instanceof Chicken && !(GeneralTools.hasInvalidMetadata(e))){
+                if(e instanceof Chicken && GeneralTools.hasValidStackData(e)){
                     int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
                     int dropAmount = (int) Math.round(stackSize * ((ThreadLocalRandom.current().nextDouble(0.5) + 0.35)));
                     sm.dropTools.dropEggs(event.getEntity().getItemStack(), dropAmount, e.getLocation());

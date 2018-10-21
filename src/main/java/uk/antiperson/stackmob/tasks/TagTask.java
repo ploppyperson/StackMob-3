@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.tasks;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
@@ -31,10 +33,11 @@ public class TagTask extends BukkitRunnable {
                 if(!(e instanceof LivingEntity)){
                     continue;
                 }
-                if (e.hasMetadata(GlobalValues.METATAG)) {
+                if (GeneralTools.hasValidStackData(e)) {
+                    /* Hacky fix
                     if (e.getMetadata(GlobalValues.METATAG).size() == 0 && !(e.hasMetadata(GlobalValues.NO_STACK_ALL))) {
                         e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-                    }
+                    }*/
                     String typeString = e.getType().toString();
 
                     int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();

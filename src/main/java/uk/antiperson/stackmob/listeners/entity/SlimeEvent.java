@@ -12,7 +12,7 @@ public class SlimeEvent implements Listener {
 
     @EventHandler
     public void onSlimeEvent(SlimeSplitEvent e) {
-        if(!(GeneralTools.hasInvalidMetadata(e.getEntity()))){
+        if(GeneralTools.hasValidStackData(e.getEntity())){
             int stackSize = e.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1;
             int randomAmount = ThreadLocalRandom.current().nextInt(2,4);
             e.setCount(e.getCount() + (stackSize * randomAmount));

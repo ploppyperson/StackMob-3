@@ -18,10 +18,7 @@ public class StackLogic {
             return false;
         }
         // Checks are only on nearby because it might have not-enough-near.
-        if(GeneralTools.hasInvalidMetadata(nearby)){
-            return false;
-        }
-        if(sm.getTools().notTaskSuitable(original) || sm.getTools().notTaskSuitable(nearby)){
+        if(!(GeneralTools.hasValidStackData(nearby)) || !(GeneralTools.hasValidStackData(original))){
             return false;
         }
         if(sm.getTools().notMatching(original, nearby)) {
@@ -30,18 +27,11 @@ public class StackLogic {
 
         int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int maxSize = sm.getCustomConfig().getInt("stack-max");
-        if (sm.config.getCustomConfig().isInt("custom." + nearby.getType() + ".stack-max")) {
-            maxSize =  sm.getCustomConfig().getInt("custom." + nearby.getType() + ".stack-max");
-        }
-        if(nearbySize == maxSize){
+        if(sm.getTools().checkIfMaximumSize(nearby, nearbySize)){
             return false;
         }
 
-        int originalSize = 1;
-        if(!(GeneralTools.hasInvalidMetadata(original))){
-            originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        }
-
+        int originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
         if(nearbySize > originalSize && sm.config.getCustomConfig().getBoolean("big-priority")){
             Entity holder = nearby;
             nearby = original;
