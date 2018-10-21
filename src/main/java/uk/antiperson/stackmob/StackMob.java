@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
 import uk.antiperson.stackmob.compat.HookManager;
+import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.entity.EntityTools;
 import uk.antiperson.stackmob.checks.TraitManager;
 import uk.antiperson.stackmob.entity.StackLogic;
@@ -19,6 +20,7 @@ import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
 import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
 import uk.antiperson.stackmob.tasks.CacheSave;
+import uk.antiperson.stackmob.tasks.ShowTagNearby;
 import uk.antiperson.stackmob.tasks.StackTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
@@ -174,11 +176,14 @@ public class StackMob extends JavaPlugin {
     private void startTasks(){
         List<World> worlds = Bukkit.getWorlds();
         for(int i = 0; i < worlds.size(); i++){
-            int period = config.getCustomConfig().getInt("task-delay") * i;
+            int period = (int) Math.round(config.getCustomConfig().getDouble("task-delay") / worlds.size()) * i;
             new StackTask(this, worlds.get(i)).runTaskTimer(this, period, 100);
         }
 
         new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
+        if(getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB)){
+            new ShowTagNearby(this).runTaskTimer(this, 5, config.getCustomConfig().getInt("tag.interval"));
+        }
         new CacheSave(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
     }
 

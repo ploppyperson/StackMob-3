@@ -15,4 +15,10 @@ public class WorldTools {
         }
         return loadedEntities;
     }
+
+    public HashSet<Entity> getLoadedEntitiesNearby(Player player) {
+        HashSet<Entity> loadedEntities = new HashSet<>();
+        loadedEntities.addAll(player.getNearbyEntities(20, 20, 20));
+        return loadedEntities;
+    }
 }

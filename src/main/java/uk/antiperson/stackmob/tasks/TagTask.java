@@ -69,14 +69,7 @@ public class TagTask extends BukkitRunnable {
                              e.setCustomName(finalString);
                         }
 
-                        if(sm.hookManager.isHookRegistered(PluginCompat.PROCOTOLLIB)){
-                            ProtocolLibHook plh = (ProtocolLibHook) sm.hookManager.getHook(PluginCompat.PROCOTOLLIB);
-                            for(Entity entity : e.getNearbyEntities(20, 20, 20)){
-                                if(entity instanceof Player){
-                                    plh.sendUpdatePacket((Player)entity, e);
-                                }
-                            }
-                        }else{
+                        if(!(sm.hookManager.isHookRegistered(PluginCompat.PROCOTOLLIB))){
                             boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
                             if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
                                 alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
