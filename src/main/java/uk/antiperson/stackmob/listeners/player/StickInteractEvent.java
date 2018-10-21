@@ -1,12 +1,6 @@
 package uk.antiperson.stackmob.listeners.player;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +9,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.StickMode;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class StickInteractEvent implements Listener {
