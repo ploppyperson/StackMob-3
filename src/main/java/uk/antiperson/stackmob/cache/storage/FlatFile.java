@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import uk.antiperson.stackmob.cache.StackStorage;
 import uk.antiperson.stackmob.cache.StorageManager;
-import uk.antiperson.stackmob.cache.StorageType;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class FlatFile extends StackStorage {
     private File file;
     private FileConfiguration fileCon;
     public FlatFile(StorageManager storageManager){
-        super(storageManager, StorageType.FLATFILE);
+        super(storageManager);
         file = new File(storageManager.getStackMob().getDataFolder(), "cache.yml");
         reloadFile();
     }

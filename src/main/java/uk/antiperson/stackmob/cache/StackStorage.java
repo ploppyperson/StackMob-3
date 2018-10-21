@@ -15,8 +15,7 @@ public abstract class StackStorage implements StorageMethod {
 
     private StorageManager storageManager;
     private HashMap<UUID, Integer> amountCache = new HashMap<>();
-    public StackStorage(StorageManager storageManager, StorageType type){
-        storageManager.getStackMob().getLogger().info("Using " + type.toString() + " storage method.");
+    public StackStorage(StorageManager storageManager){
         this.storageManager = storageManager;
     }
 

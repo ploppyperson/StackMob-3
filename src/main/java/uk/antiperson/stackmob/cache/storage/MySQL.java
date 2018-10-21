@@ -3,7 +3,6 @@ package uk.antiperson.stackmob.cache.storage;
 import uk.antiperson.stackmob.cache.DisableCleanup;
 import uk.antiperson.stackmob.cache.StackStorage;
 import uk.antiperson.stackmob.cache.StorageManager;
-import uk.antiperson.stackmob.cache.StorageType;
 
 import java.sql.*;
 import java.util.Map;
@@ -16,10 +15,9 @@ public class MySQL extends StackStorage implements DisableCleanup {
     private String dbName;
     private String username;
     private String password;
-
-    public Connection connection;
+    private Connection connection;
     public MySQL(StorageManager storageManager){
-        super(storageManager, StorageType.MYSQL);
+        super(storageManager);
         hostname = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.ip");
         port = getStorageManager().getStackMob().getCustomConfig().getInt("storage.database.port");
         dbName = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.name");
@@ -66,7 +64,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
     }
 
     public void makeConnection() throws SQLException{
-        String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName;
+        String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?useSSL=false";
         connection = DriverManager.getConnection(url, username, password);
         getStorageManager().getStackMob().getLogger().info("Database connection successful!");
     }
