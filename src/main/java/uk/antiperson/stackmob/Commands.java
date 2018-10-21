@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.UUID;
@@ -77,7 +78,7 @@ public class Commands implements CommandExecutor {
                     int stackedTotal = 0;
                     for (World world : Bukkit.getWorlds()) {
                         for (Entity entity : world.getLivingEntities()) {
-                            if (entity.hasMetadata(GlobalValues.METATAG)) {
+                            if (GeneralTools.hasValidStackData(entity)) {
                                 stackedCount = stackedCount + 1;
                                 stackedTotal = stackedTotal + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                             }
@@ -88,7 +89,7 @@ public class Commands implements CommandExecutor {
                     int stackedTotal1 = 0;
                     if (sender instanceof Player) {
                         for (Entity entity : ((Player) sender).getLocation().getChunk().getEntities()) {
-                            if (entity.hasMetadata(GlobalValues.METATAG)) {
+                            if (GeneralTools.hasValidStackData(entity)) {
                                 stackedCount1 = stackedCount1 + 1;
                                 stackedTotal1 = stackedTotal1 + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
                             }
