@@ -37,10 +37,6 @@ public class ShearEvent implements Listener {
 
         Entity oldEntity = event.getEntity();
         int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
-        if(stackSize <= 1){
-            return;
-        }
-
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.config.getCustomConfig().getBoolean("multiply.sheep-wool")){
@@ -53,7 +49,6 @@ public class ShearEvent implements Listener {
                 }
 
                 damageItemInHand(event.getPlayer(), stackSize);
-
             }else if(sm.config.getCustomConfig().getBoolean("divide-on.sheep-shear")){
                 Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity, true);
                 newEntity.setSheared(false);
