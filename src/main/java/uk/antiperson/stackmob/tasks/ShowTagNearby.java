@@ -30,6 +30,7 @@ public class ShowTagNearby extends BukkitRunnable {
     public void run(){
         ProtocolLibHook plh = (ProtocolLibHook) sm.hookManager.getHook(PluginCompat.PROCOTOLLIB);
         for(Player player : Bukkit.getOnlinePlayers()){
+            // Get all entities in range that the tag can be shown for.
             List<Entity> entities = player.getNearbyEntities(x, y, z);
             for(Entity entity : entities) {
                 if(!(entity instanceof LivingEntity)) {
@@ -40,7 +41,8 @@ public class ShowTagNearby extends BukkitRunnable {
                 }
                 plh.sendPacket(player, entity, true);
             }
-            HashSet<Entity> entities1 = sm.worldTools.getLoadedEntitiesNearby(player);
+            // Prevent showing of tags for entities not in range.
+            List<Entity> entities1 = player.getNearbyEntities(x * 1.5, y * 1.5, z * 1.5);
             entities1.removeAll(entities);
             for(Entity entity : entities1){
                 plh.sendPacket(player, entity, false);
