@@ -8,7 +8,6 @@ import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class StackStorage implements StorageMethod {

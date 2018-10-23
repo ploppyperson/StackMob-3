@@ -3,16 +3,12 @@ package uk.antiperson.stackmob.tasks;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
-import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
 import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 

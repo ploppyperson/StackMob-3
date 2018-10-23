@@ -10,7 +10,6 @@ import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
 import uk.antiperson.stackmob.tools.GeneralTools;
 
-import java.util.HashSet;
 import java.util.List;
 
 public class ShowTagNearby extends BukkitRunnable {
