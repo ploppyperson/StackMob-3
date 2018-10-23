@@ -26,13 +26,13 @@ public class StackLogic {
     public boolean foundMatch(Entity original){
         for(Entity nearby : original.getNearbyEntities(getX(), getY(), getZ())){
             if(original.getType() != nearby.getType()){
-                return false;
+                continue;
             }
             if(notSuitableForStacking(nearby)){
                 continue;
             }
             if(sm.getTools().notMatching(original, nearby)) {
-                return false;
+                continue;
             }
             if(attemptMerge(original, nearby)){
                 return true;
@@ -110,6 +110,7 @@ public class StackLogic {
         return checkIfMaximumSize(entity, stackSize);
     }
 
+    // DONT IGNORE THIS! CUSTOM NOT TAKEN INTO ACCOUNT ABOVE.
     private boolean checkIfMaximumSize(Entity entity, int stackSize){
         int maxStackSize = sm.getCustomConfig().getInt("stack-max");
         if (sm.config.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
