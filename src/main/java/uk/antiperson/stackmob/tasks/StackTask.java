@@ -6,7 +6,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class StackTask extends StackingTask {
 
@@ -23,26 +22,14 @@ public class StackTask extends StackingTask {
                 continue;
             }
             if(GeneralTools.hasNotEnoughNear(entity)) {
-                if(getStackMob().getTools().notEnoughNearby(entity)){
+                if(getStackMob().getLogic().notEnoughNearby(entity)){
                     continue;
                 }
             }
-            if(!(GeneralTools.hasValidStackData(entity))){
+            if(getStackMob().getLogic().notSuitableForStacking(entity)){
                 continue;
             }
-            if(getStackMob().getTools().notTaskSuitable(entity)){
-                continue;
-            }
-            int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
-            if(getStackMob().getTools().checkIfMaximumSize(entity, stackSize)){
-                continue;
-            }
-            for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
-                if(!(getStackMob().getLogic().attemptMerge(entity, nearby))){
-                    continue;
-                }
-                break;
-            }
+            getStackMob().getLogic().foundMatch(entity);
         }
     }
 }

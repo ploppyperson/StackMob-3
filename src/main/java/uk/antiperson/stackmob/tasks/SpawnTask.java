@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob.tasks;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
@@ -22,23 +21,19 @@ public class SpawnTask extends StackingTask {
         }
         // Set metadata to we can stack.
         entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), 1));
-        // Find nearby stacks to merge with.
-        for(Entity nearby : entity.getNearbyEntities(getX(), getY(), getZ())){
-            if(getStackMob().getLogic().attemptMerge(entity, nearby)){
-                return;
-            }
+        // Find nearby stacks to merge with, return if found.
+        if(getStackMob().getLogic().foundMatch(entity)){
+            return;
         }
 
         // A match was not found, so we will set the appropriate metadata.
         if(getStackMob().getCustomConfig().getInt("dont-stack-until") > 0){
-            if(getStackMob().tools.notEnoughNearby(entity)){
+            if(getStackMob().getLogic().notEnoughNearby(entity)){
                 entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), GlobalValues.NOT_ENOUGH_NEAR));
             }
         }
 
-        // Set other plugin traits.
-        getStackMob().getHookManager().onEntityClone(entity);
-        // Set noAI
-        getStackMob().getTools().setAi(entity);
+        // Set traits.
+        getStackMob().getTools().setTraits(entity);
     }
 }
