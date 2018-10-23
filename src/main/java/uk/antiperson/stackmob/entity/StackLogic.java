@@ -25,8 +25,14 @@ public class StackLogic {
 
     public boolean foundMatch(Entity original){
         for(Entity nearby : original.getNearbyEntities(getX(), getY(), getZ())){
+            if(original.getType() != nearby.getType()){
+                return false;
+            }
             if(notSuitableForStacking(nearby)){
                 continue;
+            }
+            if(sm.getTools().notMatching(original, nearby)) {
+                return false;
             }
             if(attemptMerge(original, nearby)){
                 return true;
@@ -36,17 +42,6 @@ public class StackLogic {
     }
 
     public boolean attemptMerge(Entity original, Entity nearby){
-        if(original.getType() != nearby.getType()){
-            return false;
-        }
-        // Checks are only on nearby because it might have not-enough-near.
-        if(!(GeneralTools.hasValidStackData(nearby)) || !(GeneralTools.hasValidStackData(original))){
-            return false;
-        }
-        if(sm.getTools().notMatching(original, nearby)) {
-            return false;
-        }
-
         int maxSize = sm.getCustomConfig().getInt("stack-max");
         int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
