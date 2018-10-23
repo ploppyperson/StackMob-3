@@ -25,7 +25,7 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(!(GeneralTools.hasValidStackData(entity))){
+        if(!(GeneralTools.hasValidMetadata(entity))){
             return;
         }
         if(GeneralTools.hasValidMetadata(entity, GlobalValues.CURRENTLY_BREEDING) &&
@@ -41,45 +41,47 @@ public class InteractEvent implements Listener {
 
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && ((Animals) entity).canBreed()){
-                int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                if(sm.config.getCustomConfig().getBoolean("multiply.breed")){
-                    int breedSize = stackSize;
-                    int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
-                    if(handSize < breedSize){
-                        breedSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
-                        event.getPlayer().getInventory().setItemInMainHand(null);
-                    }
-
-                    int childAmount = breedSize / 2;
-                    Animals child = (Animals) sm.tools.duplicate(entity);
-                    child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
-                    child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                    child.setBaby();
-
-                    event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
-                    ((Animals) entity).setBreed(false);
-                }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
-                    Entity newEntity = sm.tools.duplicate(entity, true);
-                    newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
-                    newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-
-                    entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
-                    entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
-                    entity.setCustomName(null);
-
-                    // Allow to stack after breeding
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            if (!entity.isDead()) {
-                                entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
-                                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
-                            }
+                if(GeneralTools.hasValidStackData(entity)) {
+                    int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                    if (sm.config.getCustomConfig().getBoolean("multiply.breed")) {
+                        int breedSize = stackSize;
+                        int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                        if (handSize < breedSize) {
+                            breedSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                            event.getPlayer().getInventory().setItemInMainHand(null);
                         }
-                    }.runTaskLater(sm, 20 * 20);
+
+                        int childAmount = breedSize / 2;
+                        Animals child = (Animals) sm.tools.duplicate(entity);
+                        child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
+                        child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                        child.setBaby();
+
+                        event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
+                        ((Animals) entity).setBreed(false);
+                    } else if (sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
+                        Entity newEntity = sm.tools.duplicate(entity, true);
+                        newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
+                        newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+
+                        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                        entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                        entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
+                        entity.setCustomName(null);
+
+                        // Allow to stack after breeding
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (!entity.isDead()) {
+                                    entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
+                                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
+                                }
+                            }
+                        }.runTaskLater(sm, 20 * 20);
+                    }
+                    return;
                 }
-                return;
             }
         }
         if(sm.config.getCustomConfig().getBoolean("divide-on.name")) {
