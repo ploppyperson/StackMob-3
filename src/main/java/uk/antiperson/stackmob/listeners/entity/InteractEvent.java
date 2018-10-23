@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -116,8 +117,7 @@ public class InteractEvent implements Listener {
                 return true;
             }
         }
-        if(entity instanceof Ocelot && (is.getType() == Material.SALMON || is.getType() == Material.COD ||
-                is.getType() == Material.TROPICAL_FISH || is.getType() == Material.PUFFERFISH) && ((Ocelot) entity).isTamed()){
+        if(entity instanceof Ocelot && Tag.ITEMS_FISHES.isTagged(is.getType()) && ((Ocelot) entity).isTamed()){
             return true;
         }
         if(entity instanceof Rabbit && (is.getType() == Material.CARROT|| is.getType() == Material.GOLDEN_CARROT
