@@ -12,6 +12,9 @@ public class WorldGuardHook extends PluginHook implements Comparable {
     private WorldGuard worldGuard;
     public WorldGuardHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.WORLDGUARD);
+        if(getStackMob().getCustomConfig().getBoolean("worldguard-support")){
+            getHookManager().registerHook(PluginCompat.WORLDGUARD, this);
+        }
     }
 
     public void onLoad(){
@@ -20,13 +23,6 @@ public class WorldGuardHook extends PluginHook implements Comparable {
             worldGuard.registerFlag();
         }else{
             getStackMob().getLogger().info("In order for this functionality to work, WorldGuard 7.0 or later needs to be installed.");
-        }
-    }
-
-    @Override
-    public void enable(){
-        if(getStackMob().config.getCustomConfig().getBoolean("worldguard-support")){
-            getHookManager().registerHook(PluginCompat.WORLDGUARD, this);
         }
     }
 

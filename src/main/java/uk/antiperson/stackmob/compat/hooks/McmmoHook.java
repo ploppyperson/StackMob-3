@@ -13,11 +13,7 @@ public class McmmoHook extends PluginHook implements CloneTrait {
 
     public McmmoHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MCMMO);
-    }
-
-    @Override
-    public void enable(){
-        if(getStackMob().config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled")){
+        if(getStackMob().getCustomConfig().getBoolean("mcmmo.no-experience.enabled")){
             getHookManager().registerHook(getPluginCompat(), this);
         }
     }

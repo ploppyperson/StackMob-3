@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob.compat;
 
-public interface Errorable extends PluginChecks {
+public interface Errorable{
 
     void disable();
 }

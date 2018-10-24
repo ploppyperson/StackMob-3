@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.compat;
 
 import org.bukkit.entity.Entity;
 
-public interface CloneTrait extends PluginChecks{
+public interface CloneTrait{
 
     void setTrait(Entity entity);
 }

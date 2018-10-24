@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import uk.antiperson.stackmob.StackMob;
 
-public abstract class PluginHook implements PluginChecks{
+public abstract class PluginHook{
 
     private StackMob stackMob;
     private HookManager hookManager;
@@ -16,9 +16,9 @@ public abstract class PluginHook implements PluginChecks{
         pluginName = hooks.getName();
         stackMob = sm;
         pluginCompat = hooks;
-        if(plugin != null){
-            hookManager = hm;
-            enable();
+        hookManager = hm;
+        if(plugin == null){
+            return;
         }
         if(!hm.isHookRegistered(hooks)){
             if(this instanceof Errorable){
