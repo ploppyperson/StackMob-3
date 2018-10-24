@@ -60,7 +60,7 @@ public class InteractEvent implements Listener {
                         event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
                         ((Animals) entity).setBreed(false);
                     } else if (sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
-                        Entity newEntity = sm.tools.duplicate(entity, true);
+                        Entity newEntity = sm.tools.duplicate(entity);
                         newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
                         newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
 

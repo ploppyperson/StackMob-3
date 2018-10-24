@@ -40,35 +40,14 @@ public class EntityTools {
         }
     }
 
-    @Deprecated
-    public Entity duplicate(Entity original, boolean slightMovement){
-        Entity dupe;
-        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
-        if(mobsHook != null && mobsHook.isMythicMob(original)){
-            dupe = mobsHook.spawnMythicMob(original);
-        }else if(slightMovement){
-            dupe = original.getWorld().spawnEntity(original.getLocation().add(0,0.1,0), original.getType());
-        }else{
-            dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
+    public Entity duplicate(Entity original) {
+        Location dupeLoc = original.getLocation();
+        if (original instanceof Zombie || original instanceof Skeleton) {
+            // Make location in the middle of the block, prevents wall glitching due to "safe spawn errors"
+            dupeLoc.setX(dupeLoc.getBlockX() + 0.5);
+            dupeLoc.setZ(dupeLoc.getBlockZ() + 0.5);
         }
-        return cloneTraits(original, dupe);
-    }
-
-    public Entity duplicate(Entity original){
-        Entity dupe;
-        Location dupeLoc;
-        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
-        if(mobsHook != null && mobsHook.isMythicMob(original)){
-            dupe = mobsHook.spawnMythicMob(original);
-        }else if (original instanceof Zombie || original instanceof Skeleton){
-        	// will spawn the dupe in the middle of the block the original died in, prevents mobs from glitching through walls due to "safe spawn errors"
-        	dupeLoc = new Location(original.getWorld(), original.getLocation().getBlockX()+0.5, original.getLocation().getY(), original.getLocation().getBlockZ()+0.5);
-            dupe = original.getWorld().spawnEntity(dupeLoc, original.getType());
-        }
-        else{
-        	dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
-        }
-        return cloneTraits(original, dupe);
+        return cloneTraits(original, spawnDuplicateEntity(dupeLoc, original));
     }
 
     // Copies all of the attributes of one entity and gives them to another.
@@ -84,6 +63,14 @@ public class EntityTools {
         sm.getHookManager().onEntityClone(entity);
         // noAi
         setAi(entity);
+    }
+
+    public Entity spawnDuplicateEntity(Location location, Entity original){
+        MythicMobsHook mmh = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
+        if(mmh != null && mmh.isMythicMob(original)){
+            return mmh.spawnMythicMob(location, original);
+        }
+        return original.getWorld().spawnEntity(location, original.getType());
     }
 
     public void setAi(LivingEntity entity){
