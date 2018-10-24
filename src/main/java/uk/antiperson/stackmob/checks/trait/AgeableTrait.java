@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class AgeableTrait implements ApplicableTrait {
 
     public AgeableTrait(TraitManager tc){
-        if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.entity-age")) {
+        if(tc.getStackMob().getCustomConfig().getBoolean("compare.entity-age")) {
             tc.registerTrait(this);
         }
     }

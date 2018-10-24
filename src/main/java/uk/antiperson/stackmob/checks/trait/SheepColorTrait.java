@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class SheepColorTrait implements ApplicableTrait {
 
     public SheepColorTrait(TraitManager tc){
-        if (tc.getStackMob().config.getCustomConfig().getBoolean("compare.sheep-wool-color")) {
+        if (tc.getStackMob().getCustomConfig().getBoolean("compare.sheep-wool-color")) {
             tc.registerTrait(this);
         }
     }

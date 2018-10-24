@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class LlamaTrait implements ApplicableTrait {
 
     public LlamaTrait(TraitManager tc){
-        if (tc.getStackMob().config.getCustomConfig().getBoolean("compare.llama-color")){
+        if (tc.getStackMob().getCustomConfig().getBoolean("compare.llama-color")){
             tc.registerTrait(this);
         }
     }

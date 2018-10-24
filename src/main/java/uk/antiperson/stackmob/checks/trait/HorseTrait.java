@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class HorseTrait implements ApplicableTrait {
 
     public HorseTrait(TraitManager tc){
-        if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.horse-color")) {
+        if(tc.getStackMob().getCustomConfig().getBoolean("compare.horse-color")) {
             tc.registerTrait(this);
         }
     }

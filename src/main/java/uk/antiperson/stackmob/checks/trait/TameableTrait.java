@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class TameableTrait implements ApplicableTrait {
 
     public TameableTrait(TraitManager tc){
-        if(tc.getStackMob().config.getCustomConfig().getBoolean("check.tamed")){
+        if(tc.getStackMob().getCustomConfig().getBoolean("check.tamed")){
             tc.registerTrait(this);
         }
     }

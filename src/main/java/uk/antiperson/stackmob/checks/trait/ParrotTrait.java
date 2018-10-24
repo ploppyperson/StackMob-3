@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class ParrotTrait implements ApplicableTrait {
 
     public ParrotTrait(TraitManager tc){
-        if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.parrot-color")){
+        if(tc.getStackMob().getCustomConfig().getBoolean("compare.parrot-color")){
             tc.registerTrait(this);
         }
     }

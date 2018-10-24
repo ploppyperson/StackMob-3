@@ -8,7 +8,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 public class VillagerTrait implements ApplicableTrait {
 
     public VillagerTrait(TraitManager tc){
-        if(tc.getStackMob().config.getCustomConfig().getBoolean("compare.villager-profession")) {
+        if(tc.getStackMob().getCustomConfig().getBoolean("compare.villager-profession")) {
             tc.registerTrait(this);
         }
     }
