@@ -42,7 +42,7 @@ public class StackLogic {
     }
 
     public boolean attemptMerge(Entity original, Entity nearby){
-        int maxSize = sm.getCustomConfig().getInt("stack-max");
+        int maxSize = getMaxSize(original);
         int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
         int originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
         if(nearbySize > originalSize && sm.config.getCustomConfig().getBoolean("big-priority")){
@@ -107,16 +107,15 @@ public class StackLogic {
             return true;
         }
         int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        return checkIfMaximumSize(entity, stackSize);
+        return (getMaxSize(entity) == stackSize);
     }
 
-    // DONT IGNORE THIS! CUSTOM NOT TAKEN INTO ACCOUNT ABOVE.
-    private boolean checkIfMaximumSize(Entity entity, int stackSize){
+    private int getMaxSize(Entity entity){
         int maxStackSize = sm.getCustomConfig().getInt("stack-max");
         if (sm.config.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
             maxStackSize =  sm.getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");
         }
-        return maxStackSize == stackSize;
+        return maxStackSize;
     }
 
     public void sliceEntity(Entity entity){
