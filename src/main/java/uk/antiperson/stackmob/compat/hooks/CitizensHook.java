@@ -11,7 +11,11 @@ public class CitizensHook extends PluginHook implements Comparable {
 
     public CitizensHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.CITIZENS);
-        if(getStackMob().getCustomConfig().getBoolean("check.is-citizens-npc")){
+    }
+
+    @Override
+    public void enable(){
+        if(getStackMob().config.getCustomConfig().getBoolean("check.is-citizens-npc")){
             getHookManager().registerHook(getPluginCompat(), this);
         }
     }

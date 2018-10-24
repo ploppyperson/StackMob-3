@@ -10,7 +10,11 @@ public class MiniaturePetsHook extends PluginHook implements Comparable {
 
     public MiniaturePetsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MINIATUREPETS);
-        if(getStackMob().getCustomConfig().getBoolean("check.is-miniature-pet")){
+    }
+
+    @Override
+    public void enable(){
+        if(getStackMob().config.getCustomConfig().getBoolean("check.is-miniature-pet")){
             if(isMiniPetCorrectVersion()){
                 getHookManager().registerHook(getPluginCompat(), this);
             }else{
