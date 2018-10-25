@@ -14,7 +14,6 @@ import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
  *
  * Strictly stuff to do with entities, but not stacking.
  *
- * TODO: Seperate methods.
  */
 public class EntityTools {
 
@@ -51,7 +50,6 @@ public class EntityTools {
     }
 
     // Copies all of the attributes of one entity and gives them to another.
-    // TODO: fire ticks.
     public Entity cloneTraits(Entity original, Entity dupe){
         sm.getTraitManager().applyTraits(original, dupe);
         setTraits((LivingEntity) dupe);
