@@ -22,6 +22,7 @@ public class ConfigLoader {
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");
+        this.defaultFile = new File(filename + "-default.yml");
     }
 
     public void reloadCustomConfig() {
@@ -60,7 +61,6 @@ public class ConfigLoader {
 
     public void copyDefault(){
         InputStream is = sm.getResource(filename +  ".yml");
-        File defaultFile = new File(filename + "-default.yml");
         try {
             FileUtils.copyToFile(is, defaultFile);
         }catch (IOException e){
