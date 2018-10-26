@@ -64,7 +64,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
     }
 
     public void makeConnection() throws SQLException{
-        String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?useSSL=false";
+        String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?useSSL=false&rewriteBatchedStatements=true";
         connection = DriverManager.getConnection(url, username, password);
         getStorageManager().getStackMob().getLogger().info("Database connection successful!");
     }

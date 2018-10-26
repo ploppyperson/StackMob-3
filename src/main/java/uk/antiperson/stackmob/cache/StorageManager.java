@@ -3,7 +3,6 @@ package uk.antiperson.stackmob.cache;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
-import uk.antiperson.stackmob.cache.storage.Sqlite;
 
 public class StorageManager {
 
@@ -20,9 +19,6 @@ public class StorageManager {
         switch (cacheType){
             case MYSQL:
                 stackStorage = new MySQL(this);
-                break;
-            case SQLITE:
-                stackStorage = new Sqlite(this);
                 break;
             case FLATFILE:
                 stackStorage = new FlatFile(this);
