@@ -17,7 +17,11 @@ public class MythicSupport {
 
     public Entity spawnMythicMob(Entity ea) {
         ActiveMob am = getMythicMobs().getMythicMobInstance(ea);
-        return getMythicMobs().spawnMob(am.getType().getInternalName(), ea.getLocation()).getLivingEntity();
+        try {
+            return getMythicMobs().spawnMob(am.getType().getInternalName(), ea.getLocation()).getLivingEntity();
+        }catch (NullPointerException npe){
+            return null;
+        }
     }
 
     public boolean isMythicMob(Entity e){

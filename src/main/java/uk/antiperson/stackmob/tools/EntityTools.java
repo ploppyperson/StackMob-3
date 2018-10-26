@@ -182,7 +182,12 @@ public class EntityTools {
         Entity dupe;
         Location dupeLoc;
         if(sm.pluginSupport.getMythicSupport() != null && sm.pluginSupport.getMythicSupport().isMythicMob(original)){
-            dupe = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
+            Entity e = sm.pluginSupport.getMythicSupport().spawnMythicMob(original);
+            if(e != null){
+                dupe = e;
+            }else{
+                dupe = original.getWorld().spawnEntity(original.getLocation(), original.getType());
+            }
         }else if (original instanceof Zombie || original instanceof Skeleton){
         	// will spawn the dupe in the middle of the block the original died in, prevents mobs from glitching through walls due to "safe spawn errors"
         	dupeLoc = new Location(original.getWorld(), original.getLocation().getBlockX()+0.5, original.getLocation().getY(), original.getLocation().getBlockZ()+0.5);
