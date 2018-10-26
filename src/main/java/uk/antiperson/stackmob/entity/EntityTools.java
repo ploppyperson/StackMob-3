@@ -66,7 +66,10 @@ public class EntityTools {
     public Entity spawnDuplicateEntity(Location location, Entity original){
         MythicMobsHook mmh = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
         if(mmh != null && mmh.isMythicMob(original)){
-            return mmh.spawnMythicMob(location, original);
+            Entity entity = mmh.spawnMythicMob(location, original);
+            if(entity != null){
+                return entity;
+            }
         }
         return original.getWorld().spawnEntity(location, original.getType());
     }

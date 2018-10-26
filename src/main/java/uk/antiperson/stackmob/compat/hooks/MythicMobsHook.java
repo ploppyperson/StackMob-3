@@ -69,6 +69,9 @@ public class MythicMobsHook extends PluginHook implements Comparable {
     public Entity spawnMythicMob(Location spawnLocation, Entity original){
         ActiveMob activeMob = getMobManager().getMythicMobInstance(original);
         ActiveMob clone = getMobManager().spawnMob(activeMob.getType().getInternalName(), spawnLocation);
-        return clone.getLivingEntity();
+        if(clone != null){
+            return clone.getLivingEntity();
+        }
+        return null;
     }
 }
