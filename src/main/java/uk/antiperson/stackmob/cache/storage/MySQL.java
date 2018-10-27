@@ -30,6 +30,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
         getStorageManager().getStackMob().getLogger().info("Connecting to database...");
         try {
             makeConnection();
+            getStorageManager().getStackMob().getLogger().info("Database connection successful!");
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (UUID CHAR(36) NOT NULL UNIQUE, Size INT NOT NULL)").execute();
             ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob").executeQuery();
             while (rs.next()){
@@ -66,7 +67,6 @@ public class MySQL extends StackStorage implements DisableCleanup {
     public void makeConnection() throws SQLException{
         String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?useSSL=false&rewriteBatchedStatements=true";
         connection = DriverManager.getConnection(url, username, password);
-        getStorageManager().getStackMob().getLogger().info("Database connection successful!");
     }
 
     private void closeConnection(){
