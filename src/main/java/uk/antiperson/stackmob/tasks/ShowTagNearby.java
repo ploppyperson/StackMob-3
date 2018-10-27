@@ -44,7 +44,9 @@ public class ShowTagNearby extends BukkitRunnable {
             List<Entity> entities1 = player.getNearbyEntities(x * 1.5, y * 1.5, z * 1.5);
             entities1.removeAll(entities);
             for(Entity entity : entities1){
-                plh.sendPacket(player, entity, false);
+                if(GeneralTools.hasValidStackData(entity)){
+                    plh.sendPacket(player, entity, false);
+                }
             }
         }
     }
