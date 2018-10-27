@@ -14,6 +14,13 @@ public class StackedEntity {
         this.sm = sm;
     }
 
+    /**
+     * Gets the bukkit entity.
+     * @return Returns the entity.
+     */
+    public Entity getEntity() {
+        return entity;
+    }
 
     /**
      * Sets the stack size.

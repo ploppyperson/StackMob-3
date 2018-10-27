@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.api.StackedEntity;
+import uk.antiperson.stackmob.api.events.EntityStackEvent;
 import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -32,6 +34,9 @@ public class StackLogic {
                 continue;
             }
             if(sm.getTools().notMatching(original, nearby)) {
+                continue;
+            }
+            if(callEvent(original, nearby)){
                 continue;
             }
             if(attemptMerge(original, nearby)){
@@ -136,5 +141,13 @@ public class StackLogic {
 
     private double getZ() {
         return zRadius;
+    }
+
+    public boolean callEvent(Entity original, Entity nearby){
+        StackedEntity entity1 = new StackedEntity(original, sm);
+        StackedEntity entity2 = new StackedEntity(nearby, sm);
+        EntityStackEvent event = new EntityStackEvent(entity1, entity2);
+        sm.getServer().getPluginManager().callEvent(event);
+        return event.isCancelled();
     }
 }
