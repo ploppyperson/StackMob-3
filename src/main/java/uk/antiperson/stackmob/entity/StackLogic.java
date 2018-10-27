@@ -10,6 +10,7 @@ import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 public class StackLogic {
@@ -70,31 +71,31 @@ public class StackLogic {
     }
 
     public boolean notEnoughNearby(Entity original){
-        if(sm.getCustomConfig().getInt("dont-stack-until") > 0){
-            HashSet<UUID> entities = new HashSet<>();
-            entities.add(original.getUniqueId());
-            for(Entity nearby : original.getNearbyEntities(getX(), getY(), getZ())){
-                if(original.getType() == nearby.getType()) {
-                    if (GeneralTools.hasNotEnoughNear(nearby)) {
-                        if (sm.getTools().notMatching(original, nearby)) {
-                            continue;
-                        }
-                        entities.add(nearby.getUniqueId());
-                    }
-                }
-            }
-            if(entities.size() >= sm.config.getCustomConfig().getInt("dont-stack-until")){
-                for(UUID uuid : entities){
-                    Entity nearby = Bukkit.getEntity(uuid);
-                    if(nearby == null){
-                        entities.remove(uuid);
-                        return true;
-                    }else{
-                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-                    }
-                }
-            }else{
+        int dontStackTill = sm.config.getCustomConfig().getInt("dont-stack-until");
+        if(dontStackTill > 0){
+            List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
+            if(nearbyEntities.size() < dontStackTill){
                 return true;
+            }
+            HashSet<Entity> entities = new HashSet<>();
+            for(Entity nearby : nearbyEntities){
+                if(original.getType() != nearby.getType()){
+                    continue;
+                }
+                if(!(GeneralTools.hasNotEnoughNear(nearby))){
+                    continue;
+                }
+                if(sm.getTools().notMatching(original, nearby)){
+                    continue;
+                }
+                entities.add(nearby);
+            }
+            entities.add(original);
+            if(entities.size() < dontStackTill){
+                return true;
+            }
+            for(Entity entity : entities){
+                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
             }
         }
         return false;
