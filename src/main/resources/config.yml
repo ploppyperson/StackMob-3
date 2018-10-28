@@ -1,5 +1,6 @@
 # StackMob 2 created by antiPerson.
 # Report issues that you have experienced in the discussion thread.
+# If the comments have been removed, see the config-default.yml file!
 
 # The size of the area around an entity that should be checked for matching entities to stack with.
 check-area:
@@ -116,6 +117,9 @@ divide-on:
 
 # Enables the requirement for a permission for use of 'kill-all' or 'kill-step'.
 death-type-permission: false
+
+# Increase the player statistics when a mob has a death amount higher than 1.
+increase-player-stats: true
 
 # Make every entity die in the stack on death.
 kill-all:

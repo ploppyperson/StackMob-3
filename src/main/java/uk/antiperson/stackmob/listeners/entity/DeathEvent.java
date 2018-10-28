@@ -86,6 +86,12 @@ public class DeathEvent implements Listener {
             ExperienceOrb exp = (ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB);
             exp.setExperience(sm.expTools.multiplyExperience(originalExperience, subtractAmount));
         }
+        if(sm.getCustomConfig().getBoolean("increase-player-stats")){
+            if(dead.getKiller() != null){
+                int oldStat = dead.getKiller().getStatistic(Statistic.MOB_KILLS);
+                dead.getKiller().setStatistic(Statistic.MOB_KILLS, oldStat + subtractAmount);
+            }
+        }
     }
 
     private Entity spawnNewEntity(int oldSize, int subtractAmount, LivingEntity dead){
