@@ -111,7 +111,7 @@ public class DeathEvent implements Listener {
 
     private boolean isAllowed(DeathType dt, LivingEntity dead){
         String type = dt.getType();
-        if(sm.getCustomConfig().getBoolean(type + ".enabled")){
+        if(!sm.getCustomConfig().getBoolean(type + ".enabled")){
             return false;
         }
         if(sm.getCustomConfig().getBoolean("death-type-permission")){
