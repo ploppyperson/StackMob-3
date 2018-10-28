@@ -1,5 +1,6 @@
 package uk.antiperson.stackmob.listeners.entity;
 
+import org.bukkit.Statistic;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.DeathType;
 import uk.antiperson.stackmob.tools.GeneralTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
@@ -35,44 +37,37 @@ public class DeathEvent implements Listener {
         int subtractAmount = 1;
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
-            if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
-               if(isAllowed("kill-all", dead)){
-                   multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
-                   spawnNewEntity(oldSize, oldSize, dead);
-                   return;
-                }
+            if(isAllowed(DeathType.KILL_ALL, dead)){
+                multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
+                spawnNewEntity(oldSize, oldSize, dead);
+                return;
             }
 
-            if(sm.config.getCustomConfig().getBoolean("kill-step.enabled")){
-                if(isAllowed("kill-step", dead)) {
-                    int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
-                    if (randomStep >= oldSize) {
-                        subtractAmount = oldSize;
-                    } else {
-                        subtractAmount = randomStep;
-                    }
-                    multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
-                    spawnNewEntity(oldSize, subtractAmount, dead);
-                    return;
+            if(isAllowed(DeathType.KILL_STEP, dead)) {
+                int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
+                if (randomStep >= oldSize) {
+                    subtractAmount = oldSize;
+                } else {
+                    subtractAmount = randomStep;
                 }
+                multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
+                spawnNewEntity(oldSize, subtractAmount, dead);
+                return;
             }
 
-
-            if(sm.config.getCustomConfig().getBoolean("kill-step-damage.enabled")){
-                if(isAllowed("kill-step-damage", dead)){
-                    double leftOverDamage = dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
-                    double damageDivided = leftOverDamage / dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-                    int killStep = (int) Math.floor(damageDivided);
-                    if(killStep > 1){
-                        multiplication(dead, e.getDrops(), killStep - 1, e.getDroppedExp());
-                    }
-                    LivingEntity newEntity = (LivingEntity) spawnNewEntity(oldSize, killStep + 1, dead);
-                    if(newEntity != null){
-                        double damageToDeal = (damageDivided - killStep) * dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-                        newEntity.setHealth(newEntity.getHealth() - damageToDeal);
-                    }
-                    return;
+            if(isAllowed(DeathType.KILL_STEP_DAMAGE, dead)){
+                double leftOverDamage = dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
+                double damageDivided = leftOverDamage / dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                int killStep = (int) Math.floor(damageDivided);
+                if(killStep > 1){
+                    multiplication(dead, e.getDrops(), killStep - 1, e.getDroppedExp());
                 }
+                LivingEntity newEntity = (LivingEntity) spawnNewEntity(oldSize, killStep + 1, dead);
+                if(newEntity != null){
+                    double damageToDeal = (damageDivided - killStep) * dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                    newEntity.setHealth(newEntity.getHealth() - damageToDeal);
+                }
+                return;
             }
         }
         spawnNewEntity(oldSize, subtractAmount, dead);
@@ -93,7 +88,7 @@ public class DeathEvent implements Listener {
         }
     }
 
-    private Entity spawnNewEntity(int oldSize, int subtractAmount, Entity dead){
+    private Entity spawnNewEntity(int oldSize, int subtractAmount, LivingEntity dead){
         dead.removeMetadata(GlobalValues.METATAG, sm);
         dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
@@ -108,7 +103,11 @@ public class DeathEvent implements Listener {
         return null;
     }
 
-    private boolean isAllowed(String type, LivingEntity dead){
+    private boolean isAllowed(DeathType dt, LivingEntity dead){
+        String type = dt.getType();
+        if(sm.config.getCustomConfig().getBoolean(type + ".enabled")){
+            return false;
+        }
         if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
             if(dead.getKiller() != null){
                 if(!(dead.getKiller().hasPermission("stackmob." + type))){
@@ -116,11 +115,11 @@ public class DeathEvent implements Listener {
                 }
             }
         }
-        if (!(sm.config.getCustomConfig().getStringList(type + ".reason-blacklist")
-                .contains(dead.getLastDamageCause().getCause().toString()))){
-            return !(sm.config.getCustomConfig().getStringList(type + ".type-blacklist")
-                    .contains(dead.getType().toString()));
+        if (sm.config.getCustomConfig().getStringList(type + ".reason-blacklist")
+                .contains(dead.getLastDamageCause().getCause().toString())){
+            return false;
         }
-        return false;
+        return !(sm.config.getCustomConfig().getStringList(type + ".type-blacklist")
+                .contains(dead.getType().toString()));
     }
 }
