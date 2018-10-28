@@ -42,9 +42,9 @@ public class DeathEvent implements Listener {
                 spawnNewEntity(oldSize, oldSize, dead);
                 return;
             }
-
             if(isAllowed(DeathType.KILL_STEP, dead)) {
-                int randomStep = ThreadLocalRandom.current().nextInt(1, sm.config.getCustomConfig().getInt("kill-step.max-step"));
+                int maxStep = sm.getCustomConfig().getInt("kill-step.max-step");
+                int randomStep = ThreadLocalRandom.current().nextInt(1, maxStep);
                 if (randomStep >= oldSize) {
                     subtractAmount = oldSize;
                 } else {
@@ -54,17 +54,17 @@ public class DeathEvent implements Listener {
                 spawnNewEntity(oldSize, subtractAmount, dead);
                 return;
             }
-
             if(isAllowed(DeathType.KILL_STEP_DAMAGE, dead)){
                 double leftOverDamage = dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
-                double damageDivided = leftOverDamage / dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                double maxHealth = dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                double damageDivided = leftOverDamage / maxHealth;
                 int killStep = (int) Math.floor(damageDivided);
                 if(killStep > 1){
                     multiplication(dead, e.getDrops(), killStep - 1, e.getDroppedExp());
                 }
                 LivingEntity newEntity = (LivingEntity) spawnNewEntity(oldSize, killStep + 1, dead);
                 if(newEntity != null){
-                    double damageToDeal = (damageDivided - killStep) * dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                    double damageToDeal = (damageDivided - killStep) * maxHealth;
                     newEntity.setHealth(newEntity.getHealth() - damageToDeal);
                 }
                 return;
@@ -74,14 +74,14 @@ public class DeathEvent implements Listener {
     }
 
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
-        if(sm.config.getCustomConfig().getBoolean("multiply-drops.enabled")){
+        if(sm.getCustomConfig().getBoolean("multiply-drops.enabled")){
             if(dead.getKiller() != null){
                 sm.dropTools.calculateDrops(drops, subtractAmount, dead, dead.getKiller().getInventory().getItemInMainHand());
             }else{
                 sm.dropTools.calculateDrops(drops, subtractAmount, dead, null);
             }
         }
-        if(sm.config.getCustomConfig().getBoolean("multiply-exp.enabled")){
+        if(sm.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
             ExperienceOrb exp = (ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB);
             exp.setExperience(sm.expTools.multiplyExperience(originalExperience, subtractAmount));
@@ -111,21 +111,21 @@ public class DeathEvent implements Listener {
 
     private boolean isAllowed(DeathType dt, LivingEntity dead){
         String type = dt.getType();
-        if(sm.config.getCustomConfig().getBoolean(type + ".enabled")){
+        if(sm.getCustomConfig().getBoolean(type + ".enabled")){
             return false;
         }
-        if(sm.config.getCustomConfig().getBoolean("death-type-permission")){
+        if(sm.getCustomConfig().getBoolean("death-type-permission")){
             if(dead.getKiller() != null){
                 if(!(dead.getKiller().hasPermission("stackmob." + type))){
                     return false;
                 }
             }
         }
-        if (sm.config.getCustomConfig().getStringList(type + ".reason-blacklist")
+        if (sm.getCustomConfig().getStringList(type + ".reason-blacklist")
                 .contains(dead.getLastDamageCause().getCause().toString())){
             return false;
         }
-        return !(sm.config.getCustomConfig().getStringList(type + ".type-blacklist")
+        return !(sm.getCustomConfig().getStringList(type + ".type-blacklist")
                 .contains(dead.getType().toString()));
     }
 }
