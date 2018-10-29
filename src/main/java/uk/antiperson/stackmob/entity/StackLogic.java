@@ -1,7 +1,6 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
@@ -125,10 +124,6 @@ public class StackLogic {
             maxStackSize =  sm.getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");
         }
         return maxStackSize;
-    }
-
-    public void sliceEntity(Entity entity){
-
     }
 
     public Entity duplicate(Entity original, int duplicateSize){

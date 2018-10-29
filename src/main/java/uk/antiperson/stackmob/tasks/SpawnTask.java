@@ -1,7 +1,6 @@
 package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 

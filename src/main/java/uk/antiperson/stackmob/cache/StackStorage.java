@@ -1,12 +1,5 @@
 package uk.antiperson.stackmob.cache;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
-import uk.antiperson.stackmob.tools.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
-
 import java.util.HashMap;
 import java.util.UUID;
 

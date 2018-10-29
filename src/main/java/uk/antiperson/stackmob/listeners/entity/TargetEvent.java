@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.StackTools;
 
 public class TargetEvent implements Listener {
 

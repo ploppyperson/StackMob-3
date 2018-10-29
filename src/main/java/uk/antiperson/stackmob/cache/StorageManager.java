@@ -6,7 +6,6 @@ import uk.antiperson.stackmob.cache.storage.MySQL;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class StorageManager {
 

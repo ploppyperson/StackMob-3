@@ -11,7 +11,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.UUID;

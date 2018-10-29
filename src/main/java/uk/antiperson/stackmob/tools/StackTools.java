@@ -2,7 +2,6 @@ package uk.antiperson.stackmob.tools;
 
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class StackTools {
 

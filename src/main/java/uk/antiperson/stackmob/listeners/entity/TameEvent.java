@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class TameEvent implements Listener {

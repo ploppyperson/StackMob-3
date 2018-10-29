@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.Collection;

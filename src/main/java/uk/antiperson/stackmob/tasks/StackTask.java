@@ -5,7 +5,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.StackTools;
 
 public class StackTask extends StackingTask {
 

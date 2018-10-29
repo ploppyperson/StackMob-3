@@ -8,7 +8,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
-import uk.antiperson.stackmob.tools.StackTools;
 
 import java.util.List;
 

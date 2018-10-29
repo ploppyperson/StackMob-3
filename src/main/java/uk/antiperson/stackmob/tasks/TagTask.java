@@ -9,8 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
-import uk.antiperson.stackmob.tools.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
  * Created by nathat on 25/07/17.
