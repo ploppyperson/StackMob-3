@@ -36,6 +36,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
             while (rs.next()){
                 getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
             }
+            convert();
         }catch (SQLException e){
             getStorageManager().getStackMob().getLogger().warning("An issue occurred while connecting to the database.");
             getStorageManager().getStackMob().getLogger().warning("Please make sure that your database details are correct.");
@@ -77,5 +78,12 @@ public class MySQL extends StackStorage implements DisableCleanup {
         }
     }
 
-
+    private void convert(){
+        FlatFile ff = new FlatFile(getStorageManager());
+        if(ff.getFile().exists()){
+            getStorageManager().getStackMob().getLogger().info("Converting FLATFILE cache to MySQL...");
+            ff.loadStorage();
+            saveStorage();
+        }
+    }
 }

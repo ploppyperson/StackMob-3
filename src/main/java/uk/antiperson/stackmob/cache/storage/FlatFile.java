@@ -47,7 +47,7 @@ public class FlatFile extends StackStorage {
         fileCon = YamlConfiguration.loadConfiguration(file);
     }
 
-    private File getFile() {
+    public File getFile() {
         return file;
     }
 
