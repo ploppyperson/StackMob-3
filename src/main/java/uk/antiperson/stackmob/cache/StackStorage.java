@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashMap;
@@ -27,17 +27,7 @@ public abstract class StackStorage implements StorageMethod {
     }
 
     public void cacheWorldData(){
-        for(World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getLivingEntities()) {
-                if (entity instanceof Monster) {
-                    continue;
-                }
-                if (GeneralTools.hasValidMetadata(entity)) {
-                    int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                    amountCache.put(entity.getUniqueId(), stackSize);
-                }
-            }
-        }
+        amountCache.putAll(storageManager.getAmounts());
     }
 
 

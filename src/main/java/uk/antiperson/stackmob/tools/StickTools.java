@@ -61,8 +61,8 @@ public class StickTools {
             case STACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                     if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                        if(!(GeneralTools.hasValidStackData(nearby))){
-                            nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                        if(!(sm.getStackTools().hasValidStackData(nearby))){
+                            sm.getStackTools().setSize(nearby, 1);
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class StickTools {
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
                 break;
             case UNSTACK_ONE:
-                entity.removeMetadata(GlobalValues.METATAG, sm);
+                sm.getStackTools().removeSize(entity);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Removed entity stack status!"));
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
                 entity.setCustomNameVisible(false);
@@ -80,8 +80,8 @@ public class StickTools {
             case UNSTACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                     if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                        if(GeneralTools.hasValidStackData(nearby)){
-                            nearby.removeMetadata(GlobalValues.METATAG, sm);
+                        if(sm.getStackTools().hasValidStackData(nearby)){
+                            sm.getStackTools().removeSize(nearby);
                         }
                     }
                 }
@@ -94,7 +94,7 @@ public class StickTools {
 
     public void toggleMode(Player player){
         int newStickMode = 1;
-        if(GeneralTools.hasValidMetadata(player, GlobalValues.STICK_MODE)){
+        if(StackTools.hasValidMetadata(player, GlobalValues.STICK_MODE)){
             int stickMode = player.getMetadata(GlobalValues.STICK_MODE).get(0).asInt();
             if(stickMode != StickMode.values().length){
                 newStickMode = stickMode + 1;

@@ -1,17 +1,15 @@
 package uk.antiperson.stackmob.entity;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 
 public class StackLogic {
 
@@ -49,9 +47,9 @@ public class StackLogic {
 
     public boolean attemptMerge(Entity original, Entity nearby){
         int maxSize = getMaxSize(original);
-        int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        int originalSize = original.getMetadata(GlobalValues.METATAG).get(0).asInt();
-        if(nearbySize > originalSize && sm.config.getCustomConfig().getBoolean("big-priority")){
+        int nearbySize = sm.getStackTools().getSize(nearby);
+        int originalSize = sm.getStackTools().getSize(original);
+        if(nearbySize > originalSize && sm.getCustomConfig().getBoolean("big-priority")){
             Entity holder = nearby;
             nearby = original;
             original = holder;
@@ -60,10 +58,10 @@ public class StackLogic {
         // Continue to stack together
         int amountTotal = nearbySize + originalSize;
         if(amountTotal > maxSize){
-            original.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, maxSize));
-            nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal - maxSize));
+            sm.getStackTools().setSize(original, maxSize);
+            sm.getStackTools().setSize(nearby,amountTotal - maxSize);
         }else{
-            original.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
+            sm.getStackTools().setSize(original, amountTotal);
             sm.tools.onceStacked(nearby);
             nearby.remove();
         }
@@ -71,10 +69,11 @@ public class StackLogic {
     }
 
     public boolean notEnoughNearby(Entity original){
-        int dontStackTill = sm.config.getCustomConfig().getInt("dont-stack-until");
+        int dontStackTill = sm.getCustomConfig().getInt("dont-stack-until");
         if(dontStackTill > 0){
             List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
-            if(nearbyEntities.size() < dontStackTill){
+            if(nearbyEntities.size() < dontStackTill &&
+                    nearbyEntities.stream().noneMatch(entity -> sm.getStackTools().hasValidStackData(entity))){
                 return true;
             }
             HashSet<Entity> entities = new HashSet<>();
@@ -82,11 +81,15 @@ public class StackLogic {
                 if(original.getType() != nearby.getType()){
                     continue;
                 }
-                if(!(GeneralTools.hasNotEnoughNear(nearby))){
+                if(!(sm.getStackTools().hasValidData(nearby))){
                     continue;
                 }
                 if(sm.getTools().notMatching(original, nearby)){
                     continue;
+                }
+                if(sm.getStackTools().hasValidStackData(nearby)){
+                    sm.getStackTools().setSize(original, 1);
+                    return false;
                 }
                 entities.add(nearby);
             }
@@ -95,30 +98,30 @@ public class StackLogic {
                 return true;
             }
             for(Entity entity : entities){
-                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                sm.getStackTools().setSize(entity,1);
             }
         }
         return false;
     }
 
     public boolean notSuitableForStacking(Entity entity){
-        if(!(GeneralTools.hasValidStackData(entity))){
+        if(!(sm.getStackTools().hasValidStackData(entity))){
             return true;
         }
         if(entity.isDead()){
             return true;
         }
-        if(GeneralTools.hasValidMetadata(entity, GlobalValues.NO_STACK_ALL) &&
+        if(StackTools.hasValidMetadata(entity, GlobalValues.NO_STACK_ALL) &&
                 entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-        int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+        int stackSize = sm.getStackTools().getSize(entity);
         return (getMaxSize(entity) == stackSize);
     }
 
     private int getMaxSize(Entity entity){
         int maxStackSize = sm.getCustomConfig().getInt("stack-max");
-        if (sm.config.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
+        if (sm.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
             maxStackSize =  sm.getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");
         }
         return maxStackSize;

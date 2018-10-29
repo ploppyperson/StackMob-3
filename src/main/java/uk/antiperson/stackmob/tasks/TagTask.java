@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 /**
@@ -23,33 +23,33 @@ public class TagTask extends BukkitRunnable {
     }
 
     public void run() {
-        MythicMobsHook mobsHook = (MythicMobsHook) sm.hookManager.getHook(PluginCompat.MYTHICMOBS);
+        MythicMobsHook mobsHook = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
         for (Entity e : sm.worldTools.getLoadedEntities()) {
-            if (!sm.config.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
+            if (!sm.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
                 if(!(e instanceof LivingEntity)){
                     continue;
                 }
-                if (GeneralTools.hasValidStackData(e)) {
+                if (sm.getStackTools().hasValidStackData(e)) {
                     /* Hacky fix
                     if (e.getMetadata(GlobalValues.METATAG).size() == 0 && !(e.hasMetadata(GlobalValues.NO_STACK_ALL))) {
                         e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }*/
                     String typeString = e.getType().toString();
 
-                    int stackSize = e.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                    int removeAt = sm.config.getCustomConfig().getInt("tag.remove-at");
+                    int stackSize = sm.getStackTools().getSize(e);
+                    int removeAt = sm.getCustomConfig().getInt("tag.remove-at");
                     if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
-                        removeAt = sm.config.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
+                        removeAt = sm.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                     }
                     if (stackSize > removeAt) {
-                        String format = sm.config.getCustomConfig().getString("tag.format");
+                        String format = sm.getCustomConfig().getString("tag.format");
                         if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
-                              format = sm.config.getCustomConfig().getString("custom." + typeString + ".tag.format");
+                              format = sm.getCustomConfig().getString("custom." + typeString + ".tag.format");
                         }
 
                         // Change if it is a mythic mob.
 
-                        if (sm.hookManager.isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
+                        if (sm.getHookManager().isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
                             typeString = mobsHook.getDisplayName(e);
                         } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
@@ -65,10 +65,10 @@ public class TagTask extends BukkitRunnable {
                              e.setCustomName(finalString);
                         }
 
-                        if(!(sm.hookManager.isHookRegistered(PluginCompat.PROCOTOLLIB))){
+                        if(!(sm.getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB))){
                             boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
-                            if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
-                                alwaysVisible = sm.config.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
+                            if (sm.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
+                                alwaysVisible = sm.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
                             }
                             e.setCustomNameVisible(alwaysVisible);
                         }

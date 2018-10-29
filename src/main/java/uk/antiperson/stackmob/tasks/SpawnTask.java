@@ -20,7 +20,7 @@ public class SpawnTask extends StackingTask {
             return;
         }
         // Set metadata to we can stack.
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), 1));
+        getStackMob().getStackTools().setSize(entity,1);
         // Find nearby stacks to merge with, return if found.
         if(getStackMob().getLogic().foundMatch(entity)){
             return;
@@ -29,7 +29,7 @@ public class SpawnTask extends StackingTask {
         // A match was not found, so we will set the appropriate metadata.
         if(getStackMob().getCustomConfig().getInt("dont-stack-until") > 0){
             if(getStackMob().getLogic().notEnoughNearby(entity)){
-                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(getStackMob(), GlobalValues.NOT_ENOUGH_NEAR));
+                getStackMob().getStackTools().setSize(entity, GlobalValues.NOT_ENOUGH_NEAR);
             }
         }
 

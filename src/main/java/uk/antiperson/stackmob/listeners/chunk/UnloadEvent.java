@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class UnloadEvent implements Listener {
@@ -19,7 +19,7 @@ public class UnloadEvent implements Listener {
 
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
-        if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
+        if(sm.getCustomConfig().getStringList("no-stack-worlds")
                 .contains(e.getWorld().getName())){
             return;
         }
@@ -29,8 +29,8 @@ public class UnloadEvent implements Listener {
                 continue;
             }
             // Add to storage
-            if(GeneralTools.hasValidMetadata(currentEntity)){
-                int stackSize = currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+            if(sm.getStackTools().hasValidData(currentEntity)){
+                int stackSize = sm.getStackTools().getSize(currentEntity);
                 sm.storageManager.getStackStorage().getAmountCache().put(currentEntity.getUniqueId(), stackSize);
             }
         }

@@ -12,7 +12,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.DeathType;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.List;
@@ -29,11 +29,11 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
-        if(!(GeneralTools.hasValidStackData(dead))){
+        if(!(sm.getStackTools().hasValidStackData(dead))){
             return;
         }
 
-        int oldSize = dead.getMetadata(GlobalValues.METATAG).get(0).asInt();
+        int oldSize = sm.getStackTools().getSize(dead);
         int subtractAmount = 1;
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
@@ -95,14 +95,13 @@ public class DeathEvent implements Listener {
     }
 
     private Entity spawnNewEntity(int oldSize, int subtractAmount, LivingEntity dead){
-        dead.removeMetadata(GlobalValues.METATAG, sm);
         dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         if(oldSize != subtractAmount){
-            Entity newe = sm.tools.duplicate(dead);
-            newe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize - subtractAmount));
+            Entity newe = sm.getTools().duplicate(dead);
+            sm.getStackTools().setSize(newe,oldSize - subtractAmount);
             newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             return newe;
         }

@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 
 public class TargetEvent implements Listener {
 
@@ -19,8 +19,9 @@ public class TargetEvent implements Listener {
     @EventHandler
     public void onEntityTarget(EntityTargetLivingEntityEvent event) {
         if(event.getTarget() instanceof Player && event.getEntity() instanceof Monster){
-            if(GeneralTools.hasValidStackData(event.getEntity())){
-                if(!sm.config.getCustomConfig().getStringList("no-targeting.types-blacklist").contains(event.getEntityType().toString())) {
+            if(sm.getStackTools().hasValidStackData(event.getEntity())){
+                if(!sm.getCustomConfig().getStringList("no-targeting.types-blacklist")
+                        .contains(event.getEntityType().toString())) {
                     event.setCancelled(true);
                 }
             }

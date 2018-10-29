@@ -23,15 +23,15 @@ public class SpawnEvent implements Listener {
         if(entity instanceof ArmorStand){
             return;
         }
-        if(sm.config.getCustomConfig().getStringList("no-stack-reasons")
+        if(sm.getCustomConfig().getStringList("no-stack-reasons")
                 .contains(e.getSpawnReason().toString())){
             return;
         }
-        if(sm.config.getCustomConfig().getStringList("no-stack-types")
+        if(sm.getCustomConfig().getStringList("no-stack-types")
                 .contains(entity.getType().toString())){
             return;
         }
-        if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
+        if(sm.getCustomConfig().getStringList("no-stack-worlds")
                 .contains(entity.getWorld().getName())){
             return;
         }

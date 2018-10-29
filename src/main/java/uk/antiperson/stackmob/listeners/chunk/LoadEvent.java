@@ -26,7 +26,7 @@ public class LoadEvent implements Listener {
             // Check if has been cached.
             if(sm.storageManager.getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
                 int cacheSize = sm.storageManager.getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
-                currentEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, cacheSize));
+                sm.getStackTools().setSize(currentEntity, cacheSize);
             }
         }
     }

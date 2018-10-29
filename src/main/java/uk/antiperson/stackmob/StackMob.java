@@ -49,6 +49,7 @@ public class StackMob extends JavaPlugin {
     public HookManager hookManager = new HookManager(this);
     public TraitManager traitManager = new TraitManager(this);
     public UpdateChecker updater = new UpdateChecker(this);
+    public StackTools stackTools = new StackTools(this);
 
     @Override
     public void onLoad(){
@@ -140,7 +141,7 @@ public class StackMob extends JavaPlugin {
 
     private void registerNotEssentialEvents(){
         if(config.getCustomConfig().getBoolean("multiply.creeper-explosion")){
-            getServer().getPluginManager().registerEvents(new ExplodeEvent(), this);
+            getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
@@ -152,10 +153,10 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply.small-slimes")) {
-            getServer().getPluginManager().registerEvents(new SlimeEvent(), this);
+            getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-done")){
-            getServer().getPluginManager().registerEvents(new DealtDamageEvent(), this);
+            getServer().getPluginManager().registerEvents(new DealtDamageEvent(this), this);
         }
         if(config.getCustomConfig().getBoolean("multiply-damage-received.enabled")){
             getServer().getPluginManager().registerEvents(new ReceivedDamageEvent(this), this);
@@ -209,5 +210,9 @@ public class StackMob extends JavaPlugin {
 
     public StackLogic getLogic() {
         return logic;
+    }
+
+    public StackTools getStackTools() {
+        return stackTools;
     }
 }

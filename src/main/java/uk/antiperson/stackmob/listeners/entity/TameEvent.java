@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class TameEvent implements Listener {
@@ -19,16 +19,18 @@ public class TameEvent implements Listener {
 
     @EventHandler
     public void onTame(EntityTameEvent event) {
-        if(GeneralTools.hasValidStackData(event.getEntity())){
-            if(event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
-                Entity dupe = sm.tools.duplicate(event.getEntity());
-                dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+        Entity entity = event.getEntity();
+        if(sm.getStackTools().hasValidStackData(entity)){
+            int stackSize = sm.getStackTools().getSize(entity);
+            if(stackSize > 1){
+                Entity dupe = sm.tools.duplicate(entity);
+                sm.getStackTools().setSize(dupe, stackSize - 1);
                 dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             }
-            event.getEntity().removeMetadata(GlobalValues.METATAG, sm);
-            event.getEntity().setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
-            event.getEntity().setCustomName(null);
-            event.getEntity().setCustomNameVisible(false);
+            sm.getStackTools().removeSize(entity);
+            entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+            entity.setCustomName(null);
+            entity.setCustomNameVisible(false);
         }
     }
 }

@@ -4,11 +4,16 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
 
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class StorageManager {
 
     private StackMob sm;
     private StorageType cacheType;
     private StackStorage stackStorage;
+    private HashMap<UUID, Integer> currentEntities = new HashMap<>();
     public StorageManager(StackMob sm){
         this.sm = sm;
     }
@@ -50,5 +55,9 @@ public class StorageManager {
 
     public StorageType getCacheType() {
         return cacheType;
+    }
+
+    public HashMap<UUID, Integer> getAmounts() {
+        return currentEntities;
     }
 }

@@ -27,7 +27,7 @@ public class EntityManager {
      * @return If is stacked or not.
      */
     public boolean isStackedEntity(Entity entity){
-        return entity.hasMetadata(GlobalValues.METATAG) && entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1;
+        return sm.getStackTools().hasValidStackData(entity);
     }
 
     /**
@@ -35,7 +35,7 @@ public class EntityManager {
      * @param entity The entity to set this metadata to.
      */
     public void addNewStack(Entity entity){
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+        sm.getStackTools().setSize(entity,1);
         entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
     }
 
@@ -45,7 +45,7 @@ public class EntityManager {
      * @param size The stack size of the stack.
      */
     public void addNewStack(Entity entity, int size){
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, size));
+        sm.getStackTools().setSize(entity, size);
         entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
     }
 

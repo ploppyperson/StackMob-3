@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
  */
 public class GlobalValues {
 
-    public static final String METATAG = "stackmob:stack-size";
     public static final String NO_SPAWN_STACK = "stackmob:no-spawn-stack";
     public static final String CURRENTLY_BREEDING = "stackmob:in-breed-mode";
     public static final String NO_STACK_ALL = "stackmob:no-stack-all";

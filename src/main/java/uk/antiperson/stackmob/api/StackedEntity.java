@@ -27,7 +27,7 @@ public class StackedEntity {
      * @return Returns the current size.
      */
     public int getSize(){
-        return entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+        return sm.getStackTools().getSize(entity);
     }
 
     /**
@@ -36,7 +36,7 @@ public class StackedEntity {
      */
 
     public void setSize(int newSize){
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, newSize));
+        sm.getStackTools().setSize(entity, newSize);
     }
 
     /**
