@@ -84,6 +84,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
             getStorageManager().getStackMob().getLogger().info("Converting FLATFILE cache to MySQL...");
             ff.loadStorage();
             saveStorage();
+            ff.getFile().delete();
         }
     }
 }
