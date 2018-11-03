@@ -5,9 +5,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SheepDyeWoolEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class DyeEvent implements Listener {
 
@@ -31,8 +29,6 @@ public class DyeEvent implements Listener {
             Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
             newEntity.setColor(event.getEntity().getColor());
             sm.getStackTools().setSize(newEntity,stackSize - 1);
-            newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-
             sm.getStackTools().setSize(oldEntity, 1);
             oldEntity.setCustomName(null);
         }

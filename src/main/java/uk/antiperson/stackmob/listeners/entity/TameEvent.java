@@ -4,9 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class TameEvent implements Listener {
 
@@ -24,7 +22,6 @@ public class TameEvent implements Listener {
             if(stackSize > 1){
                 Entity dupe = sm.tools.duplicate(entity);
                 sm.getStackTools().setSize(dupe, stackSize - 1);
-                dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             }
             sm.getStackTools().removeSize(entity);
         }

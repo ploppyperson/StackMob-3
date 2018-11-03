@@ -14,8 +14,7 @@ public class SpawnTask extends StackingTask {
 
     @Override
     public void run(){
-        if(entity.hasMetadata(GlobalValues.NO_SPAWN_STACK) && entity.getMetadata(GlobalValues.NO_SPAWN_STACK).get(0).asBoolean()){
-            entity.removeMetadata(GlobalValues.NO_SPAWN_STACK, getStackMob());
+        if(getStackMob().getStackTools().hasValidStackData(entity)){
             return;
         }
         // Set metadata to we can stack.

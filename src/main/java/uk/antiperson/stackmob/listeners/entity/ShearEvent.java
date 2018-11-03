@@ -10,9 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.Collection;
 import java.util.Random;
@@ -53,7 +51,6 @@ public class ShearEvent implements Listener {
 
                 sm.getStackTools().setSize(newEntity,stackSize - 1);
                 sm.getStackTools().setSize(oldEntity, 1);
-                newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 oldEntity.setCustomName(null);
             }
         }
@@ -66,13 +63,11 @@ public class ShearEvent implements Listener {
 
                 // Spawn separate normal cow for the rest of the stack.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
-                cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 sm.getStackTools().setSize(cow,stackSize - 1);
                 // Set the required damage as if done separately
                 damageItemInHand(event.getPlayer(), stackSize);
             }else if (sm.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
-                mushroomCow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 sm.getStackTools().setSize(mushroomCow,stackSize - 1);
                 oldEntity.setCustomName(null);
             }

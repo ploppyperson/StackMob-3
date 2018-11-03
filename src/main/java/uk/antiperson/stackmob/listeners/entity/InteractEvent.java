@@ -52,7 +52,6 @@ public class InteractEvent implements Listener {
 
                         int childAmount = breedSize / 2;
                         Animals child = (Animals) sm.tools.duplicate(entity);
-                        child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                         sm.getStackTools().setSize(child, childAmount);
                         child.setBaby();
 
@@ -61,7 +60,6 @@ public class InteractEvent implements Listener {
                     } else if (sm.getCustomConfig().getBoolean("divide-on.breed")) {
                         Entity newEntity = sm.tools.duplicate(entity);
                         sm.getStackTools().setSize(newEntity,stackSize - 1);
-                        newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
 
                         sm.getStackTools().setSize(entity,1);
                         entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
@@ -89,7 +87,6 @@ public class InteractEvent implements Listener {
                 if (stackSize > 1) {
                     Entity dupe = sm.tools.duplicate(entity);
                     sm.getStackTools().setSize(dupe,stackSize - 1);
-                    dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 }
                 sm.getStackTools().removeSize(entity);
             }

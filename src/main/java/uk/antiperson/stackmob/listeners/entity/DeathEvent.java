@@ -101,7 +101,6 @@ public class DeathEvent implements Listener {
         if(oldSize != subtractAmount){
             Entity newe = sm.getTools().duplicate(dead);
             sm.getStackTools().setSize(newe,oldSize - subtractAmount);
-            newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             return newe;
         }
         return null;
