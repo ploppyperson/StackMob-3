@@ -22,8 +22,9 @@ public class LoadEvent implements Listener {
         }
         for(Entity currentEntity : e.getChunk().getEntities()){
             // Check if has been cached.
-            if(sm.storageManager.getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
-                int cacheSize = sm.storageManager.getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
+            if(sm.getStorageManager().getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
+                int cacheSize = sm.getStorageManager().getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
+                sm.getStorageManager().getStackStorage().getAmountCache().remove(currentEntity.getUniqueId());
                 sm.getStackTools().setSize(currentEntity, cacheSize);
             }
         }

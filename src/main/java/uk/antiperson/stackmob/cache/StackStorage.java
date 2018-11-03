@@ -1,12 +1,12 @@
 package uk.antiperson.stackmob.cache;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class StackStorage implements StorageMethod {
 
     private StorageManager storageManager;
-    private HashMap<UUID, Integer> amountCache = new HashMap<>();
+    private ConcurrentHashMap<UUID, Integer> amountCache = new ConcurrentHashMap<>();
     public StackStorage(StorageManager storageManager){
         this.storageManager = storageManager;
     }
@@ -15,7 +15,7 @@ public abstract class StackStorage implements StorageMethod {
         return storageManager;
     }
 
-    public HashMap<UUID, Integer> getAmountCache() {
+    public ConcurrentHashMap<UUID, Integer> getAmountCache() {
         return amountCache;
     }
 
