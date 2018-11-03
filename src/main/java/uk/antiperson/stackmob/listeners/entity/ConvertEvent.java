@@ -15,15 +15,15 @@ public class ConvertEvent implements Listener {
     }
 
     @EventHandler
-    public void onStuff(EntityTransformedEvent event){
+    public void onConvert(EntityTransformedEvent event){
         if(event.getReason() != EntityTransformedEvent.TransformedReason.DROWNED){
             return;
         }
         if(sm.getStackTools().hasValidStackData(event.getEntity())){
             int stackSize = sm.getStackTools().getSize(event.getEntity());
 
-            sm.getStackTools().setSize(event.getTransformed(), stackSize - 1);
             event.getTransformed().setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+            sm.getStackTools().setSize(event.getTransformed(), stackSize);
 
             sm.getStackTools().removeSize(event.getEntity());
         }
