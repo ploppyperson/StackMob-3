@@ -173,7 +173,7 @@ public class StackMob extends JavaPlugin {
             Class.forName("com.destroystokyo.paper.event.entity.EntityTransformedEvent");
             getServer().getPluginManager().registerEvents(new ConvertEvent(this), this);
         }catch (ClassNotFoundException e){
-            getLogger().info("Paper specific event not found.");
+            getLogger().warning("PaperSpigot not found, extra events will not work!");
         }
     }
 
