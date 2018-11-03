@@ -27,7 +27,7 @@ public class EntityManager {
      * @return If is stacked or not.
      */
     public boolean isStackedEntity(Entity entity){
-        return entity.hasMetadata(GlobalValues.METATAG) && entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1;
+        return sm.getStackTools().hasValidStackData(entity);
     }
 
     /**
@@ -35,8 +35,7 @@ public class EntityManager {
      * @param entity The entity to set this metadata to.
      */
     public void addNewStack(Entity entity){
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+        sm.getStackTools().setSize(entity,1);
     }
 
     /**
@@ -45,19 +44,18 @@ public class EntityManager {
      * @param size The stack size of the stack.
      */
     public void addNewStack(Entity entity, int size){
-        entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, size));
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+        sm.getStackTools().setSize(entity, size);
     }
 
     /**
      * Adds metadata to stop the entity from becoming a stack on the CreatureSpawnEvent.
      *
-     * @deprecated Use the methods in the StackedEntity class instead.
+     * @deprecated This is no longer required.
      * @param entity Entity to set the metadata in.
      */
     @Deprecated
     public void preventFromStacking(Entity entity){
-        entity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+
     }
 
 }

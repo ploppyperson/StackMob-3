@@ -10,9 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.UUID;
@@ -27,16 +26,17 @@ public class ChatEvent implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        if(!(GeneralTools.hasInvalidMetadata(player, GlobalValues.WAITING_FOR_INPUT))){
+        if(StackTools.hasValidMetadata(player, GlobalValues.WAITING_FOR_INPUT)){
             if(!(player.getMetadata(GlobalValues.WAITING_FOR_INPUT).get(0).asBoolean())){
                 return;
             }
+            event.setCancelled(true);
+
             String uuid = player.getMetadata(GlobalValues.SELECTED_ENTITY).get(0).asString();
             Entity entity = Bukkit.getEntity(UUID.fromString(uuid));
-            event.setCancelled(true);
             try {
                 int stackSize = Integer.parseInt(event.getMessage());
-                entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize));
+                sm.getStackTools().setSize(entity, stackSize);
             }catch (NumberFormatException e){
                 player.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG + "Invalid input!");
                 player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Enter new stack value: ");

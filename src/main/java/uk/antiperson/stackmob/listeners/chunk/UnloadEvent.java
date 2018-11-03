@@ -6,8 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class UnloadEvent implements Listener {
 
@@ -19,7 +17,7 @@ public class UnloadEvent implements Listener {
 
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
-        if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
+        if(sm.getCustomConfig().getStringList("no-stack-worlds")
                 .contains(e.getWorld().getName())){
             return;
         }
@@ -28,13 +26,11 @@ public class UnloadEvent implements Listener {
             if(currentEntity instanceof Monster){
                 continue;
             }
-            // Add to cache
-            if(!(GeneralTools.hasInvalidMetadata(currentEntity))){
-                sm.cache.amountCache.put(currentEntity.getUniqueId(), currentEntity.getMetadata(GlobalValues.METATAG).get(0).asInt());
-            }else if(currentEntity.hasMetadata(GlobalValues.NOT_ENOUGH_NEAR) &&
-                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).size() > 0 &&
-                    currentEntity.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()){
-                sm.cache.amountCache.put(currentEntity.getUniqueId(), -1);
+            // Add to storage
+            if(sm.getStackTools().hasValidData(currentEntity)){
+                int stackSize = sm.getStackTools().getSize(currentEntity);
+                sm.getCache().put(currentEntity.getUniqueId(), stackSize);
+                sm.getStackTools().removeSize(currentEntity);
             }
         }
     }

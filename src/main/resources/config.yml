@@ -1,5 +1,6 @@
 # StackMob 2 created by antiPerson.
 # Report issues that you have experienced in the discussion thread.
+# If the comments have been removed, see the config-default.yml file!
 
 # The size of the area around an entity that should be checked for matching entities to stack with.
 check-area:
@@ -117,6 +118,9 @@ divide-on:
 # Enables the requirement for a permission for use of 'kill-all' or 'kill-step'.
 death-type-permission: false
 
+# Increase the player statistics when a mob has a death amount higher than 1.
+increase-player-stats: true
+
 # Make every entity die in the stack on death.
 kill-all:
     enabled: false
@@ -160,48 +164,9 @@ multiply-drops:
     # The amount of entities that the loot should be dropped for in a stack.
     # Useful if there is a high max-stack value, to prevent lag.
     entity-limit: 50
-    # Item types that should be duplicated.
-    # A list of materials can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-    drops-whitelist:
-        - STRING
-        - SULPHUR
-        - ROTTEN_FLESH
-        - BONE
-        - BLAZE_ROD
-        - GHAST_TEAR
-        - ENDER_PEARL
-        - MAGMA_CREAM
-        - ARROW
-        - SLIME_BALL
-        - COOKED_BEEF
-        - COOKED_CHICKEN
-        - COOKED_MUTTON
-        - COOKED_RABBIT
-        - GRILLED_PORK
-        - RAW_FISH
-        - RAW_BEEF
-        - RAW_CHICKEN
-        - MUTTON
-        - PORK
-        - RABBIT
-        - FEATHER
-        - RED_MUSHROOM
-        - LEATHER
-        - RABBIT_FOOT
-        - RABBIT_HIDE
-        - NETHER_STAR
-        - GLASS_BOTTLE
-        - GLOWSTONE_DUST
-        - REDSTONE
-        - SPIDER_EYE
-        - SUGAR
-        - STICK
-        - IRON_INGOT
-        - GOLD_NUGGET
-        - GOLD_INGOT
-        - PRISMARINE_SHARD
-        - SEA_LANTERN
-        - EMERALD
+    # Prevent certain drops from being multiplied.
+    drops-blacklist:
+        - ''
     # Only drop one item per entity.
     drop-one-per:
         - EMERALD
@@ -265,3 +230,20 @@ mythicmobs:
 # If WorldGuard is installed, enable support for it.
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
+
+# The caching of entity stack sizes.
+storage:
+    # The storage method used.
+    # FLATFILE = YAML file storage.
+    # MYSQL = MySQL database storage - faster but requires a database server.
+    type: FLATFILE
+    # Database  details
+    database:
+        # Server details.
+        ip: ''
+        port: 3306
+        # The name of the database you want to use.
+        name: ''
+        # Login details.
+        username: ''
+        password: ''

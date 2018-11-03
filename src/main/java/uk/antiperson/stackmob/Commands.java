@@ -33,7 +33,7 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args) {
         if(sender.hasPermission("StackMob.*") || sender.hasPermission("StackMob.Admin")) {
             if (args.length == 0) {
-                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "PluginCompat commands:");
+                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Plugin commands:");
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
@@ -61,7 +61,7 @@ public class Commands implements CommandExecutor {
                     int counter = 0;
                     for (World world : Bukkit.getWorlds()) {
                         for (Entity entity : world.getLivingEntities()) {
-                            if (entity.hasMetadata(GlobalValues.METATAG)) {
+                            if (sm.getStackTools().hasValidData(entity)) {
                                 counter++;
                                 entity.remove();
                             }
@@ -77,9 +77,9 @@ public class Commands implements CommandExecutor {
                     int stackedTotal = 0;
                     for (World world : Bukkit.getWorlds()) {
                         for (Entity entity : world.getLivingEntities()) {
-                            if (entity.hasMetadata(GlobalValues.METATAG)) {
+                            if (sm.getStackTools().hasValidStackData(entity)) {
                                 stackedCount = stackedCount + 1;
-                                stackedTotal = stackedTotal + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                                stackedTotal = stackedTotal + sm.getStackTools().getSize(entity);
                             }
                         }
                     }
@@ -88,17 +88,17 @@ public class Commands implements CommandExecutor {
                     int stackedTotal1 = 0;
                     if (sender instanceof Player) {
                         for (Entity entity : ((Player) sender).getLocation().getChunk().getEntities()) {
-                            if (entity.hasMetadata(GlobalValues.METATAG)) {
+                            if (sm.getStackTools().hasValidStackData(entity)) {
                                 stackedCount1 = stackedCount1 + 1;
-                                stackedTotal1 = stackedTotal1 + entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
+                                stackedTotal1 = stackedTotal1 + sm.getStackTools().getSize(entity);
                             }
                         }
                     }
 
                     int cacheTotal = 0;
-                    for (UUID uuid : sm.cache.amountCache.keySet()) {
-                        if (sm.cache.amountCache.get(uuid) > 0) {
-                            cacheTotal = cacheTotal + sm.cache.amountCache.get(uuid);
+                    for (UUID uuid : sm.getStorageManager().getStackStorage().getAmountCache().keySet()) {
+                        if (sm.getStorageManager().getStackStorage().getAmountCache().get(uuid) > 0) {
+                            cacheTotal = cacheTotal + sm.getStorageManager().getStackStorage().getAmountCache().get(uuid);
                         }
                     }
 
@@ -106,7 +106,7 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
-                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.cache.amountCache.size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.storageManager.getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick")){
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
@@ -125,10 +125,10 @@ public class Commands implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("remove")) {
                     if (sender instanceof Player) {
                         try{
-                            Integer numb = Integer.valueOf(args[1]);
+                            int numb = Integer.valueOf(args[1]);
                             int counter = 0;
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
-                                if (entity.hasMetadata(GlobalValues.METATAG)) {
+                                if (sm.getStackTools().hasValidData(entity)) {
                                     entity.remove();
                                     counter++;
                                 }
@@ -151,7 +151,7 @@ public class Commands implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("spawnstack")) {
 
                     if (sender instanceof Player) {
-                        Integer numb;
+                        int numb;
                         try {
                             numb = Integer.valueOf(args[1]);
                         } catch (NumberFormatException e) {
@@ -167,8 +167,7 @@ public class Commands implements CommandExecutor {
                         }
                         if (contains) {
                             Entity newEntity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.valueOf(args[2].toUpperCase()));
-                            newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                            newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, numb));
+                            sm.getStackTools().setSize(newEntity, numb);
                             sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         } else {
                             sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +

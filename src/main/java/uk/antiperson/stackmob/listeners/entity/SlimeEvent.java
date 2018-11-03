@@ -3,17 +3,21 @@ package uk.antiperson.stackmob.listeners.entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SlimeSplitEvent;
-import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.StackMob;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SlimeEvent implements Listener {
 
+    private StackMob sm;
+    public SlimeEvent(StackMob sm){
+        this.sm = sm;
+    }
+
     @EventHandler
     public void onSlimeEvent(SlimeSplitEvent e) {
-        if(!(GeneralTools.hasInvalidMetadata(e.getEntity()))){
-            int stackSize = e.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt() - 1;
+        if(sm.getStackTools().hasValidStackData(e.getEntity())){
+            int stackSize = sm.getStackTools().getSize(e.getEntity()) - 1;
             int randomAmount = ThreadLocalRandom.current().nextInt(2,4);
             e.setCount(e.getCount() + (stackSize * randomAmount));
         }

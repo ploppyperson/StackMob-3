@@ -1,117 +1,34 @@
 package uk.antiperson.stackmob.tasks;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-/**
- * Created by nathat on 27/07/17.
- */
-public class StackTask extends BukkitRunnable {
+public class StackTask extends StackingTask {
 
-    private StackMob sm;
-    public StackTask(StackMob sm){
-        this.sm = sm;
+    private World world;
+    public StackTask(StackMob sm, World world){
+        super(sm);
+        this.world = world;
     }
 
-    // TODO: Neaten this stuff up, but I cba.
     @Override
     public void run(){
-        double xLoc = sm.config.getCustomConfig().getDouble("check-area.x");
-        double yLoc = sm.config.getCustomConfig().getDouble("check-area.y");
-        double zLoc = sm.config.getCustomConfig().getDouble("check-area.z");
-        int maxSize;
-        // Worlds loop, and check that the world isn't blacklisted
-        for(World world : Bukkit.getWorlds()){
-            if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
-                    .contains(world.getName())){
+        for(Entity entity : world.getLivingEntities()){
+            if(entity instanceof ArmorStand || entity instanceof Player){
                 continue;
             }
-            // Loop all entities in the current world
-            for(Entity first : world.getLivingEntities()){
-                // Checks on first entity
-                if(first instanceof ArmorStand || first instanceof Player){
+            if(getStackMob().getStackTools().hasNotEnoughNear(entity)) {
+                if(getStackMob().getLogic().notEnoughNearby(entity)){
                     continue;
-                }
-
-                if(sm.tools.notTaskSuitable(first)){
-                    continue;
-                }
-                if(!(GeneralTools.hasInvalidMetadata(first, GlobalValues.NOT_ENOUGH_NEAR))
-                        && first.getMetadata(GlobalValues.NOT_ENOUGH_NEAR).get(0).asBoolean()) {
-                        sm.tools.notEnoughNearby(first);
-                }
-                // don't need a check because of the entity might have Not-enough-near
-                maxSize = sm.config.getCustomConfig().getInt("stack-max");
-                if(sm.config.getCustomConfig().isInt("custom." + first.getType() + ".stack-max")){
-                    maxSize = sm.config.getCustomConfig().getInt("custom." + first.getType() + ".stack-max");
-                }
-
-                // If the first entity has metatag, check if it is maxSize to save performance
-                if(!(GeneralTools.hasInvalidMetadata(first))){
-                    if(first.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
-                        continue;
-                    }
-                }
-
-                // Find nearby entities
-                for(Entity nearby : first.getNearbyEntities(xLoc, yLoc, zLoc)){
-
-                    //Checks on nearby
-                    if(first.getType() != nearby.getType()){
-                        continue;
-                    }
-
-                    if(GeneralTools.hasInvalidMetadata(nearby)
-                            || nearby.getMetadata(GlobalValues.METATAG).get(0).asInt() == maxSize){
-                        continue;
-                    }
-
-                    if(sm.tools.notTaskSuitable(nearby)){
-                        continue;
-                    }
-
-                    // Check attributes of both
-                    if(sm.tools.notMatching(first, nearby)){
-                        continue;
-                    }
-
-                    int nearbySize = nearby.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                    int firstSize;
-                    if(first.hasMetadata(GlobalValues.METATAG)){
-                        firstSize = first.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                    }else{
-                        firstSize = 1;
-                    }
-
-                    // Nearby would normally get removed, but we're swapping it.
-                    if(nearbySize > firstSize && sm.config.getCustomConfig().getBoolean("big-priority")){
-                        Entity holder = nearby;
-                        nearby = first;
-                        first = holder;
-                    }
-
-                    // Continue to stack together
-                    int amountTotal = nearbySize + firstSize;
-                    if(amountTotal > maxSize){
-                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, maxSize));
-                        nearby.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal - maxSize));
-                    }else{
-                        first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
-                        sm.tools.onceStacked(nearby);
-                        nearby.remove();
-                    }
-                    break;
-
                 }
             }
+            if(getStackMob().getLogic().notSuitableForStacking(entity)){
+                continue;
+            }
+            getStackMob().getLogic().foundMatch(entity);
         }
     }
 }

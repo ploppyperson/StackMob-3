@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.compat.hooks;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.*;
@@ -45,7 +46,7 @@ public class MythicMobsHook extends PluginHook implements Comparable {
     }
 
     private List<String> getBlacklist(){
-        return getStackMob().config.getCustomConfig().getStringList("mythicmobs.blacklist");
+        return getStackMob().getCustomConfig().getStringList("mythicmobs.blacklist");
     }
 
     public String getDisplayName(Entity entity){
@@ -65,9 +66,12 @@ public class MythicMobsHook extends PluginHook implements Comparable {
         return getBlacklist().contains("ALL");
     }
 
-    public Entity spawnMythicMob(Entity original){
+    public Entity spawnMythicMob(Location spawnLocation, Entity original){
         ActiveMob activeMob = getMobManager().getMythicMobInstance(original);
-        ActiveMob clone = getMobManager().spawnMob(activeMob.getType().getInternalName(), original.getLocation());
-        return clone.getLivingEntity();
+        ActiveMob clone = getMobManager().spawnMob(activeMob.getType().getInternalName(), spawnLocation);
+        if(clone != null){
+            return clone.getLivingEntity();
+        }
+        return null;
     }
 }

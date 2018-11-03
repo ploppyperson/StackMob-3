@@ -10,10 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.Collection;
 import java.util.Random;
@@ -21,14 +18,13 @@ import java.util.Random;
 public class ShearEvent implements Listener {
 
     private StackMob sm;
-
     public ShearEvent(StackMob sm) {
         this.sm = sm;
     }
 
     @EventHandler
     public void onSheepShear(PlayerShearEntityEvent event) {
-        if(GeneralTools.hasInvalidMetadata(event.getEntity())){
+        if(!(sm.getStackTools().hasValidStackData(event.getEntity()))){
             return;
         }
         if(event.isCancelled()){
@@ -36,14 +32,10 @@ public class ShearEvent implements Listener {
         }
 
         Entity oldEntity = event.getEntity();
-        int stackSize = event.getEntity().getMetadata(GlobalValues.METATAG).get(0).asInt();
-        if(stackSize <= 1){
-            return;
-        }
-
+        int stackSize = sm.getStackTools().getSize(oldEntity);
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
-            if(sm.config.getCustomConfig().getBoolean("multiply.sheep-wool")){
+            if(sm.getCustomConfig().getBoolean("multiply.sheep-wool")){
                 LootContext lootContext = new LootContext.Builder(oldSheep.getLocation()).lootedEntity(oldSheep).build();
                 Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(new Random(), lootContext);
                 for(ItemStack itemStack : loot){
@@ -53,34 +45,30 @@ public class ShearEvent implements Listener {
                 }
 
                 damageItemInHand(event.getPlayer(), stackSize);
-
-            }else if(sm.config.getCustomConfig().getBoolean("divide-on.sheep-shear")){
-                Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity, true);
+            }else if(sm.getCustomConfig().getBoolean("divide-on.sheep-shear")){
+                Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
                 newEntity.setSheared(false);
 
-                newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
-                newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                oldEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
+                sm.getStackTools().setSize(newEntity,stackSize - 1);
+                sm.getStackTools().setSize(oldEntity, 1);
                 oldEntity.setCustomName(null);
             }
         }
 
         if(oldEntity instanceof MushroomCow){
-            if(sm.config.getCustomConfig().getBoolean("multiply.mooshroom-mushrooms")){
+            if(sm.getCustomConfig().getBoolean("multiply.mooshroom-mushrooms")){
                 // Duplicate mushrooms
                 ItemStack mushrooms = new ItemStack(Material.RED_MUSHROOM,1);
                 sm.dropTools.dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
 
                 // Spawn separate normal cow for the rest of the stack.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
-                cow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
-                cow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                sm.getStackTools().setSize(cow,stackSize - 1);
                 // Set the required damage as if done separately
                 damageItemInHand(event.getPlayer(), stackSize);
-            }else if (sm.config.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
+            }else if (sm.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
-                mushroomCow.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
-                mushroomCow.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                sm.getStackTools().setSize(mushroomCow,stackSize - 1);
                 oldEntity.setCustomName(null);
             }
         }

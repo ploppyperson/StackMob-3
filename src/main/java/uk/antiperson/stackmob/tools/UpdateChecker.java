@@ -40,10 +40,10 @@ public class UpdateChecker {
     }
 
     public String update(){
-        File currentFile = new File(StackMob.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File currentFile = new File(sm.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         try{
             FileUtils.copyURLToFile(new URL("https://api.spiget.org/v2/resources/29999/download"),
-                    new File(sm.getDataFolder().toString().replace("StackMob", "") + File.separator + "update", currentFile.getName()));
+                    new File(sm.getServer().getUpdateFolderFile(), currentFile.getName()));
             return "Downloaded latest version successfully!";
         }catch (Exception e){
             e.printStackTrace();

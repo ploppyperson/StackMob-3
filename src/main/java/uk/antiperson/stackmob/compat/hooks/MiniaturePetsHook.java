@@ -6,7 +6,7 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.*;
 import uk.antiperson.stackmob.compat.Comparable;
 
-public class MiniaturePetsHook extends PluginHook implements Comparable, Errorable {
+public class MiniaturePetsHook extends PluginHook implements Comparable {
 
     public MiniaturePetsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MINIATUREPETS);
@@ -17,15 +17,10 @@ public class MiniaturePetsHook extends PluginHook implements Comparable, Errorab
         if(getStackMob().config.getCustomConfig().getBoolean("check.is-miniature-pet")){
             if(isMiniPetCorrectVersion()){
                 getHookManager().registerHook(getPluginCompat(), this);
+            }else{
+                getStackMob().getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
+                getStackMob().getLogger().warning("MiniaturePets related mob checks will not work!");
             }
-        }
-    }
-
-    @Override
-    public void disable(){
-        if(!(isMiniPetCorrectVersion())) {
-            getStackMob().getLogger().warning("A version of MiniaturePets has been detected that is not supported!");
-            getStackMob().getLogger().warning("MiniaturePets related mob checks will not work!");
         }
     }
 

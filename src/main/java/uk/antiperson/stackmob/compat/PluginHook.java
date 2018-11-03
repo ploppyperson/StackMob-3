@@ -10,7 +10,6 @@ public abstract class PluginHook implements PluginChecks{
     private HookManager hookManager;
     private Plugin plugin;
     private String pluginName;
-    private boolean isEnabled;
     private PluginCompat pluginCompat;
     public PluginHook(HookManager hm, StackMob sm, PluginCompat hooks){
         plugin = Bukkit.getPluginManager().getPlugin(hooks.getName());
@@ -18,11 +17,8 @@ public abstract class PluginHook implements PluginChecks{
         stackMob = sm;
         pluginCompat = hooks;
         if(plugin != null){
-            isEnabled = true;
             hookManager = hm;
             enable();
-        }else{
-            isEnabled = false;
         }
         if(!hm.isHookRegistered(hooks)){
             if(this instanceof Errorable){
@@ -51,11 +47,4 @@ public abstract class PluginHook implements PluginChecks{
         return pluginCompat;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
 }

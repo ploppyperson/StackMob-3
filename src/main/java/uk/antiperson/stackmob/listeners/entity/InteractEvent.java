@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,13 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.GeneralTools;
+import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class InteractEvent implements Listener {
 
     private StackMob sm;
-
     public InteractEvent(StackMob sm) {
         this.sm = sm;
     }
@@ -24,10 +24,11 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(GeneralTools.hasInvalidMetadata(entity)){
+        if(!(sm.getStackTools().hasValidData(entity))){
             return;
         }
-        if(!(GeneralTools.hasInvalidMetadata(entity, GlobalValues.CURRENTLY_BREEDING)) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+        if(StackTools.hasValidMetadata(entity, GlobalValues.CURRENTLY_BREEDING) &&
+                entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
         if(event.getHand() == EquipmentSlot.OFF_HAND){
@@ -37,62 +38,57 @@ public class InteractEvent implements Listener {
             return;
         }
 
+        int stackSize = sm.getStackTools().getSize(entity);
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && ((Animals) entity).canBreed()){
-                int stackSize = entity.getMetadata(GlobalValues.METATAG).get(0).asInt();
-                if(stackSize <= 1){
+                if(sm.getStackTools().hasValidStackData(entity)) {
+                    if (sm.getCustomConfig().getBoolean("multiply.breed")) {
+                        int breedSize = stackSize;
+                        int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                        if (handSize < breedSize) {
+                            breedSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
+                            event.getPlayer().getInventory().setItemInMainHand(null);
+                        }
+
+                        int childAmount = breedSize / 2;
+                        Animals child = (Animals) sm.tools.duplicate(entity);
+                        sm.getStackTools().setSize(child, childAmount);
+                        child.setBaby();
+
+                        event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
+                        ((Animals) entity).setBreed(false);
+                    } else if (sm.getCustomConfig().getBoolean("divide-on.breed")) {
+                        Entity newEntity = sm.tools.duplicate(entity);
+                        sm.getStackTools().setSize(newEntity,stackSize - 1);
+
+                        sm.getStackTools().setSize(entity,1);
+                        entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                        entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
+                        entity.setCustomName(null);
+
+                        // Allow to stack after breeding
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                if (!entity.isDead()) {
+                                    entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
+                                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
+                                }
+                            }
+                        }.runTaskLater(sm, 20 * 20);
+                    }
                     return;
                 }
-
-                if(sm.config.getCustomConfig().getBoolean("multiply.breed")){
-                    int breedSize = stackSize;
-                    int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
-                    if(handSize < breedSize){
-                        breedSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
-                        event.getPlayer().getInventory().setItemInMainHand(null);
-                    }
-
-                    int childAmount = breedSize / 2;
-                    Animals child = (Animals) sm.tools.duplicate(entity);
-                    child.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, childAmount));
-                    child.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-                    child.setBaby();
-
-                    event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
-                    ((Animals) entity).setBreed(false);
-                }else if(sm.config.getCustomConfig().getBoolean("divide-on.breed")) {
-                    Entity newEntity = sm.tools.duplicate(entity, true);
-                    newEntity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, stackSize - 1));
-                    newEntity.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
-
-                    entity.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
-                    entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
-                    entity.setCustomName(null);
-
-                    // Allow to stack after breeding
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            if (!entity.isDead()) {
-                                entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
-                                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
-                            }
-                        }
-                    }.runTaskLater(sm, 20 * 20);
-                }
-                return;
             }
         }
-        if(sm.config.getCustomConfig().getBoolean("divide-on.name")) {
-            if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NAME_TAG && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
-                if (entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1) {
+        if(sm.getCustomConfig().getBoolean("divide-on.name")) {
+            ItemStack handItem = event.getPlayer().getInventory().getItemInMainHand();
+            if (handItem.getType() == Material.NAME_TAG && handItem.getItemMeta().hasDisplayName()) {
+                if (stackSize > 1) {
                     Entity dupe = sm.tools.duplicate(entity);
-                    dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
-                    dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                    sm.getStackTools().setSize(dupe,stackSize - 1);
                 }
-                entity.removeMetadata(GlobalValues.METATAG, sm);
-                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                sm.getStackTools().removeSize(entity);
             }
         }
     }
@@ -119,8 +115,7 @@ public class InteractEvent implements Listener {
                 return true;
             }
         }
-        if(entity instanceof Ocelot && (is.getType() == Material.SALMON || is.getType() == Material.COD ||
-                is.getType() == Material.TROPICAL_FISH || is.getType() == Material.PUFFERFISH) && ((Ocelot) entity).isTamed()){
+        if(entity instanceof Ocelot && Tag.ITEMS_FISHES.isTagged(is.getType()) && ((Ocelot) entity).isTamed()){
             return true;
         }
         if(entity instanceof Rabbit && (is.getType() == Material.CARROT|| is.getType() == Material.GOLDEN_CARROT
