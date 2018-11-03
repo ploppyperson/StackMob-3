@@ -84,14 +84,14 @@ public class InteractEvent implements Listener {
             }
         }
         if(sm.getCustomConfig().getBoolean("divide-on.name")) {
-            if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NAME_TAG && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
+            ItemStack handItem = event.getPlayer().getInventory().getItemInMainHand();
+            if (handItem.getType() == Material.NAME_TAG && handItem.getItemMeta().hasDisplayName()) {
                 if (stackSize > 1) {
                     Entity dupe = sm.tools.duplicate(entity);
                     sm.getStackTools().setSize(dupe,stackSize - 1);
                     dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
                 }
                 sm.getStackTools().removeSize(entity);
-                entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
             }
         }
     }

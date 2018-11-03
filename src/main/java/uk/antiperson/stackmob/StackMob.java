@@ -1,5 +1,6 @@
 package uk.antiperson.stackmob;
 
+import java.util.concurrent.ConcurrentHashMap;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -28,7 +29,6 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +54,7 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onLoad(){
-        hookManager.onServerLoad();
+        getHookManager().onServerLoad();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class StackMob extends JavaPlugin {
 
         // Initialize support for other plugins.
         getHookManager().onServerStart();
-
+        // Register traits for entity comparison.
         getTraitManager().registerTraits();
 
         if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
@@ -91,7 +91,7 @@ public class StackMob extends JavaPlugin {
 
         // Load the storage.
         getLogger().info("Loading cached entities...");
-        storageManager.onServerEnable();
+        getStorageManager().onServerEnable();
 
         // Essential listeners/tasks that are needed for the plugin to function correctly.
         getLogger().info("Registering listeners, tasks and commands...");
@@ -104,10 +104,6 @@ public class StackMob extends JavaPlugin {
         new Metrics(this);
 
         getLogger().info(updater.updateString());
-
-        if(LocalDate.now().getDayOfYear() == 304) {
-            getLogger().info("BOO!");
-        }
     }
 
 
@@ -117,7 +113,7 @@ public class StackMob extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
         getLogger().info("Saving entity amount storage...");
         // Save the storage so entity amounts aren't lost on restarts
-        storageManager.onServerDisable();
+        getStorageManager().onServerDisable();
     }
 
     // Server version detection, if version isn't currently supported, then versionId is 0.
@@ -199,6 +195,10 @@ public class StackMob extends JavaPlugin {
         return config.getCustomConfig();
     }
 
+    public ConfigFile getConfigFile(){
+        return config;
+    }
+
     public HookManager getHookManager() {
         return hookManager;
     }
@@ -221,5 +221,9 @@ public class StackMob extends JavaPlugin {
 
     public StackTools getStackTools() {
         return stackTools;
+    }
+
+    public ConcurrentHashMap<UUID, Integer> getCache(){
+        return getStorageManager().getStackStorage().getAmountCache();
     }
 }

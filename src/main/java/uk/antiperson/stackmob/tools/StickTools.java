@@ -74,8 +74,6 @@ public class StickTools {
                 sm.getStackTools().removeSize(entity);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Removed entity stack status!"));
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
-                entity.setCustomNameVisible(false);
-                entity.setCustomName(null);
                 break;
             case UNSTACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){

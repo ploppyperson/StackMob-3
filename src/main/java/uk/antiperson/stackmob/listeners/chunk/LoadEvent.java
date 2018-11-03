@@ -16,15 +16,15 @@ public class LoadEvent implements Listener {
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
-        if(sm.config.getCustomConfig().getStringList("no-stack-worlds")
+        if(sm.getCustomConfig().getStringList("no-stack-worlds")
                 .contains(e.getWorld().getName())){
             return;
         }
         for(Entity currentEntity : e.getChunk().getEntities()){
             // Check if has been cached.
-            if(sm.getStorageManager().getStackStorage().getAmountCache().containsKey(currentEntity.getUniqueId())){
-                int cacheSize = sm.getStorageManager().getStackStorage().getAmountCache().get(currentEntity.getUniqueId());
-                sm.getStorageManager().getStackStorage().getAmountCache().remove(currentEntity.getUniqueId());
+            if(sm.getCache().containsKey(currentEntity.getUniqueId())){
+                int cacheSize = sm.getCache().get(currentEntity.getUniqueId());
+                sm.getCache().remove(currentEntity.getUniqueId());
                 sm.getStackTools().setSize(currentEntity, cacheSize);
             }
         }

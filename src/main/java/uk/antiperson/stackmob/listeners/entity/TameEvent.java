@@ -27,9 +27,6 @@ public class TameEvent implements Listener {
                 dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
             }
             sm.getStackTools().removeSize(entity);
-            entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
-            entity.setCustomName(null);
-            entity.setCustomNameVisible(false);
         }
     }
 }

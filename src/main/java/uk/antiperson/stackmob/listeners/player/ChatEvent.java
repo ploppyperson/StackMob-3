@@ -30,9 +30,10 @@ public class ChatEvent implements Listener {
             if(!(player.getMetadata(GlobalValues.WAITING_FOR_INPUT).get(0).asBoolean())){
                 return;
             }
+            event.setCancelled(true);
+
             String uuid = player.getMetadata(GlobalValues.SELECTED_ENTITY).get(0).asString();
             Entity entity = Bukkit.getEntity(UUID.fromString(uuid));
-            event.setCancelled(true);
             try {
                 int stackSize = Integer.parseInt(event.getMessage());
                 sm.getStackTools().setSize(entity, stackSize);

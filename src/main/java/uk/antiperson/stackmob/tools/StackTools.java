@@ -39,6 +39,8 @@ public class StackTools {
 
     public void removeSize(Entity entity){
         sm.getStorageManager().getAmounts().remove(entity.getUniqueId());
+        entity.setCustomName(null);
+        entity.setCustomNameVisible(false);
     }
 
 }
