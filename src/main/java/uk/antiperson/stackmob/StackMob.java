@@ -30,6 +30,7 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by nathat on 23/07/17.
@@ -172,6 +173,12 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
+        try {
+            Class.forName("com.destroystokyo.paper.event.entity.EntityTransformedEvent");
+            getServer().getPluginManager().registerEvents(new ConvertEvent(this), this);
+        }catch (ClassNotFoundException e){
+            getLogger().info("Paper specific event not found.");
+        }
     }
 
     private void startTasks(){
