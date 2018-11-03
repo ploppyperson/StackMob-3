@@ -2,7 +2,6 @@ package uk.antiperson.stackmob;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
@@ -19,17 +18,16 @@ import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
 import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
-import uk.antiperson.stackmob.tasks.CacheSave;
-import uk.antiperson.stackmob.tasks.ShowTagNearby;
-import uk.antiperson.stackmob.tasks.StackTask;
+import uk.antiperson.stackmob.tasks.CacheTask;
+import uk.antiperson.stackmob.tasks.ShowTagTask;
 import uk.antiperson.stackmob.tasks.TagTask;
+import uk.antiperson.stackmob.tasks.RegisterTask;
 import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -178,17 +176,13 @@ public class StackMob extends JavaPlugin {
     }
 
     private void startTasks(){
-        List<World> worlds = Bukkit.getWorlds();
-        for(int i = 0; i < worlds.size(); i++){
-            int period = (int) Math.round(config.getCustomConfig().getDouble("task-delay") / worlds.size()) * i;
-            new StackTask(this, worlds.get(i)).runTaskTimer(this, period, 100);
-        }
+        new RegisterTask(this).runTask(this);
 
         new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
         if(getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB)){
-            new ShowTagNearby(this).runTaskTimer(this, 5, config.getCustomConfig().getInt("tag.interval"));
+            new ShowTagTask(this).runTaskTimer(this, 5, config.getCustomConfig().getInt("tag.interval"));
         }
-        new CacheSave(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
+        new CacheTask(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
     }
 
     public FileConfiguration getCustomConfig(){
