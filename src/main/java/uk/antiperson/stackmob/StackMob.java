@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob;
 
-import java.util.concurrent.ConcurrentHashMap;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -29,6 +28,7 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.UUID;
 
