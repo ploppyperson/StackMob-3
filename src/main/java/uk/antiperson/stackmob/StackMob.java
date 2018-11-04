@@ -27,6 +27,7 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
+import java.time.LocalDate;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
@@ -102,6 +103,10 @@ public class StackMob extends JavaPlugin {
         new Metrics(this);
 
         getLogger().info(updater.updateString());
+
+        if(LocalDate.now().getDayOfYear() == 309){
+            getLogger().info("Remember, remember, the fifth of November!");
+        }
     }
 
 

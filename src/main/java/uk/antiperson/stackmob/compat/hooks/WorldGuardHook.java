@@ -9,7 +9,7 @@ import uk.antiperson.stackmob.compat.PluginHook;
 
 public class WorldGuardHook extends PluginHook implements Comparable {
 
-    private WorldGuard worldGuard;
+    private WorldGuardCompat worldGuardCompat;
     public WorldGuardHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.WORLDGUARD);
     }
@@ -17,8 +17,8 @@ public class WorldGuardHook extends PluginHook implements Comparable {
     public void onLoad(){
         if(getPlugin() != null) {
             if (isCorrectVersion()) {
-                worldGuard = new WorldGuard(getStackMob());
-                worldGuard.registerFlag();
+                worldGuardCompat = new WorldGuardCompat(getStackMob());
+                worldGuardCompat.registerFlag();
                 return;
             }
             getStackMob().getLogger().warning("In order for this functionality to work, WorldGuard 7.0 or later needs to be installed.");
@@ -34,7 +34,7 @@ public class WorldGuardHook extends PluginHook implements Comparable {
 
     @Override
     public boolean onEntityComparison(Entity entity, Entity nearby){
-        return worldGuard.test(entity) || worldGuard.test(nearby);
+        return worldGuardCompat.test(entity) || worldGuardCompat.test(nearby);
     }
 
     private boolean isCorrectVersion(){
