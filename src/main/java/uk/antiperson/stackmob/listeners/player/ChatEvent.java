@@ -31,22 +31,7 @@ public class ChatEvent implements Listener {
                 return;
             }
             event.setCancelled(true);
-
-            String uuid = player.getMetadata(GlobalValues.SELECTED_ENTITY).get(0).asString();
-            Entity entity = Bukkit.getEntity(UUID.fromString(uuid));
-            try {
-                int stackSize = Integer.parseInt(event.getMessage());
-                sm.getStackTools().setSize(entity, stackSize);
-            }catch (NumberFormatException e){
-                player.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG + "Invalid input!");
-                player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Enter new stack value: ");
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1,1);
-                return;
-            }
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Updated entity stack size!"));
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
-            player.removeMetadata(GlobalValues.WAITING_FOR_INPUT, sm);
-            player.removeMetadata(GlobalValues.SELECTED_ENTITY, sm);
+            sm.stickTools.updateStack(player, event.getMessage());
         }
     }
 }

@@ -1,7 +1,6 @@
 package uk.antiperson.stackmob.tools;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,6 +17,7 @@ import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class StickTools {
 
@@ -66,14 +66,11 @@ public class StickTools {
                         }
                     }
                 }
-
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Stacked all in this chunk!"));
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
+                sendMessage(player,ChatColor.GREEN + "Stacked all in this chunk!", 1);
                 break;
             case UNSTACK_ONE:
                 sm.getStackTools().removeSize(entity);
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Removed entity stack status!"));
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
+                sendMessage(player,ChatColor.GREEN + "Removed entity stack status!", 1);
                 break;
             case UNSTACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
@@ -83,9 +80,7 @@ public class StickTools {
                         }
                     }
                 }
-
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Unstacked all in this chunk!"));
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,1);
+                sendMessage(player,ChatColor.GREEN + "Unstacked all in this chunk!", 1);
                 break;
         }
     }
@@ -99,10 +94,29 @@ public class StickTools {
             }
         }
         player.setMetadata(GlobalValues.STICK_MODE, new FixedMetadataValue(sm, newStickMode));
-
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Toggled tool mode to " + ChatColor.GOLD + StickMode.getStickMode(newStickMode)));
-        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1,2);
+        sendMessage(player,ChatColor.GREEN + "Toggled tool mode to " + ChatColor.GOLD + StickMode.getStickMode(newStickMode), 2);
     }
 
+    public void updateStack(Player player, String input){
+        String uuid = player.getMetadata(GlobalValues.SELECTED_ENTITY).get(0).asString();
+        Entity entity = Bukkit.getEntity(UUID.fromString(uuid));
+        try {
+            int stackSize = Integer.parseInt(input);
+            sm.getStackTools().setSize(entity, stackSize);
+        }catch (NumberFormatException e){
+            player.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG + "Invalid input!");
+            player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Enter new stack value: ");
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1,1);
+            return;
+        }
+        sendMessage(player,ChatColor.GREEN + "Updated entity stack size!", 1);
+        player.removeMetadata(GlobalValues.WAITING_FOR_INPUT, sm);
+        player.removeMetadata(GlobalValues.SELECTED_ENTITY, sm);
+    }
+
+    public void sendMessage(Player player, String message, int pitch){
+        player.sendActionBar(message);
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1, pitch);
+    }
 
 }
