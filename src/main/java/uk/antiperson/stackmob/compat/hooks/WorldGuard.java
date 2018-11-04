@@ -5,6 +5,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
@@ -32,10 +33,12 @@ public class WorldGuard {
     public boolean test(Entity entity){
         try {
             RegionContainer rc = com.sk89q.worldguard.WorldGuard.getInstance().getPlatform().getRegionContainer();
-            ApplicableRegionSet ars = rc.get(BukkitAdapter.adapt(entity.getWorld())).getApplicableRegions(BukkitAdapter.adapt(entity.getLocation()).toVector());
+            RegionManager regionManager = rc.get(BukkitAdapter.adapt(entity.getWorld()));
+            ApplicableRegionSet ars = regionManager.getApplicableRegions(BukkitAdapter.asBlockVector(entity.getLocation()));
             return !(ars.testState(null, ENTITY_FLAG));
         }catch (NullPointerException e){
             return false;
         }
     }
+
 }
