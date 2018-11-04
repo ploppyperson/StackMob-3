@@ -81,10 +81,10 @@ public class StackMob extends JavaPlugin {
         // Register traits for entity comparison.
         getTraitManager().registerTraits();
 
-        if(config.getCustomConfig().isBoolean("plugin.loginupdatechecker")){
+        if(getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
             getLogger().info("A new one will be generated and the old one will be renamed to config.old");
-            config.generateNewVersion();
+            getConfigFile().generateNewVersion();
         }
 
         // Load the storage.
@@ -135,31 +135,31 @@ public class StackMob extends JavaPlugin {
     }
 
     private void registerNotEssentialEvents(){
-        if(config.getCustomConfig().getBoolean("multiply.creeper-explosion")){
+        if(getCustomConfig().getBoolean("multiply.creeper-explosion")){
             getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("multiply.chicken-eggs")){
+        if(getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
         }
-        if(config.getCustomConfig().getBoolean("divide-on.sheep-dye")) {
+        if(getCustomConfig().getBoolean("divide-on.sheep-dye")) {
             getServer().getPluginManager().registerEvents(new DyeEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("divide-on.breed")){
+        if(getCustomConfig().getBoolean("divide-on.breed")){
             getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("multiply.small-slimes")) {
+        if(getCustomConfig().getBoolean("multiply.small-slimes")) {
             getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("multiply-damage-done")){
+        if(getCustomConfig().getBoolean("multiply-damage-done")){
             getServer().getPluginManager().registerEvents(new DealtDamageEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("multiply-damage-received.enabled")){
+        if(getCustomConfig().getBoolean("multiply-damage-received.enabled")){
             getServer().getPluginManager().registerEvents(new ReceivedDamageEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("no-targeting.enabled")){
+        if(getCustomConfig().getBoolean("no-targeting.enabled")){
             getServer().getPluginManager().registerEvents(new TargetEvent(this), this);
         }
-        if(config.getCustomConfig().getBoolean("divide-on.tame")){
+        if(getCustomConfig().getBoolean("divide-on.tame")){
             getServer().getPluginManager().registerEvents(new TameEvent(this), this);
         }
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
@@ -177,12 +177,13 @@ public class StackMob extends JavaPlugin {
 
     private void startTasks(){
         new RegisterTask(this).runTask(this);
-
-        new TagTask(this).runTaskTimer(this, 0, config.getCustomConfig().getInt("tag.interval"));
+        new TagTask(this).runTaskTimer(this, 0, getCustomConfig().getInt("tag.interval"));
         if(getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB)){
-            new ShowTagTask(this).runTaskTimer(this, 5, config.getCustomConfig().getInt("tag.interval"));
+            new ShowTagTask(this).runTaskTimer(this, 5, getCustomConfig().getInt("tag.interval"));
         }
-        new CacheTask(this).runTaskTimerAsynchronously(this, 0, config.getCustomConfig().getInt("autosave-delay") * 20);
+        if(getCustomConfig().getInt("autosave-delay") > 0) {
+            new CacheTask(this).runTaskTimerAsynchronously(this, 0, getCustomConfig().getInt("autosave-delay") * 20);
+        }
     }
 
     public FileConfiguration getCustomConfig(){
