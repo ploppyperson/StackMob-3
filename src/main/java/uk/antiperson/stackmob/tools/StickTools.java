@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.tools;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -115,7 +117,7 @@ public class StickTools {
     }
 
     public void sendMessage(Player player, String message, int pitch){
-        player.sendActionBar(message);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1, pitch);
     }
 
