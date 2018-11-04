@@ -23,16 +23,13 @@ public class SpawnEvent implements Listener {
         if(entity instanceof ArmorStand){
             return;
         }
-        if(sm.getCustomConfig().getStringList("no-stack-reasons")
-                .contains(e.getSpawnReason().toString())){
+        if(spawnCheck("stack-reasons", e.getSpawnReason().toString())){
             return;
         }
-        if(sm.getCustomConfig().getStringList("no-stack-types")
-                .contains(entity.getType().toString())){
+        if(spawnCheck("stack-types", entity.getType().toString())){
             return;
         }
-        if(sm.getCustomConfig().getStringList("no-stack-worlds")
-                .contains(entity.getWorld().getName())){
+        if(spawnCheck("stack-worlds", entity.getWorld().getName())){
             return;
         }
 
@@ -40,4 +37,14 @@ public class SpawnEvent implements Listener {
         new SpawnTask(sm, entity).runTaskLater(sm,  1);
     }
 
+    public boolean spawnCheck(String config, String toCheck){
+        if(sm.getCustomConfig().getStringList("no-" + config)
+                .contains(toCheck)){
+            return true;
+        }
+        if(sm.getCustomConfig().getStringList(config).size() > 0){
+            return !sm.getCustomConfig().getStringList(config).contains(toCheck);
+        }
+        return false;
+    }
 }

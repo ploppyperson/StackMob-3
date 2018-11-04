@@ -50,17 +50,28 @@ autosave-delay: 120
 stack-max: 20
 # If bigger stacks should get priority when stacking on the task.
 big-priority: true
+# Only stack if the entity was spawned by these causes.
+# Reasons list can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
+stack-reasons:
+    -
+# Stack only if the entity is one of these types.
+# List of the bukkit names can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+stack-types:
+    -
+# If the entity is located in one of these worlds, then stack.
+stack-worlds:
+    -
 # If the entity was spawned by these causes, then don't stack.
 # Reasons list can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
 no-stack-reasons:
-    - ''
+    -
 # Don't stack if the entity is one of these types.
 # List of the bukkit names can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
 no-stack-types:
-    - ''
+    -
 # If the entity is located in one of these worlds, then don't stack.
 no-stack-worlds:
-    - ''
+    - 
 # Don't stack until there are more than the number specified of entities of the same type in the check area set above.
 # Set to 0 to disable this feature.
 dont-stack-until: 5
