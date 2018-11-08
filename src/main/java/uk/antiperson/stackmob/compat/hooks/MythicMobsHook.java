@@ -19,7 +19,7 @@ public class MythicMobsHook extends PluginHook implements Comparable {
 
     @Override
     public void enable(){
-        if(getStackMob().config.getCustomConfig().getBoolean("mythicmobs.enabled")){
+        if(getStackMob().getCustomConfig().getBoolean("mythicmobs.enabled")){
             getHookManager().registerHook(getPluginCompat(), this);
         }
     }

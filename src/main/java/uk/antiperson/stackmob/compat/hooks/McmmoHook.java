@@ -17,14 +17,14 @@ public class McmmoHook extends PluginHook implements CloneTrait {
 
     @Override
     public void enable(){
-        if(getStackMob().config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled")){
+        if(getStackMob().getCustomConfig().getBoolean("mcmmo.no-experience.enabled")){
             getHookManager().registerHook(getPluginCompat(), this);
         }
     }
 
     @Override
     public void setTrait(Entity entity){
-        if(!getStackMob().config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
+        if(!getStackMob().getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
                 .contains(entity.getType().toString())){
             entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(getPlugin(),false));
         }

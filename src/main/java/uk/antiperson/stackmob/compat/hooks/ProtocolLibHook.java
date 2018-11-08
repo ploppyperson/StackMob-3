@@ -24,7 +24,7 @@ public class ProtocolLibHook extends PluginHook implements Errorable {
 
     @Override
     public void enable(){
-        if(getStackMob().config.getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
+        if(getStackMob().getCustomConfig().getBoolean("tag.show-player-nearby.enabled")){
             protocolManager = ProtocolLibrary.getProtocolManager();
             getHookManager().registerHook(PluginCompat.PROCOTOLLIB, this);
         }
