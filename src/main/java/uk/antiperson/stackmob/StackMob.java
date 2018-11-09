@@ -70,7 +70,6 @@ public class StackMob extends JavaPlugin {
             getLogger().warning("The features of this version are not supported, so the plugin will not enable!");
             return;
         }
-
         getLogger().info("Detected server version: " + getVersionId());
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
@@ -99,14 +98,10 @@ public class StackMob extends JavaPlugin {
         // Events that are not required for the plugin to function, however they make a better experience.
         registerNotEssentialEvents();
 
-        getLogger().info("Starting metrics...");
+        getLogger().info("Starting metrics (if enabled)...");
         new Metrics(this);
 
         getLogger().info(updater.updateString());
-
-        if(LocalDate.now().getDayOfYear() == 309){
-            getLogger().info("Remember, remember, the fifth of November!");
-        }
     }
 
 
