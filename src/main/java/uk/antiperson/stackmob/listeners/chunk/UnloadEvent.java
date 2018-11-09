@@ -29,8 +29,12 @@ public class UnloadEvent implements Listener {
             // Add to storage
             if(sm.getStackTools().hasValidData(currentEntity)){
                 int stackSize = sm.getStackTools().getSize(currentEntity);
-                sm.getCache().put(currentEntity.getUniqueId(), stackSize);
                 sm.getStackTools().removeSize(currentEntity);
+                if(sm.getCustomConfig().getBoolean("remove-chunk-unload")){
+                    currentEntity.remove();
+                    return;
+                }
+                sm.getCache().put(currentEntity.getUniqueId(), stackSize);
             }
         }
     }
