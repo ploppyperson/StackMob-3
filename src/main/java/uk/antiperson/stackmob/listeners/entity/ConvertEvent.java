@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTransformEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class ConvertEvent implements Listener {
 
@@ -17,10 +18,10 @@ public class ConvertEvent implements Listener {
         if(event.getTransformReason() != EntityTransformEvent.TransformReason.DROWNED){
             return;
         }
-        if(sm.getStackTools().hasValidStackData(event.getEntity())){
-            int stackSize = sm.getStackTools().getSize(event.getEntity());
-            sm.getStackTools().setSize(event.getTransformedEntity(), stackSize);
-            sm.getStackTools().removeSize(event.getEntity());
+        if(StackTools.hasValidStackData(event.getEntity())){
+            int stackSize = StackTools.getSize(event.getEntity());
+            StackTools.setSize(event.getTransformedEntity(), stackSize);
+            StackTools.removeSize(event.getEntity());
         }
     }
 }

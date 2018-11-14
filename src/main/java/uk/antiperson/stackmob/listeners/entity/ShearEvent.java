@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.Collection;
 import java.util.Random;
@@ -24,7 +25,7 @@ public class ShearEvent implements Listener {
 
     @EventHandler
     public void onSheepShear(PlayerShearEntityEvent event) {
-        if(!(sm.getStackTools().hasValidStackData(event.getEntity()))){
+        if(!(StackTools.hasValidStackData(event.getEntity()))){
             return;
         }
         if(event.isCancelled()){
@@ -32,7 +33,7 @@ public class ShearEvent implements Listener {
         }
 
         Entity oldEntity = event.getEntity();
-        int stackSize = sm.getStackTools().getSize(oldEntity);
+        int stackSize = StackTools.getSize(oldEntity);
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.getCustomConfig().getBoolean("multiply.sheep-wool")){
@@ -49,8 +50,8 @@ public class ShearEvent implements Listener {
                 Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
                 newEntity.setSheared(false);
 
-                sm.getStackTools().setSize(newEntity,stackSize - 1);
-                sm.getStackTools().setSize(oldEntity, 1);
+                StackTools.setSize(newEntity,stackSize - 1);
+                StackTools.setSize(oldEntity, 1);
                 oldEntity.setCustomName(null);
             }
         }
@@ -63,12 +64,12 @@ public class ShearEvent implements Listener {
 
                 // Spawn separate normal cow for the rest of the stack.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
-                sm.getStackTools().setSize(cow,stackSize - 1);
+                StackTools.setSize(cow,stackSize - 1);
                 // Set the required damage as if done separately
                 damageItemInHand(event.getPlayer(), stackSize);
             }else if (sm.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
-                sm.getStackTools().setSize(mushroomCow,stackSize - 1);
+                StackTools.setSize(mushroomCow,stackSize - 1);
                 oldEntity.setCustomName(null);
             }
         }

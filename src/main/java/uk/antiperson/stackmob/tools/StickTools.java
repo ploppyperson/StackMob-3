@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.ArrayList;
@@ -63,22 +64,22 @@ public class StickTools {
             case STACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                     if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                        if(!(sm.getStackTools().hasValidStackData(nearby))){
-                            sm.getStackTools().setSize(nearby, 1);
+                        if(!(StackTools.hasValidStackData(nearby))){
+                            StackTools.setSize(nearby, 1);
                         }
                     }
                 }
                 sendMessage(player,ChatColor.GREEN + "Stacked all in this chunk!", 1);
                 break;
             case UNSTACK_ONE:
-                sm.getStackTools().removeSize(entity);
+                StackTools.removeSize(entity);
                 sendMessage(player,ChatColor.GREEN + "Removed entity stack status!", 1);
                 break;
             case UNSTACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
                     if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
-                        if(sm.getStackTools().hasValidStackData(nearby)){
-                            sm.getStackTools().removeSize(nearby);
+                        if(StackTools.hasValidStackData(nearby)){
+                            StackTools.removeSize(nearby);
                         }
                     }
                 }
@@ -104,7 +105,7 @@ public class StickTools {
         Entity entity = Bukkit.getEntity(UUID.fromString(uuid));
         try {
             int stackSize = Integer.parseInt(input);
-            sm.getStackTools().setSize(entity, stackSize);
+            StackTools.setSize(entity, stackSize);
         }catch (NumberFormatException e){
             player.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG + "Invalid input!");
             player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Enter new stack value: ");

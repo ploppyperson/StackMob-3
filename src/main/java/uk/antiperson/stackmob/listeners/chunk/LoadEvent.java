@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class LoadEvent implements Listener {
 
@@ -25,7 +26,7 @@ public class LoadEvent implements Listener {
             if(sm.getCache().containsKey(currentEntity.getUniqueId())){
                 int cacheSize = sm.getCache().get(currentEntity.getUniqueId());
                 sm.getCache().remove(currentEntity.getUniqueId());
-                sm.getStackTools().setSize(currentEntity, cacheSize);
+                StackTools.setSize(currentEntity, cacheSize);
             }
         }
     }

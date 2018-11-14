@@ -8,10 +8,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.DeathType;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.List;
@@ -28,11 +28,11 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
-        if(!(sm.getStackTools().hasValidStackData(dead))){
+        if(!(StackTools.hasValidStackData(dead))){
             return;
         }
 
-        int oldSize = sm.getStackTools().getSize(dead);
+        int oldSize = StackTools.getSize(dead);
         int subtractAmount = 1;
 
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
@@ -100,7 +100,7 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         if(oldSize != subtractAmount){
             Entity newe = sm.getTools().duplicate(dead);
-            sm.getStackTools().setSize(newe,oldSize - subtractAmount);
+            StackTools.setSize(newe,oldSize - subtractAmount);
             return newe;
         }
         return null;

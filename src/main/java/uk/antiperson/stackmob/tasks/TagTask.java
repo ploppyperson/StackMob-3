@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
+import uk.antiperson.stackmob.entity.StackTools;
 
 /**
  * Created by nathat on 25/07/17.
@@ -27,14 +28,14 @@ public class TagTask extends BukkitRunnable {
                 if(!(e instanceof LivingEntity)){
                     continue;
                 }
-                if (sm.getStackTools().hasValidStackData(e)) {
+                if (StackTools.hasValidStackData(e)) {
                     /* Hacky fix
                     if (e.getMetadata(GlobalValues.METATAG).size() == 0 && !(e.hasMetadata(GlobalValues.NO_STACK_ALL))) {
                         e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
                     }*/
                     String typeString = e.getType().toString();
 
-                    int stackSize = sm.getStackTools().getSize(e);
+                    int stackSize = StackTools.getSize(e);
                     int removeAt = sm.getCustomConfig().getInt("tag.remove-at");
                     if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
                         removeAt = sm.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");

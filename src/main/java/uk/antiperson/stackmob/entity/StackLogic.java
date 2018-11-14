@@ -4,7 +4,6 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
-import uk.antiperson.stackmob.tools.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.HashSet;
@@ -46,8 +45,8 @@ public class StackLogic {
 
     public boolean attemptMerge(Entity original, Entity nearby){
         int maxSize = getMaxSize(original);
-        int nearbySize = sm.getStackTools().getSize(nearby);
-        int originalSize = sm.getStackTools().getSize(original);
+        int nearbySize = StackTools.getSize(nearby);
+        int originalSize = StackTools.getSize(original);
         if(nearbySize > originalSize && sm.getCustomConfig().getBoolean("big-priority")){
             Entity holder = nearby;
             nearby = original;
@@ -57,10 +56,10 @@ public class StackLogic {
         // Continue to stack together
         int amountTotal = nearbySize + originalSize;
         if(amountTotal > maxSize){
-            sm.getStackTools().setSize(original, maxSize);
-            sm.getStackTools().setSize(nearby,amountTotal - maxSize);
+            StackTools.setSize(original, maxSize);
+            StackTools.setSize(nearby,amountTotal - maxSize);
         }else{
-            sm.getStackTools().setSize(original, amountTotal);
+            StackTools.setSize(original, amountTotal);
             sm.tools.onceStacked(nearby);
             nearby.remove();
         }
@@ -72,7 +71,7 @@ public class StackLogic {
         if(dontStackTill > 0){
             List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
             if(nearbyEntities.size() < dontStackTill &&
-                    nearbyEntities.stream().noneMatch(entity -> sm.getStackTools().hasValidStackData(entity))){
+                    nearbyEntities.stream().noneMatch(entity -> StackTools.hasValidStackData(entity))){
                 return true;
             }
             HashSet<Entity> entities = new HashSet<>();
@@ -80,14 +79,14 @@ public class StackLogic {
                 if(original.getType() != nearby.getType()){
                     continue;
                 }
-                if(!(sm.getStackTools().hasValidData(nearby))){
+                if(!(StackTools.hasValidData(nearby))){
                     continue;
                 }
                 if(sm.getTools().notMatching(original, nearby)){
                     continue;
                 }
-                if(sm.getStackTools().hasValidStackData(nearby)){
-                    sm.getStackTools().setSize(original, 1);
+                if(StackTools.hasValidStackData(nearby)){
+                    StackTools.setSize(original, 1);
                     return false;
                 }
                 entities.add(nearby);
@@ -97,14 +96,14 @@ public class StackLogic {
                 return true;
             }
             for(Entity entity : entities){
-                sm.getStackTools().setSize(entity,1);
+                StackTools.setSize(entity,1);
             }
         }
         return false;
     }
 
     public boolean notSuitableForStacking(Entity entity){
-        if(!(sm.getStackTools().hasValidStackData(entity))){
+        if(!(StackTools.hasValidStackData(entity))){
             return true;
         }
         if(entity.isDead()){
@@ -114,7 +113,7 @@ public class StackLogic {
                 entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
             return true;
         }
-        int stackSize = sm.getStackTools().getSize(entity);
+        int stackSize = StackTools.getSize(entity);
         return (getMaxSize(entity) == stackSize);
     }
 

@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.UUID;
@@ -61,7 +61,7 @@ public class Commands implements CommandExecutor {
                     int counter = 0;
                     for (World world : Bukkit.getWorlds()) {
                         for (Entity entity : world.getLivingEntities()) {
-                            if (sm.getStackTools().hasValidData(entity)) {
+                            if (StackTools.hasValidData(entity)) {
                                 counter++;
                                 entity.remove();
                             }
@@ -77,9 +77,9 @@ public class Commands implements CommandExecutor {
                     int stackedTotal = 0;
                     for (World world : Bukkit.getWorlds()) {
                         for (Entity entity : world.getLivingEntities()) {
-                            if (sm.getStackTools().hasValidStackData(entity)) {
+                            if (StackTools.hasValidStackData(entity)) {
                                 stackedCount = stackedCount + 1;
-                                stackedTotal = stackedTotal + sm.getStackTools().getSize(entity);
+                                stackedTotal = stackedTotal + StackTools.getSize(entity);
                             }
                         }
                     }
@@ -88,9 +88,9 @@ public class Commands implements CommandExecutor {
                     int stackedTotal1 = 0;
                     if (sender instanceof Player) {
                         for (Entity entity : ((Player) sender).getLocation().getChunk().getEntities()) {
-                            if (sm.getStackTools().hasValidStackData(entity)) {
+                            if (StackTools.hasValidStackData(entity)) {
                                 stackedCount1 = stackedCount1 + 1;
-                                stackedTotal1 = stackedTotal1 + sm.getStackTools().getSize(entity);
+                                stackedTotal1 = stackedTotal1 + StackTools.getSize(entity);
                             }
                         }
                     }
@@ -128,7 +128,7 @@ public class Commands implements CommandExecutor {
                             int numb = Integer.valueOf(args[1]);
                             int counter = 0;
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
-                                if (sm.getStackTools().hasValidData(entity)) {
+                                if (StackTools.hasValidData(entity)) {
                                     entity.remove();
                                     counter++;
                                 }
@@ -167,7 +167,7 @@ public class Commands implements CommandExecutor {
                         }
                         if (contains) {
                             Entity newEntity = ((Player) sender).getWorld().spawnEntity(((Player) sender).getLocation(), EntityType.valueOf(args[2].toUpperCase()));
-                            sm.getStackTools().setSize(newEntity, numb);
+                            StackTools.setSize(newEntity, numb);
                             sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Spawned a " + args[2].toUpperCase() + " with a stack size of " + numb + " at your location.");
                         } else {
                             sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +

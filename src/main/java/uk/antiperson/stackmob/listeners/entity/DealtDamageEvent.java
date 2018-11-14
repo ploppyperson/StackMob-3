@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class DealtDamageEvent implements Listener {
 
@@ -16,8 +17,8 @@ public class DealtDamageEvent implements Listener {
     @EventHandler
     public void onDamageDealt(EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof Player){
-            if(sm.getStackTools().hasValidStackData(event.getDamager())){
-                int stackSize = sm.getStackTools().getSize(event.getDamager());
+            if(StackTools.hasValidStackData(event.getDamager())){
+                int stackSize = StackTools.getSize(event.getDamager());
                 double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.2);
                 event.setDamage(extraDamage);
             }

@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
+import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ShowTagTask extends BukkitRunnable {
                 if(!(entity instanceof LivingEntity)) {
                     continue;
                 }
-                if(!(sm.getStackTools().hasValidStackData(entity))){
+                if(!(StackTools.hasValidStackData(entity))){
                     continue;
                 }
                 plh.sendPacket(player, entity, true);
@@ -43,7 +44,7 @@ public class ShowTagTask extends BukkitRunnable {
             List<Entity> entities1 = player.getNearbyEntities(x * 1.5, y * 1.5, z * 1.5);
             entities1.removeAll(entities);
             for(Entity entity : entities1){
-                if(sm.getStackTools().hasValidStackData(entity)){
+                if(StackTools.hasValidStackData(entity)){
                     plh.sendPacket(player, entity, false);
                 }
             }

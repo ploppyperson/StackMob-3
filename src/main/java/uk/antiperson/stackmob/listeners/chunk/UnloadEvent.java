@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class UnloadEvent implements Listener {
 
@@ -27,9 +28,9 @@ public class UnloadEvent implements Listener {
                 continue;
             }
             // Add to storage
-            if(sm.getStackTools().hasValidData(currentEntity)){
-                int stackSize = sm.getStackTools().getSize(currentEntity);
-                sm.getStackTools().removeSize(currentEntity);
+            if(StackTools.hasValidData(currentEntity)){
+                int stackSize = StackTools.getSize(currentEntity);
+                StackTools.removeSize(currentEntity);
                 if(sm.getCustomConfig().getBoolean("remove-chunk-unload")){
                     currentEntity.remove();
                     return;

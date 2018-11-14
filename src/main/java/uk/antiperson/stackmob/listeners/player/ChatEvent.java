@@ -1,20 +1,12 @@
 package uk.antiperson.stackmob.listeners.player;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.StackTools;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
-
-import java.util.UUID;
 
 public class ChatEvent implements Listener {
 

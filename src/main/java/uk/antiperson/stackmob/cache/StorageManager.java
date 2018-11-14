@@ -12,7 +12,6 @@ public class StorageManager {
     private StackMob sm;
     private StorageType cacheType;
     private StackStorage stackStorage;
-    private HashMap<UUID, Integer> currentEntities = new HashMap<>();
     public StorageManager(StackMob sm){
         this.sm = sm;
     }
@@ -56,7 +55,4 @@ public class StorageManager {
         return cacheType;
     }
 
-    public HashMap<UUID, Integer> getAmounts() {
-        return currentEntities;
-    }
 }

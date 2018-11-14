@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SheepDyeWoolEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class DyeEvent implements Listener {
 
@@ -16,20 +17,20 @@ public class DyeEvent implements Listener {
 
     @EventHandler
     public void onSheepDye(SheepDyeWoolEvent event) {
-        if(!(sm.getStackTools().hasValidStackData(event.getEntity()))) {
+        if(!(StackTools.hasValidStackData(event.getEntity()))) {
             return;
         }
         if(event.isCancelled()){
             return;
         }
-        int stackSize = sm.getStackTools().getSize(event.getEntity());
+        int stackSize = StackTools.getSize(event.getEntity());
         Entity oldEntity = event.getEntity();
 
         if (sm.config.getCustomConfig().getBoolean("divide-on.sheep-dye") && stackSize > 1) {
             Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
             newEntity.setColor(event.getEntity().getColor());
-            sm.getStackTools().setSize(newEntity,stackSize - 1);
-            sm.getStackTools().setSize(oldEntity, 1);
+            StackTools.setSize(newEntity,stackSize - 1);
+            StackTools.setSize(oldEntity, 1);
             oldEntity.setCustomName(null);
         }
     }

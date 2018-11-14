@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.api;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class StackedEntity {
@@ -27,7 +28,7 @@ public class StackedEntity {
      * @return Returns the current size.
      */
     public int getSize(){
-        return sm.getStackTools().getSize(entity);
+        return StackTools.getSize(entity);
     }
 
     /**
@@ -36,7 +37,7 @@ public class StackedEntity {
      */
 
     public void setSize(int newSize){
-        sm.getStackTools().setSize(entity, newSize);
+        StackTools.setSize(entity, newSize);
     }
 
     /**

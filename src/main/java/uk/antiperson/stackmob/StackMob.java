@@ -49,7 +49,6 @@ public class StackMob extends JavaPlugin {
     public HookManager hookManager = new HookManager(this);
     public TraitManager traitManager = new TraitManager(this);
     public UpdateChecker updater = new UpdateChecker(this);
-    public StackTools stackTools = new StackTools(this);
 
     @Override
     public void onLoad(){
@@ -207,10 +206,6 @@ public class StackMob extends JavaPlugin {
 
     public StackLogic getLogic() {
         return logic;
-    }
-
-    public StackTools getStackTools() {
-        return stackTools;
     }
 
     public ConcurrentHashMap<UUID, Integer> getCache(){

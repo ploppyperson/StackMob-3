@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class ExplodeEvent implements Listener {
 
@@ -14,8 +15,8 @@ public class ExplodeEvent implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event){
-        if(sm.getStackTools().hasValidStackData(event.getEntity())){
-            int stackSize = sm.getStackTools().getSize(event.getEntity());
+        if(StackTools.hasValidStackData(event.getEntity())){
+            int stackSize = StackTools.getSize(event.getEntity());
             event.setYield(event.getYield() + (event.getYield() * (stackSize - 1) * 0.5f));
         }
     }

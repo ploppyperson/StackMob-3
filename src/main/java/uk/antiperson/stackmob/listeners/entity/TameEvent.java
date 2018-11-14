@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class TameEvent implements Listener {
 
@@ -17,13 +18,13 @@ public class TameEvent implements Listener {
     @EventHandler
     public void onTame(EntityTameEvent event) {
         Entity entity = event.getEntity();
-        if(sm.getStackTools().hasValidStackData(entity)){
-            int stackSize = sm.getStackTools().getSize(entity);
+        if(StackTools.hasValidStackData(entity)){
+            int stackSize = StackTools.getSize(entity);
             if(stackSize > 1){
                 Entity dupe = sm.tools.duplicate(entity);
-                sm.getStackTools().setSize(dupe, stackSize - 1);
+                StackTools.setSize(dupe, stackSize - 1);
             }
-            sm.getStackTools().removeSize(entity);
+            StackTools.removeSize(entity);
         }
     }
 }

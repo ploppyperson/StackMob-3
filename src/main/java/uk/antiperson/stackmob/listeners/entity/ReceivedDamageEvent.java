@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class ReceivedDamageEvent implements Listener {
@@ -18,10 +19,10 @@ public class ReceivedDamageEvent implements Listener {
     @EventHandler
     public void onDamageReceived(EntityDamageEvent event) {
         if(event.getEntity() instanceof LivingEntity){
-            if(sm.getStackTools().hasValidStackData(event.getEntity())){
+            if(StackTools.hasValidStackData(event.getEntity())){
                 LivingEntity entity = (LivingEntity) event.getEntity();
                 if(!sm.getCustomConfig().getStringList("multiply-damage-received.cause-blacklist").contains(event.getCause().toString())) {
-                    int stackSize = sm.getStackTools().getSize(entity);
+                    int stackSize = StackTools.getSize(entity);
                     double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.25);
                     event.setDamage(extraDamage);
                 }

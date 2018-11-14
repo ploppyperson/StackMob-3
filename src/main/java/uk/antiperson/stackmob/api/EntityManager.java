@@ -1,9 +1,8 @@
 package uk.antiperson.stackmob.api;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class EntityManager {
 
@@ -27,7 +26,7 @@ public class EntityManager {
      * @return If is stacked or not.
      */
     public boolean isStackedEntity(Entity entity){
-        return sm.getStackTools().hasValidStackData(entity);
+        return StackTools.hasValidStackData(entity);
     }
 
     /**
@@ -35,7 +34,7 @@ public class EntityManager {
      * @param entity The entity to set this metadata to.
      */
     public void addNewStack(Entity entity){
-        sm.getStackTools().setSize(entity,1);
+        StackTools.setSize(entity,1);
     }
 
     /**
@@ -44,7 +43,7 @@ public class EntityManager {
      * @param size The stack size of the stack.
      */
     public void addNewStack(Entity entity, int size){
-        sm.getStackTools().setSize(entity, size);
+        StackTools.setSize(entity, size);
     }
 
     /**

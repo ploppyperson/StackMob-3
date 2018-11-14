@@ -5,6 +5,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 
 public class StackTask extends StackingTask {
 
@@ -20,7 +21,7 @@ public class StackTask extends StackingTask {
             if(entity instanceof ArmorStand || entity instanceof Player){
                 continue;
             }
-            if(getStackMob().getStackTools().hasNotEnoughNear(entity)) {
+            if(StackTools.hasNotEnoughNear(entity)) {
                 if(getStackMob().getLogic().notEnoughNearby(entity)){
                     continue;
                 }

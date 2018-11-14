@@ -1,5 +1,7 @@
 package uk.antiperson.stackmob.cache;
 
+import uk.antiperson.stackmob.entity.StackTools;
+
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +22,7 @@ public abstract class StackStorage implements StorageMethod {
     }
 
     public void cacheWorldData(){
-        amountCache.putAll(storageManager.getAmounts());
+        amountCache.putAll(StackTools.getEntries());
     }
 
 
