@@ -85,6 +85,14 @@ public class StickTools {
                 }
                 sendMessage(player,ChatColor.GREEN + "Unstacked all in this chunk!", 1);
                 break;
+            case DATA:
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1, 1);
+                player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity data: ");
+                player.sendMessage(ChatColor.GREEN + "UUID: " + entity.getUniqueId());
+                if(StackTools.hasValidData(entity)){
+                    player.sendMessage(ChatColor.GREEN + "Stack size: " + StackTools.getSize(entity));
+                }
+                break;
         }
     }
 

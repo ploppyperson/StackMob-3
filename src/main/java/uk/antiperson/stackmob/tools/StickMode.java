@@ -5,7 +5,8 @@ public enum StickMode {
     STACK_ONE(1),
     STACK_NEARBY(2),
     UNSTACK_ONE(3),
-    UNSTACK_NEARBY(4);
+    UNSTACK_NEARBY(4),
+    DATA(5);
 
     private final int id;
     StickMode(int id){
