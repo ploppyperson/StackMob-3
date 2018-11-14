@@ -1,8 +1,8 @@
 package uk.antiperson.stackmob.listeners.entity;
 
-import com.destroystokyo.paper.event.entity.EntityTransformedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityTransformEvent;
 import uk.antiperson.stackmob.StackMob;
 
 public class ConvertEvent implements Listener {
@@ -13,13 +13,13 @@ public class ConvertEvent implements Listener {
     }
 
     @EventHandler
-    public void onConvert(EntityTransformedEvent event){
-        if(event.getReason() != EntityTransformedEvent.TransformedReason.DROWNED){
+    public void onConvert(EntityTransformEvent event){
+        if(event.getTransformReason() != EntityTransformEvent.TransformReason.DROWNED){
             return;
         }
         if(sm.getStackTools().hasValidStackData(event.getEntity())){
             int stackSize = sm.getStackTools().getSize(event.getEntity());
-            sm.getStackTools().setSize(event.getTransformed(), stackSize);
+            sm.getStackTools().setSize(event.getTransformedEntity(), stackSize);
             sm.getStackTools().removeSize(event.getEntity());
         }
     }

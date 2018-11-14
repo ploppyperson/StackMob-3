@@ -167,12 +167,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
-        try {
-            Class.forName("com.destroystokyo.paper.event.entity.EntityTransformedEvent");
-            getServer().getPluginManager().registerEvents(new ConvertEvent(this), this);
-        }catch (ClassNotFoundException e){
-            getLogger().warning("PaperSpigot not found, extra events will not work!");
-        }
+        getServer().getPluginManager().registerEvents(new ConvertEvent(this), this);
     }
 
     private void startTasks(){
