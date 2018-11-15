@@ -146,6 +146,12 @@
             <version>7.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.gamingmesh</groupId>
+            <artifactId>jobs</artifactId>
+            <version>4.9.3</version>
+            <systemPath>${project.basedir}/jars/Jobs4.9.3.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
     </dependencies>
 </project>

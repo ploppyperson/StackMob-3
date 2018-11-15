@@ -1,4 +1,4 @@
-# StackMob 2 created by antiPerson.
+# StackMob 3 created by antiPerson.
 # Report issues that you have experienced in the discussion thread.
 # If the comments have been removed, see the config-default.yml file!
 
@@ -237,6 +237,14 @@ mythicmobs:
     enabled: true
     # MythicMob types that shouldn't stack, use the 'internal name'
     # To prevent all stacking, add 'ALL' to the list below.
+    blacklist:
+        - ''
+
+# Support for Jobs Reborn by Zrips
+jobs-reborn:
+    # Support for the for prevention of job rewards.
+    enabled: true
+    # Entity types that rewards should still be given for.
     blacklist:
         - ''
 

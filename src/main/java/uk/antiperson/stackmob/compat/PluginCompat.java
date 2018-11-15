@@ -5,6 +5,7 @@ public enum PluginCompat {
     PROCOTOLLIB("ProtocolLib"),
     MYTHICMOBS("MythicMobs"),
     MCMMO("mcMMO"),
+    JOBS("Jobs"),
     CITIZENS("Citizens"),
     MINIATUREPETS("MiniaturePets");
 
