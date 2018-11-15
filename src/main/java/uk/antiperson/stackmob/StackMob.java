@@ -27,7 +27,6 @@ import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
-import java.time.LocalDate;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
@@ -76,7 +75,7 @@ public class StackMob extends JavaPlugin {
         translation.reloadCustomConfig();
 
         // Initialize support for other plugins.
-        getHookManager().onServerStart();
+        getHookManager().registerHooks();
         // Register traits for entity comparison.
         getTraitManager().registerTraits();
 

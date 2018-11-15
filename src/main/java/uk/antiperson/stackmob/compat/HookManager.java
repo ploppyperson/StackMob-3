@@ -19,7 +19,7 @@ public class HookManager {
         new WorldGuardHook(this, sm).onLoad();
     }
 
-    public void onServerStart(){
+    public void registerHooks(){
         new ProtocolLibHook(this, sm);
         new McmmoHook(this, sm);
         new CitizensHook(this, sm);
