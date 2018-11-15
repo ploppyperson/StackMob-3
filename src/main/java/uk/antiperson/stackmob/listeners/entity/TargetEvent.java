@@ -11,7 +11,6 @@ import uk.antiperson.stackmob.entity.StackTools;
 public class TargetEvent implements Listener {
 
     private StackMob sm;
-
     public TargetEvent(StackMob sm) {
         this.sm = sm;
     }

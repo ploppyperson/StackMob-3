@@ -8,8 +8,9 @@ description: The only mob-stacking plugin that you will ever need.
 api-version: 1.13
 load: STARTUP
 commands:
-    sm:
+    stackmob:
        description: The main command
+       aliases: [sm]
 permissions:
     stackmob.*:
         description: All administrator commands
