@@ -12,6 +12,7 @@ import uk.antiperson.stackmob.checks.TraitManager;
 import uk.antiperson.stackmob.entity.StackLogic;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
+import uk.antiperson.stackmob.listeners.ServerLoad;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
 import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
@@ -21,7 +22,6 @@ import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
 import uk.antiperson.stackmob.tasks.CacheTask;
 import uk.antiperson.stackmob.tasks.ShowTagTask;
 import uk.antiperson.stackmob.tasks.TagTask;
-import uk.antiperson.stackmob.tasks.RegisterTask;
 import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.TranslationFile;
@@ -128,6 +128,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
         getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
         getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
+        getServer().getPluginManager().registerEvents(new ServerLoad(this), this);
         getCommand("stackmob").setExecutor(new Commands(this));
         startTasks();
     }
@@ -169,7 +170,6 @@ public class StackMob extends JavaPlugin {
     }
 
     private void startTasks(){
-        new RegisterTask(this).runTask(this);
         new TagTask(this).runTaskTimer(this, 0, getCustomConfig().getInt("tag.interval"));
         if(getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB)){
             new ShowTagTask(this).runTaskTimer(this, 5, getCustomConfig().getInt("tag.interval"));
