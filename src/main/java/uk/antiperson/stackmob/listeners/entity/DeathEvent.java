@@ -94,10 +94,7 @@ public class DeathEvent implements Listener {
     }
 
     private Entity spawnNewEntity(int oldSize, int subtractAmount, LivingEntity dead){
-        dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-        dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-        dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
-        dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
+        sm.getLogic().cleanup(dead);
         if(oldSize != subtractAmount){
             Entity newe = sm.getTools().duplicate(dead);
             StackTools.setSize(newe,oldSize - subtractAmount);

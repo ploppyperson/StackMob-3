@@ -62,6 +62,7 @@ public class StackLogic {
             StackTools.setSize(original, amountTotal);
             sm.tools.onceStacked(nearby);
             nearby.remove();
+            cleanup(nearby);
         }
         return true;
     }
@@ -146,5 +147,13 @@ public class StackLogic {
         EntityStackEvent event = new EntityStackEvent(entity1, entity2);
         sm.getServer().getPluginManager().callEvent(event);
         return event.isCancelled();
+    }
+
+    public void cleanup(Entity dead){
+        dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
+        dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
+        dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
+        dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
+        StackTools.removeSize(dead);
     }
 }

@@ -13,7 +13,6 @@ import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
  * Created by nathat on 24/07/17.
  *
  * Strictly stuff to do with entities, but not stacking.
- *
  */
 public class EntityTools {
 
@@ -84,4 +83,6 @@ public class EntityTools {
             entity.setAI(false);
         }
     }
+
+
 }
