@@ -71,7 +71,7 @@ public class StackLogic {
         if(dontStackTill > 0){
             List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
             if(nearbyEntities.size() < dontStackTill &&
-                    nearbyEntities.stream().noneMatch(entity -> StackTools.hasValidStackData(entity))){
+                    nearbyEntities.stream().noneMatch(StackTools::hasValidStackData)){
                 return true;
             }
             HashSet<Entity> entities = new HashSet<>();
@@ -91,8 +91,7 @@ public class StackLogic {
                 }
                 entities.add(nearby);
             }
-            entities.add(original);
-            if(entities.size() < dontStackTill){
+            if(entities.size() + 1 < dontStackTill){
                 return true;
             }
             for(Entity entity : entities){
