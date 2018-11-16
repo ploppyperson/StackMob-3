@@ -19,6 +19,7 @@ import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
 import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
+import uk.antiperson.stackmob.stick.StickTools;
 import uk.antiperson.stackmob.tasks.CacheTask;
 import uk.antiperson.stackmob.tasks.ShowTagTask;
 import uk.antiperson.stackmob.tasks.TagTask;

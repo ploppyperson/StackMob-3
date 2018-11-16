@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.stick;
 
 public enum StickMode {
 

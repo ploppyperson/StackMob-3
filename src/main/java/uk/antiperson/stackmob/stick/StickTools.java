@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.tools;
+package uk.antiperson.stackmob.stick;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
