@@ -117,7 +117,7 @@ public class StackLogic {
         return (getMaxSize(entity) == stackSize);
     }
 
-    private int getMaxSize(Entity entity){
+    public int getMaxSize(Entity entity){
         int maxStackSize = sm.getCustomConfig().getInt("stack-max");
         if (sm.getCustomConfig().isInt("custom." + entity.getType() + ".stack-max")) {
             maxStackSize =  sm.getCustomConfig().getInt("custom." + entity.getType() + ".stack-max");

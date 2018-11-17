@@ -24,7 +24,7 @@ public class StackedEntity {
     }
 
     /**
-     * Sets the stack size.
+     * Gets the stack size.
      * @return Returns the current size.
      */
     public int getSize(){
@@ -32,32 +32,19 @@ public class StackedEntity {
     }
 
     /**
+     * Gets the maximum size of this stack.
+     * @return The maximum size allowed for this stack.
+     */
+    public int getMaxStackSize(){
+        return sm.getLogic().getMaxSize(entity);
+    }
+
+    /**
      * Sets the stack size.
      * @param newSize The size that the current entity should have it's size changed to.
      */
-
     public void setSize(int newSize){
         StackTools.setSize(entity, newSize);
-    }
-
-    /**
-     * Entities can have special metadata added to them to prevent them from stacking.
-     * @return Returns if this entity is currently ignored by the stacking task.
-     */
-
-    public boolean isStackingPrevented(){
-        return entity.hasMetadata(GlobalValues.NO_STACK_ALL) &&
-                entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
-    }
-
-    /**
-     * Entities can have special metadata added to them to prevent them from stacking.
-     * @return Returns if this entity is currently ignored by the stacking task.
-     * @deprecated This is no longer required.
-     */
-    @Deprecated
-    public boolean isStackingPreventedOnSpawn(){
-        return false;
     }
 
     /**
@@ -75,7 +62,7 @@ public class StackedEntity {
      */
     @Deprecated
     public void setPreventStackingOnSpawn(boolean value){
-
+        return;
     }
 
     /**
@@ -83,5 +70,24 @@ public class StackedEntity {
      */
     public void setSingleDeath(){
         entity.setMetadata(GlobalValues.KILL_ONE_OFF, new FixedMetadataValue(sm, true));
+    }
+
+    /**
+     * Entities can have special metadata added to them to prevent them from stacking.
+     * @return Returns if this entity is currently ignored by the stacking task.
+     */
+    public boolean isStackingPrevented(){
+        return entity.hasMetadata(GlobalValues.NO_STACK_ALL) &&
+                entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
+    }
+
+    /**
+     * Entities can have special metadata added to them to prevent them from stacking.
+     * @return Returns if this entity is currently ignored by the stacking task.
+     * @deprecated This is no longer required.
+     */
+    @Deprecated
+    public boolean isStackingPreventedOnSpawn(){
+        return false;
     }
 }
