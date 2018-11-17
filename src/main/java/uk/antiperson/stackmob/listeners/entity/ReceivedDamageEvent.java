@@ -21,17 +21,21 @@ public class ReceivedDamageEvent implements Listener {
         if(event.getEntity() instanceof LivingEntity){
             if(StackTools.hasValidStackData(event.getEntity())){
                 LivingEntity entity = (LivingEntity) event.getEntity();
-                if(!sm.getCustomConfig().getStringList("multiply-damage-received.cause-blacklist").contains(event.getCause().toString())) {
-                    int stackSize = StackTools.getSize(entity);
-                    double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.25);
-                    event.setDamage(extraDamage);
-                }
-
                 if(sm.getCustomConfig().getBoolean("kill-step-damage.enabled")){
                     double healthAfter = entity.getHealth() - event.getFinalDamage();
                     if(healthAfter <= 0){
                         entity.setMetadata(GlobalValues.LEFTOVER_DAMAGE, new FixedMetadataValue(sm, Math.abs(healthAfter)));
                     }
+                }
+
+                if(!sm.getCustomConfig().getStringList("multiply-damage-received.cause-blacklist")
+                        .contains(event.getCause().toString())) {
+                    if(event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK){
+                        return;
+                    }
+                    int stackSize = StackTools.getSize(entity);
+                    double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1) * 0.25));
+                    event.setDamage(extraDamage);
                 }
             }
         }
