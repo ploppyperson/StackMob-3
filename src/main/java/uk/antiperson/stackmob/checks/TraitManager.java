@@ -17,6 +17,7 @@ public class TraitManager {
     public void registerTraits(){
         new AgeableTrait(this);
         new AnimalsTrait(this);
+        new FireTrait(this);
         new HorseTrait(this);
         new LeashedTrait(this);
         new LlamaTrait(this);

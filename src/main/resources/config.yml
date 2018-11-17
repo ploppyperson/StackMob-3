@@ -224,6 +224,13 @@ no-ai:
     types-whitelist:
         - ''
 
+# Add the remaining amount of fire ticks from a dead entity onto the new entity.
+fire-ticks:
+    enabled: true
+    # Blacklist of entity types.
+    blacklist:
+        - ''
+
 # Everything to do with mcMMO
 mcmmo:
     # Give no mcmmo experience
