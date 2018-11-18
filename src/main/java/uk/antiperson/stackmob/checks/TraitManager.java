@@ -39,6 +39,16 @@ public class TraitManager {
         return false;
     }
 
+    public boolean checkTraits(Entity original){
+        for(ComparableTrait comparableTrait : comparableTraits){
+            if(comparableTrait instanceof SingleTrait){
+                SingleTrait singleTrait = (SingleTrait) comparableTrait;
+                return singleTrait.checkTrait(original);
+            }
+        }
+        return false;
+    }
+
     public void applyTraits(Entity orginal,  Entity spawned){
         for(ComparableTrait comparableTrait : comparableTraits){
             if(comparableTrait instanceof ApplicableTrait){
