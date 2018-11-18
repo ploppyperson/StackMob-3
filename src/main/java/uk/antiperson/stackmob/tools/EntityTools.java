@@ -302,6 +302,12 @@ public class EntityTools {
             }
         }
 
+        if(sm.config.getCustomConfig().getBoolean("fire-ticks.enabled")){
+            if(!sm.config.getCustomConfig().getStringList("fire-ticks.blacklist").contains(dupe.getType().toString())){
+                dupe.setFireTicks(original.getFireTicks());
+            }
+        }
+
         // mcMMO stuff
         sm.pluginSupport.setMcmmoMetadata(dupe);
 
