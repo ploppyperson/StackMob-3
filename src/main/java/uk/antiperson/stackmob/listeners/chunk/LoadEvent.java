@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
+import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 public class LoadEvent implements Listener {
 
@@ -27,6 +28,17 @@ public class LoadEvent implements Listener {
                 int cacheSize = sm.getCache().get(currentEntity.getUniqueId());
                 sm.getCache().remove(currentEntity.getUniqueId());
                 StackTools.setSize(currentEntity, cacheSize);
+                continue;
+            }
+
+            if(sm.getCustomConfig().getBoolean("convert-existing-entities")){
+                if(sm.getTraitManager().checkTraits(currentEntity)){
+                    continue;
+                }
+                if(currentEntity.getCustomName() != null){
+                    continue;
+                }
+                StackTools.setSize(currentEntity, GlobalValues.NOT_ENOUGH_NEAR);
             }
         }
     }
