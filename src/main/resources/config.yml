@@ -23,7 +23,7 @@ tag:
     always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.
     remove-at: 1
-    # Only show the name tag if the player is near the entity. (requires ProtocolLib and Bukkit 1.9 or above)
+    # Only show the name tag if the player is near the entity. (requires ProtocolLib)
     show-player-nearby:
         enabled: true
         # Only display the tag to the player if the player is in this area of the entity.
