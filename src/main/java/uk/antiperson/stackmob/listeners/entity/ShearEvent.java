@@ -34,6 +34,9 @@ public class ShearEvent implements Listener {
 
         Entity oldEntity = event.getEntity();
         int stackSize = StackTools.getSize(oldEntity);
+        if(stackSize <= 1){
+            return;
+        }
         if(oldEntity instanceof Sheep){
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.getCustomConfig().getBoolean("multiply.sheep-wool")){
