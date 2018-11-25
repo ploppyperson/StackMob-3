@@ -33,8 +33,6 @@ public class DeathEvent implements Listener {
         }
 
         int oldSize = StackTools.getSize(dead);
-        int subtractAmount = 1;
-
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(isAllowed(DeathType.KILL_ALL, dead)){
                 multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
@@ -44,10 +42,9 @@ public class DeathEvent implements Listener {
             if(isAllowed(DeathType.KILL_STEP, dead)) {
                 int maxStep = sm.getCustomConfig().getInt("kill-step.max-step");
                 int randomStep = ThreadLocalRandom.current().nextInt(1, maxStep);
+                int subtractAmount = randomStep;
                 if (randomStep >= oldSize) {
                     subtractAmount = oldSize;
-                } else {
-                    subtractAmount = randomStep;
                 }
                 multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
                 spawnNewEntity(oldSize, subtractAmount, dead);
@@ -69,7 +66,7 @@ public class DeathEvent implements Listener {
                 return;
             }
         }
-        spawnNewEntity(oldSize, subtractAmount, dead);
+        spawnNewEntity(oldSize, 1, dead);
     }
 
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){

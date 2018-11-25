@@ -19,35 +19,37 @@ public class DropTools {
         this.sm = sm;
     }
 
-    public void calculateDrops(List<ItemStack> drops, int multiplier, LivingEntity dead, ItemStack itemInHand){
+    public void calculateDrops(List<ItemStack> drops, int deadAmount, LivingEntity dead, ItemStack itemInHand){
         for(ItemStack itemStack : drops){
             if(itemStack == null){
                 continue;
             }
-
             if(dropIsArmor(dead, itemStack)){
                 continue;
             }
-            if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist").contains(itemStack.toString())){
+            if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
+                    .contains(itemStack.toString())){
                 continue;
             }
-            if(sm.getCustomConfig().isInt("multiply-drops.entity-limit")){
-                if(multiplier > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
-                    multiplier = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
-                }
+            if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
+                deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
             }
-            if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
-                    .contains(itemStack.getType().toString())){
-                dropDrops(itemStack, multiplier, dead.getLocation());
-                continue;
-            }
-            if(itemInHand != null && itemInHand.getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
-                double enchantmentTimes = 1 + itemInHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
-                dropDrops(itemStack, (int) Math.round(calculateAmount(multiplier) * enchantmentTimes), dead.getLocation());
-                continue;
-            }
-            dropDrops(itemStack, calculateAmount(multiplier), dead.getLocation());
+
+            int itemAmount = calculateAmount(deadAmount, itemStack, itemInHand);
+            dropDrops(itemStack, itemAmount, dead.getLocation());
         }
+    }
+
+    private int calculateAmount(int deadAmount, ItemStack current, ItemStack hand){
+        if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
+                .contains(current.getType().toString())){
+            return deadAmount;
+        }
+        if(hand != null && hand.getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
+            double enchantmentTimes = 1 + hand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
+            return (int) Math.round(calculateAmount(deadAmount) * enchantmentTimes);
+        }
+        return calculateAmount(deadAmount);
     }
 
     // Calculate a random drop amount.
