@@ -10,6 +10,7 @@ import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
 import uk.antiperson.stackmob.entity.StackTools;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class ShowTagTask extends BukkitRunnable {
@@ -30,8 +31,8 @@ public class ShowTagTask extends BukkitRunnable {
         ProtocolLibHook plh = (ProtocolLibHook) sm.getHookManager().getHook(PluginCompat.PROCOTOLLIB);
         for(Player player : Bukkit.getOnlinePlayers()){
             // Get all entities in range that the tag can be shown for.
-            List<Entity> entities = player.getNearbyEntities(x, y, z);
-            for(Entity entity : entities) {
+            HashSet<Entity> entities = new HashSet<>();
+            for(Entity entity : player.getNearbyEntities(x, y, z)) {
                 if(!(entity instanceof LivingEntity)) {
                     continue;
                 }
@@ -39,6 +40,7 @@ public class ShowTagTask extends BukkitRunnable {
                     continue;
                 }
                 plh.sendPacket(player, entity, true);
+                entities.add(entity);
             }
             // Prevent showing of tags for entities not in range.
             List<Entity> entities1 = player.getNearbyEntities(x * 1.5, y * 1.5, z * 1.5);
