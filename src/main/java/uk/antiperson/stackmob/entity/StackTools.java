@@ -17,6 +17,11 @@ public class StackTools {
                 getSize(entity) >= 1;
     }
 
+    public static boolean hasSizeMoreThanOne(Entity entity){
+        return hasValidData(entity) &&
+                getSize(entity) > 1;
+    }
+
     public static boolean hasNotEnoughNear(Entity entity){
         return hasValidData(entity) &&
                 getSize(entity) == GlobalValues.NOT_ENOUGH_NEAR;
@@ -41,8 +46,17 @@ public class StackTools {
 
     public static void removeSize(Entity entity){
         currentEntities.remove(entity.getUniqueId());
-        entity.setCustomName(null);
+        removeTag(entity);
+    }
+
+    public static void makeSingle(Entity entity){
+        setSize(entity, 1);
+        removeTag(entity);
+    }
+
+    private static void removeTag(Entity entity){
         entity.setCustomNameVisible(false);
+        entity.setCustomName(null);
     }
 
     public static HashMap<UUID, Integer> getEntries(){

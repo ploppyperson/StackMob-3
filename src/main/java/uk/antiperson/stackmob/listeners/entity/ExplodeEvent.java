@@ -15,7 +15,7 @@ public class ExplodeEvent implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event){
-        if(StackTools.hasValidStackData(event.getEntity())){
+        if(StackTools.hasSizeMoreThanOne(event.getEntity())){
             int stackSize = StackTools.getSize(event.getEntity());
             event.setYield(event.getYield() + (event.getYield() * (stackSize - 1) * 0.5f));
         }

@@ -17,7 +17,7 @@ public class DyeEvent implements Listener {
 
     @EventHandler
     public void onSheepDye(SheepDyeWoolEvent event) {
-        if(!(StackTools.hasValidStackData(event.getEntity()))) {
+        if(!(StackTools.hasSizeMoreThanOne(event.getEntity()))) {
             return;
         }
         if(event.isCancelled()){
@@ -26,12 +26,11 @@ public class DyeEvent implements Listener {
         int stackSize = StackTools.getSize(event.getEntity());
         Entity oldEntity = event.getEntity();
 
-        if (sm.config.getCustomConfig().getBoolean("divide-on.sheep-dye") && stackSize > 1) {
+        if (sm.getCustomConfig().getBoolean("divide-on.sheep-dye")) {
             Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
             newEntity.setColor(event.getEntity().getColor());
             StackTools.setSize(newEntity,stackSize - 1);
-            StackTools.setSize(oldEntity, 1);
-            oldEntity.setCustomName(null);
+            StackTools.makeSingle(oldEntity);
         }
     }
 }

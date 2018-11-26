@@ -54,8 +54,7 @@ public class ShearEvent implements Listener {
                 newEntity.setSheared(false);
 
                 StackTools.setSize(newEntity,stackSize - 1);
-                StackTools.setSize(oldEntity, 1);
-                oldEntity.setCustomName(null);
+                StackTools.makeSingle(oldEntity);
             }
         }
 
@@ -70,10 +69,11 @@ public class ShearEvent implements Listener {
                 StackTools.setSize(cow,stackSize - 1);
                 // Set the required damage as if done separately
                 damageItemInHand(event.getPlayer(), stackSize);
+                StackTools.removeSize(oldEntity);
             }else if (sm.getCustomConfig().getBoolean("divide-on.mooshroom-shear")){
                 Entity mushroomCow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.MUSHROOM_COW);
                 StackTools.setSize(mushroomCow,stackSize - 1);
-                oldEntity.setCustomName(null);
+                StackTools.makeSingle(oldEntity);
             }
         }
     }

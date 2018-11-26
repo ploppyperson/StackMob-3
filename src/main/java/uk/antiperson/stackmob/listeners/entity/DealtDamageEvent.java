@@ -17,7 +17,7 @@ public class DealtDamageEvent implements Listener {
     @EventHandler
     public void onDamageDealt(EntityDamageByEntityEvent event) {
         if(event.getEntity() instanceof Player){
-            if(StackTools.hasValidStackData(event.getDamager())){
+            if(StackTools.hasSizeMoreThanOne(event.getDamager())){
                 int stackSize = StackTools.getSize(event.getDamager());
                 double extraDamage = event.getDamage() + ((event.getDamage() * (stackSize - 1)) * 0.2);
                 event.setDamage(extraDamage);

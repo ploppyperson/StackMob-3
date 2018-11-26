@@ -35,7 +35,7 @@ public class ShowTagTask extends BukkitRunnable {
                 if(!(entity instanceof LivingEntity)) {
                     continue;
                 }
-                if(!(StackTools.hasValidStackData(entity))){
+                if(!(StackTools.hasSizeMoreThanOne(entity))){
                     continue;
                 }
                 plh.sendPacket(player, entity, true);

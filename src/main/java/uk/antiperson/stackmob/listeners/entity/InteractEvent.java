@@ -41,10 +41,7 @@ public class InteractEvent implements Listener {
         int stackSize = StackTools.getSize(entity);
         if(entity instanceof Animals){
             if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && ((Animals) entity).canBreed()){
-                if(StackTools.hasValidStackData(entity)) {
-                    if(stackSize <=  1){
-                        return;
-                    }
+                if(StackTools.hasSizeMoreThanOne(entity)) {
                     if (sm.getCustomConfig().getBoolean("multiply.breed")) {
                         int breedSize = stackSize;
                         int handSize = event.getPlayer().getInventory().getItemInMainHand().getAmount();
@@ -64,10 +61,9 @@ public class InteractEvent implements Listener {
                         Entity newEntity = sm.tools.duplicate(entity);
                         StackTools.setSize(newEntity,stackSize - 1);
 
-                        StackTools.setSize(entity,1);
+                        StackTools.makeSingle(entity);
                         entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
                         entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
-                        entity.setCustomName(null);
 
                         // Allow to stack after breeding
                         new BukkitRunnable() {
