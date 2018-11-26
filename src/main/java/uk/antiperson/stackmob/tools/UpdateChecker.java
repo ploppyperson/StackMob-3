@@ -18,8 +18,8 @@ public class UpdateChecker {
 
     public String getLatestVersion(){
         try{
-            HttpURLConnection connect = (HttpURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=29999").openConnection();
-            connect.setRequestProperty("User-Agent", "StackMob");
+            URL updateUrl = new URL("https://api.spigotmc.org/legacy/update.php?resource=29999");
+            HttpURLConnection connect = (HttpURLConnection) updateUrl.openConnection();
             connect.setRequestMethod("GET");
             return new BufferedReader(new InputStreamReader(connect.getInputStream())).readLine();
         }catch (Exception e){
@@ -42,12 +42,14 @@ public class UpdateChecker {
     public String update(){
         File currentFile = new File(sm.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         try{
-            FileUtils.copyURLToFile(new URL("https://api.spiget.org/v2/resources/29999/download"),
+            URL fileUrl = new URL("https://api.spiget.org/v2/resources/29999/download");
+            FileUtils.copyURLToFile(fileUrl,
                     new File(sm.getServer().getUpdateFolderFile(), currentFile.getName()));
             return "Downloaded latest version successfully!";
         }catch (Exception e){
             e.printStackTrace();
-            return "Failed to download latest version.";
+            return "Failed to download latest version. Check the console for more details.\n" +
+                    "You can download the update manually at " + sm.getDescription().getWebsite();
         }
     }
 }
