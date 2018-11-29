@@ -30,9 +30,9 @@ public class StickTools {
     private List<String> itemLore = new ArrayList<>();
     public StickTools(StackMob sm){
         this.sm = sm;
-        String name = sm.translation.getCustomConfig().getString("stack-stick.name");
+        String name = sm.general.getCustomConfig().getString("stack-stick.name");
         itemName = ChatColor.translateAlternateColorCodes('&', name);
-        for (String s : sm.translation.getCustomConfig().getStringList("stack-stick.lore")){
+        for (String s : sm.general.getCustomConfig().getStringList("stack-stick.lore")){
             itemLore.add(ChatColor.translateAlternateColorCodes('&', s));
         }
     }

@@ -19,6 +19,8 @@ tag:
     # %bukkit_type% - The entity type as bukkit calls it.
     # Normal Minecraft color codes are also supported, by using '&' before the letter/number.
     format: '&d%size%x &6%type%'
+    # If the translations in the entity-lang.yml file should take effect.
+    use-translations: false
     # If the tag should be seen when the entity is not hovered over.
     always-visible: true
     # If the stack size if equal to or below this number, don't show the tag.

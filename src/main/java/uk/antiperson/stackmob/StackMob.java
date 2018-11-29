@@ -25,7 +25,8 @@ import uk.antiperson.stackmob.tasks.ShowTagTask;
 import uk.antiperson.stackmob.tasks.TagTask;
 import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
-import uk.antiperson.stackmob.tools.config.TranslationFile;
+import uk.antiperson.stackmob.tools.config.EntityLangFile;
+import uk.antiperson.stackmob.tools.config.GeneralLangFile;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,7 +39,8 @@ public class StackMob extends JavaPlugin {
 
     private int versionId = 0;
     public ConfigFile config = new ConfigFile(this);
-    public TranslationFile translation = new TranslationFile(this);
+    public EntityLangFile translation = new EntityLangFile(this);
+    public GeneralLangFile general = new GeneralLangFile(this);
     public EntityTools tools = new EntityTools(this);
     public StackLogic logic = new StackLogic(this);
     public StorageManager storageManager = new StorageManager(this);
@@ -74,6 +76,7 @@ public class StackMob extends JavaPlugin {
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         config.reloadCustomConfig();
         translation.reloadCustomConfig();
+        general.reloadCustomConfig();
 
         // Initialize support for other plugins.
         getHookManager().registerHooks();

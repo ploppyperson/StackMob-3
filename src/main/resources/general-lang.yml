@@ -1,0 +1,15 @@
+# General translations file for StackMob 3.x
+
+# The display information for the 'stick of stacking' which can be obtained with the command '/sm stick'.
+stack-stick:
+  name: '&6The Stick Of Stacking'
+  lore:
+  - '&eRight-click an entity to perform selected mode.'
+  - '&eShift + right-click an entity to change current mode.'
+  - '&bAvailable modes:'
+  - '&dSTACK_ONE &7-&a Stack one entity.'
+  - '&dSTACK_NEARBY &7-&a Stack all entities in the chunk.'
+  - '&dUNSTACK_ONE &7-&a Removes the stack data from one entity'
+  - '&dUNSTACK_NEARBY &7-&a Removes the stack data from all entities in the chunk.'
+  - '&dSPLIT_ONE &7-&a Splits the stack into two stacks and removes the data from the smallest.'
+  - '&dDATA &7-&a Shows basic information about a stack.'
