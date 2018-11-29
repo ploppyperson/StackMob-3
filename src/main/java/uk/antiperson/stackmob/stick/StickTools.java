@@ -28,17 +28,19 @@ public class StickTools {
     private StackMob sm;
     private String itemName;
     private List<String> itemLore = new ArrayList<>();
+    private Material material;
     public StickTools(StackMob sm){
         this.sm = sm;
-        String name = sm.general.getCustomConfig().getString("stack-stick.name");
+        String name = sm.general.getCustomConfig().getString("stack-tool.name");
         itemName = ChatColor.translateAlternateColorCodes('&', name);
-        for (String s : sm.general.getCustomConfig().getStringList("stack-stick.lore")){
+        for (String s : sm.general.getCustomConfig().getStringList("stack-tool.lore")){
             itemLore.add(ChatColor.translateAlternateColorCodes('&', s));
         }
+        material = Material.matchMaterial(sm.getCustomConfig().getString("stack-tool.material"));
     }
 
     public void giveStackingStick(Player player){
-        ItemStack stack = new ItemStack(Material.STICK, 1);
+        ItemStack stack = new ItemStack(material, 1);
         stack.addUnsafeEnchantment(Enchantment.DURABILITY,1);
 
         ItemMeta stackMeta = stack.getItemMeta();

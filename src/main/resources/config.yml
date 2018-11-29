@@ -263,6 +263,11 @@ jobs-reborn:
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
 
+# The stacking tool which can be obtained using the command '/sm stick'
+stack-tool:
+    # The material that the stacking tool should use.
+    material: STICK
+
 # The caching of entity stack sizes.
 storage:
     # The storage method used.

@@ -1,7 +1,8 @@
 # General translations file for StackMob 3.x
+# Minecraft color codes can be used by using the '&' symbol before the letter/number.
 
 # The display information for the 'stick of stacking' which can be obtained with the command '/sm stick'.
-stack-stick:
+stack-tool:
   name: '&6The Stick Of Stacking'
   lore:
   - '&eRight-click an entity to perform selected mode.'
