@@ -29,32 +29,27 @@ public class TagTask extends BukkitRunnable {
                     continue;
                 }
                 if (StackTools.hasValidStackData(e)) {
-                    /* Hacky fix
-                    if (e.getMetadata(GlobalValues.METATAG).size() == 0 && !(e.hasMetadata(GlobalValues.NO_STACK_ALL))) {
-                        e.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, 1));
-                    }*/
                     String typeString = e.getType().toString();
 
                     int stackSize = StackTools.getSize(e);
                     int removeAt = sm.getCustomConfig().getInt("tag.remove-at");
-                    if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
+                    if (sm.getCustomConfig().isString("custom." + typeString + ".tag.remove-at")) {
                         removeAt = sm.getCustomConfig().getInt("custom." + typeString + ".tag.remove-at");
                     }
                     if (stackSize > removeAt) {
                         String format = sm.getCustomConfig().getString("tag.format");
-                        if (sm.config.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
+                        if (sm.getCustomConfig().isString("custom." + typeString + ".tag.format")) {
                               format = sm.getCustomConfig().getString("custom." + typeString + ".tag.format");
                         }
 
                         // Change if it is a mythic mob.
-
                         if (sm.getHookManager().isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
                             typeString = mobsHook.getDisplayName(e);
-                        } else if (sm.translation.getCustomConfig().getBoolean("enabled")) {
+                        } else if (sm.getCustomConfig().getBoolean("tag.use-translation")) {
                             typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
                         }
 
-                        String formattedType = WordUtils.capitalizeFully(StringUtils.replace(StringUtils.lowerCase(typeString),"_", " "));
+                        String formattedType = WordUtils.capitalizeFully(typeString.replaceAll("[^A-Za-z0-9]", " "));
                         String nearlyFinal = StringUtils.replace(StringUtils.replace(StringUtils.replace(format,
                                 "%bukkit_type%", e.getType().toString()),
                                 "%type%", formattedType),
@@ -65,7 +60,7 @@ public class TagTask extends BukkitRunnable {
                         }
 
                         if(!(sm.getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB))){
-                            boolean alwaysVisible = sm.config.getCustomConfig().getBoolean("tag.always-visible");
+                            boolean alwaysVisible = sm.getCustomConfig().getBoolean("tag.always-visible");
                             if (sm.getCustomConfig().isString("custom." + typeString + ".tag.always-visible")) {
                                 alwaysVisible = sm.getCustomConfig().getBoolean("custom." + typeString + ".tag.always-visible");
                             }
@@ -77,4 +72,5 @@ public class TagTask extends BukkitRunnable {
             }
         }
     }
+
 }
