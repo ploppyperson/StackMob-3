@@ -11,6 +11,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PigZapEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -84,6 +85,17 @@ public class StickTools {
                     }
                 }
                 sendMessage(player,ChatColor.GREEN + "Unstacked all in this chunk!", 1);
+                break;
+            case SPLIT_ONE:
+                if(StackTools.hasSizeMoreThanOne(entity)){
+                    Entity duplicate = sm.getTools().duplicate(entity);
+                    int stackSize = StackTools.getSize(entity);
+                    StackTools.setSize(duplicate, stackSize - 1);
+                    StackTools.removeSize(entity);
+                    sendMessage(player, ChatColor.GREEN + "Split entity from this stack!", 1);
+                    break;
+                }
+                sendMessage(player, ChatColor.RED + "Entity stack size must be more than one!", 3);
                 break;
             case DATA:
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1, 1);

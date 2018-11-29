@@ -1,4 +1,4 @@
-# This is the language translation file for StackMob 2.x, created by antiPerson
+# This is the language translation file for StackMob 3.x, created by antiPerson
 
 # The display information for the 'stick of stacking' which can be obtained with the command '/sm stick'.
 stack-stick:
@@ -9,8 +9,10 @@ stack-stick:
         - '&bAvailable modes:'
         - '&dSTACK_ONE &7-&a Stack one entity.'
         - '&dSTACK_NEARBY &7-&a Stack all entities in the chunk.'
-        - '&dUNSTACK_ONE &7-&a Removes the stack meta from one entity'
-        - '&dUNSTACK_NEARBY &7-&a Removes the stack meta from all entities in the chunk.'
+        - '&dUNSTACK_ONE &7-&a Removes the stack data from one entity'
+        - '&dUNSTACK_NEARBY &7-&a Removes the stack data from all entities in the chunk.'
+        - '&dSPLIT_ONE &7-&a Splits the stack into two stacks and removes the data from the smallest.'
+        - '&dDATA &7-&a Shows basic information about a stack.'
 
 # This must be set to 'true' for the below translations to take effect.
 enabled: false
