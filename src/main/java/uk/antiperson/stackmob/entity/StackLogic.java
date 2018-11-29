@@ -125,6 +125,31 @@ public class StackLogic {
         return maxStackSize;
     }
 
+    public boolean doSpawnChecks(Entity entity, String reason){
+        if(check("stack-reasons", reason)){
+            return true;
+        }
+        return doChecks(entity);
+    }
+
+    public boolean doChecks(Entity entity){
+        if(check("stack-types", entity.getType().toString())){
+            return true;
+        }
+        return check("stack-worlds", entity.getWorld().getName());
+    }
+
+    private boolean check(String config, String toCheck){
+        if(sm.getCustomConfig().getStringList("no-" + config)
+                .contains(toCheck)){
+            return true;
+        }
+        if(sm.getCustomConfig().getStringList(config).size() > 0){
+            return !sm.getCustomConfig().getStringList(config).contains(toCheck);
+        }
+        return false;
+    }
+
     public Entity duplicate(Entity original, int duplicateSize){
         return  null;
     }

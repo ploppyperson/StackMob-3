@@ -32,10 +32,13 @@ public class LoadEvent implements Listener {
             }
 
             if(sm.getCustomConfig().getBoolean("convert-existing-entities")){
+                if(currentEntity.getCustomName() != null){
+                    continue;
+                }
                 if(sm.getTraitManager().checkTraits(currentEntity)){
                     continue;
                 }
-                if(currentEntity.getCustomName() != null){
+                if(sm.getLogic().doChecks(currentEntity)){
                     continue;
                 }
                 StackTools.setSize(currentEntity, GlobalValues.NOT_ENOUGH_NEAR);

@@ -23,13 +23,7 @@ public class SpawnEvent implements Listener {
         if(entity instanceof ArmorStand){
             return;
         }
-        if(spawnCheck("stack-reasons", e.getSpawnReason().toString())){
-            return;
-        }
-        if(spawnCheck("stack-types", entity.getType().toString())){
-            return;
-        }
-        if(spawnCheck("stack-worlds", entity.getWorld().getName())){
+        if(sm.getLogic().doSpawnChecks(entity, e.getSpawnReason().toString())){
             return;
         }
 
@@ -37,14 +31,5 @@ public class SpawnEvent implements Listener {
         new SpawnTask(sm, entity).runTaskLater(sm,  1);
     }
 
-    public boolean spawnCheck(String config, String toCheck){
-        if(sm.getCustomConfig().getStringList("no-" + config)
-                .contains(toCheck)){
-            return true;
-        }
-        if(sm.getCustomConfig().getStringList(config).size() > 0){
-            return !sm.getCustomConfig().getStringList(config).contains(toCheck);
-        }
-        return false;
-    }
+
 }
