@@ -4,15 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 public class DealtDamageEvent implements Listener {
-
-    private StackMob sm;
-    public DealtDamageEvent(StackMob sm){
-        this.sm = sm;
-    }
 
     @EventHandler
     public void onDamageDealt(EntityDamageByEntityEvent event) {

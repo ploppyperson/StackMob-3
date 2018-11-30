@@ -72,15 +72,15 @@ public class DeathEvent implements Listener {
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.getCustomConfig().getBoolean("multiply-drops.enabled")){
             if(dead.getKiller() != null){
-                sm.dropTools.calculateDrops(drops, subtractAmount, dead, dead.getKiller().getInventory().getItemInMainHand());
+                sm.getDropTools().calculateDrops(drops, subtractAmount, dead, dead.getKiller().getInventory().getItemInMainHand());
             }else{
-                sm.dropTools.calculateDrops(drops, subtractAmount, dead, null);
+                sm.getDropTools().calculateDrops(drops, subtractAmount, dead, null);
             }
         }
         if(sm.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
             ExperienceOrb exp = (ExperienceOrb) dead.getWorld().spawnEntity(dead.getLocation(), EntityType.EXPERIENCE_ORB);
-            exp.setExperience(sm.expTools.multiplyExperience(originalExperience, subtractAmount));
+            exp.setExperience(sm.getExpTools().multiplyExperience(originalExperience, subtractAmount));
         }
         if(sm.getCustomConfig().getBoolean("increase-player-stats")){
             if(dead.getKiller() != null){

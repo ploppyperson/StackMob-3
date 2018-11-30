@@ -3,15 +3,9 @@ package uk.antiperson.stackmob.listeners.entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTransformEvent;
-import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 public class ConvertEvent implements Listener {
-
-    private StackMob sm;
-    public ConvertEvent(StackMob sm){
-        this.sm = sm;
-    }
 
     @EventHandler
     public void onConvert(EntityTransformEvent event){

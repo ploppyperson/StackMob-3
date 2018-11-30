@@ -33,7 +33,7 @@ public class ItemDrop implements Listener {
                 if(e instanceof Chicken && StackTools.hasSizeMoreThanOne(e)){
                     int stackSize = StackTools.getSize(e);
                     int dropAmount = (int) Math.round(stackSize * ((ThreadLocalRandom.current().nextDouble(0.5) + 0.35)));
-                    sm.dropTools.dropEggs(event.getEntity().getItemStack(), dropAmount, e.getLocation());
+                    sm.getDropTools().dropEggs(event.getEntity().getItemStack(), dropAmount, e.getLocation());
                     break;
                 }
             }

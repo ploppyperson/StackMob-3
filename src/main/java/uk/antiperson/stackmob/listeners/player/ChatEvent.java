@@ -23,7 +23,7 @@ public class ChatEvent implements Listener {
                 return;
             }
             event.setCancelled(true);
-            sm.stickTools.updateStack(player, event.getMessage());
+            sm.getStickTools().updateStack(player, event.getMessage());
         }
     }
 }

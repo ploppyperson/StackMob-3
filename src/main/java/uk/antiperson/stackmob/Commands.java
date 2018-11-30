@@ -51,11 +51,11 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");
                 } else if (args[0].equalsIgnoreCase("reset")) {
-                    sm.config.getF().delete();
-                    sm.config.reloadCustomConfig();
+                    sm.getConfigFile().getF().delete();
+                    sm.getConfigFile().reloadCustomConfig();
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reset and reloaded.");
                 } else if (args[0].equalsIgnoreCase("reload")) {
-                    sm.config.reloadCustomConfig();
+                    sm.getConfigFile().reloadCustomConfig();
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reloaded.");
                 } else if (args[0].equalsIgnoreCase("removeall")) {
                     int counter = 0;
@@ -69,9 +69,9 @@ public class Commands implements CommandExecutor {
                     }
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "A total of " + counter + " entities were removed.");
                 } else if (args[0].equalsIgnoreCase("check")) {
-                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.updater.updateString());
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.getUpdater().updateString());
                 } else if (args[0].equalsIgnoreCase("update")) {
-                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.updater.update());
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.getUpdater().update());
                 } else if (args[0].equalsIgnoreCase("stats")) {
                     int stackedCount = 0;
                     int stackedTotal = 0;
@@ -106,11 +106,11 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
-                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.storageManager.getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getStorageManager().getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick")){
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
-                        sm.stickTools.giveStackingStick(player);
+                        sm.getStickTools().giveStackingStick(player);
                         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
                         player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "The stacking stick has been added to your inventory.");
                     } else {

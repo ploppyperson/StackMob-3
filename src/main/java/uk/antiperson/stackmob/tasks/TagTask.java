@@ -10,6 +10,7 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
 import uk.antiperson.stackmob.entity.StackTools;
+import uk.antiperson.stackmob.tools.WorldTools;
 
 /**
  * Created by nathat on 25/07/17.
@@ -23,7 +24,7 @@ public class TagTask extends BukkitRunnable {
 
     public void run() {
         MythicMobsHook mobsHook = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
-        for (Entity e : sm.worldTools.getLoadedEntities()) {
+        for (Entity e : WorldTools.getLoadedEntities()) {
             if (!sm.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
                 if(!(e instanceof LivingEntity)){
                     continue;
@@ -46,7 +47,7 @@ public class TagTask extends BukkitRunnable {
                         if (sm.getHookManager().isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
                             typeString = mobsHook.getDisplayName(e);
                         } else if (sm.getCustomConfig().getBoolean("tag.use-translation")) {
-                            typeString = "" + sm.translation.getCustomConfig().getString(e.getType().toString());
+                            typeString = "" + sm.getTranslationConfig().getString(e.getType().toString());
                         }
 
                         String formattedType = WordUtils.capitalizeFully(typeString.replaceAll("[^A-Za-z0-9]", " "));

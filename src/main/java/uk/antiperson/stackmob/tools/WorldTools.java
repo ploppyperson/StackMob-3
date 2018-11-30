@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class WorldTools {
 
-    public HashSet<Entity> getLoadedEntities() {
+    public static HashSet<Entity> getLoadedEntities() {
         HashSet<Entity> loadedEntities = new HashSet<>();
         for(Player player : Bukkit.getOnlinePlayers()){
             loadedEntities.addAll(player.getNearbyEntities(20, 20, 20));

@@ -38,19 +38,18 @@ import java.util.UUID;
 public class StackMob extends JavaPlugin {
 
     private int versionId = 0;
-    public ConfigFile config = new ConfigFile(this);
-    public EntityLangFile translation = new EntityLangFile(this);
-    public GeneralLangFile general = new GeneralLangFile(this);
-    public EntityTools tools = new EntityTools(this);
-    public StackLogic logic = new StackLogic(this);
-    public StorageManager storageManager = new StorageManager(this);
-    public DropTools dropTools = new DropTools(this);
-    public WorldTools worldTools = new WorldTools();
-    public StickTools stickTools = new StickTools(this);
-    public ExperienceTools expTools = new ExperienceTools(this);
-    public HookManager hookManager = new HookManager(this);
-    public TraitManager traitManager = new TraitManager(this);
-    public UpdateChecker updater = new UpdateChecker(this);
+    private ConfigFile config = new ConfigFile(this);
+    private EntityLangFile translation = new EntityLangFile(this);
+    private GeneralLangFile general = new GeneralLangFile(this);
+    private EntityTools tools = new EntityTools(this);
+    private DropTools dropTools = new DropTools(this);
+    private StickTools stickTools = new StickTools(this);
+    private ExperienceTools expTools = new ExperienceTools(this);
+    private StackLogic logic = new StackLogic(this);
+    private StorageManager storageManager = new StorageManager(this);
+    private HookManager hookManager = new HookManager(this);
+    private TraitManager traitManager = new TraitManager(this);
+    private UpdateChecker updater = new UpdateChecker(this);
 
     @Override
     public void onLoad(){
@@ -74,9 +73,9 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Detected server version: " + getVersionId());
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
-        config.reloadCustomConfig();
-        translation.reloadCustomConfig();
-        general.reloadCustomConfig();
+        getConfigFile().reloadCustomConfig();
+        getTranslationFile().reloadCustomConfig();
+        getGeneralFile().reloadCustomConfig();
 
         // Initialize support for other plugins.
         getHookManager().registerHooks();
@@ -103,7 +102,7 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Starting metrics (if enabled)...");
         new Metrics(this);
 
-        getLogger().info(updater.updateString());
+        getLogger().info(getUpdater().updateString());
     }
 
 
@@ -154,7 +153,7 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
         }
         if(getCustomConfig().getBoolean("multiply-damage-done")){
-            getServer().getPluginManager().registerEvents(new DealtDamageEvent(this), this);
+            getServer().getPluginManager().registerEvents(new DealtDamageEvent(), this);
         }
         if(getCustomConfig().getBoolean("multiply-damage-received.enabled")){
             getServer().getPluginManager().registerEvents(new ReceivedDamageEvent(this), this);
@@ -170,7 +169,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);
-        getServer().getPluginManager().registerEvents(new ConvertEvent(this), this);
+        getServer().getPluginManager().registerEvents(new ConvertEvent(), this);
     }
 
     private void startTasks(){
@@ -205,6 +204,38 @@ public class StackMob extends JavaPlugin {
 
     public EntityTools getTools() {
         return tools;
+    }
+
+    public DropTools getDropTools() {
+        return dropTools;
+    }
+
+    public StickTools getStickTools() {
+        return stickTools;
+    }
+
+    public FileConfiguration getTranslationConfig() {
+        return translation.getCustomConfig();
+    }
+
+    public EntityLangFile getTranslationFile() {
+        return translation;
+    }
+
+    public ExperienceTools getExpTools() {
+        return expTools;
+    }
+
+    public FileConfiguration getGeneralConfig() {
+        return general.getCustomConfig();
+    }
+
+    public GeneralLangFile getGeneralFile() {
+        return general;
+    }
+
+    public UpdateChecker getUpdater() {
+        return updater;
     }
 
     public StackLogic getLogic() {

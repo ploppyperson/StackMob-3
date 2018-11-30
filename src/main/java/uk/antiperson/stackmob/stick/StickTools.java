@@ -31,9 +31,9 @@ public class StickTools {
     private Material material;
     public StickTools(StackMob sm){
         this.sm = sm;
-        String name = sm.general.getCustomConfig().getString("stack-tool.name");
+        String name = sm.getGeneralConfig().getString("stack-tool.name");
         itemName = ChatColor.translateAlternateColorCodes('&', name);
-        for (String s : sm.general.getCustomConfig().getStringList("stack-tool.lore")){
+        for (String s : sm.getGeneralConfig().getStringList("stack-tool.lore")){
             itemLore.add(ChatColor.translateAlternateColorCodes('&', s));
         }
         material = Material.matchMaterial(sm.getCustomConfig().getString("stack-tool.material"));

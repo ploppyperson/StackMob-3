@@ -23,14 +23,14 @@ public class StickInteractEvent implements Listener {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
         if(event.getHand() == EquipmentSlot.HAND) {
-            if (sm.stickTools.isStackingStick(player.getInventory().getItemInMainHand())) {
+            if (sm.getStickTools().isStackingStick(player.getInventory().getItemInMainHand())) {
                 if (player.isSneaking()) {
-                    sm.stickTools.toggleMode(player);
+                    sm.getStickTools().toggleMode(player);
                 } else {
                     if(!(StackTools.hasValidMetadata(player, GlobalValues.STICK_MODE))){
                         player.setMetadata(GlobalValues.STICK_MODE, new FixedMetadataValue(sm, 1));
                     }
-                    sm.stickTools.performAction(player, entity);
+                    sm.getStickTools().performAction(player, entity);
                 }
             }
         }

@@ -44,13 +44,13 @@ public class ShearEvent implements Listener {
                 Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(new Random(), lootContext);
                 for(ItemStack itemStack : loot){
                     if(Tag.WOOL.isTagged(itemStack.getType())){
-                        sm.dropTools.dropDrops(itemStack, sm.dropTools.calculateAmount(stackSize), oldEntity.getLocation());
+                        sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), oldEntity.getLocation());
                     }
                 }
 
                 damageItemInHand(event.getPlayer(), stackSize);
             }else if(sm.getCustomConfig().getBoolean("divide-on.sheep-shear")){
-                Sheep newEntity = (Sheep) sm.tools.duplicate(oldEntity);
+                Sheep newEntity = (Sheep) sm.getTools().duplicate(oldEntity);
                 newEntity.setSheared(false);
 
                 StackTools.setSize(newEntity,stackSize - 1);
@@ -62,7 +62,7 @@ public class ShearEvent implements Listener {
             if(sm.getCustomConfig().getBoolean("multiply.mooshroom-mushrooms")){
                 // Duplicate mushrooms
                 ItemStack mushrooms = new ItemStack(Material.RED_MUSHROOM,1);
-                sm.dropTools.dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
+                sm.getDropTools().dropDrops(mushrooms, (stackSize - 1) * 5, oldEntity.getLocation());
 
                 // Spawn separate normal cow for the rest of the stack.
                 Entity cow = oldEntity.getWorld().spawnEntity(oldEntity.getLocation(), EntityType.COW);
