@@ -15,8 +15,8 @@ public class ExperienceTools {
 
     public int multiplyExperience(int originalExperience, int entityAmount){
         int newExperience;
-        if(sm.config.getCustomConfig().isDouble("multiply-exp.custom-multiplier")) {
-            Algorithm algorithm = Algorithm.valueOf(sm.config.getCustomConfig().getString("multiply-exp.algorithm"));
+        if(sm.getCustomConfig().isDouble("multiply-exp.custom-multiplier")) {
+            Algorithm algorithm = Algorithm.valueOf(sm.getCustomConfig().getString("multiply-exp.algorithm"));
             if(algorithm == LEGACY) {
                 newExperience = (int) Math.round((1.45 + ThreadLocalRandom.current().nextDouble(0.75)) * (entityAmount - 1) * originalExperience);
             }else if(algorithm == MINIMAL) {
@@ -26,10 +26,10 @@ public class ExperienceTools {
             }else if(algorithm == GENEROUS) {
                 newExperience = (int) Math.round(originalExperience * (1.25 + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount);
             }else if(algorithm == CUSTOM) {
-                double customMultiplier = sm.config.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
+                double customMultiplier = sm.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
                 newExperience = (int) Math.round(originalExperience * (customMultiplier * entityAmount));
             }else{
-                double customMultiplier = sm.config.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
+                double customMultiplier = sm.getCustomConfig().getDouble("multiply-exp.custom-multiplier");
                 newExperience = (int) Math.round(originalExperience * (customMultiplier + ThreadLocalRandom.current().nextDouble(0.5)) * entityAmount);
             }
         }else{

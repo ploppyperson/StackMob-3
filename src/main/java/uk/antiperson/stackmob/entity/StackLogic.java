@@ -60,7 +60,7 @@ public class StackLogic {
             StackTools.setSize(nearby,amountTotal - maxSize);
         }else{
             StackTools.setSize(original, amountTotal);
-            sm.tools.onceStacked(nearby);
+            sm.getTools().onceStacked(nearby);
             nearby.remove();
             cleanup(nearby);
         }

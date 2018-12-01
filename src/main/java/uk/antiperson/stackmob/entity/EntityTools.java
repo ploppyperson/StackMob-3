@@ -74,9 +74,9 @@ public class EntityTools {
     }
 
     public void setAi(LivingEntity entity){
-        if(sm.config.getCustomConfig().getBoolean("no-ai.enabled")){
-            if(sm.config.getCustomConfig().getBoolean("no-ai.use-whitelist")){
-                if(!(sm.config.getCustomConfig().getStringList("no-ai.type-whitelist").contains(entity.getType().toString()))){
+        if(sm.getCustomConfig().getBoolean("no-ai.enabled")){
+            if(sm.getCustomConfig().getBoolean("no-ai.use-whitelist")){
+                if(!(sm.getCustomConfig().getStringList("no-ai.type-whitelist").contains(entity.getType().toString()))){
                     return;
                 }
             }
