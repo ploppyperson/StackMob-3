@@ -25,6 +25,17 @@ public class ConfigLoader {
         this.defaultFile = new File(sm.getDataFolder(),filename + "-default.yml");
     }
 
+    public boolean check(String config, String toCheck){
+        if(getCustomConfig().getStringList("no-" + config)
+                .contains(toCheck)){
+            return true;
+        }
+        if(getCustomConfig().getStringList(config).size() > 0){
+            return !getCustomConfig().getStringList(config).contains(toCheck);
+        }
+        return false;
+    }
+
     public void reloadCustomConfig() {
         if(!file.exists()){
             sm.saveResource(filename + ".yml", false);

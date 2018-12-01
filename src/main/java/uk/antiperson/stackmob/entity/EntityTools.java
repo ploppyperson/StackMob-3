@@ -36,23 +36,24 @@ public class EntityTools {
             ItemStack leash = new ItemStack(Material.LEAD, 1);
             entity.getWorld().dropItemNaturally(entity.getLocation(), leash);
         }
+        sm.getLogic().cleanup(entity);
     }
 
     public Entity duplicate(Entity original) {
+        Entity duplicate = spawnDuplicateEntity(getSpawnLocation(original), original);
+        sm.getTraitManager().applyTraits(original, duplicate);
+        setTraits((LivingEntity) duplicate);
+        return duplicate;
+    }
+
+    private Location getSpawnLocation(Entity original){
         Location dupeLoc = original.getLocation();
         if (original instanceof Zombie || original instanceof Skeleton) {
             // Make location in the middle of the block, prevents wall glitching due to "safe spawn errors"
             dupeLoc.setX(dupeLoc.getBlockX() + 0.5);
             dupeLoc.setZ(dupeLoc.getBlockZ() + 0.5);
         }
-        return cloneTraits(original, spawnDuplicateEntity(dupeLoc, original));
-    }
-
-    // Copies all of the attributes of one entity and gives them to another.
-    public Entity cloneTraits(Entity original, Entity dupe){
-        sm.getTraitManager().applyTraits(original, dupe);
-        setTraits((LivingEntity) dupe);
-        return dupe;
+        return dupeLoc;
     }
 
     public void setTraits(LivingEntity entity){
@@ -62,7 +63,7 @@ public class EntityTools {
         setAi(entity);
     }
 
-    public Entity spawnDuplicateEntity(Location location, Entity original){
+    private Entity spawnDuplicateEntity(Location location, Entity original){
         MythicMobsHook mmh = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
         if(mmh != null && mmh.isMythicMob(original)){
             Entity entity = mmh.spawnMythicMob(location, original);
