@@ -3,11 +3,15 @@ package uk.antiperson.stackmob.entity.drops;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMob;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -29,7 +33,7 @@ public class DropTools {
                 continue;
             }
             if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
-                    .contains(itemStack.toString())){
+                    .contains(itemStack.getType().toString())){
                 return;
             }
             if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
@@ -38,6 +42,24 @@ public class DropTools {
 
             int itemAmount = calculateAmount(deadAmount, itemStack, dead.getKiller());
             dropDrops(itemStack, itemAmount, dead.getLocation());
+        }
+    }
+
+    public void calculateDrops(int deadAmount, LivingEntity dead){
+        for(int i = 0; i < deadAmount; i++){
+            LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
+            Collection<ItemStack> items = ((Mob) dead).getLootTable().populateLoot(new Random(), lootContext);
+            for(ItemStack stack : items){
+                if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
+                        .contains(stack.getType().toString())){
+                    continue;
+                }
+                if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
+                        .contains(stack.getType().toString())){
+                    stack.setAmount(1);
+                }
+                dead.getWorld().dropItemNaturally(dead.getLocation(), stack);
+            }
         }
     }
 
