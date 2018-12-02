@@ -22,7 +22,7 @@ public class ConfigLoader {
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");
-        this.defaultFile = new File(sm.getDataFolder(),filename + "-default.yml");
+        this.defaultFile = new File(sm.getDataFolder() + File.separator + "defaults",filename + ".yml");
     }
 
     public boolean check(String config, String toCheck){

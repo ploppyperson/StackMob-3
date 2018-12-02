@@ -1,6 +1,6 @@
 # StackMob 3 created by antiPerson.
 # Report issues that you have experienced in the discussion thread.
-# If the comments have been removed, see the config-default.yml file!
+# If the comments have been removed, see the config.yml file in the defaults folder!
 
 # The size of the area around an entity that should be checked for matching entities to stack with.
 check-area:
