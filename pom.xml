@@ -117,7 +117,7 @@
             <systemPath>${project.basedir}/jars/MythicMobs-4.4.1.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>org.bstats.bStats-Metrics</groupId>
+            <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.4</version>
             <scope>compile</scope>
