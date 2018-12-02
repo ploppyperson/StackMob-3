@@ -73,15 +73,13 @@ public class Commands implements CommandExecutor {
                 } else if (args[0].equalsIgnoreCase("update")) {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + sm.getUpdater().update());
                 } else if (args[0].equalsIgnoreCase("stats")) {
-                    int stackedCount = 0;
                     int stackedTotal = 0;
-                    for (World world : Bukkit.getWorlds()) {
-                        for (Entity entity : world.getLivingEntities()) {
-                            if (StackTools.hasValidStackData(entity)) {
-                                stackedCount = stackedCount + 1;
-                                stackedTotal = stackedTotal + StackTools.getSize(entity);
-                            }
+                    for (int a : StackTools.getEntries().values()) {
+                        if(a > 0){
+                            stackedTotal += a;
+                            continue;
                         }
+                        stackedTotal += 1;
                     }
 
                     int stackedCount1 = 0;
@@ -89,8 +87,8 @@ public class Commands implements CommandExecutor {
                     if (sender instanceof Player) {
                         for (Entity entity : ((Player) sender).getLocation().getChunk().getEntities()) {
                             if (StackTools.hasValidStackData(entity)) {
-                                stackedCount1 = stackedCount1 + 1;
-                                stackedTotal1 = stackedTotal1 + StackTools.getSize(entity);
+                                stackedCount1 += 1;
+                                stackedTotal1 += StackTools.getSize(entity);
                             }
                         }
                     }
@@ -98,13 +96,12 @@ public class Commands implements CommandExecutor {
                     int cacheTotal = 0;
                     for (UUID uuid : sm.getStorageManager().getStackStorage().getAmountCache().keySet()) {
                         if (sm.getStorageManager().getStackStorage().getAmountCache().get(uuid) > 0) {
-                            cacheTotal = cacheTotal + sm.getStorageManager().getStackStorage().getAmountCache().get(uuid);
+                            cacheTotal += sm.getStorageManager().getStackStorage().getAmountCache().get(uuid);
                         }
                     }
 
-
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
-                    sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + stackedCount + " (" + stackedTotal + " stacked.) "
+                    sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + StackTools.getEntries().size() + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getStorageManager().getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick")){
