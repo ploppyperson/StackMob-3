@@ -7,7 +7,7 @@ import uk.antiperson.stackmob.compat.CloneTrait;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.PluginHook;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class McmmoHook extends PluginHook implements CloneTrait {
 

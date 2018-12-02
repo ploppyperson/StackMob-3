@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class ReceivedDamageEvent implements Listener {
 

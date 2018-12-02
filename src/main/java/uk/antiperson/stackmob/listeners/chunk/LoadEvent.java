@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class LoadEvent implements Listener {
 

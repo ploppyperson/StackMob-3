@@ -12,7 +12,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class InteractEvent implements Listener {
 
@@ -27,8 +27,8 @@ public class InteractEvent implements Listener {
         if(!(StackTools.hasValidData(entity))){
             return;
         }
-        if(StackTools.hasValidMetadata(entity, GlobalValues.CURRENTLY_BREEDING) &&
-                entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
+        if(StackTools.hasValidMetadata(entity, GlobalValues.BREED_MODE) &&
+                entity.getMetadata(GlobalValues.BREED_MODE).get(0).asBoolean()){
             return;
         }
         if(event.getHand() == EquipmentSlot.OFF_HAND){
@@ -62,16 +62,16 @@ public class InteractEvent implements Listener {
                         StackTools.setSize(newEntity,stackSize - 1);
 
                         StackTools.makeSingle(entity);
-                        entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
-                        entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, true));
+                        entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, true));
+                        entity.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, true));
 
                         // Allow to stack after breeding
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 if (!entity.isDead()) {
-                                    entity.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
-                                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
+                                    entity.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, false));
+                                    entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, false));
                                 }
                             }
                         }.runTaskLater(sm, 20 * 20);

@@ -4,7 +4,7 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.HashSet;
 import java.util.List;
@@ -108,8 +108,8 @@ public class StackLogic {
         if(entity.isDead()){
             return true;
         }
-        if(StackTools.hasValidMetadata(entity, GlobalValues.NO_STACK_ALL) &&
-                entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean()){
+        if(StackTools.hasValidMetadata(entity, GlobalValues.NO_STACK) &&
+                entity.getMetadata(GlobalValues.NO_STACK).get(0).asBoolean()){
             return true;
         }
         int stackSize = StackTools.getSize(entity);
@@ -163,9 +163,9 @@ public class StackLogic {
     }
 
     public void cleanup(Entity dead){
-        dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-        dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-        dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
+        dead.removeMetadata(GlobalValues.NO_STACK, sm);
+        dead.removeMetadata(GlobalValues.BREED_MODE, sm);
+        dead.removeMetadata(GlobalValues.KILL_ONE, sm);
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         StackTools.removeSize(dead);
     }

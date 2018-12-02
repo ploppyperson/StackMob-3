@@ -27,7 +27,7 @@ import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.tools.config.ConfigFile;
 import uk.antiperson.stackmob.tools.config.EntityLangFile;
 import uk.antiperson.stackmob.tools.config.GeneralLangFile;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;

@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class BreedEvent implements Listener {
 
@@ -20,13 +20,13 @@ public class BreedEvent implements Listener {
     public void onBreed(EntityBreedEvent event) {
         LivingEntity father = event.getFather();
         LivingEntity mother = event.getMother();
-        if(father.hasMetadata(GlobalValues.CURRENTLY_BREEDING)){
-            father.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
-            father.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
+        if(father.hasMetadata(GlobalValues.BREED_MODE)){
+            father.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, false));
+            father.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, false));
         }
-        if(mother.hasMetadata(GlobalValues.CURRENTLY_BREEDING)){
-            mother.setMetadata(GlobalValues.CURRENTLY_BREEDING, new FixedMetadataValue(sm, false));
-            mother.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, false));
+        if(mother.hasMetadata(GlobalValues.BREED_MODE)){
+            mother.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, false));
+            mother.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, false));
         }
     }
 }

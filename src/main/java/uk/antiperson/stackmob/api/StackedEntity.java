@@ -4,7 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class StackedEntity {
 
@@ -52,7 +52,7 @@ public class StackedEntity {
      * @param value Boolean value for if entities should be excluded from stacking.
      */
     public void setPreventFromStacking(boolean value){
-        entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, value));
+        entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, value));
     }
 
     /**
@@ -69,7 +69,7 @@ public class StackedEntity {
      * Adds metadata so when the entity is killed, only one is removed from the stack.
      */
     public void setSingleDeath(){
-        entity.setMetadata(GlobalValues.KILL_ONE_OFF, new FixedMetadataValue(sm, true));
+        entity.setMetadata(GlobalValues.KILL_ONE, new FixedMetadataValue(sm, true));
     }
 
     /**
@@ -77,8 +77,8 @@ public class StackedEntity {
      * @return Returns if this entity is currently ignored by the stacking task.
      */
     public boolean isStackingPrevented(){
-        return entity.hasMetadata(GlobalValues.NO_STACK_ALL) &&
-                entity.getMetadata(GlobalValues.NO_STACK_ALL).get(0).asBoolean();
+        return entity.hasMetadata(GlobalValues.NO_STACK) &&
+                entity.getMetadata(GlobalValues.NO_STACK).get(0).asBoolean();
     }
 
     /**

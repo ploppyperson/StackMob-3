@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.DeathType;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,7 +33,7 @@ public class DeathEvent implements Listener {
         }
 
         int oldSize = StackTools.getSize(dead);
-        if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
+        if(!dead.hasMetadata(GlobalValues.KILL_ONE)){
             if(isAllowed(DeathType.KILL_ALL, dead)){
                 multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
                 spawnNewEntity(oldSize, oldSize, dead);

@@ -1,11 +1,9 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.tools.extras.GlobalValues;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class StackTools {
