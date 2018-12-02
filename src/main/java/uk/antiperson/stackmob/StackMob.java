@@ -177,8 +177,8 @@ public class StackMob extends JavaPlugin {
         if(getHookManager().isHookRegistered(PluginCompat.PROCOTOLLIB)){
             new ShowTagTask(this).runTaskTimer(this, 5, getCustomConfig().getInt("tag.interval"));
         }
-        if(getCustomConfig().getInt("autosave-delay") > 0) {
-            new CacheTask(this).runTaskTimerAsynchronously(this, 0, getCustomConfig().getInt("autosave-delay") * 20);
+        if(getCustomConfig().getInt("storage.delay") > 0) {
+            new CacheTask(this).runTaskTimerAsynchronously(this, 0, getCustomConfig().getInt("storage.delay") * 20);
         }
     }
 
