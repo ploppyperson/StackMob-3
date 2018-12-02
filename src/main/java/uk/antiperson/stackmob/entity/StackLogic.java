@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
@@ -99,6 +100,35 @@ public class StackLogic {
             }
         }
         return false;
+    }
+
+    public boolean incrementWaiting(Entity entity){
+        if(!StackTools.isWaiting(entity)){
+            return false;
+        }
+        StackTools.incrementWaiting(entity);
+        if(!(StackTools.isWaiting(entity))){
+            StackTools.setSize(entity, GlobalValues.NOT_ENOUGH_NEAR);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean makeWaiting(Entity entity, CreatureSpawnEvent.SpawnReason reason){
+        if(!sm.getCustomConfig().getBoolean("wait-to-stack.enabled")){
+            return false;
+        }
+        if(!sm.getCustomConfig().getStringList("wait-to-stack.entity-types")
+                .contains(entity.getType().toString())){
+            return false;
+        }
+        if(!sm.getCustomConfig().getStringList("wait-to-stack.spawn-reasons")
+                .contains(reason.toString())){
+            return false;
+        }
+        int waitingTime = sm.getCustomConfig().getInt("wait-to-stack.wait-time");
+        StackTools.addWaiting(entity, waitingTime);
+        return true;
     }
 
     public boolean notSuitableForStacking(Entity entity){

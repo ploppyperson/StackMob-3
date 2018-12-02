@@ -23,6 +23,9 @@ public class StackTask extends BukkitRunnable {
             if(entity instanceof ArmorStand || entity instanceof Player){
                 continue;
             }
+            if(sm.getLogic().incrementWaiting(entity)){
+                continue;
+            }
             if(StackTools.hasNotEnoughNear(entity)) {
                 if(sm.getLogic().notEnoughNearby(entity)){
                     continue;

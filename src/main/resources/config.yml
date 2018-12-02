@@ -80,6 +80,21 @@ no-stack-worlds:
 # Set to 0 to disable this feature.
 dont-stack-until: 5
 
+# If specific entities should have a waiting time before their first stack.
+# Designed for monster grinders etc.
+wait-to-stack:
+    enabled: true
+    # For (x) times the stack task fires after spawn, don't stack this entity.
+    wait-time: 5
+    # Entity types that this should work for.
+    entity-types:
+        - ZOMBIE
+        - SKELETON
+        - PIG_ZOMBIE
+    # Spawn reasons that this should work for.
+    spawn-reasons:
+        - SPAWNER
+
 # Enables/disables the comparing of mob type specific attributes before stacking together.
 compare:
     villager-profession: true

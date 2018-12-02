@@ -9,6 +9,11 @@ import java.util.UUID;
 public class StackTools {
 
     private static HashMap<UUID, Integer> currentEntities = new HashMap<>();
+    private static HashMap<UUID, Integer> waiting = new HashMap<>();
+
+    public static void addWaiting(Entity entity, int time){
+        waiting.put(entity.getUniqueId(), time);
+    }
 
     public static boolean hasValidStackData(Entity entity){
         return hasValidData(entity) &&
@@ -32,6 +37,17 @@ public class StackTools {
     public static boolean hasValidMetadata(Entity entity, String metaTag){
         return entity.hasMetadata(metaTag) &&
                 entity.getMetadata(metaTag).size() != 0;
+    }
+
+    public static boolean isWaiting(Entity entity){
+        return waiting.containsKey(entity.getUniqueId());
+    }
+
+    public static void incrementWaiting(Entity entity){
+        waiting.put(entity.getUniqueId(), waiting.get(entity.getUniqueId()) - 1);
+        if(waiting.get(entity.getUniqueId()) == 0){
+            waiting.remove(entity.getUniqueId());
+        }
     }
 
     public static int getSize(Entity entity){

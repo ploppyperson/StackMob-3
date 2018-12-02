@@ -26,7 +26,9 @@ public class SpawnEvent implements Listener {
         if(sm.getLogic().doSpawnChecks(entity, e.getSpawnReason().toString())){
             return;
         }
-
+        if(sm.getLogic().makeWaiting(entity, e.getSpawnReason())){
+            return;
+        }
         // BukkitRunnable to delay this, so the needed metadata can be set before attempting to merge.
         new SpawnTask(sm, entity).runTaskLater(sm,  1);
     }
