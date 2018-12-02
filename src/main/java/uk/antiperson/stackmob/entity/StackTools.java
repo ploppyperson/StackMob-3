@@ -44,10 +44,14 @@ public class StackTools {
     }
 
     public static void incrementWaiting(Entity entity){
-        waiting.put(entity.getUniqueId(), waiting.get(entity.getUniqueId()) - 1);
-        if(waiting.get(entity.getUniqueId()) == 0){
+        waiting.put(entity.getUniqueId(), getWaitingTime(entity) - 1);
+        if(getWaitingTime(entity) == 0){
             waiting.remove(entity.getUniqueId());
         }
+    }
+
+    public static int getWaitingTime(Entity entity){
+        return waiting.get(entity.getUniqueId());
     }
 
     public static int getSize(Entity entity){

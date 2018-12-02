@@ -105,6 +105,9 @@ public class StickTools {
                 if(StackTools.hasValidData(entity)){
                     player.sendMessage(ChatColor.GREEN + "Stack size: " + StackTools.getSize(entity));
                 }
+                if(StackTools.isWaiting(entity)){
+                    player.sendMessage(ChatColor.GREEN + "Waiting to stack: " + StackTools.isWaiting(entity) + " (" + StackTools.getWaitingTime(entity) + ")");
+                }
                 break;
         }
     }
