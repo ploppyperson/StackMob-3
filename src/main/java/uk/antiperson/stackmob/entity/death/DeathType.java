@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.entity;
+package uk.antiperson.stackmob.entity.death;
 
 public enum  DeathType {
     KILL_ALL("kill-all"),

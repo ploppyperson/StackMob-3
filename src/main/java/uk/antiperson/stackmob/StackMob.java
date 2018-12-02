@@ -10,6 +10,7 @@ import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.entity.EntityTools;
 import uk.antiperson.stackmob.checks.TraitManager;
 import uk.antiperson.stackmob.entity.StackLogic;
+import uk.antiperson.stackmob.entity.death.DeathManager;
 import uk.antiperson.stackmob.entity.drops.DropTools;
 import uk.antiperson.stackmob.entity.expierence.ExperienceTools;
 import uk.antiperson.stackmob.listeners.ServerLoad;
@@ -49,6 +50,7 @@ public class StackMob extends JavaPlugin {
     private StorageManager storageManager = new StorageManager(this);
     private HookManager hookManager = new HookManager(this);
     private TraitManager traitManager = new TraitManager(this);
+    private DeathManager deathManager = new DeathManager(this);
     private UpdateChecker updater = new UpdateChecker(this);
 
     @Override
@@ -200,6 +202,10 @@ public class StackMob extends JavaPlugin {
 
     public TraitManager getTraitManager() {
         return traitManager;
+    }
+
+    public DeathManager getDeathManager() {
+        return deathManager;
     }
 
     public EntityTools getTools() {

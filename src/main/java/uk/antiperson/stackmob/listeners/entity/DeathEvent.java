@@ -10,8 +10,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.entity.DeathType;
+import uk.antiperson.stackmob.entity.death.DeathMethod;
+import uk.antiperson.stackmob.entity.death.DeathStep;
+import uk.antiperson.stackmob.entity.death.DeathType;
 import uk.antiperson.stackmob.entity.StackTools;
+import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.List;
@@ -32,50 +35,22 @@ public class DeathEvent implements Listener {
             return;
         }
 
-        int oldSize = StackTools.getSize(dead);
-        if(!dead.hasMetadata(GlobalValues.KILL_ONE)){
-            if(isAllowed(DeathType.KILL_ALL, dead)){
-                multiplication(dead, e.getDrops(), oldSize - 1, e.getDroppedExp());
-                spawnNewEntity(oldSize, oldSize, dead);
-                return;
-            }
-            if(isAllowed(DeathType.KILL_STEP, dead)) {
-                int maxStep = sm.getCustomConfig().getInt("kill-step.max-step");
-                int randomStep = ThreadLocalRandom.current().nextInt(1, maxStep);
-                int subtractAmount = randomStep;
-                if (randomStep >= oldSize) {
-                    subtractAmount = oldSize;
-                }
-                multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
-                spawnNewEntity(oldSize, subtractAmount, dead);
-                return;
-            }
-            if(isAllowed(DeathType.KILL_STEP_DAMAGE, dead)){
-                double leftOverDamage = dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
-                double maxHealth = dead.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-                double damageDivided = leftOverDamage / maxHealth;
-                int killStep = (int) Math.floor(damageDivided);
-                if(killStep > 1){
-                    multiplication(dead, e.getDrops(), killStep - 1, e.getDroppedExp());
-                }
-                LivingEntity newEntity = (LivingEntity) spawnNewEntity(oldSize, killStep + 1, dead);
-                if(newEntity != null){
-                    double damageToDeal = (damageDivided - killStep) * maxHealth;
-                    newEntity.setHealth(newEntity.getHealth() - damageToDeal);
-                }
-                return;
+        DeathStep method = calculateMethod(dead);
+        int stackAmount = StackTools.getSize(dead);
+        int subtractAmount = calculateStep(dead, method);
+        multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
+        if(subtractAmount != stackAmount){
+            Entity entity = spawnNewEntity(stackAmount - subtractAmount, dead);
+            if(method instanceof KillStepDamage){
+                ((KillStepDamage)method).onceSpawned(dead, (LivingEntity) entity);
             }
         }
-        spawnNewEntity(oldSize, 1, dead);
+        sm.getLogic().cleanup(dead);
     }
 
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.getCustomConfig().getBoolean("multiply-drops.enabled")){
-            if(dead.getKiller() != null){
-                sm.getDropTools().calculateDrops(drops, subtractAmount, dead, dead.getKiller().getInventory().getItemInMainHand());
-            }else{
-                sm.getDropTools().calculateDrops(drops, subtractAmount, dead, null);
-            }
+            sm.getDropTools().calculateDrops(drops, subtractAmount, dead);
         }
         if(sm.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
@@ -90,33 +65,29 @@ public class DeathEvent implements Listener {
         }
     }
 
-    private Entity spawnNewEntity(int oldSize, int subtractAmount, LivingEntity dead){
-        sm.getLogic().cleanup(dead);
-        if(oldSize != subtractAmount){
-            Entity newe = sm.getTools().duplicate(dead);
-            StackTools.setSize(newe,oldSize - subtractAmount);
-            return newe;
+    private DeathStep calculateMethod(LivingEntity dead){
+        if(!dead.hasMetadata(GlobalValues.KILL_ONE)){
+            for(DeathType deathType : DeathType.values()){
+                DeathStep method = sm.getDeathManager().getMethod(deathType);
+                if(method.isAllowed(dead)){
+                    return method;
+                }
+            }
         }
         return null;
     }
 
-    private boolean isAllowed(DeathType dt, LivingEntity dead){
-        String type = dt.getType();
-        if(!sm.getCustomConfig().getBoolean(type + ".enabled")){
-            return false;
+    private int calculateStep(LivingEntity dead, DeathStep method){
+        if(method != null){
+            return method.calculateStep(dead);
         }
-        if(sm.getCustomConfig().getBoolean("death-type-permission")){
-            if(dead.getKiller() != null){
-                if(!(dead.getKiller().hasPermission("stackmob." + type))){
-                    return false;
-                }
-            }
-        }
-        if (sm.getCustomConfig().getStringList(type + ".reason-blacklist")
-                .contains(dead.getLastDamageCause().getCause().toString())){
-            return false;
-        }
-        return !(sm.getCustomConfig().getStringList(type + ".type-blacklist")
-                .contains(dead.getType().toString()));
+        return 1;
     }
+
+    private Entity spawnNewEntity(int newSize, LivingEntity dead){
+        Entity newe = sm.getTools().duplicate(dead);
+        StackTools.setSize(newe, newSize);
+        return newe;
+    }
+
 }

@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.entity.drops;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.StackMob;
 
@@ -19,7 +20,7 @@ public class DropTools {
         this.sm = sm;
     }
 
-    public void calculateDrops(List<ItemStack> drops, int deadAmount, LivingEntity dead, ItemStack itemInHand){
+    public void calculateDrops(List<ItemStack> drops, int deadAmount, LivingEntity dead){
         for(ItemStack itemStack : drops){
             if(itemStack == null){
                 continue;
@@ -29,24 +30,24 @@ public class DropTools {
             }
             if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
                     .contains(itemStack.toString())){
-                continue;
+                return;
             }
             if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
                 deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
             }
 
-            int itemAmount = calculateAmount(deadAmount, itemStack, itemInHand);
+            int itemAmount = calculateAmount(deadAmount, itemStack, dead.getKiller());
             dropDrops(itemStack, itemAmount, dead.getLocation());
         }
     }
 
-    private int calculateAmount(int deadAmount, ItemStack current, ItemStack hand){
+    private int calculateAmount(int deadAmount, ItemStack current, Player player){
         if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
                 .contains(current.getType().toString())){
             return deadAmount;
         }
-        if(hand != null && hand.getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
-            double enchantmentTimes = 1 + hand.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
+        if(player != null && player.getItemInHand().getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
+            double enchantmentTimes = 1 + player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
             return (int) Math.round(calculateAmount(deadAmount) * enchantmentTimes);
         }
         return calculateAmount(deadAmount);
