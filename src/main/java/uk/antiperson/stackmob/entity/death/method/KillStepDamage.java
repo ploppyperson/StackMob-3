@@ -16,7 +16,7 @@ public class KillStepDamage extends DeathStep {
     @Override
     public int calculateStep(LivingEntity dead) {
         double damageDivided = getLeftoverDamage(dead) / getMaxHealth(dead);
-        return (int) Math.floor(damageDivided);
+        return (int) Math.floor(damageDivided) + 1;
     }
 
     public void onceSpawned(LivingEntity dead, LivingEntity spawned){
