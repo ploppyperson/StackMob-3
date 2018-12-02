@@ -28,6 +28,7 @@ public class TraitManager {
         new TameableTrait(this);
         new VillagerTrait(this);
         new ZombieTrait(this);
+        new DrownedTrait(this);
     }
 
     public boolean checkTraits(Entity original, Entity nearby){

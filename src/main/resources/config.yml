@@ -91,6 +91,7 @@ compare:
     horse-color: true
     llama-color: true
     parrot-color: true
+    drowned-hand-item: true
     # Applies to more than one type of entity:
     entity-age: true
     can-breed: true
