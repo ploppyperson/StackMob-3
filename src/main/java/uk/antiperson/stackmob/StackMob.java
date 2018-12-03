@@ -30,6 +30,7 @@ import uk.antiperson.stackmob.config.EntityLangFile;
 import uk.antiperson.stackmob.config.GeneralLangFile;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
+import java.time.LocalDate;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
@@ -105,6 +106,12 @@ public class StackMob extends JavaPlugin {
         new Metrics(this);
 
         getLogger().info(getUpdater().updateString());
+
+        if(LocalDate.now().getDayOfYear() == 359){
+            getLogger().info("If you are reading this, have a merry christmas!");
+        }else if(LocalDate.now().getDayOfYear() == 1){
+            getLogger().info("Happy new year!");
+        }
     }
 
 
