@@ -10,8 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KillStep extends DeathStep {
 
-    public KillStep(StackMob sm, DeathType dt){
-        super(sm, dt);
+    public KillStep(StackMob sm){
+        super(sm, DeathType.KILL_STEP);
     }
 
     @Override

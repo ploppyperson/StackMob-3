@@ -8,8 +8,8 @@ import uk.antiperson.stackmob.entity.death.DeathType;
 
 public class KillAll extends DeathStep {
 
-    public KillAll(StackMob sm, DeathType deathType){
-        super(sm, deathType);
+    public KillAll(StackMob sm){
+        super(sm, DeathType.KILL_ALL);
     }
 
     @Override

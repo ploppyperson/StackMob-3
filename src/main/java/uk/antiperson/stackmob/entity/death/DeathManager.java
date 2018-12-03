@@ -11,9 +11,9 @@ public class DeathManager {
 
     private HashMap<DeathType, DeathStep> deathMap = new HashMap<>();
     public DeathManager(StackMob sm){
-        deathMap.put(DeathType.KILL_ALL, new KillAll(sm, DeathType.KILL_ALL));
-        deathMap.put(DeathType.KILL_STEP, new KillStep(sm, DeathType.KILL_STEP));
-        deathMap.put(DeathType.KILL_STEP_DAMAGE, new KillStepDamage(sm, DeathType.KILL_STEP_DAMAGE));
+        deathMap.put(DeathType.KILL_ALL, new KillAll(sm));
+        deathMap.put(DeathType.KILL_STEP, new KillStep(sm));
+        deathMap.put(DeathType.KILL_STEP_DAMAGE, new KillStepDamage(sm));
     }
 
     public DeathStep getMethod(DeathType type){

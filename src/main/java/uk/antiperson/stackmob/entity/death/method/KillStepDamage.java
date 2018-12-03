@@ -9,8 +9,8 @@ import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class KillStepDamage extends DeathStep {
 
-    public KillStepDamage(StackMob sm, DeathType dt){
-        super(sm, dt);
+    public KillStepDamage(StackMob sm){
+        super(sm, DeathType.KILL_STEP_DAMAGE);
     }
 
     @Override
