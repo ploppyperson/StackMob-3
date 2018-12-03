@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.entity.drops;
+package uk.antiperson.stackmob.multiplication;
 
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;

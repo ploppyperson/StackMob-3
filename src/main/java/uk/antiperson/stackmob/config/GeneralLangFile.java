@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.tools.config;
+package uk.antiperson.stackmob.config;
 
 import uk.antiperson.stackmob.StackMob;
 

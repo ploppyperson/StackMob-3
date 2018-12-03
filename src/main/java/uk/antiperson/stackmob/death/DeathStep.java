@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.entity.death;
+package uk.antiperson.stackmob.death;
 
 import org.bukkit.entity.LivingEntity;
 import uk.antiperson.stackmob.StackMob;

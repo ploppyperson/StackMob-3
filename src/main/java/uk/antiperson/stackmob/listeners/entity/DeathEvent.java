@@ -1,7 +1,6 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Statistic;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,15 +9,13 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.entity.death.DeathMethod;
-import uk.antiperson.stackmob.entity.death.DeathStep;
-import uk.antiperson.stackmob.entity.death.DeathType;
+import uk.antiperson.stackmob.death.DeathStep;
+import uk.antiperson.stackmob.death.DeathType;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
+import uk.antiperson.stackmob.death.method.KillStepDamage;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DeathEvent implements Listener {
 
