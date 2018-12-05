@@ -99,5 +99,7 @@ public class DeathEvent implements Listener {
         dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
         dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
         dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
+        dead.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
+        dead.removeMetadata(GlobalValues.MCMMO_META, sm);
     }
 }
