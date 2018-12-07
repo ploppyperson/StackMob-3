@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tools.extras.GlobalValues;
@@ -378,5 +379,19 @@ public class EntityTools {
         // Lets hope this doesn't happen.
         return null;
     }
-
+    
+    public void cleanupMetadata(Entity e){
+        e.removeMetadata(GlobalValues.METATAG, sm);
+        e.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
+        e.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
+        e.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
+        e.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
+        e.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
+        e.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
+        Plugin mcmmo = sm.getServer().getPluginManager().getPlugin("mcMMO");
+        if(mcmmo != null){
+            e.removeMetadata(GlobalValues.MCMMO_META, mcmmo);
+        }
+    }
+    
 }
