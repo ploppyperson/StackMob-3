@@ -93,13 +93,6 @@ public class DeathEvent implements Listener {
             newe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, oldSize - subtractAmount));
             newe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
         }
-        dead.removeMetadata(GlobalValues.METATAG, sm);
-        dead.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-        dead.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
-        dead.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-        dead.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
-        dead.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
-        dead.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
-        dead.removeMetadata(GlobalValues.MCMMO_META, sm);
+        sm.tools.cleanupMetadata(dead);
     }
 }

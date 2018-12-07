@@ -63,14 +63,7 @@ public class Commands implements CommandExecutor {
                             if (entity.hasMetadata(GlobalValues.METATAG)) {
                                 counter++;
                                 entity.remove();
-                                entity.removeMetadata(GlobalValues.METATAG, sm);
-                                entity.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-                                entity.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
-                                entity.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-                                entity.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
-                                entity.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
-                                entity.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
-                                entity.removeMetadata(GlobalValues.MCMMO_META, sm);
+                                sm.tools.cleanupMetadata(entity);
                             }
                         }
                     }
@@ -127,14 +120,7 @@ public class Commands implements CommandExecutor {
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
                                 if (entity.hasMetadata(GlobalValues.METATAG)) {
                                     entity.remove();
-                                    entity.removeMetadata(GlobalValues.METATAG, sm);
-                                    entity.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-                                    entity.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
-                                    entity.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-                                    entity.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
-                                    entity.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
-                                    entity.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
-                                    entity.removeMetadata(GlobalValues.MCMMO_META, sm);
+                                    sm.tools.cleanupMetadata(entity);
                                     counter++;
                                 }
                             }

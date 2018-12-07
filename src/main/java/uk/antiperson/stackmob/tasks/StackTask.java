@@ -105,14 +105,7 @@ public class StackTask extends BukkitRunnable {
                         first.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, amountTotal));
                         sm.tools.onceStacked(nearby);
                         nearby.remove();
-                        nearby.removeMetadata(GlobalValues.METATAG, sm);
-                        nearby.removeMetadata(GlobalValues.NO_STACK_ALL, sm);
-                        nearby.removeMetadata(GlobalValues.NO_TASK_STACK, sm);
-                        nearby.removeMetadata(GlobalValues.CURRENTLY_BREEDING, sm);
-                        nearby.removeMetadata(GlobalValues.NOT_ENOUGH_NEAR, sm);
-                        nearby.removeMetadata(GlobalValues.KILL_ONE_OFF, sm);
-                        nearby.removeMetadata(GlobalValues.NO_SPAWN_STACK, sm);
-                        nearby.removeMetadata(GlobalValues.MCMMO_META, sm);
+                        sm.tools.cleanupMetadata(nearby);
                     }
                     break;
 
