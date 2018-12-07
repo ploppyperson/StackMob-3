@@ -56,7 +56,9 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reset and reloaded.");
                 } else if (args[0].equalsIgnoreCase("reload")) {
                     sm.getConfigFile().reloadCustomConfig();
-                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration has been reloaded.");
+                    sm.getGeneralFile().reloadCustomConfig();
+                    sm.getTranslationFile().reloadCustomConfig();
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration files have been reloaded.");
                 } else if (args[0].equalsIgnoreCase("removeall")) {
                     int counter = 0;
                     for (World world : Bukkit.getWorlds()) {
