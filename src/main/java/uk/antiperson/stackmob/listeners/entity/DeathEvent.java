@@ -9,10 +9,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.death.DeathStep;
-import uk.antiperson.stackmob.death.DeathType;
+import uk.antiperson.stackmob.entity.death.DeathStep;
+import uk.antiperson.stackmob.entity.death.DeathType;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.death.method.KillStepDamage;
+import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package uk.antiperson.stackmob.death;
+package uk.antiperson.stackmob.entity.death;
 
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.death.method.KillAll;
-import uk.antiperson.stackmob.death.method.KillStep;
-import uk.antiperson.stackmob.death.method.KillStepDamage;
+import uk.antiperson.stackmob.entity.death.method.KillAll;
+import uk.antiperson.stackmob.entity.death.method.KillStep;
+import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
 
 import java.util.HashMap;
 

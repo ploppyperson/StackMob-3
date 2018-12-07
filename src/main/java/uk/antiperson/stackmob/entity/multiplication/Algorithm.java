@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.multiplication;
+package uk.antiperson.stackmob.entity.multiplication;
 
 public enum Algorithm{
     LEGACY,

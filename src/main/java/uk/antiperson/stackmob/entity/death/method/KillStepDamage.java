@@ -1,10 +1,10 @@
-package uk.antiperson.stackmob.death.method;
+package uk.antiperson.stackmob.entity.death.method;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.death.DeathStep;
-import uk.antiperson.stackmob.death.DeathType;
+import uk.antiperson.stackmob.entity.death.DeathStep;
+import uk.antiperson.stackmob.entity.death.DeathType;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class KillStepDamage extends DeathStep {
