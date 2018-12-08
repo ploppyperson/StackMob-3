@@ -30,6 +30,15 @@ public class EntityManager {
     }
 
     /**
+     * Check if an entity is waiting to stack, but has not been yet due to config options.
+     * @param entity The entity to check.
+     * @return If the entity is waiting to stack,
+     */
+    public boolean isWaitingToStack(Entity entity){
+        return StackTools.isWaiting(entity);
+    }
+
+    /**
      * Adds the appropriate metadata to add an entity as a stack.
      * @param entity The entity to set this metadata to.
      */
