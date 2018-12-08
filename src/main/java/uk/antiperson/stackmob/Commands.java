@@ -37,7 +37,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
-                sender.sendMessage(ChatColor.AQUA + "/sm stick " + ChatColor.GREEN + "Gives you the stick of stacking.");
+                sender.sendMessage(ChatColor.AQUA + "/sm tool " + ChatColor.GREEN + "Gives you the tool of stacking.");
                 sender.sendMessage(ChatColor.AQUA + "/sm stats " + ChatColor.GREEN + "Displays entity statistics.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reload " + ChatColor.GREEN + "Reloads the configuration file.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reset " + ChatColor.GREEN + "Resets the configuration file.");
@@ -106,12 +106,12 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + StackTools.getEntries().size() + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
                     sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getStorageManager().getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
-                } else if (args[0].equalsIgnoreCase("stick")){
+                } else if (args[0].equalsIgnoreCase("stick") || args[0].equalsIgnoreCase("tool")){
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         sm.getStickTools().giveStackingStick(player);
                         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
-                        player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "The stacking stick has been added to your inventory.");
+                        player.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "The stacking tool has been added to your inventory.");
                     } else {
                         sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
