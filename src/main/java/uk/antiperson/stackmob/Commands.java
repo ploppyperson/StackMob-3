@@ -19,11 +19,9 @@ import java.util.UUID;
 public class Commands implements CommandExecutor {
 
     private StackMob sm;
-
     public Commands(StackMob sm) {
         this.sm = sm;
     }
-
 
     private final String noPerm = GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
@@ -66,6 +64,7 @@ public class Commands implements CommandExecutor {
                             if (StackTools.hasValidData(entity)) {
                                 counter++;
                                 entity.remove();
+                                sm.getLogic().cleanup(entity);
                             }
                         }
                     }
@@ -129,6 +128,7 @@ public class Commands implements CommandExecutor {
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
                                 if (StackTools.hasValidData(entity)) {
                                     entity.remove();
+                                    sm.getLogic().cleanup(entity);
                                     counter++;
                                 }
                             }
