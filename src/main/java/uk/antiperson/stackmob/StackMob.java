@@ -31,6 +31,7 @@ import uk.antiperson.stackmob.config.GeneralLangFile;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
@@ -255,7 +256,7 @@ public class StackMob extends JavaPlugin {
         return logic;
     }
 
-    public ConcurrentHashMap<UUID, Integer> getCache(){
+    public Map<UUID, Integer> getCache(){
         return getStorageManager().getStackStorage().getAmountCache();
     }
 }

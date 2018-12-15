@@ -5,12 +5,13 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.hooks.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 // TODO: Custom hooks from other plugins.
 public class HookManager {
 
     private StackMob sm;
-    private HashMap<PluginCompat, PluginHook> hooks = new HashMap<>();
+    private Map<PluginCompat, PluginHook> hooks = new HashMap<>();
     public HookManager(StackMob sm){
         this.sm = sm;
     }

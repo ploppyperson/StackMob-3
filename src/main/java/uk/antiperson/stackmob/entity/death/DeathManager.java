@@ -6,10 +6,11 @@ import uk.antiperson.stackmob.entity.death.method.KillStep;
 import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DeathManager {
 
-    private HashMap<DeathType, DeathStep> deathMap = new HashMap<>();
+    private Map<DeathType, DeathStep> deathMap = new HashMap<>();
     public DeathManager(StackMob sm){
         deathMap.put(DeathType.KILL_ALL, new KillAll(sm));
         deathMap.put(DeathType.KILL_STEP, new KillStep(sm));
