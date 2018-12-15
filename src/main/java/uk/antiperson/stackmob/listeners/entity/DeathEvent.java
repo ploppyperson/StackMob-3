@@ -31,10 +31,10 @@ public class DeathEvent implements Listener {
         if(!(StackTools.hasValidStackData(dead))){
             return;
         }
-
-        DeathStep method = calculateMethod(dead);
         int stackAmount = StackTools.getSize(dead);
-        int subtractAmount = calculateStep(dead, method);
+        
+        DeathStep method = sm.getDeathManager().calculateMethod(dead);
+        int subtractAmount = sm.getDeathManager().calculateStep(dead, method);
         multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
         if(subtractAmount != stackAmount){
             Entity entity = spawnNewEntity(stackAmount - subtractAmount, dead);
@@ -64,25 +64,6 @@ public class DeathEvent implements Listener {
                 dead.getKiller().setStatistic(Statistic.MOB_KILLS, oldStat + subtractAmount);
             }
         }
-    }
-
-    private DeathStep calculateMethod(LivingEntity dead){
-        if(!dead.hasMetadata(GlobalValues.KILL_ONE)){
-            for(DeathType deathType : DeathType.values()){
-                DeathStep method = sm.getDeathManager().getMethod(deathType);
-                if(method.isAllowed(dead)){
-                    return method;
-                }
-            }
-        }
-        return null;
-    }
-
-    private int calculateStep(LivingEntity dead, DeathStep method){
-        if(method != null){
-            return method.calculateStep(dead);
-        }
-        return 1;
     }
 
     private Entity spawnNewEntity(int newSize, LivingEntity dead){
