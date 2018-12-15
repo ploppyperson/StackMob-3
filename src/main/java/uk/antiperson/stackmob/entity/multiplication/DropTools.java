@@ -68,7 +68,7 @@ public class DropTools {
                 .contains(current.getType().toString())){
             return deadAmount;
         }
-        if(player != null && player.getItemInHand().getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
+        if(player != null && player.getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
             double enchantmentTimes = 1 + player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
             return (int) Math.round(calculateAmount(deadAmount) * enchantmentTimes);
         }

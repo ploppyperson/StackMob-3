@@ -12,9 +12,7 @@ public class CacheTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        sm.getServer().getScheduler().runTask(sm, () -> {
-                sm.getStorageManager().getStackStorage().cacheWorldData();
-        });
+        sm.getServer().getScheduler().runTask(sm, () -> sm.getStorageManager().getStackStorage().cacheWorldData());
         sm.getStorageManager().getStackStorage().saveStorage();
     }
 }

@@ -28,7 +28,6 @@ import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.config.ConfigFile;
 import uk.antiperson.stackmob.config.EntityLangFile;
 import uk.antiperson.stackmob.config.GeneralLangFile;
-import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -164,7 +163,7 @@ public class StackMob extends JavaPlugin {
 
     private void registerNotEssentialEvents(){
         if(getCustomConfig().getBoolean("multiply.creeper-explosion")){
-            getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new ExplodeEvent(), this);
         }
         if(getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
@@ -176,7 +175,7 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         }
         if(getCustomConfig().getBoolean("multiply.small-slimes")) {
-            getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new SlimeEvent(), this);
         }
         if(getCustomConfig().getBoolean("multiply-damage-done")){
             getServer().getPluginManager().registerEvents(new DealtDamageEvent(), this);

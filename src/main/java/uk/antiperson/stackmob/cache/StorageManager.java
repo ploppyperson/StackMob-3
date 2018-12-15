@@ -4,9 +4,6 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 public class StorageManager {
 
     private StackMob sm;
