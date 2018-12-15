@@ -32,7 +32,6 @@ import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
 /**
@@ -57,13 +56,14 @@ public class StackMob extends JavaPlugin {
 
     @Override
     public void onLoad(){
+        hookManager = new HookManager(this);
         getHookManager().onServerLoad();
     }
 
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson/BaconPied");
+        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson (pas_francais)");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
@@ -75,8 +75,8 @@ public class StackMob extends JavaPlugin {
             return;
         }
         getLogger().info("Detected server version: " + getVersionId());
-        
         initVariables();
+
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         getConfigFile().reloadCustomConfig();
         getTranslationFile().reloadCustomConfig();
@@ -147,7 +147,6 @@ public class StackMob extends JavaPlugin {
         expTools = new ExperienceTools(this);
         logic = new StackLogic(this);
         storageManager = new StorageManager(this);
-        hookManager = new HookManager(this);
         traitManager = new TraitManager(this);
         deathManager = new DeathManager(this);
         updater = new UpdateChecker(this);
