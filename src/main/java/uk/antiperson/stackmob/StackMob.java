@@ -41,19 +41,19 @@ import java.util.UUID;
 public class StackMob extends JavaPlugin {
 
     private int versionId = 0;
-    private ConfigFile config = new ConfigFile(this);
-    private EntityLangFile translation = new EntityLangFile(this);
-    private GeneralLangFile general = new GeneralLangFile(this);
-    private EntityTools tools = new EntityTools(this);
-    private DropTools dropTools = new DropTools(this);
-    private StickTools stickTools = new StickTools(this);
-    private ExperienceTools expTools = new ExperienceTools(this);
-    private StackLogic logic = new StackLogic(this);
-    private StorageManager storageManager = new StorageManager(this);
-    private HookManager hookManager = new HookManager(this);
-    private TraitManager traitManager = new TraitManager(this);
-    private DeathManager deathManager = new DeathManager(this);
-    private UpdateChecker updater = new UpdateChecker(this);
+    private ConfigFile config;
+    private EntityLangFile entityLang;
+    private GeneralLangFile generalLang;
+    private EntityTools entityTools;
+    private DropTools dropTools;
+    private StickTools stickTools;
+    private ExperienceTools expTools;
+    private StackLogic logic;
+    private StorageManager storageManager;
+    private HookManager hookManager;
+    private TraitManager traitManager;
+    private DeathManager deathManager;
+    private UpdateChecker updater;
 
     @Override
     public void onLoad(){
@@ -75,7 +75,8 @@ public class StackMob extends JavaPlugin {
             return;
         }
         getLogger().info("Detected server version: " + getVersionId());
-
+        
+        initVariables();
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         getConfigFile().reloadCustomConfig();
         getTranslationFile().reloadCustomConfig();
@@ -134,6 +135,22 @@ public class StackMob extends JavaPlugin {
 
     public int getVersionId(){
         return versionId;
+    }
+
+    private void initVariables(){
+        config = new ConfigFile(this);
+        entityLang = new EntityLangFile(this);
+        generalLang = new GeneralLangFile(this);
+        entityTools = new EntityTools(this);
+        dropTools = new DropTools(this);
+        stickTools = new StickTools(this);
+        expTools = new ExperienceTools(this);
+        logic = new StackLogic(this);
+        storageManager = new StorageManager(this);
+        hookManager = new HookManager(this);
+        traitManager = new TraitManager(this);
+        deathManager = new DeathManager(this);
+        updater = new UpdateChecker(this);
     }
 
     private void registerEssentialEvents(){
@@ -217,7 +234,7 @@ public class StackMob extends JavaPlugin {
     }
 
     public EntityTools getTools() {
-        return tools;
+        return entityTools;
     }
 
     public DropTools getDropTools() {
@@ -229,11 +246,11 @@ public class StackMob extends JavaPlugin {
     }
 
     public FileConfiguration getTranslationConfig() {
-        return translation.getCustomConfig();
+        return entityLang.getCustomConfig();
     }
 
     public EntityLangFile getTranslationFile() {
-        return translation;
+        return entityLang;
     }
 
     public ExperienceTools getExpTools() {
@@ -241,11 +258,11 @@ public class StackMob extends JavaPlugin {
     }
 
     public FileConfiguration getGeneralConfig() {
-        return general.getCustomConfig();
+        return generalLang.getCustomConfig();
     }
 
     public GeneralLangFile getGeneralFile() {
-        return general;
+        return generalLang;
     }
 
     public UpdateChecker getUpdater() {
