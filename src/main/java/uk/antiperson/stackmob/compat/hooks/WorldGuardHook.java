@@ -12,12 +12,15 @@ public class WorldGuardHook extends PluginHook implements Comparable {
     private WorldGuardCompat worldGuardCompat;
     public WorldGuardHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.WORLDGUARD);
+        if(isCorrectVersion()){
+            worldGuardCompat = new WorldGuardCompat(sm);
+        }
     }
 
     public void onLoad(){
         if(getPlugin() != null) {
-            if(isCorrectVersion()){
-                new WorldGuardCompat(getStackMob()).registerFlag();
+            if(worldGuardCompat != null){
+                worldGuardCompat.registerFlag();
             }
         }
     }
@@ -25,7 +28,7 @@ public class WorldGuardHook extends PluginHook implements Comparable {
     @Override
     public void enable(){
         if(getStackMob().getCustomConfig().getBoolean("worldguard-support")){
-            if(isCorrectVersion()) {
+            if(worldGuardCompat != null) {
                 getHookManager().registerHook(PluginCompat.WORLDGUARD, this);
             }else{
                 getStackMob().getLogger().warning("In order for this functionality to work, WorldGuard 7.0 or later needs to be installed.");

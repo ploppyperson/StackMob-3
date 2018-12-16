@@ -65,7 +65,7 @@ public class HookManager {
     }
 
     private void enableHook(PluginHook hook){
-        if(hook.getPlugin() == null || !(hook.getPlugin().isEnabled())){
+        if(hook.getPlugin() == null){
             return;
         }
         hook.enable();
