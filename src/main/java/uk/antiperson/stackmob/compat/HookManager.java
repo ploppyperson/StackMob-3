@@ -7,7 +7,6 @@ import uk.antiperson.stackmob.compat.hooks.*;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Custom hooks from other plugins.
 public class HookManager {
 
     private StackMob sm;
@@ -21,13 +20,14 @@ public class HookManager {
     }
 
     public void registerHooks(){
-        new ProtocolLibHook(this, sm);
-        new McmmoHook(this, sm);
-        new CitizensHook(this, sm);
-        new MiniaturePetsHook(this, sm);
-        new MythicMobsHook(this, sm);
-        new JobsHook(this, sm);
-        new CustomDropsHook(this, sm);
+        enableHook(new WorldGuardHook(this, sm));
+        enableHook(new ProtocolLibHook(this, sm));
+        enableHook(new McmmoHook(this, sm));
+        enableHook(new CitizensHook(this, sm));
+        enableHook(new MiniaturePetsHook(this, sm));
+        enableHook(new MythicMobsHook(this, sm));
+        enableHook(new JobsHook(this, sm));
+        enableHook(new CustomDropsHook(this, sm));
     }
 
     public void registerHook(PluginCompat hookEnum, PluginHook hook){
@@ -60,6 +60,18 @@ public class HookManager {
             if(hook instanceof CloneTrait){
                 CloneTrait cloneTrait = (CloneTrait) hook;
                 cloneTrait.setTrait(entity);
+            }
+        }
+    }
+
+    private void enableHook(PluginHook hook){
+        if(hook.getPlugin() == null || !(hook.getPlugin().isEnabled())){
+            return;
+        }
+        hook.enable();
+        if(!isHookRegistered(hook.getPluginCompat())){
+            if(hook instanceof Errorable){
+                ((Errorable) hook).disable();
             }
         }
     }
