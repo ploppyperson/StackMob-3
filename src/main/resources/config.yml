@@ -279,6 +279,10 @@ jobs-reborn:
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
 
+# If custom drops is installed, use that for mob drops.
+custom-drops:
+    enabled: true
+
 # The stacking tool which can be obtained using the command '/sm stick'
 stack-tool:
     # The material that the stacking tool should use.

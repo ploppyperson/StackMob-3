@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.compat.PluginCompat;
+import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +27,10 @@ public class DropTools {
     }
 
     public void calculateDrops(List<ItemStack> drops, int deadAmount, LivingEntity dead){
+        if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
+            CustomDropsHook hook = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
+            drops = hook.getDrops(dead);
+        }
         for(ItemStack itemStack : drops){
             if(itemStack == null){
                 continue;

@@ -117,6 +117,13 @@
             <systemPath>${project.basedir}/jars/MythicMobs-4.4.1.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>CustomDrops</groupId>
+            <artifactId>net.aminecraftdev.customdrops</artifactId>
+            <version>3.0.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/CustomDrops-1.13.x.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.4</version>

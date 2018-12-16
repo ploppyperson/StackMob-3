@@ -27,6 +27,7 @@ public class HookManager {
         new MiniaturePetsHook(this, sm);
         new MythicMobsHook(this, sm);
         new JobsHook(this, sm);
+        new CustomDropsHook(this, sm);
     }
 
     public void registerHook(PluginCompat hookEnum, PluginHook hook){
