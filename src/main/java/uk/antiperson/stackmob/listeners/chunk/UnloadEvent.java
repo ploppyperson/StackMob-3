@@ -36,7 +36,9 @@ public class UnloadEvent implements Listener {
                     return;
                 }
                 sm.getCache().put(currentEntity.getUniqueId(), stackSize);
+                return;
             }
+            sm.getCache().remove(currentEntity.getUniqueId());
         }
     }
 
