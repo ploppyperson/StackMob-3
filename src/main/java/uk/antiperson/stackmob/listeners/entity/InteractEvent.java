@@ -93,37 +93,50 @@ public class InteractEvent implements Listener {
     }
 
     // There should be a method in bukkit for this...
-    private boolean correctFood(ItemStack is, Entity entity){
-        if((entity instanceof Cow || entity instanceof Sheep) && is.getType() == Material.WHEAT){
-            return true;
+    private boolean correctFood(ItemStack is, Entity entity) {
+        Material type = is.getType();
+        switch (entity.getType()) {
+            case COW:
+            case SHEEP:
+                return type == Material.WHEAT;
+            case PIG:
+                return (type == Material.CARROT || type == Material.BEETROOT || type == Material.POTATO);
+            case CHICKEN:
+                return type == Material.WHEAT_SEEDS
+                        || type == Material.MELON_SEEDS
+                        || type == Material.BEETROOT_SEEDS
+                        || type == Material.PUMPKIN_SEEDS;
+            case HORSE:
+                return (type == Material.GOLDEN_APPLE || type == Material.GOLDEN_CARROT) && ((Horse)entity).isTamed();
+            case WOLF:
+                return (type == Material.BEEF
+                        || type == Material.CHICKEN
+                        || type == Material.COD
+                        || type == Material.MUTTON
+                        || type == Material.PORKCHOP
+                        || type == Material.RABBIT
+                        || type == Material.SALMON
+                        || type == Material.COOKED_BEEF
+                        || type == Material.COOKED_CHICKEN
+                        || type == Material.COOKED_COD
+                        || type == Material.COOKED_MUTTON
+                        || type == Material.COOKED_PORKCHOP
+                        || type == Material.COOKED_RABBIT
+                        || type == Material.COOKED_SALMON)
+                        && ((Wolf) entity).isTamed();
+            case OCELOT:
+                return (type == Material.SALMON
+                        || type == Material.COD
+                        || type == Material.PUFFERFISH
+                        || type == Material.TROPICAL_FISH)
+                        && ((Ocelot) entity).isTamed();
+            case RABBIT:
+                return type == Material.CARROT || type == Material.GOLDEN_CARROT || type == Material.DANDELION;
+            case LLAMA:
+                return type == Material.HAY_BLOCK;
+            case TURTLE:
+                return type == Material.SEAGRASS;
         }
-        if((entity instanceof Pig) && (is.getType() == Material.CARROT || is.getType() == Material.BEETROOT || is.getType() == Material.POTATO)){
-            return true;
-        }
-        if((entity instanceof Chicken) && is.getType().toString().contains("SEED")){
-            return true;
-        }
-        if(entity instanceof Horse && (is.getType() == Material.GOLDEN_APPLE || is.getType() == Material.GOLDEN_CARROT)){
-            if(((Horse)entity).isTamed()){
-                return true;
-            }
-        }
-        if(entity instanceof Wolf && ((Wolf) entity).isTamed()){
-            if (is.getType().toString().contains("RAW") || is.getType().toString().contains("COOKED") &&
-                    !is.getType().toString().contains("FISH")) {
-                return true;
-            }
-        }
-        if(entity instanceof Ocelot && Tag.ITEMS_FISHES.isTagged(is.getType()) && ((Ocelot) entity).isTamed()){
-            return true;
-        }
-        if(entity instanceof Rabbit && (is.getType() == Material.CARROT|| is.getType() == Material.GOLDEN_CARROT
-                || is.getType() == Material.DANDELION)){
-            return true;
-        }
-        if(entity instanceof Llama && is.getType() == Material.HAY_BLOCK){
-            return true;
-        }
-        return entity instanceof Turtle && is.getType() == Material.SEAGRASS;
+        return false;
     }
 }
