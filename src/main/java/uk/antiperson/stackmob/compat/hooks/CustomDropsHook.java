@@ -26,4 +26,8 @@ public class CustomDropsHook extends PluginHook {
     public List<ItemStack> getDrops(Entity entity){
         return CustomDropsAPI.getCustomDrops(entity.getType());
     }
+
+    public boolean hasCustomDrops(Entity entity){
+        return !CustomDropsAPI.getNaturalDrops(entity.getType());
+    }
 }

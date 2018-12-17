@@ -1,18 +1,21 @@
 package uk.antiperson.stackmob.entity.multiplication;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,36 +29,21 @@ public class DropTools {
         this.sm = sm;
     }
 
-    public void calculateDrops(List<ItemStack> drops, int deadAmount, LivingEntity dead){
-        if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
-            CustomDropsHook hook = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
-            drops = hook.getDrops(dead);
+    public void dropDrops(int deadAmount, LivingEntity dead){
+        if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
+            deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
         }
-        for(ItemStack itemStack : drops){
-            if(itemStack == null){
-                continue;
-            }
-            if(dropIsArmor(dead, itemStack)){
-                continue;
-            }
-            if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
-                    .contains(itemStack.getType().toString())){
-                return;
-            }
-            if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
-                deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
-            }
-
-            int itemAmount = calculateAmount(deadAmount, itemStack, dead.getKiller());
-            dropDrops(itemStack, itemAmount, dead.getLocation());
-        }
+        Collection<ItemStack> drops = calculateDrops(deadAmount, dead);
+        dropStacks(drops, dead.getLocation());
     }
 
-    public void calculateDrops(int deadAmount, LivingEntity dead){
-        for(int i = 0; i < deadAmount; i++){
-            LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
-            Collection<ItemStack> items = ((Mob) dead).getLootTable().populateLoot(new Random(), lootContext);
-            for(ItemStack stack : items){
+    public Collection<ItemStack> calculateDrops(int deadAmount, LivingEntity dead){
+        Map<ItemStack, Integer> drops = new HashMap<>();
+        for(int i = 1; i <= deadAmount; i++){
+            for(ItemStack stack : generateLoot(dead)){
+                if(stack == null || stack.getType() == Material.AIR){
+                    continue;
+                }
                 if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
                         .contains(stack.getType().toString())){
                     continue;
@@ -64,21 +52,28 @@ public class DropTools {
                         .contains(stack.getType().toString())){
                     stack.setAmount(1);
                 }
-                dead.getWorld().dropItemNaturally(dead.getLocation(), stack);
+                if(drops.containsKey(stack)){
+                    drops.put(stack, drops.get(stack) + 1);
+                    continue;
+                }
+                drops.put(stack, 1);
             }
         }
+        List<ItemStack> stacks = new ArrayList<>();
+        drops.forEach((is, amount) -> stacks.addAll(convertToStacks(is, amount)));
+        return stacks;
     }
 
-    private int calculateAmount(int deadAmount, ItemStack current, Player player){
-        if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
-                .contains(current.getType().toString())){
-            return deadAmount;
+    public Collection<ItemStack> generateLoot(LivingEntity dead){
+        if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
+            CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
+            if(cdh.hasCustomDrops(dead)){
+                return cdh.getDrops(dead);
+            }
         }
-        if(player != null && player.getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
-            double enchantmentTimes = 1 + player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) * 0.5;
-            return (int) Math.round(calculateAmount(deadAmount) * enchantmentTimes);
-        }
-        return calculateAmount(deadAmount);
+        LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
+        Collection<ItemStack> items = ((Mob) dead).getLootTable().populateLoot(new Random(), lootContext);
+        return items;
     }
 
     // Calculate a random drop amount.
@@ -86,35 +81,38 @@ public class DropTools {
         return (int) Math.round((0.75 + ThreadLocalRandom.current().nextDouble(2)) * multiplier);
     }
 
-    public void dropDrops(ItemStack drop, int amount, Location dropLocation){
-        dropAllDrops(drop, amount, dropLocation, false);
-    }
-
     public void dropEggs(ItemStack drop, int amount, Location dropLocation){
-        dropAllDrops(drop, amount, dropLocation, true);
+        Collection<ItemStack> drops = convertToStacks(drop, amount);
+        drops.forEach(itemStack -> itemStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1));
+        dropStacks(drops, dropLocation);
     }
 
-    // Method to drop the correct amount of drops.
-    private void dropAllDrops(ItemStack drop, int amount, Location dropLocation, boolean addEnchantment){
+    public void dropDrops(ItemStack drop, int amount, Location dropLocation){
+        Collection<ItemStack> drops = convertToStacks(drop, amount);
+        dropStacks(drops, dropLocation);
+    }
+
+    private void dropStacks(Collection<ItemStack> drops, Location location){
+        drops.forEach(itemStack -> location.getWorld().dropItemNaturally(location, itemStack));
+    }
+
+    // Method to create itemstacks.
+    private Collection<ItemStack> convertToStacks(ItemStack drop, int amount){
+        List<ItemStack> items = new ArrayList<>();
         double inStacks = (double) amount / (double) drop.getMaxStackSize();
         double floor = Math.floor(inStacks);
         double leftOver = inStacks - floor;
-        for(int i = 1; i <= floor; i++){
+        for(int i = 0; i < floor; i++){
             ItemStack newStack = drop.clone();
             newStack.setAmount(drop.getMaxStackSize());
-            if(addEnchantment){
-                newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
-            }
-            dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
+            items.add(newStack);
         }
         if(leftOver > 0){
             ItemStack newStack = drop.clone();
             newStack.setAmount((int) Math.round(leftOver * drop.getMaxStackSize()));
-            if(addEnchantment){
-                newStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1);
-            }
-            dropLocation.getWorld().dropItemNaturally(dropLocation, newStack);
+            items.add(newStack);
         }
+        return items;
     }
 
     private boolean dropIsArmor(LivingEntity entity, ItemStack drop){

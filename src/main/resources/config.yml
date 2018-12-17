@@ -195,8 +195,6 @@ multiply-drops:
     # The amount of entities that the loot should be dropped for in a stack.
     # Useful if there is a high max-stack value, to prevent lag.
     entity-limit: 50
-    # If the drops for an entity should be calculated using it's loot table rather than just multiplying drop stack sizes.
-    calculate-per-entity: true
     # Prevent certain drops from being multiplied.
     drops-blacklist:
         - ''
