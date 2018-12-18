@@ -26,6 +26,9 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
+        if(!(dead instanceof Mob)){
+            return;
+        }
         if(!(StackTools.hasValidStackData(dead))){
             return;
         }
