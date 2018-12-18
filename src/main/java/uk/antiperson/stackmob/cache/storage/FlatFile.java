@@ -16,7 +16,7 @@ public class FlatFile extends StackStorage {
     private FileConfiguration fileCon;
     public FlatFile(StorageManager storageManager){
         super(storageManager);
-        file = new File(storageManager.getStackMob().getDataFolder(), "cache.yml");
+        file = new File(getStackMob().getDataFolder(), "cache.yml");
         reloadFile();
     }
 

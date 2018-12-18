@@ -1,5 +1,6 @@
 package uk.antiperson.stackmob.cache;
 
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.Map;
@@ -20,6 +21,10 @@ public abstract class StackStorage implements StorageMethod {
 
     public Map<UUID, Integer> getAmountCache() {
         return amountCache;
+    }
+
+    public StackMob getStackMob(){
+        return storageManager.getStackMob();
     }
 
     public void cacheWorldData(){

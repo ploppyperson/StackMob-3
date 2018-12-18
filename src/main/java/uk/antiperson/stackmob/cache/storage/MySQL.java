@@ -18,19 +18,19 @@ public class MySQL extends StackStorage implements DisableCleanup {
     private Connection connection;
     public MySQL(StorageManager storageManager){
         super(storageManager);
-        hostname = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.ip");
-        port = getStorageManager().getStackMob().getCustomConfig().getInt("storage.database.port");
-        dbName = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.name");
-        username = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.username");
-        password = getStorageManager().getStackMob().getCustomConfig().getString("storage.database.password");
+        hostname = getStackMob().getCustomConfig().getString("storage.database.ip");
+        port = getStackMob().getCustomConfig().getInt("storage.database.port");
+        dbName = getStackMob().getCustomConfig().getString("storage.database.name");
+        username = getStackMob().getCustomConfig().getString("storage.database.username");
+        password = getStackMob().getCustomConfig().getString("storage.database.password");
     }
 
     @Override
     public void loadStorage(){
-        getStorageManager().getStackMob().getLogger().info("Connecting to database...");
+        getStackMob().getLogger().info("Connecting to database...");
         try {
             makeConnection();
-            getStorageManager().getStackMob().getLogger().info("Database connection successful!");
+            getStackMob().getLogger().info("Database connection successful!");
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (UUID CHAR(36) NOT NULL UNIQUE, Size INT NOT NULL)").execute();
             ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob").executeQuery();
             while (rs.next()){
@@ -38,8 +38,8 @@ public class MySQL extends StackStorage implements DisableCleanup {
             }
             convert();
         }catch (SQLException e){
-            getStorageManager().getStackMob().getLogger().warning("An issue occurred while connecting to the database.");
-            getStorageManager().getStackMob().getLogger().warning("Please make sure that your database details are correct.");
+            getStackMob().getLogger().warning("An issue occurred while connecting to the database.");
+            getStackMob().getLogger().warning("Please make sure that your database details are correct.");
             e.printStackTrace();
         }
 
@@ -81,7 +81,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
     private void convert(){
         FlatFile ff = new FlatFile(getStorageManager());
         if(ff.getFile().exists()){
-            getStorageManager().getStackMob().getLogger().info("Converting FLATFILE cache to MySQL...");
+            getStackMob().getLogger().info("Converting FLATFILE cache to MySQL...");
             ff.loadStorage();
             saveStorage();
             ff.getFile().delete();
