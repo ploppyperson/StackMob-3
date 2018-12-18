@@ -33,13 +33,13 @@ public class DropTools {
         if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
             deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
         }
-        Collection<ItemStack> drops = calculateDrops(deadAmount, dead);
-        dropStacks(drops, dead.getLocation());
+        Map<ItemStack, Integer> rawDrops = calculateDrops(deadAmount, dead);
+        rawDrops.forEach((item, amount) -> dropDrops(item, amount, dead.getLocation()));
     }
 
-    public Collection<ItemStack> calculateDrops(int deadAmount, LivingEntity dead){
+    public Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead){
         Map<ItemStack, Integer> drops = new HashMap<>();
-        for(int i = 1; i <= deadAmount; i++){
+        for(int i = 0; i < deadAmount; i++){
             for(ItemStack stack : generateLoot(dead)){
                 if(stack == null || stack.getType() == Material.AIR){
                     continue;
@@ -52,16 +52,18 @@ public class DropTools {
                         .contains(stack.getType().toString())){
                     stack.setAmount(1);
                 }
-                if(drops.containsKey(stack)){
-                    drops.put(stack, drops.get(stack) + 1);
-                    continue;
+                for(ItemStack itemStack : drops.keySet()){
+                    if(itemStack.isSimilar(stack)){
+                        drops.put(itemStack, drops.get(itemStack) + stack.getAmount());
+                        break;
+                    }
                 }
-                drops.put(stack, 1);
+                if(!drops.containsKey(stack)) {
+                    drops.put(stack, stack.getAmount());
+                }
             }
         }
-        List<ItemStack> stacks = new ArrayList<>();
-        drops.forEach((is, amount) -> stacks.addAll(convertToStacks(is, amount)));
-        return stacks;
+        return drops;
     }
 
     public Collection<ItemStack> generateLoot(LivingEntity dead){
