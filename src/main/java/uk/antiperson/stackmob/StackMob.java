@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob;
 
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -104,7 +104,7 @@ public class StackMob extends JavaPlugin {
         registerNotEssentialEvents();
 
         getLogger().info("Starting metrics (if enabled)...");
-        new Metrics(this);
+        new MetricsLite(this);
 
         getLogger().info(getUpdater().updateString());
 
