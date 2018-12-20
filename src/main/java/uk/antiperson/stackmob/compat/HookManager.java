@@ -4,13 +4,13 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.hooks.*;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class HookManager {
 
     private StackMob sm;
-    private Map<PluginCompat, PluginHook> hooks = new HashMap<>();
+    private Map<PluginCompat, PluginHook> hooks = new EnumMap<>(PluginCompat.class);
     public HookManager(StackMob sm){
         this.sm = sm;
     }
