@@ -11,6 +11,7 @@ import uk.antiperson.stackmob.compat.PluginHook;
 
 public class JobsHook extends PluginHook implements CloneTrait {
 
+    private static final String METADATA = Jobs.getPlayerManager().getMobSpawnerMetadata();
     public JobsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.JOBS);
     }
@@ -28,8 +29,7 @@ public class JobsHook extends PluginHook implements CloneTrait {
                 .contains(entity.getType().toString())){
             return;
         }
-        String key = Jobs.getPlayerManager().getMobSpawnerMetadata();
-        entity.setMetadata(key, new FixedMetadataValue(getPlugin(), true));
+        entity.setMetadata(METADATA, new FixedMetadataValue(getPlugin(), true));
     }
 
 
