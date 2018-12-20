@@ -50,9 +50,29 @@ public class HookManager {
                 if(comparable.onEntityComparison(entity, nearby)){
                     return true;
                 }
+            }else if(hook instanceof Testable){
+                if(cantStack(hook, entity) || cantStack(hook, nearby)){
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public boolean cantStack(Entity entity){
+        for(PluginHook hook : hooks.values()){
+            if(hook instanceof Testable){
+                if(cantStack(hook, entity)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean cantStack(PluginHook hook, Entity entity){
+        Testable testable = (Testable) hook;
+        return testable.cantStack(entity);
     }
 
     public void onEntityClone(Entity entity){
