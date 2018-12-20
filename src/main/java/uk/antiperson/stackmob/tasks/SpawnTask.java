@@ -20,6 +20,9 @@ public class SpawnTask extends BukkitRunnable {
         if(StackTools.hasValidStackData(entity)){
             return;
         }
+        if(sm.getHookManager().cantStack(entity)){
+            return;
+        }
         // Set metadata to we can stack.
         StackTools.setSize(entity,1);
         // Find nearby stacks to merge with, return if found.
@@ -33,7 +36,6 @@ public class SpawnTask extends BukkitRunnable {
                 StackTools.setSize(entity, GlobalValues.NOT_ENOUGH_NEAR);
             }
         }
-
         // Set traits.
         sm.getTools().setTraits(entity);
     }

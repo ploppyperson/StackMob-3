@@ -38,6 +38,9 @@ public class LoadEvent implements Listener {
                 if(sm.getTraitManager().checkTraits(currentEntity)){
                     continue;
                 }
+                if(sm.getHookManager().cantStack(currentEntity)){
+                    continue;
+                }
                 if(sm.getLogic().doChecks(currentEntity)){
                     continue;
                 }
