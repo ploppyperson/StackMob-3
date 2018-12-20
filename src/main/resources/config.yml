@@ -195,6 +195,8 @@ multiply-drops:
     # The amount of entities that the loot should be dropped for in a stack.
     # Useful if there is a high max-stack value, to prevent lag.
     entity-limit: 50
+    # If when drops are multiplied, the drops should be compressed to either ingot or block form where applicable.
+    compress: true
     # Prevent certain drops from being multiplied.
     drops-blacklist:
         - ''

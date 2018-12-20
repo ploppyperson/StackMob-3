@@ -48,7 +48,7 @@ public class DeathEvent implements Listener {
 
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.getCustomConfig().getBoolean("multiply-drops.enabled")){
-            sm.getDropTools().dropDrops(subtractAmount, dead);
+            sm.getDropTools().doDrops(subtractAmount, dead);
         }
         if(sm.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));

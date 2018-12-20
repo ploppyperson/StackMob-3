@@ -6,6 +6,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
@@ -14,9 +16,9 @@ import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -29,15 +31,21 @@ public class DropTools {
         this.sm = sm;
     }
 
-    public void dropDrops(int deadAmount, LivingEntity dead){
+    public void doDrops(int deadAmount, LivingEntity dead){
         if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
             deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
         }
         Map<ItemStack, Integer> rawDrops = calculateDrops(deadAmount, dead);
-        rawDrops.forEach((item, amount) -> dropDrops(item, amount, dead.getLocation()));
+        if(sm.getCustomConfig().getBoolean("multiply-drops.compress")){
+            rawDrops = compressDrops(rawDrops);
+        }
+        for(Map.Entry<ItemStack, Integer> entry : rawDrops.entrySet()){
+            Collection<ItemStack> stacks = convert(entry.getKey(), entry.getValue());
+            dropStacks(stacks, dead.getLocation());
+        }
     }
 
-    public Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead){
+    private Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead){
         Map<ItemStack, Integer> drops = new HashMap<>();
         for(int i = 0; i < deadAmount; i++){
             for(ItemStack stack : generateLoot(dead)){
@@ -66,7 +74,7 @@ public class DropTools {
         return drops;
     }
 
-    public Collection<ItemStack> generateLoot(LivingEntity dead){
+    private Collection<ItemStack> generateLoot(LivingEntity dead){
         if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
             CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
             if(cdh.hasCustomDrops(dead)){
@@ -74,8 +82,7 @@ public class DropTools {
             }
         }
         LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
-        Collection<ItemStack> items = ((Mob) dead).getLootTable().populateLoot(new Random(), lootContext);
-        return items;
+        return ((Mob) dead).getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
     }
 
     // Calculate a random drop amount.
@@ -84,13 +91,13 @@ public class DropTools {
     }
 
     public void dropEggs(ItemStack drop, int amount, Location dropLocation){
-        Collection<ItemStack> drops = convertToStacks(drop, amount);
+        Collection<ItemStack> drops = convert(drop, amount);
         drops.forEach(itemStack -> itemStack.addUnsafeEnchantment(Enchantment.DIG_SPEED, 1));
         dropStacks(drops, dropLocation);
     }
 
     public void dropDrops(ItemStack drop, int amount, Location dropLocation){
-        Collection<ItemStack> drops = convertToStacks(drop, amount);
+        Collection<ItemStack> drops = convert(drop, amount);
         dropStacks(drops, dropLocation);
     }
 
@@ -99,7 +106,7 @@ public class DropTools {
     }
 
     // Method to create itemstacks.
-    private Collection<ItemStack> convertToStacks(ItemStack drop, int amount){
+    private Collection<ItemStack> convert(ItemStack drop, int amount){
         List<ItemStack> items = new ArrayList<>();
         double inStacks = (double) amount / (double) drop.getMaxStackSize();
         double floor = Math.floor(inStacks);
@@ -129,5 +136,41 @@ public class DropTools {
         return false;
     }
 
+    private Map<ItemStack, Integer> compressDrops(Map<ItemStack, Integer> items){
+        Map<ItemStack, Integer> list = new HashMap<>();
+        for(Map.Entry<ItemStack, Integer> entry : items.entrySet()){
+            ItemStack item = entry.getKey();
+            int amount = entry.getValue();
+            Iterator<Recipe> recipes = sm.getServer().recipeIterator();
+            while (recipes.hasNext()){
+                Recipe recipe = recipes.next();
+                if(recipe instanceof ShapedRecipe){
+                    ShapedRecipe slRecipe = (ShapedRecipe) recipe;
+                    if(slRecipe.getIngredientMap().values().size() < 9){
+                        continue;
+                    }
+                    if(slRecipe.getIngredientMap().values().stream()
+                            .anyMatch(itemStack -> notValid(item, itemStack))){
+                        continue;
+                    }
+                    double totalAmount =  (double) amount / 9D;
+                    int blockAmount = (int) Math.floor(totalAmount);
+                    int leftOver = (int) Math.round((totalAmount - blockAmount) * 9);
+                    list.put(recipe.getResult(), blockAmount);
+                    list.put(item, leftOver);
+                }
+            }
+            if(!list.containsKey(item)){
+                list.put(item, amount);
+            }
+        }
+        return list;
+    }
 
+    private boolean notValid(ItemStack original, ItemStack recipeItem){
+        if(recipeItem == null){
+            return true;
+        }
+        return original.getType() != recipeItem.getType();
+    }
 }
