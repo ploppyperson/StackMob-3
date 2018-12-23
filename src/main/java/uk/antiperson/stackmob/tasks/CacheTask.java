@@ -3,6 +3,9 @@ package uk.antiperson.stackmob.tasks;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class CacheTask extends BukkitRunnable {
 
     private StackMob sm;
@@ -12,7 +15,12 @@ public class CacheTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        sm.getServer().getScheduler().runTask(sm, () -> sm.getStorageManager().getStackStorage().cacheWorldData());
-        sm.getStorageManager().getStackStorage().saveStorage();
+        Map<UUID, Integer> values = sm.getStorageManager().getCombinedMap();
+        sm.getServer().getScheduler().runTaskAsynchronously(sm, new Runnable() {
+            @Override
+            public void run() {
+                sm.getStorageManager().getStackStorage().saveStorage(values);
+            }
+        });
     }
 }

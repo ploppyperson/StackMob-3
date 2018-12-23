@@ -23,16 +23,16 @@ public class FlatFile extends StackStorage {
     @Override
     public void loadStorage(){
         for(String key : fileCon.getKeys(false)){
-            getAmountCache().put(UUID.fromString(key), fileCon.getInt(key));
+            getStorageManager().getAmountCache().put(UUID.fromString(key), fileCon.getInt(key));
         }
     }
 
     @Override
-    public void saveStorage(){
+    public void saveStorage(Map<UUID, Integer> values){
         getFile().delete();
         reloadFile();
 
-        for(Map.Entry<UUID, Integer> entry : getAmountCache().entrySet()){
+        for(Map.Entry<UUID, Integer> entry : values.entrySet()){
             fileCon.set(entry.getKey().toString(), entry.getValue());
         }
 

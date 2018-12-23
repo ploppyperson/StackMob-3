@@ -97,16 +97,16 @@ public class Commands implements CommandExecutor {
                     }
 
                     int cacheTotal = 0;
-                    for (UUID uuid : sm.getStorageManager().getStackStorage().getAmountCache().keySet()) {
-                        if (sm.getStorageManager().getStackStorage().getAmountCache().get(uuid) > 0) {
-                            cacheTotal += sm.getStorageManager().getStackStorage().getAmountCache().get(uuid);
+                    for (UUID uuid : sm.getCache().keySet()) {
+                        if (sm.getCache().get(uuid) > 0) {
+                            cacheTotal += sm.getCache().get(uuid);
                         }
                     }
 
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + StackTools.getEntries().size() + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
-                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getStorageManager().getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getCache().size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick") || args[0].equalsIgnoreCase("tool")){
                     if (sender instanceof Player) {
                         Player player = (Player) sender;

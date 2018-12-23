@@ -203,7 +203,7 @@ public class StackMob extends JavaPlugin {
             new ShowTagTask(this).runTaskTimer(this, 5, getCustomConfig().getInt("tag.interval"));
         }
         if(getCustomConfig().getInt("storage.delay") > 0) {
-            new CacheTask(this).runTaskTimerAsynchronously(this, 0, getCustomConfig().getInt("storage.delay") * 20);
+            new CacheTask(this).runTaskTimer(this, 0, getCustomConfig().getInt("storage.delay") * 20);
         }
     }
 
@@ -272,6 +272,6 @@ public class StackMob extends JavaPlugin {
     }
 
     public Map<UUID, Integer> getCache(){
-        return getStorageManager().getStackStorage().getAmountCache();
+        return getStorageManager().getAmountCache();
     }
 }

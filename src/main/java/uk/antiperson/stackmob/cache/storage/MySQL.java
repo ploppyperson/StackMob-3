@@ -34,7 +34,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (UUID CHAR(36) NOT NULL UNIQUE, Size INT NOT NULL)").execute();
             ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob").executeQuery();
             while (rs.next()){
-                getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
+                getStorageManager().getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
             }
             convert();
         }catch (SQLException e){
@@ -46,10 +46,10 @@ public class MySQL extends StackStorage implements DisableCleanup {
     }
 
     @Override
-    public void saveStorage(){
+    public void saveStorage(Map<UUID, Integer> values){
         try {
             PreparedStatement statement = connection.prepareStatement("REPLACE INTO stackmob VALUES (?, ?)");
-            for(Map.Entry<UUID, Integer> entry : getAmountCache().entrySet()){
+            for(Map.Entry<UUID, Integer> entry : values.entrySet()){
                 statement.setString(1, entry.getKey().toString());
                 statement.setInt(2, entry.getValue());
                 statement.addBatch();
@@ -83,7 +83,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
         if(ff.getFile().exists()){
             getStackMob().getLogger().info("Converting FLATFILE cache to MySQL...");
             ff.loadStorage();
-            saveStorage();
+            saveStorage(getStorageManager().getAmountCache());
             ff.getFile().delete();
         }
     }
