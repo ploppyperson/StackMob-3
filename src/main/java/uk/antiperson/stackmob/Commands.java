@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -35,6 +36,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
+                sender.sendMessage(ChatColor.AQUA + "/sm cleanup " + ChatColor.GREEN + "Removes all single stacks from the cache.");
                 sender.sendMessage(ChatColor.AQUA + "/sm tool " + ChatColor.GREEN + "Gives you the tool of stacking.");
                 sender.sendMessage(ChatColor.AQUA + "/sm stats " + ChatColor.GREEN + "Displays entity statistics.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reload " + ChatColor.GREEN + "Reloads the configuration file.");
@@ -115,6 +117,15 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
                     }
+                } else if(args[0].equalsIgnoreCase("cleanup")){
+                    int counter = 0;
+                    for(Map.Entry<UUID, Integer> entry : sm.getCache().entrySet()){
+                        if(entry.getValue() == GlobalValues.NOT_ENOUGH_NEAR || entry.getValue() == 1){
+                            sm.getCache().remove(entry.getKey());
+                            counter++;
+                        }
+                    }
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Removed " + counter + " single stacks from the cache.");
                 } else {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                             "Incorrect command parameters!");
