@@ -52,7 +52,8 @@ stack-max: 20
 big-priority: true
 # If stacked entities should get removed when the chunk unloads.
 remove-chunk-unload: false
-# If entities existed before the addition of this plugin, stack them when chunks load.
+# Add stack info to entities when chunks load.
+# Prevents the saving of single entities, beneficial for larger servers.
 convert-existing-entities: true
 # Only stack if the entity was spawned by these causes.
 # Reasons list can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
