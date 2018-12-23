@@ -4,9 +4,8 @@ import com.kirelcodes.miniaturepets.api.APIUtils;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.*;
-import uk.antiperson.stackmob.compat.Comparable;
 
-public class MiniaturePetsHook extends PluginHook implements Comparable {
+public class MiniaturePetsHook extends PluginHook implements Testable {
 
     public MiniaturePetsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MINIATUREPETS);
@@ -25,8 +24,8 @@ public class MiniaturePetsHook extends PluginHook implements Comparable {
     }
 
     @Override
-    public boolean onEntityComparison(Entity entity, Entity nearby){
-        return isMiniPet(entity) || isMiniPet(nearby);
+    public boolean cantStack(Entity entity){
+        return isMiniPet(entity);
     }
 
     private boolean isMiniPet(Entity entity){

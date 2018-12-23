@@ -2,12 +2,12 @@ package uk.antiperson.stackmob.compat.hooks;
 
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.compat.Comparable;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.PluginHook;
+import uk.antiperson.stackmob.compat.Testable;
 
-public class CitizensHook extends PluginHook implements Comparable {
+public class CitizensHook extends PluginHook implements Testable {
 
     public CitizensHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.CITIZENS);
@@ -21,8 +21,8 @@ public class CitizensHook extends PluginHook implements Comparable {
     }
 
     @Override
-    public boolean onEntityComparison(Entity entity, Entity nearby){
-        return checkMetadata(entity) || checkMetadata(nearby);
+    public boolean cantStack(Entity entity){
+        return checkMetadata(entity);
     }
 
     private boolean checkMetadata(Entity entity){

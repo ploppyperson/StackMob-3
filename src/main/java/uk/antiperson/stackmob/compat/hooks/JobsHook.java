@@ -28,8 +28,8 @@ public class JobsHook extends PluginHook implements CloneTrait {
                 .contains(entity.getType().toString())){
             return;
         }
-        String key = Jobs.getPlayerManager().getMobSpawnerMetadata();
-        entity.setMetadata(key, new FixedMetadataValue(getPlugin(), true));
+        String metadata = Jobs.getPlayerManager().getMobSpawnerMetadata();
+        entity.setMetadata(metadata, new FixedMetadataValue(getPlugin(), true));
     }
 
 

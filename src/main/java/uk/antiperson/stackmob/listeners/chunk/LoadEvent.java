@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.listeners.chunk;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -23,6 +24,9 @@ public class LoadEvent implements Listener {
             return;
         }
         for(Entity currentEntity : e.getChunk().getEntities()){
+            if(!(currentEntity instanceof Mob)){
+                continue;
+            }
             // Check if has been cached.
             if(sm.getCache().containsKey(currentEntity.getUniqueId())){
                 int cacheSize = sm.getCache().get(currentEntity.getUniqueId());
@@ -36,6 +40,9 @@ public class LoadEvent implements Listener {
                     continue;
                 }
                 if(sm.getTraitManager().checkTraits(currentEntity)){
+                    continue;
+                }
+                if(sm.getHookManager().cantStack(currentEntity)){
                     continue;
                 }
                 if(sm.getLogic().doChecks(currentEntity)){

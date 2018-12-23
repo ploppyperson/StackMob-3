@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.compat;
 
 import org.bukkit.entity.Entity;
 
-public interface CloneTrait {
+public interface Testable {
 
-    void setTrait(Entity entity);
+    boolean cantStack(Entity entity);
 }

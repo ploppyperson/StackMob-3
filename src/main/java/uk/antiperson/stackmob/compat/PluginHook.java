@@ -16,15 +16,7 @@ public abstract class PluginHook implements PluginChecks{
         pluginName = hooks.getName();
         stackMob = sm;
         pluginCompat = hooks;
-        if(plugin != null){
-            hookManager = hm;
-            enable();
-        }
-        if(!hm.isHookRegistered(hooks)){
-            if(this instanceof Errorable){
-                ((Errorable) this).disable();
-            }
-        }
+        hookManager = hm;
     }
 
     public String getPluginName() {

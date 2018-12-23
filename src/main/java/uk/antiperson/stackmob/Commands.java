@@ -13,17 +13,16 @@ import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
+import java.util.Map;
 import java.util.UUID;
 
 
 public class Commands implements CommandExecutor {
 
     private StackMob sm;
-
     public Commands(StackMob sm) {
         this.sm = sm;
     }
-
 
     private final String noPerm = GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
             "You do not have the permission to perform this command! If you believe this is in error, contact the server administration.";
@@ -37,6 +36,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.AQUA + "/sm spawnstack [size] [entity type] " + ChatColor.GREEN + "Spawns a new pre-stacked entity.");
                 sender.sendMessage(ChatColor.AQUA + "/sm remove [radius] " + ChatColor.GREEN + "Removes all of the stacked entities loaded in the specified radius.");
                 sender.sendMessage(ChatColor.AQUA + "/sm removeall " + ChatColor.GREEN + "Removes all of the stacked entities loaded.");
+                sender.sendMessage(ChatColor.AQUA + "/sm cleanup " + ChatColor.GREEN + "Removes all single stacks from the cache.");
                 sender.sendMessage(ChatColor.AQUA + "/sm tool " + ChatColor.GREEN + "Gives you the tool of stacking.");
                 sender.sendMessage(ChatColor.AQUA + "/sm stats " + ChatColor.GREEN + "Displays entity statistics.");
                 sender.sendMessage(ChatColor.AQUA + "/sm reload " + ChatColor.GREEN + "Reloads the configuration file.");
@@ -66,6 +66,7 @@ public class Commands implements CommandExecutor {
                             if (StackTools.hasValidData(entity)) {
                                 counter++;
                                 entity.remove();
+                                sm.getLogic().cleanup(entity);
                             }
                         }
                     }
@@ -96,16 +97,16 @@ public class Commands implements CommandExecutor {
                     }
 
                     int cacheTotal = 0;
-                    for (UUID uuid : sm.getStorageManager().getStackStorage().getAmountCache().keySet()) {
-                        if (sm.getStorageManager().getStackStorage().getAmountCache().get(uuid) > 0) {
-                            cacheTotal += sm.getStorageManager().getStackStorage().getAmountCache().get(uuid);
+                    for (UUID uuid : sm.getCache().keySet()) {
+                        if (sm.getCache().get(uuid) > 0) {
+                            cacheTotal += sm.getCache().get(uuid);
                         }
                     }
 
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "Entity stacking statistics:");
                     sender.sendMessage(ChatColor.YELLOW + "Loaded entities: " + ChatColor.GREEN + StackTools.getEntries().size() + " (" + stackedTotal + " stacked.) "
                             + ChatColor.YELLOW + "Loaded entities (this chunk): " + ChatColor.GREEN + stackedCount1 + " (" + stackedTotal1 + " stacked.) ");
-                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getStorageManager().getStackStorage().getAmountCache().size() + " (" + cacheTotal + " stacked.) ");
+                    sender.sendMessage(ChatColor.YELLOW + "Cached entities: " + ChatColor.GREEN + sm.getCache().size() + " (" + cacheTotal + " stacked.) ");
                 } else if (args[0].equalsIgnoreCase("stick") || args[0].equalsIgnoreCase("tool")){
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
@@ -116,6 +117,15 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                                 "You need to be a player to do this!");
                     }
+                } else if(args[0].equalsIgnoreCase("cleanup")){
+                    int counter = 0;
+                    for(Map.Entry<UUID, Integer> entry : sm.getCache().entrySet()){
+                        if(entry.getValue() == GlobalValues.NOT_ENOUGH_NEAR || entry.getValue() == 1){
+                            sm.getCache().remove(entry.getKey());
+                            counter++;
+                        }
+                    }
+                    sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "Removed " + counter + " single stacks from the cache.");
                 } else {
                     sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
                             "Incorrect command parameters!");
@@ -129,6 +139,7 @@ public class Commands implements CommandExecutor {
                             for (Entity entity : ((Player) sender).getNearbyEntities(numb, numb, numb)) {
                                 if (StackTools.hasValidData(entity)) {
                                     entity.remove();
+                                    sm.getLogic().cleanup(entity);
                                     counter++;
                                 }
                             }

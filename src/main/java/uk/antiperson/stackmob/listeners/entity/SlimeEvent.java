@@ -3,17 +3,11 @@ package uk.antiperson.stackmob.listeners.entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SlimeSplitEvent;
-import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SlimeEvent implements Listener {
-
-    private StackMob sm;
-    public SlimeEvent(StackMob sm){
-        this.sm = sm;
-    }
 
     @EventHandler
     public void onSlimeEvent(SlimeSplitEvent e) {

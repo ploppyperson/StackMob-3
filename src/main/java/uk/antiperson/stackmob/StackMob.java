@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob;
 
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,10 +28,9 @@ import uk.antiperson.stackmob.tools.*;
 import uk.antiperson.stackmob.config.ConfigFile;
 import uk.antiperson.stackmob.config.EntityLangFile;
 import uk.antiperson.stackmob.config.GeneralLangFile;
-import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.time.LocalDate;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -40,29 +39,30 @@ import java.util.UUID;
 public class StackMob extends JavaPlugin {
 
     private int versionId = 0;
-    private ConfigFile config = new ConfigFile(this);
-    private EntityLangFile translation = new EntityLangFile(this);
-    private GeneralLangFile general = new GeneralLangFile(this);
-    private EntityTools tools = new EntityTools(this);
-    private DropTools dropTools = new DropTools(this);
-    private StickTools stickTools = new StickTools(this);
-    private ExperienceTools expTools = new ExperienceTools(this);
-    private StackLogic logic = new StackLogic(this);
-    private StorageManager storageManager = new StorageManager(this);
-    private HookManager hookManager = new HookManager(this);
-    private TraitManager traitManager = new TraitManager(this);
-    private DeathManager deathManager = new DeathManager(this);
-    private UpdateChecker updater = new UpdateChecker(this);
+    private ConfigFile config;
+    private EntityLangFile entityLang;
+    private GeneralLangFile generalLang;
+    private EntityTools entityTools;
+    private DropTools dropTools;
+    private StickTools stickTools;
+    private ExperienceTools expTools;
+    private StackLogic logic;
+    private StorageManager storageManager;
+    private HookManager hookManager;
+    private TraitManager traitManager;
+    private DeathManager deathManager;
+    private UpdateChecker updater;
 
     @Override
     public void onLoad(){
+        hookManager = new HookManager(this);
         getHookManager().onServerLoad();
     }
 
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson/BaconPied");
+        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson (pas_francais)");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
@@ -74,6 +74,7 @@ public class StackMob extends JavaPlugin {
             return;
         }
         getLogger().info("Detected server version: " + getVersionId());
+        initVariables();
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
         getConfigFile().reloadCustomConfig();
@@ -103,7 +104,7 @@ public class StackMob extends JavaPlugin {
         registerNotEssentialEvents();
 
         getLogger().info("Starting metrics (if enabled)...");
-        new Metrics(this);
+        new MetricsLite(this);
 
         getLogger().info(getUpdater().updateString());
 
@@ -135,6 +136,21 @@ public class StackMob extends JavaPlugin {
         return versionId;
     }
 
+    private void initVariables(){
+        config = new ConfigFile(this);
+        entityLang = new EntityLangFile(this);
+        generalLang = new GeneralLangFile(this);
+        entityTools = new EntityTools(this);
+        dropTools = new DropTools(this);
+        stickTools = new StickTools(this);
+        expTools = new ExperienceTools(this);
+        logic = new StackLogic(this);
+        storageManager = new StorageManager(this);
+        traitManager = new TraitManager(this);
+        deathManager = new DeathManager(this);
+        updater = new UpdateChecker(this);
+    }
+
     private void registerEssentialEvents(){
         getServer().getPluginManager().registerEvents(new SpawnEvent(this), this);
         getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
@@ -147,7 +163,7 @@ public class StackMob extends JavaPlugin {
 
     private void registerNotEssentialEvents(){
         if(getCustomConfig().getBoolean("multiply.creeper-explosion")){
-            getServer().getPluginManager().registerEvents(new ExplodeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new ExplodeEvent(), this);
         }
         if(getCustomConfig().getBoolean("multiply.chicken-eggs")){
             getServer().getPluginManager().registerEvents(new ItemDrop(this), this);
@@ -159,7 +175,7 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new InteractEvent(this), this);
         }
         if(getCustomConfig().getBoolean("multiply.small-slimes")) {
-            getServer().getPluginManager().registerEvents(new SlimeEvent(this), this);
+            getServer().getPluginManager().registerEvents(new SlimeEvent(), this);
         }
         if(getCustomConfig().getBoolean("multiply-damage-done")){
             getServer().getPluginManager().registerEvents(new DealtDamageEvent(), this);
@@ -187,7 +203,7 @@ public class StackMob extends JavaPlugin {
             new ShowTagTask(this).runTaskTimer(this, 5, getCustomConfig().getInt("tag.interval"));
         }
         if(getCustomConfig().getInt("storage.delay") > 0) {
-            new CacheTask(this).runTaskTimerAsynchronously(this, 0, getCustomConfig().getInt("storage.delay") * 20);
+            new CacheTask(this).runTaskTimer(this, 0, getCustomConfig().getInt("storage.delay") * 20);
         }
     }
 
@@ -216,7 +232,7 @@ public class StackMob extends JavaPlugin {
     }
 
     public EntityTools getTools() {
-        return tools;
+        return entityTools;
     }
 
     public DropTools getDropTools() {
@@ -228,11 +244,11 @@ public class StackMob extends JavaPlugin {
     }
 
     public FileConfiguration getTranslationConfig() {
-        return translation.getCustomConfig();
+        return entityLang.getCustomConfig();
     }
 
     public EntityLangFile getTranslationFile() {
-        return translation;
+        return entityLang;
     }
 
     public ExperienceTools getExpTools() {
@@ -240,11 +256,11 @@ public class StackMob extends JavaPlugin {
     }
 
     public FileConfiguration getGeneralConfig() {
-        return general.getCustomConfig();
+        return generalLang.getCustomConfig();
     }
 
     public GeneralLangFile getGeneralFile() {
-        return general;
+        return generalLang;
     }
 
     public UpdateChecker getUpdater() {
@@ -255,7 +271,7 @@ public class StackMob extends JavaPlugin {
         return logic;
     }
 
-    public ConcurrentHashMap<UUID, Integer> getCache(){
-        return getStorageManager().getStackStorage().getAmountCache();
+    public Map<UUID, Integer> getCache(){
+        return getStorageManager().getAmountCache();
     }
 }

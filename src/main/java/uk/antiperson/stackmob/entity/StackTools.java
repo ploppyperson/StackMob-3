@@ -4,12 +4,13 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StackTools {
 
-    private static HashMap<UUID, Integer> currentEntities = new HashMap<>();
-    private static HashMap<UUID, Integer> waiting = new HashMap<>();
+    private static Map<UUID, Integer> currentEntities = new HashMap<>();
+    private static Map<UUID, Integer> waiting = new HashMap<>();
 
     public static void addWaiting(Entity entity, int time){
         waiting.put(entity.getUniqueId(), time);
@@ -77,7 +78,7 @@ public class StackTools {
         entity.setCustomName(null);
     }
 
-    public static HashMap<UUID, Integer> getEntries(){
+    public static Map<UUID, Integer> getEntries(){
         return currentEntities;
     }
 

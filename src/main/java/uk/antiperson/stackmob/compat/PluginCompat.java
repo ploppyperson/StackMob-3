@@ -7,7 +7,8 @@ public enum PluginCompat {
     MCMMO("mcMMO"),
     JOBS("Jobs"),
     CITIZENS("Citizens"),
-    MINIATUREPETS("MiniaturePets");
+    MINIATUREPETS("MiniaturePets"),
+    CUSTOMDROPS("CustomDrops");
 
     private final String name;
     PluginCompat(String name){

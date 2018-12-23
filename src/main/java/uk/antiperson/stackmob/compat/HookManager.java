@@ -4,13 +4,13 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.hooks.*;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
-// TODO: Custom hooks from other plugins.
 public class HookManager {
 
     private StackMob sm;
-    private HashMap<PluginCompat, PluginHook> hooks = new HashMap<>();
+    private Map<PluginCompat, PluginHook> hooks = new EnumMap<>(PluginCompat.class);
     public HookManager(StackMob sm){
         this.sm = sm;
     }
@@ -20,12 +20,14 @@ public class HookManager {
     }
 
     public void registerHooks(){
-        new ProtocolLibHook(this, sm);
-        new McmmoHook(this, sm);
-        new CitizensHook(this, sm);
-        new MiniaturePetsHook(this, sm);
-        new MythicMobsHook(this, sm);
-        new JobsHook(this, sm);
+        enableHook(new WorldGuardHook(this, sm));
+        enableHook(new ProtocolLibHook(this, sm));
+        enableHook(new McmmoHook(this, sm));
+        enableHook(new CitizensHook(this, sm));
+        enableHook(new MiniaturePetsHook(this, sm));
+        enableHook(new MythicMobsHook(this, sm));
+        enableHook(new JobsHook(this, sm));
+        enableHook(new CustomDropsHook(this, sm));
     }
 
     public void registerHook(PluginCompat hookEnum, PluginHook hook){
@@ -48,9 +50,29 @@ public class HookManager {
                 if(comparable.onEntityComparison(entity, nearby)){
                     return true;
                 }
+            }else if(hook instanceof Testable){
+                if(cantStack(hook, entity) || cantStack(hook, nearby)){
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public boolean cantStack(Entity entity){
+        for(PluginHook hook : hooks.values()){
+            if(hook instanceof Testable){
+                if(cantStack(hook, entity)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean cantStack(PluginHook hook, Entity entity){
+        Testable testable = (Testable) hook;
+        return testable.cantStack(entity);
     }
 
     public void onEntityClone(Entity entity){
@@ -58,6 +80,18 @@ public class HookManager {
             if(hook instanceof CloneTrait){
                 CloneTrait cloneTrait = (CloneTrait) hook;
                 cloneTrait.setTrait(entity);
+            }
+        }
+    }
+
+    private void enableHook(PluginHook hook){
+        if(hook.getPlugin() == null){
+            return;
+        }
+        hook.enable();
+        if(!isHookRegistered(hook.getPluginCompat())){
+            if(hook instanceof Errorable){
+                ((Errorable) hook).disable();
             }
         }
     }

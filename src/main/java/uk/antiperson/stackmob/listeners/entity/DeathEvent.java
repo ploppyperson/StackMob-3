@@ -9,11 +9,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.api.StackedEntity;
+import uk.antiperson.stackmob.api.events.StackDeathEvent;
 import uk.antiperson.stackmob.entity.death.DeathStep;
-import uk.antiperson.stackmob.entity.death.DeathType;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
-import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.List;
 
@@ -28,13 +28,17 @@ public class DeathEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         LivingEntity dead = e.getEntity();
+        if(!(dead instanceof Mob)){
+            return;
+        }
         if(!(StackTools.hasValidStackData(dead))){
             return;
         }
-
-        DeathStep method = calculateMethod(dead);
         int stackAmount = StackTools.getSize(dead);
-        int subtractAmount = calculateStep(dead, method);
+        
+        DeathStep method = sm.getDeathManager().calculateMethod(dead);
+        int subtractAmount = sm.getDeathManager().calculateStep(dead, method);
+        callEvent(dead, e, subtractAmount);
         multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
         if(subtractAmount != stackAmount){
             Entity entity = spawnNewEntity(stackAmount - subtractAmount, dead);
@@ -47,11 +51,7 @@ public class DeathEvent implements Listener {
 
     private void multiplication(LivingEntity dead, List<ItemStack> drops, int subtractAmount, int originalExperience){
         if(sm.getCustomConfig().getBoolean("multiply-drops.enabled")){
-            if(sm.getCustomConfig().getBoolean("multiply-drops.calculate-per-entity")){
-                sm.getDropTools().calculateDrops(subtractAmount, dead);
-            }else{
-                sm.getDropTools().calculateDrops(drops, subtractAmount, dead);
-            }
+            sm.getDropTools().doDrops(subtractAmount, dead);
         }
         if(sm.getCustomConfig().getBoolean("multiply-exp.enabled")){
             // double newExperience = subtractAmount * (originalExperience * sm.config.getCustomConfig().getDouble("multiply-exp-scaling", 1.0));
@@ -66,29 +66,15 @@ public class DeathEvent implements Listener {
         }
     }
 
-    private DeathStep calculateMethod(LivingEntity dead){
-        if(!dead.hasMetadata(GlobalValues.KILL_ONE)){
-            for(DeathType deathType : DeathType.values()){
-                DeathStep method = sm.getDeathManager().getMethod(deathType);
-                if(method.isAllowed(dead)){
-                    return method;
-                }
-            }
-        }
-        return null;
-    }
-
-    private int calculateStep(LivingEntity dead, DeathStep method){
-        if(method != null){
-            return method.calculateStep(dead);
-        }
-        return 1;
-    }
-
     private Entity spawnNewEntity(int newSize, LivingEntity dead){
         Entity newe = sm.getTools().duplicate(dead);
         StackTools.setSize(newe, newSize);
         return newe;
     }
 
+    private void callEvent(Entity entity, EntityDeathEvent event, int deathAmount){
+        StackedEntity stackedEntity = new StackedEntity(entity, sm);
+        StackDeathEvent sde = new StackDeathEvent(stackedEntity, event, deathAmount);
+        sm.getServer().getPluginManager().callEvent(sde);
+    }
 }

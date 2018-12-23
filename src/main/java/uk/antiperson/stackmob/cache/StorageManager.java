@@ -3,21 +3,23 @@ package uk.antiperson.stackmob.cache;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
+import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StorageManager {
 
     private StackMob sm;
-    private StorageType cacheType;
     private StackStorage stackStorage;
+    private Map<UUID, Integer> amountCache = new HashMap<>();
     public StorageManager(StackMob sm){
         this.sm = sm;
     }
 
     public void onServerEnable(){
-        cacheType = StorageType.valueOf(getStackMob().getCustomConfig().getString("storage.type"));
+        StorageType cacheType = StorageType.valueOf(getStackMob().getCustomConfig().getString("storage.type"));
         getStackMob().getLogger().info("Using " + cacheType.toString() + " storage method.");
         switch (cacheType){
             case MYSQL:
@@ -38,9 +40,15 @@ public class StorageManager {
         }
     }
 
+    public Map<UUID, Integer> getCombinedMap(){
+        Map<UUID, Integer> toSave = new HashMap<>();
+        toSave.putAll(getAmountCache());
+        toSave.putAll(StackTools.getEntries());
+        return toSave;
+    }
+
     public void saveStorage(){
-        stackStorage.cacheWorldData();
-        stackStorage.saveStorage();
+        stackStorage.saveStorage(getCombinedMap());
     }
 
     public StackMob getStackMob() {
@@ -51,8 +59,9 @@ public class StorageManager {
         return stackStorage;
     }
 
-    public StorageType getCacheType() {
-        return cacheType;
+    public Map<UUID, Integer> getAmountCache() {
+        return amountCache;
     }
+
 
 }
