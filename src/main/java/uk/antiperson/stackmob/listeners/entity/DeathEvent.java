@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.api.StackedEntity;
+import uk.antiperson.stackmob.api.events.StackDeathEvent;
 import uk.antiperson.stackmob.entity.death.DeathStep;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
@@ -36,6 +38,7 @@ public class DeathEvent implements Listener {
         
         DeathStep method = sm.getDeathManager().calculateMethod(dead);
         int subtractAmount = sm.getDeathManager().calculateStep(dead, method);
+        callEvent(dead, e, subtractAmount);
         multiplication(dead, e.getDrops(), subtractAmount - 1, e.getDroppedExp());
         if(subtractAmount != stackAmount){
             Entity entity = spawnNewEntity(stackAmount - subtractAmount, dead);
@@ -69,4 +72,9 @@ public class DeathEvent implements Listener {
         return newe;
     }
 
+    private void callEvent(Entity entity, EntityDeathEvent event, int deathAmount){
+        StackedEntity stackedEntity = new StackedEntity(entity, sm);
+        StackDeathEvent sde = new StackDeathEvent(stackedEntity, event, deathAmount);
+        sm.getServer().getPluginManager().callEvent(sde);
+    }
 }
