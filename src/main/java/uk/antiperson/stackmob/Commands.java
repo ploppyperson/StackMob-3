@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -119,9 +120,11 @@ public class Commands implements CommandExecutor {
                     }
                 } else if(args[0].equalsIgnoreCase("cleanup")){
                     int counter = 0;
-                    for(Map.Entry<UUID, Integer> entry : sm.getCache().entrySet()){
-                        if(entry.getValue() == GlobalValues.NOT_ENOUGH_NEAR || entry.getValue() == 1){
-                            sm.getCache().remove(entry.getKey());
+                    Iterator<Map.Entry<UUID, Integer>> iterator =  sm.getCache().entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<UUID,Integer> entry = iterator.next();
+                        if(entry.getValue() == GlobalValues.NOT_ENOUGH_NEAR || entry.getValue() == 1) {
+                            iterator.remove();
                             counter++;
                         }
                     }
