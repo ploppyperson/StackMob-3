@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.entity.death.method;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.entity.death.DeathStep;
 import uk.antiperson.stackmob.entity.death.DeathType;
 import uk.antiperson.stackmob.tools.GlobalValues;
@@ -27,7 +28,10 @@ public class KillStepDamage extends DeathStep {
     }
 
     private double getLeftoverDamage(LivingEntity dead){
-        return dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
+        if(StackTools.hasValidMetadata(dead, GlobalValues.LEFTOVER_DAMAGE)){
+            return dead.getMetadata(GlobalValues.LEFTOVER_DAMAGE).get(0).asDouble();
+        }
+        return 0;
     }
 
     private double getMaxHealth(LivingEntity dead){
