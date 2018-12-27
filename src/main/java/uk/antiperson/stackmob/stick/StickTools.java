@@ -119,6 +119,9 @@ public class StickTools {
                 newStickMode = stickMode + 1;
             }
         }
+        if(StackTools.hasValidMetadata(player, GlobalValues.WAITING_FOR_INPUT)){
+            player.setMetadata(GlobalValues.WAITING_FOR_INPUT, new FixedMetadataValue(sm, false));
+        }
         player.setMetadata(GlobalValues.STICK_MODE, new FixedMetadataValue(sm, newStickMode));
         sendMessage(player,ChatColor.GREEN + "Toggled tool mode to " + ChatColor.GOLD + StickMode.getStickMode(newStickMode), 2);
     }
