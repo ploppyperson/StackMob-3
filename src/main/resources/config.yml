@@ -48,8 +48,6 @@ custom:
 task-delay: 100
 # The maximum size a single stack can be.
 stack-max: 20
-# If bigger stacks should get priority when stacking on the task.
-big-priority: true
 # If stacked entities should get removed when the chunk unloads.
 remove-chunk-unload: false
 # Add stack info to entities when chunks load.

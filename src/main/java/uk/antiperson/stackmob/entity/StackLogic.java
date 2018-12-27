@@ -47,7 +47,7 @@ public class StackLogic {
         int maxSize = getMaxSize(original);
         int nearbySize = StackTools.getSize(nearby);
         int originalSize = StackTools.getSize(original);
-        if(nearbySize > originalSize && sm.getCustomConfig().getBoolean("big-priority")){
+        if(nearbySize > originalSize){
             Entity holder = nearby;
             nearby = original;
             original = holder;
