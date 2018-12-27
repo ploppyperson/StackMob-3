@@ -37,13 +37,13 @@ public class StackLogic {
             if(callEvent(original, nearby)){
                 continue;
             }
-            attemptMerge(original, nearby);
+            merge(original, nearby);
             return true;
         }
         return false;
     }
 
-    public void attemptMerge(Entity original, Entity nearby){
+    public void merge(Entity original, Entity nearby){
         int maxSize = getMaxSize(original);
         int nearbySize = StackTools.getSize(nearby);
         int originalSize = StackTools.getSize(original);
