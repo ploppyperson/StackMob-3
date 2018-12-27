@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
+import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class UnloadEvent implements Listener {
 
@@ -32,7 +33,8 @@ public class UnloadEvent implements Listener {
             if(StackTools.hasValidData(currentEntity)){
                 int stackSize = StackTools.getSize(currentEntity);
                 StackTools.removeSize(currentEntity);
-                if(sm.getCustomConfig().getBoolean("convert-existing-entities") && stackSize <= 1){
+                if(sm.getCustomConfig().getBoolean("convert-existing-entities")
+                        && stackSize <= 1 && stackSize != GlobalValues.NO_STACKING){
                     return;
                 }
                 if(sm.getCustomConfig().getBoolean("remove-chunk-unload")){
@@ -42,7 +44,6 @@ public class UnloadEvent implements Listener {
                 sm.getCache().put(currentEntity.getUniqueId(), stackSize);
                 return;
             }
-            sm.getCache().remove(currentEntity.getUniqueId());
         }
     }
 

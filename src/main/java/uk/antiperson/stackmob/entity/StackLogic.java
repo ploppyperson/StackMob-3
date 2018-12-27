@@ -156,6 +156,9 @@ public class StackLogic {
 
     public boolean doSpawnChecks(Entity entity, String reason){
         if(sm.getConfigFile().check("stack-reasons", reason)){
+            if(sm.getCustomConfig().getBoolean("convert-existing-entities")){
+                StackTools.setSize(entity, GlobalValues.NO_STACKING);
+            }
             return true;
         }
         return doChecks(entity);

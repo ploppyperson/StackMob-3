@@ -8,15 +8,16 @@ import org.bukkit.ChatColor;
 public class GlobalValues {
 
     // Entity constants.
-    public static final String BREED_MODE = "stackmob:breed-mode";
-    public static final String NO_STACK = "stackmob:no-stack";
-    public static final String KILL_ONE = "stackmob:kill-one";
-    public static final String LEFTOVER_DAMAGE = "stackmob:leftover-damage";
+    public static final String BREED_MODE = "sm:breed-mode";
+    public static final String NO_STACK = "sm:no-stack";
+    public static final String KILL_ONE = "sm:kill-one";
+    public static final String LEFTOVER_DAMAGE = "sm:leftover";
     public static final int NOT_ENOUGH_NEAR = -1;
+    public static final int NO_STACKING = -2;
     // Player constants.
-    public static final String WAITING_FOR_INPUT = "stackmob:waiting-for-input";
-    public static final String STICK_MODE = "stackmob:stick-mode";
-    public static final String SELECTED_ENTITY = "stackmob:selected-entity";
+    public static final String WAITING_FOR_INPUT = "sm:waiting";
+    public static final String STICK_MODE = "sm:mode";
+    public static final String SELECTED_ENTITY = "sm:selected";
     // Plugin support constants.
     public static final String MCMMO_META = "mcMMO: Spawned Entity";
     // Plugin constants.
