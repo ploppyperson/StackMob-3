@@ -37,14 +37,13 @@ public class StackLogic {
             if(callEvent(original, nearby)){
                 continue;
             }
-            if(attemptMerge(original, nearby)){
-                return true;
-            }
+            attemptMerge(original, nearby);
+            return true;
         }
         return false;
     }
 
-    public boolean attemptMerge(Entity original, Entity nearby){
+    public void attemptMerge(Entity original, Entity nearby){
         int maxSize = getMaxSize(original);
         int nearbySize = StackTools.getSize(nearby);
         int originalSize = StackTools.getSize(original);
@@ -64,40 +63,40 @@ public class StackLogic {
             sm.getTools().onceStacked(nearby);
             nearby.remove();
         }
-        return true;
     }
 
     public boolean notEnoughNearby(Entity original){
         int dontStackTill = sm.getCustomConfig().getInt("dont-stack-until");
-        if(dontStackTill > 0){
-            List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
-            if(nearbyEntities.size() < dontStackTill &&
-                    nearbyEntities.stream().noneMatch(StackTools::hasValidStackData)){
-                return true;
+        if(dontStackTill <= 1){
+            return false;
+        }
+        List<Entity> nearbyEntities = original.getNearbyEntities(getX(), getY(), getZ());
+        if(nearbyEntities.size() < dontStackTill &&
+                nearbyEntities.stream().noneMatch(StackTools::hasValidStackData)){
+            return true;
+        }
+        HashSet<Entity> entities = new HashSet<>();
+        for(Entity nearby : nearbyEntities){
+            if(original.getType() != nearby.getType()){
+                continue;
             }
-            HashSet<Entity> entities = new HashSet<>();
-            for(Entity nearby : nearbyEntities){
-                if(original.getType() != nearby.getType()){
-                    continue;
-                }
-                if(!(StackTools.hasValidData(nearby))){
-                    continue;
-                }
-                if(sm.getTools().notMatching(original, nearby)){
-                    continue;
-                }
-                if(StackTools.hasValidStackData(nearby)){
-                    StackTools.setSize(original, 1);
-                    return false;
-                }
-                entities.add(nearby);
+            if(!(StackTools.hasValidData(nearby))){
+                continue;
             }
-            if(entities.size() + 1 < dontStackTill){
-                return true;
+            if(sm.getTools().notMatching(original, nearby)){
+                continue;
             }
-            for(Entity entity : entities){
-                StackTools.setSize(entity,1);
+            if(StackTools.hasValidStackData(nearby)){
+                StackTools.setSize(original, 1);
+                return false;
             }
+            entities.add(nearby);
+        }
+        if(entities.size() + 1 < dontStackTill){
+            return true;
+        }
+        for(Entity entity : entities){
+            StackTools.setSize(entity,1);
         }
         return false;
     }
