@@ -1,9 +1,8 @@
 package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Mob;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
@@ -20,7 +19,7 @@ public class StackTask extends BukkitRunnable {
     @Override
     public void run(){
         for(Entity entity : world.getLivingEntities()){
-            if(entity instanceof ArmorStand || entity instanceof Player){
+            if(!(entity instanceof Mob)){
                 continue;
             }
             if(sm.getLogic().incrementWaiting(entity)){

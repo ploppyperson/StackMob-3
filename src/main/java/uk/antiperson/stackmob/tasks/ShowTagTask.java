@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
@@ -33,7 +33,7 @@ public class ShowTagTask extends BukkitRunnable {
             // Get all entities in range that the tag can be shown for.
             HashSet<Entity> entities = new HashSet<>();
             for(Entity entity : player.getNearbyEntities(x, y, z)) {
-                if(!(entity instanceof LivingEntity)) {
+                if(!(entity instanceof Mob)) {
                     continue;
                 }
                 if(!(StackTools.hasSizeMoreThanOne(entity))){

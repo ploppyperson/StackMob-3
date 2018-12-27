@@ -32,6 +32,9 @@ public class DeathEvent implements Listener {
             return;
         }
         if(!(StackTools.hasValidStackData(dead))){
+            if(StackTools.hasValidData(dead)){
+                sm.getLogic().cleanup(dead);
+            }
             return;
         }
         int stackAmount = StackTools.getSize(dead);

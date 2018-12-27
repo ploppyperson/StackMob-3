@@ -4,7 +4,7 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
@@ -26,7 +26,7 @@ public class TagTask extends BukkitRunnable {
         MythicMobsHook mobsHook = (MythicMobsHook) sm.getHookManager().getHook(PluginCompat.MYTHICMOBS);
         for (Entity e : WorldTools.getLoadedEntities()) {
             if (!sm.getCustomConfig().getStringList("no-stack-worlds").contains(e.getWorld().getName())) {
-                if(!(e instanceof LivingEntity)){
+                if(!(e instanceof Mob)){
                     continue;
                 }
                 if (StackTools.hasValidStackData(e)) {

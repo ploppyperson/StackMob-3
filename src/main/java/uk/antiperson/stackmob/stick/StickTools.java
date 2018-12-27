@@ -7,9 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -65,7 +64,7 @@ public class StickTools {
                 break;
             case STACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
-                    if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
+                    if(nearby instanceof Mob){
                         if(!(StackTools.hasValidStackData(nearby))){
                             StackTools.setSize(nearby, 1);
                         }
@@ -79,7 +78,7 @@ public class StickTools {
                 break;
             case UNSTACK_NEARBY:
                 for(Entity nearby : entity.getLocation().getChunk().getEntities()){
-                    if(nearby instanceof LivingEntity && !(nearby instanceof ArmorStand || nearby instanceof Player)){
+                    if(nearby instanceof Mob){
                         if(StackTools.hasValidStackData(nearby)){
                             StackTools.removeSize(nearby);
                         }

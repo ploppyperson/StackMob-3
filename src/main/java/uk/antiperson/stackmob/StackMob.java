@@ -38,7 +38,7 @@ import java.util.UUID;
  */
 public class StackMob extends JavaPlugin {
 
-    private int versionId = 0;
+    private int versionId;
     private ConfigFile config;
     private EntityLangFile entityLang;
     private GeneralLangFile generalLang;
