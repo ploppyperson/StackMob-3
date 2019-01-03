@@ -41,9 +41,12 @@ public class MySQL extends StackStorage implements DisableCleanup {
 
             try (ResultSet rs = connection.prepareStatement("SELECT HEX(uuid) as uuid, size FROM stackmob").executeQuery()) {
                 while (rs.next()) {
+                    int size = rs.getInt("size");
+                    if (size <= 1) continue;
+
                     getStorageManager().getAmountCache().put(
                         UuidUtil.fromString(rs.getString("uuid")),
-                        rs.getInt("size")
+                        size
                     );
                 }
             }
@@ -61,6 +64,8 @@ public class MySQL extends StackStorage implements DisableCleanup {
             "INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?) ON DUPLICATE KEY UPDATE size = VALUES(size);"
         )) {
             for (Map.Entry<UUID, Integer> entry : values.entrySet()) {
+                if (entry.getValue() <= 1) continue;
+
                 statement.setString(1, entry.getKey().toString().replace("-", ""));
                 statement.setInt(2, entry.getValue());
                 statement.addBatch();
