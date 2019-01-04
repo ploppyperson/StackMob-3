@@ -41,7 +41,7 @@ public class StorageManager {
     }
 
     public Map<UUID, Integer> getCombinedMap(){
-        Map<UUID, Integer> toSave = new HashMap<>();
+        Map<UUID, Integer> toSave = new HashMap<>(getAmountCache().size() + StackTools.getEntries().size());
         toSave.putAll(getAmountCache());
         toSave.putAll(StackTools.getEntries());
         return toSave;
