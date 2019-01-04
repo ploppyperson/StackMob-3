@@ -26,6 +26,7 @@ public class UnloadEvent implements Listener {
         for(Entity currentEntity : e.getChunk().getEntities()){
             // Always cleanup
             sm.getCache().remove(currentEntity.getUniqueId());
+            StackTools.removeSize(currentEntity);
 
             // Check if entity is a mob, since they despawn on chunk unload.
             if(currentEntity instanceof Monster){
