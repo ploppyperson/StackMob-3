@@ -23,11 +23,15 @@ public class DrownedTrait implements ApplicableTrait {
         if(original instanceof Drowned){
             Drowned oriDrowned = (Drowned) original;
             Drowned nearDrowned = (Drowned) nearby;
-            if(materials.contains(oriDrowned.getEquipment().getItemInMainHand().getType())){
-                return oriDrowned.getEquipment().getItemInMainHand().getType() !=
-                        nearDrowned.getEquipment().getItemInMainHand().getType();
+            if(materials.contains(oriDrowned.getEquipment().getItemInMainHand().getType()) ||
+                    materials.contains(nearDrowned.getEquipment().getItemInMainHand().getType())){
+                if(oriDrowned.getEquipment().getItemInMainHand().getType() !=
+                        nearDrowned.getEquipment().getItemInMainHand().getType()){
+                    return true;
+                }
             }
-            if(materials.contains(oriDrowned.getEquipment().getItemInOffHand().getType())){
+            if(materials.contains(oriDrowned.getEquipment().getItemInOffHand().getType()) ||
+                    materials.contains(nearDrowned.getEquipment().getItemInOffHand().getType())){
                 return oriDrowned.getEquipment().getItemInOffHand().getType() !=
                         nearDrowned.getEquipment().getItemInOffHand().getType();
             }
