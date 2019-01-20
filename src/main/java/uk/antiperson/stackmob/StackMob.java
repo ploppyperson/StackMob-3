@@ -107,12 +107,6 @@ public class StackMob extends JavaPlugin {
         new MetricsLite(this);
 
         getLogger().info(getUpdater().updateString());
-
-        if(LocalDate.now().getDayOfYear() == 359){
-            getLogger().info("If you are reading this, have a merry christmas!");
-        }else if(LocalDate.now().getDayOfYear() == 1){
-            getLogger().info("Happy new year!");
-        }
     }
 
 
