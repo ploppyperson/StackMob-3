@@ -93,7 +93,8 @@ public class StackTools {
     public static Map<UUID, Integer> getPersistentEntries() {
         Map<UUID, Integer> ret = new HashMap<>();
         for (UUID uuid : persistentEntities) {
-            ret.put(uuid, currentEntities.get(uuid));
+            Integer found = currentEntities.get(uuid);
+            if (found != null) ret.put(uuid, found);
         }
         return ret;
     }
