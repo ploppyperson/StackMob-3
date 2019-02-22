@@ -17,6 +17,8 @@ public class PluginSupport {
     private MythicSupport mythicSupport;
     private WorldGuardSupport worldGuardSupport;
     private ProtocolSupport protocolSupport;
+    private CustomDropsSupport customDropsSupport;
+
     public PluginSupport(StackMob sm){
         this.sm = sm;
     }
@@ -43,14 +45,22 @@ public class PluginSupport {
                 }
             }
         }
+
+        Plugin pl3 = Bukkit.getPluginManager().getPlugin("CustomDrops");
+
+        if(sm.config.getCustomConfig().getBoolean("custom-drops.enabled")) {
+            if(pl3 != null) {
+                this.customDropsSupport = new CustomDropsSupport();
+            }
+        }
     }
 
-    public void setMcmmoMetadata(Entity entity){
+    public void setMcmmoMetadata(Entity entity) {
         Plugin mcmmo = sm.getServer().getPluginManager().getPlugin("mcMMO");
-        if(sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && mcmmo != null){
-            if(!sm.config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
-                    .contains(entity.getType().toString()) && mcmmo.isEnabled()){
-                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(mcmmo,false));
+        if (sm.config.getCustomConfig().getBoolean("mcmmo.no-experience.enabled") && mcmmo != null) {
+            if (!sm.config.getCustomConfig().getStringList("mcmmo.no-experience.blacklist")
+                    .contains(entity.getType().toString()) && mcmmo.isEnabled()) {
+                entity.setMetadata(GlobalValues.MCMMO_META, new FixedMetadataValue(mcmmo, false));
             }
         }
     }
@@ -87,12 +97,20 @@ public class PluginSupport {
         return worldGuardSupport;
     }
 
+    public CustomDropsSupport getCustomDropsSupport() {
+        return this.customDropsSupport;
+    }
+
     public boolean isProtocolSupportEnabled(){
         return getProtocolSupport() != null && sm.getVersionId() > 1;
     }
 
     public boolean isWorldGuardEnabled(){
         return getWorldGuard() != null;
+    }
+
+    public boolean isCustomDropsEnabled() {
+        return getCustomDropsSupport() != null;
     }
 
     public boolean isWorldGuardCorrectVersion(){
