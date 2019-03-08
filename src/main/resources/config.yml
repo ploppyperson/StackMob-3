@@ -255,3 +255,7 @@ mythicmobs:
 # If WorldGuard is installed, enable support for it.
 # Use the 'entity-stacking' flag to disable mob stacking in certain regions.
 worldguard-support: true
+
+# If custom drops is installed, use that for mob drops.
+custom-drops:
+    enabled: true

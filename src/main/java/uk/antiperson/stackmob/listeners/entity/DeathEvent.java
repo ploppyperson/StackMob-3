@@ -43,7 +43,7 @@ public class DeathEvent implements Listener {
         if(!dead.hasMetadata(GlobalValues.KILL_ONE_OFF)){
             if(sm.config.getCustomConfig().getBoolean("kill-all.enabled")){
                 if (!sm.config.getCustomConfig().getStringList("kill-all.reason-blacklist")
-                        .contains(dead.getLastDamageCause().getCause().toString())){
+                        .contains(dead.getLastDamageCause().getCause().name())){
                     if (!sm.config.getCustomConfig().getStringList("kill-all.type-blacklist")
                             .contains(dead.getType().toString())){
                         // Do it

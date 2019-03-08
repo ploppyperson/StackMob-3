@@ -5,6 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import uk.antiperson.stackmob.StackMob;
+import uk.antiperson.stackmob.tools.plugin.CustomDropsSupport;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,6 +21,11 @@ public class DropTools {
     }
 
     public void calculateDrops(List<ItemStack> drops, int multiplier, LivingEntity dead, ItemStack itemInHand){
+        if(sm.pluginSupport.isCustomDropsEnabled()) {
+            CustomDropsSupport hook = sm.pluginSupport.getCustomDropsSupport();
+            drops = hook.getDrops(dead);
+        }
+
         for(ItemStack itemStack : drops){
             if(itemStack == null){
                 continue;
