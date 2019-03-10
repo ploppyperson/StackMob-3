@@ -29,7 +29,6 @@ import uk.antiperson.stackmob.config.ConfigFile;
 import uk.antiperson.stackmob.config.EntityLangFile;
 import uk.antiperson.stackmob.config.GeneralLangFile;
 
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
