@@ -150,7 +150,6 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
         getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
         getServer().getPluginManager().registerEvents(new ServerLoad(this), this);
-        getServer().getPluginManager().registerEvents(new RemoveEvent(this), this);
         getCommand("stackmob").setExecutor(new Commands(this));
         startTasks();
     }
