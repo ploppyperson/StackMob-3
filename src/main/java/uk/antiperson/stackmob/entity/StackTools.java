@@ -78,6 +78,10 @@ public class StackTools {
         entity.setCustomName(null);
     }
 
+    public static void removeWaiting(Entity entity) {
+        waiting.remove(entity.getUniqueId());
+    }
+
     public static Map<UUID, Integer> getEntries(){
         return currentEntities;
     }
