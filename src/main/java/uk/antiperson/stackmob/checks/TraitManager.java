@@ -30,6 +30,7 @@ public class TraitManager {
         new VillagerTrait(this);
         new ZombieTrait(this);
         new DrownedTrait(this);
+        new LoveTrait(this);
     }
 
     public boolean checkTraits(Entity original, Entity nearby){

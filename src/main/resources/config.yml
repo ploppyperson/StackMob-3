@@ -107,6 +107,7 @@ compare:
   # Applies to more than one type of entity:
   entity-age: true
   can-breed: true
+  love-mode: true
 
 # Check these attributes before stacking.
 check:

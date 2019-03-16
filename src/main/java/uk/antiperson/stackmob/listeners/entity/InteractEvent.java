@@ -27,10 +27,6 @@ public class InteractEvent implements Listener {
         if(!(StackTools.hasValidData(entity))){
             return;
         }
-        if(StackTools.hasValidMetadata(entity, GlobalValues.BREED_MODE) &&
-                entity.getMetadata(GlobalValues.BREED_MODE).get(0).asBoolean()){
-            return;
-        }
         if(event.getHand() == EquipmentSlot.OFF_HAND){
             return;
         }
@@ -40,7 +36,8 @@ public class InteractEvent implements Listener {
 
         int stackSize = StackTools.getSize(entity);
         if(entity instanceof Animals){
-            if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && ((Animals) entity).canBreed()){
+            Animals animals = (Animals) entity;
+            if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && animals.canBreed() /*&& !animals.isLoveMode()*/){
                 if(StackTools.hasSizeMoreThanOne(entity)) {
                     if (sm.getCustomConfig().getBoolean("multiply.breed")) {
                         int breedSize = stackSize;
@@ -56,25 +53,11 @@ public class InteractEvent implements Listener {
                         child.setBaby();
 
                         event.getPlayer().getInventory().getItemInMainHand().setAmount(handSize - breedSize);
-                        ((Animals) entity).setBreed(false);
+                        animals.setBreed(false);
                     } else if (sm.getCustomConfig().getBoolean("divide-on.breed")) {
                         Entity newEntity = sm.getTools().duplicate(entity);
                         StackTools.setSize(newEntity,stackSize - 1);
-
                         StackTools.makeSingle(entity);
-                        entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, true));
-                        entity.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, true));
-
-                        // Allow to stack after breeding
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (!entity.isDead()) {
-                                    entity.setMetadata(GlobalValues.BREED_MODE, new FixedMetadataValue(sm, false));
-                                    entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, false));
-                                }
-                            }
-                        }.runTaskLater(sm, 20 * 20);
                     }
                     return;
                 }
