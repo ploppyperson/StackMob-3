@@ -184,6 +184,7 @@ public class StackMob extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new TameEvent(this), this);
         }
         getServer().getPluginManager().registerEvents(new ShearEvent(this), this);
+        getServer().getPluginManager().registerEvents(new BreedEvent(this), this);
         getServer().getPluginManager().registerEvents(new StickInteractEvent(this), this);
         getServer().getPluginManager().registerEvents(new ChatEvent(this), this);
         getServer().getPluginManager().registerEvents(new QuitEvent(this), this);

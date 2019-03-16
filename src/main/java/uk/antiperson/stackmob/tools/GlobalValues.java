@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 public class GlobalValues {
 
     // Entity constants.
+    public static final String BREED_MODE = "sm:breed-mode";
     public static final String NO_STACK = "sm:no-stack";
     public static final String KILL_ONE = "sm:kill-one";
     public static final String LEFTOVER_DAMAGE = "sm:leftover";

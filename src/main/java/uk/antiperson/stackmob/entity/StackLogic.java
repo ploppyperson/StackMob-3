@@ -196,6 +196,7 @@ public class StackLogic {
 
     public void cleanup(Entity dead){
         dead.removeMetadata(GlobalValues.NO_STACK, sm);
+        dead.removeMetadata(GlobalValues.BREED_MODE, sm);
         dead.removeMetadata(GlobalValues.KILL_ONE, sm);
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         StackTools.removeSize(dead);
