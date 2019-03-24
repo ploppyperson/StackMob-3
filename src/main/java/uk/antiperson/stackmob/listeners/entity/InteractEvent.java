@@ -37,7 +37,7 @@ public class InteractEvent implements Listener {
         int stackSize = StackTools.getSize(entity);
         if(entity instanceof Animals){
             Animals animals = (Animals) entity;
-            if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && animals.canBreed() /*&& !animals.isLoveMode()*/){
+            if(correctFood(event.getPlayer().getInventory().getItemInMainHand(), entity) && animals.canBreed()){
                 if(StackTools.hasSizeMoreThanOne(entity)) {
                     if (sm.getCustomConfig().getBoolean("multiply.breed")) {
                         int breedSize = stackSize;
