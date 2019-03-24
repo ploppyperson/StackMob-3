@@ -50,7 +50,7 @@ public class MythicMobsHook extends PluginHook implements Comparable {
     }
 
     public String getDisplayName(Entity entity){
-        return getMobManager().getMythicMobInstance(entity).getType().getDisplayName();
+        return "" + getMobManager().getMythicMobInstance(entity).getType().getDisplayName();
     }
 
     public boolean isMythicMob(Entity entity){
