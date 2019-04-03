@@ -1,16 +1,21 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class StackTools {
 
     private static Map<UUID, Integer> currentEntities = new HashMap<>();
     private static Map<UUID, Integer> waiting = new HashMap<>();
+
+    private static Set<UUID> persistentEntities = new HashSet<>();
 
     public static void addWaiting(Entity entity, int time){
         waiting.put(entity.getUniqueId(), time);
@@ -61,6 +66,9 @@ public class StackTools {
 
     public static void setSize(Entity entity, int newSize){
         currentEntities.put(entity.getUniqueId(), newSize);
+        if (!(entity instanceof Monster)) {
+            persistentEntities.add(entity.getUniqueId());
+        }
     }
 
     public static void removeSize(Entity entity){
@@ -84,6 +92,15 @@ public class StackTools {
 
     public static Map<UUID, Integer> getEntries(){
         return currentEntities;
+    }
+
+    public static Map<UUID, Integer> getPersistentEntries() {
+        Map<UUID, Integer> ret = new HashMap<>();
+        for (UUID uuid : persistentEntities) {
+            Integer found = currentEntities.get(uuid);
+            if (found != null) ret.put(uuid, found);
+        }
+        return ret;
     }
 
 }
