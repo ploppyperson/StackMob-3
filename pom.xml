@@ -10,7 +10,7 @@
 
     <groupId>uk.antiperson.stackmob</groupId>
     <artifactId>StackMob-2</artifactId>
-    <version>3.3.5</version>
+    <version>3.3.6</version>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
