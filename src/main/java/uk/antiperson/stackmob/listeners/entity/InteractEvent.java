@@ -81,6 +81,7 @@ public class InteractEvent implements Listener {
         switch (entity.getType()) {
             case COW:
             case SHEEP:
+            case MUSHROOM_COW:
                 return type == Material.WHEAT;
             case PIG:
                 return (type == Material.CARROT || type == Material.BEETROOT || type == Material.POTATO);
