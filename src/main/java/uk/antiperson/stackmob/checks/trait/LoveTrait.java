@@ -16,7 +16,7 @@ public class LoveTrait implements ApplicableTrait {
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
         if (original instanceof Animals) {
-            return ((Animals) original).isLoveMode() != ((Animals) nearby).isLoveMode();
+            return ((Animals) original).isLoveMode() || ((Animals) nearby).isLoveMode();
         }
         return false;
     }
