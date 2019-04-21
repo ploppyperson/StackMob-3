@@ -1,18 +1,14 @@
 package uk.antiperson.stackmob.listeners.entity;
 
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitRunnable;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
-import uk.antiperson.stackmob.tools.GlobalValues;
 
 public class InteractEvent implements Listener {
 
@@ -81,6 +77,7 @@ public class InteractEvent implements Listener {
         switch (entity.getType()) {
             case COW:
             case SHEEP:
+            case MUSHROOM_COW:
                 return type == Material.WHEAT;
             case PIG:
                 return (type == Material.CARROT || type == Material.BEETROOT || type == Material.POTATO);

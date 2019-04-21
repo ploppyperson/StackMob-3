@@ -46,7 +46,7 @@ public class TagTask extends BukkitRunnable {
                         // Change if it is a mythic mob.
                         if (sm.getHookManager().isHookRegistered(PluginCompat.MYTHICMOBS) && mobsHook.isMythicMob(e)) {
                             typeString = mobsHook.getDisplayName(e);
-                        } else if (sm.getCustomConfig().getBoolean("tag.use-translation")) {
+                        } else if (sm.getCustomConfig().getBoolean("tag.use-translations")) {
                             typeString = "" + sm.getTranslationConfig().getString(e.getType().toString());
                         }
 
