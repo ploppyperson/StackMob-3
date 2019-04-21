@@ -1,7 +1,5 @@
 package uk.antiperson.stackmob.listeners.entity;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -98,7 +96,7 @@ public class ShearEvent implements Listener {
         Damageable meta = (Damageable) item.getItemMeta();
         int newDamage = meta.getDamage() + stackSize;
         if(newDamage >= item.getType().getMaxDurability()){
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Item is too damaged to shear all!"));
+            player.sendActionBar(ChatColor.RED + "Item is too damaged to shear all!");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return false;
         }
