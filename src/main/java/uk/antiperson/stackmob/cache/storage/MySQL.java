@@ -92,7 +92,6 @@ public class MySQL extends StackStorage implements DisableCleanup {
     @Override
     public void saveStorage(Map<UUID, Integer> values) {
         try {
-            connection.prepareStatement("TRUNCATE TABLE stackmob").execute();
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?)"
             );
@@ -103,6 +102,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
                 statement.setInt(2, entry.getValue());
                 statement.addBatch();
             }
+            connection.prepareStatement("TRUNCATE TABLE stackmob").execute();
             statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
