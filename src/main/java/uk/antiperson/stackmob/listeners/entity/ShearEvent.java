@@ -3,7 +3,6 @@ package uk.antiperson.stackmob.listeners.entity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
+import org.bukkit.material.Wool;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
@@ -44,7 +44,7 @@ public class ShearEvent implements Listener {
                 LootContext lootContext = new LootContext.Builder(oldSheep.getLocation()).lootedEntity(oldSheep).build();
                 Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(lootRandom, lootContext);
                 for(ItemStack itemStack : loot){
-                    if(Tag.WOOL.isTagged(itemStack.getType())){
+                    if(itemStack.getData() instanceof Wool) {
                         sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), oldEntity.getLocation());
                     }
                 }
