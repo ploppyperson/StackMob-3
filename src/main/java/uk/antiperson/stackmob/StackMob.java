@@ -15,7 +15,6 @@ import uk.antiperson.stackmob.entity.multiplication.DropTools;
 import uk.antiperson.stackmob.entity.multiplication.ExperienceTools;
 import uk.antiperson.stackmob.listeners.ServerLoad;
 import uk.antiperson.stackmob.listeners.chunk.LoadEvent;
-import uk.antiperson.stackmob.listeners.chunk.UnloadEvent;
 import uk.antiperson.stackmob.listeners.entity.*;
 import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
@@ -148,7 +147,7 @@ public class StackMob extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SpawnEvent(this), this);
         getServer().getPluginManager().registerEvents(new DeathEvent(this), this);
         getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
-        getServer().getPluginManager().registerEvents(new UnloadEvent(this), this);
+        getServer().getPluginManager().registerEvents(new EntityRemoveListener(this), this);
         getServer().getPluginManager().registerEvents(new ServerLoad(this), this);
         getCommand("stackmob").setExecutor(new Commands(this));
         startTasks();

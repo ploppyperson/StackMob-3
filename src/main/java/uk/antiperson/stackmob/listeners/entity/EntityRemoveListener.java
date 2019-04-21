@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.listeners.chunk;
+package uk.antiperson.stackmob.listeners.entity;
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import org.bukkit.entity.Entity;
@@ -10,18 +10,18 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 import uk.antiperson.stackmob.tools.GlobalValues;
 
-public class UnloadEvent implements Listener {
+public class EntityRemoveListener implements Listener {
 
     private StackMob sm;
 
-    public UnloadEvent(StackMob sm) {
+    public EntityRemoveListener(StackMob sm) {
         this.sm = sm;
     }
 
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
         if (sm.getCustomConfig().getStringList("no-stack-worlds")
-            .contains(e.getWorld().getName())) {
+                .contains(e.getWorld().getName())) {
             return;
         }
 
@@ -49,7 +49,7 @@ public class UnloadEvent implements Listener {
             int stackSize = StackTools.getSize(entity);
             StackTools.removeSize(entity);
             if (sm.getCustomConfig().getBoolean("convert-existing-entities")
-                && stackSize <= 1 && stackSize != GlobalValues.NO_STACKING) {
+                    && stackSize <= 1 && stackSize != GlobalValues.NO_STACKING) {
                 return;
             }
             if (sm.getCustomConfig().getBoolean("remove-chunk-unload")) {
@@ -59,5 +59,4 @@ public class UnloadEvent implements Listener {
             sm.getCache().put(entity.getUniqueId(), stackSize);
         }
     }
-
 }
