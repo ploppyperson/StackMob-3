@@ -24,11 +24,12 @@ public class DyeEvent implements Listener {
             return;
         }
         int stackSize = StackTools.getSize(event.getEntity());
-        Entity oldEntity = event.getEntity();
+        Sheep oldEntity = event.getEntity();
 
         if (sm.getCustomConfig().getBoolean("divide-on.sheep-dye")) {
             Sheep newEntity = (Sheep) sm.getTools().duplicate(oldEntity);
             newEntity.setColor(event.getEntity().getColor());
+            oldEntity.setColor(event.getColor());
             StackTools.setSize(newEntity,stackSize - 1);
             StackTools.makeSingle(oldEntity);
         }
