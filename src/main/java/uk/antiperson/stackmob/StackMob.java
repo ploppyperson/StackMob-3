@@ -65,14 +65,12 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
-        // Set version id, but if not supported, warn.
-        setVersionId();
-        if(getVersionId() == 0){
+        if(VersionHelper.getVersion() == BukkitVersion.UNSUPPORTED){
             getLogger().warning("A bukkit version that is not supported has been detected! (" + Bukkit.getBukkitVersion() + ")");
             getLogger().warning("The features of this version are not supported, so the plugin will not enable!");
             return;
         }
-        getLogger().info("Detected server version: " + getVersionId());
+        getLogger().info("Detected server version: " + VersionHelper.getVersion());
         initVariables();
 
         // Loads configuration file into memory, and if not found, file is copied from the jar file.
@@ -116,17 +114,6 @@ public class StackMob extends JavaPlugin {
         getLogger().info("Saving entity amount storage...");
         // Save the storage so entity amounts aren't lost on restarts
         getStorageManager().onServerDisable();
-    }
-
-    // Server version detection, if version isn't currently supported, then versionId is 0.
-    private void setVersionId(){
-        if(Bukkit.getVersion().contains("1.13")){
-            versionId = 1;
-        }
-    }
-
-    public int getVersionId(){
-        return versionId;
     }
 
     private void initVariables(){
