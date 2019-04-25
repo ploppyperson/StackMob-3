@@ -77,7 +77,6 @@ public class InteractEvent implements Listener {
         switch (entity.getType()) {
             case COW:
             case SHEEP:
-            case MUSHROOM_COW:
                 return type == Material.WHEAT;
             case PIG:
                 return (type == Material.CARROT || type == Material.BEETROOT || type == Material.POTATO);
@@ -105,11 +104,16 @@ public class InteractEvent implements Listener {
                         || type == Material.COOKED_SALMON)
                         && ((Wolf) entity).isTamed();
             case OCELOT:
-                return (type == Material.SALMON
+                return type == Material.SALMON
                         || type == Material.COD
                         || type == Material.PUFFERFISH
-                        || type == Material.TROPICAL_FISH)
-                        && ((Ocelot) entity).isTamed();
+                        || type == Material.TROPICAL_FISH; // Now broken in 1.13 ((Ocelot) entity).isTamed()
+            case PANDA:
+                return (type == Material.BAMBOO);
+            case FOX:
+                return type == Material.SWEET_BERRIES;
+            case CAT:
+                return (type == Material.COD || type == Material.SALMON) && ((Cat) entity).isTamed();
             case RABBIT:
                 return type == Material.CARROT || type == Material.GOLDEN_CARROT || type == Material.DANDELION;
             case LLAMA:
