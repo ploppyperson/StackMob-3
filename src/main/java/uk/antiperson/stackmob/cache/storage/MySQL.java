@@ -74,15 +74,15 @@ public class MySQL extends StackStorage implements DisableCleanup {
         }
     }
 
-    private void convertToBinaryUUIDStorage() throws SQLException {
+    private void convertToBinaryUUIDStorage() {
         getStackMob().getLogger().info("Converting existing database to use BINARY type UUIDs");
         try {
             ResultSet rs = connection.prepareStatement("SELECT UUID, size FROM stackmob").executeQuery();
             while (rs.next()){
                 getStorageManager().getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
             }
-            connection.prepareStatement("DROP TABLE IF EXISTS stackmob").executeQuery();
-            connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (uuid BINARY(16) NOT NULL UNIQUE, size INT NOT NULL, primary key (uuid))").executeQuery();
+            connection.prepareStatement("DROP TABLE IF EXISTS stackmob").execute();
+            connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (uuid BINARY(16) NOT NULL UNIQUE, size INT NOT NULL, primary key (uuid))").execute();
             saveStorage(getStorageManager().getAmountCache());
         }catch (SQLException e){
             getStackMob().getLogger().warning("An error occurred while converting existing database.");
@@ -93,6 +93,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
     @Override
     public void saveStorage(Map<UUID, Integer> values) {
         try {
+            connection.prepareStatement("TRUNCATE TABLE stackmob").execute();
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?)"
             );
@@ -103,7 +104,6 @@ public class MySQL extends StackStorage implements DisableCleanup {
                 statement.setInt(2, entry.getValue());
                 statement.addBatch();
             }
-            connection.prepareStatement("TRUNCATE TABLE stackmob").execute();
             statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
