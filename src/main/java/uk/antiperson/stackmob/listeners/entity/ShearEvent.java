@@ -16,15 +16,13 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.Collection;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ShearEvent implements Listener {
 
     private StackMob sm;
-    private Random lootRandom;
     public ShearEvent(StackMob sm) {
         this.sm = sm;
-        this.lootRandom = new Random();
     }
 
     @EventHandler
@@ -42,7 +40,7 @@ public class ShearEvent implements Listener {
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.getCustomConfig().getBoolean("multiply.sheep-wool") && hasEnoughDurability(event.getPlayer(), stackSize)){
                 LootContext lootContext = new LootContext.Builder(oldSheep.getLocation()).lootedEntity(oldSheep).build();
-                Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(lootRandom, lootContext);
+                Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
                 for(ItemStack itemStack : loot){
                     if(itemStack.getData() instanceof Wool) {
                         sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), oldEntity.getLocation());
