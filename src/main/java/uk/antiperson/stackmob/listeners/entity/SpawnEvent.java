@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.listeners.entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import uk.antiperson.stackmob.StackMob;
@@ -15,7 +16,7 @@ public class SpawnEvent implements Listener {
         this.sm = sm;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent e){
         LivingEntity entity = e.getEntity();
 

@@ -8,6 +8,7 @@ import uk.antiperson.stackmob.entity.StackTools;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class StorageManager {
 
@@ -19,7 +20,7 @@ public class StorageManager {
     }
 
     public void onServerEnable(){
-        StorageType cacheType = StorageType.valueOf(getStackMob().getCustomConfig().getString("storage.type"));
+        StorageType cacheType = StorageType.valueOf(getStackMob().getCustomConfig().getString("storage.type", "FLATFILE").toUpperCase());
         getStackMob().getLogger().info("Using " + cacheType.toString() + " storage method.");
         switch (cacheType){
             case MYSQL:
@@ -28,6 +29,8 @@ public class StorageManager {
             case FLATFILE:
                 stackStorage = new FlatFile(this);
                 break;
+            default:
+                sm.getLogger().log(Level.SEVERE, "Invalid storage type. Please check configuration.");
         }
 
         stackStorage.loadStorage();
@@ -41,9 +44,10 @@ public class StorageManager {
     }
 
     public Map<UUID, Integer> getCombinedMap(){
-        Map<UUID, Integer> toSave = new HashMap<>();
+        Map<UUID, Integer> persistent = StackTools.getPersistentEntries();
+        Map<UUID, Integer> toSave = new HashMap<>(getAmountCache().size() + persistent.size());
         toSave.putAll(getAmountCache());
-        toSave.putAll(StackTools.getEntries());
+        toSave.putAll(persistent);
         return toSave;
     }
 

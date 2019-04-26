@@ -1,11 +1,8 @@
 package uk.antiperson.stackmob.listeners.entity;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.Tag;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,11 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.loot.LootContext;
+import org.bukkit.material.Wool;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.entity.StackTools;
 
 import java.util.Collection;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ShearEvent implements Listener {
 
@@ -42,9 +40,9 @@ public class ShearEvent implements Listener {
             Sheep oldSheep = (Sheep) oldEntity;
             if(sm.getCustomConfig().getBoolean("multiply.sheep-wool") && hasEnoughDurability(event.getPlayer(), stackSize)){
                 LootContext lootContext = new LootContext.Builder(oldSheep.getLocation()).lootedEntity(oldSheep).build();
-                Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(new Random(), lootContext);
+                Collection<ItemStack> loot = oldSheep.getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
                 for(ItemStack itemStack : loot){
-                    if(Tag.WOOL.isTagged(itemStack.getType())){
+                    if(itemStack.getData() instanceof Wool) {
                         sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), oldEntity.getLocation());
                     }
                 }
@@ -98,7 +96,7 @@ public class ShearEvent implements Listener {
         Damageable meta = (Damageable) item.getItemMeta();
         int newDamage = meta.getDamage() + stackSize;
         if(newDamage >= item.getType().getMaxDurability()){
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Item is too damaged to shear all!"));
+            player.sendActionBar(ChatColor.RED + "Item is too damaged to shear all!");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return false;
         }
