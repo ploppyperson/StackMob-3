@@ -38,22 +38,17 @@ public class MySQL extends StackStorage implements DisableCleanup {
         try {
             makeConnection();
             getStackMob().getLogger().info("Database connection successful!");
-
             // Convert existing CHAR column UUIDs to BINARY type
-            if(getUUIDStorageType() == 1) {
+            if(isOldUUIDStorageType()) {
                 convertToBinaryUUIDStorage();
+                return;
             }
-            else {
-                connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (uuid BINARY(16) NOT NULL UNIQUE, size INT NOT NULL, primary key (uuid))").execute();
+            if (connection.createStatement().executeQuery("SHOW TABLES LIKE 'stackmob'").next()) {
                 try (ResultSet rs = connection.prepareStatement("SELECT HEX(uuid) as uuid, size FROM stackmob").executeQuery()) {
                     while (rs.next()) {
-                        int size = rs.getInt("size");
-                        if (size <= 1) continue;
-
-                        getStorageManager().getAmountCache().put(
-                                UuidUtil.fromString(rs.getString("uuid")),
-                                size
-                        );
+                        UUID uuid = UuidUtil.fromString(rs.getString(1));
+                        int size = rs.getInt(2);
+                        getStorageManager().getAmountCache().put(uuid, size);
                     }
                 }
             }
@@ -65,24 +60,20 @@ public class MySQL extends StackStorage implements DisableCleanup {
         }
     }
 
-    private int getUUIDStorageType() {
-        try {
-            ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob LIMIT 0").executeQuery();
-            return rs.getMetaData().getColumnType(1);
+    private boolean isOldUUIDStorageType(){
+        try (ResultSet rs = connection.prepareStatement("SELECT * FROM stackmob LIMIT 0").executeQuery()){
+            return rs.getMetaData().getColumnType(1) == 1;
         } catch (SQLException e) {
-            return 0;
+            return false;
         }
     }
 
     private void convertToBinaryUUIDStorage() {
         getStackMob().getLogger().info("Converting existing database to use BINARY type UUIDs");
-        try {
-            ResultSet rs = connection.prepareStatement("SELECT UUID, size FROM stackmob").executeQuery();
+        try (ResultSet rs = connection.prepareStatement("SELECT UUID, size FROM stackmob").executeQuery()){
             while (rs.next()){
                 getStorageManager().getAmountCache().put(UUID.fromString(rs.getString(1)), rs.getInt(2));
             }
-            connection.prepareStatement("DROP TABLE IF EXISTS stackmob").execute();
-            connection.prepareStatement("CREATE TABLE IF NOT EXISTS stackmob (uuid BINARY(16) NOT NULL UNIQUE, size INT NOT NULL, primary key (uuid))").execute();
             saveStorage(getStorageManager().getAmountCache());
         }catch (SQLException e){
             getStackMob().getLogger().warning("An error occurred while converting existing database.");
@@ -93,18 +84,17 @@ public class MySQL extends StackStorage implements DisableCleanup {
     @Override
     public void saveStorage(Map<UUID, Integer> values) {
         try {
-            connection.prepareStatement("TRUNCATE TABLE stackmob").execute();
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?)"
-            );
-            for (Map.Entry<UUID, Integer> entry : values.entrySet()) {
-                if (entry.getValue() <= 1) continue;
-
-                statement.setString(1, entry.getKey().toString().replace("-", ""));
-                statement.setInt(2, entry.getValue());
-                statement.addBatch();
+            connection.createStatement().execute("DROP TABLE IF EXISTS stackmob");
+            connection.createStatement().execute("CREATE TABLE stackmob (uuid BINARY(16) NOT NULL UNIQUE, size INT NOT NULL, primary key (uuid))");
+            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?)")) {
+                for (Map.Entry<UUID, Integer> entry : values.entrySet()) {
+                    if (entry.getValue() <= 1) continue;
+                    statement.setString(1, entry.getKey().toString().replace("-", ""));
+                    statement.setInt(2, entry.getValue());
+                    statement.addBatch();
+                }
+                statement.executeBatch();
             }
-            statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
