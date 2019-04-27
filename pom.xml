@@ -8,6 +8,7 @@
         <module>plugin</module>
         <module>v1_13</module>
         <module>api</module>
+        <module>v1_14</module>
     </modules>
 
     <properties>

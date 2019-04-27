@@ -97,6 +97,14 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>uk.antiperson.stackmob</groupId>
+            <artifactId>bukkit-v1_14</artifactId>
+            <version>v1_14</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
