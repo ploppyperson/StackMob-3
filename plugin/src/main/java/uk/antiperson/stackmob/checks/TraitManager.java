@@ -7,7 +7,6 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 import uk.antiperson.stackmob.api.checks.ComparableTrait;
 import uk.antiperson.stackmob.api.checks.SingleTrait;
-import uk.antiperson.stackmob.tools.BukkitVersion;
 import uk.antiperson.stackmob.tools.VersionHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -93,6 +92,6 @@ public class TraitManager {
 
     private boolean isAllowed(String classPath) {
         String a = classPath.split(Pattern.quote("."))[5];
-        return a.equals("common") || VersionHelper.isVersionNewerThan(BukkitVersion.valueOf(a));
+        return a.equals("common") || a.equalsIgnoreCase(VersionHelper.getVersion().toString());
     }
 }
