@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class LoveTrait implements ApplicableTrait {
-
-    public LoveTrait(TraitManager tm){
-        if (tm.getStackMob().getCustomConfig().getBoolean("compare.love-mode")) {
-            tm.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class LoveTrait implements ApplicableTrait {
         if (original instanceof Animals) {
             ((Animals) spawned).setLoveModeTicks(((Animals) original).getLoveModeTicks());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.love-mode";
     }
 }

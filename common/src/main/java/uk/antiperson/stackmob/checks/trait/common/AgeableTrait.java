@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class AgeableTrait implements ApplicableTrait {
-
-    public AgeableTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.entity-age")) {
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class AgeableTrait implements ApplicableTrait {
         if(original instanceof Ageable){
             ((Ageable) spawned).setAge(((Ageable) original).getAge());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.entity-age";
     }
 }

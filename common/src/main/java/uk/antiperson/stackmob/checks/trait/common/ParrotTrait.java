@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Parrot;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class ParrotTrait implements ApplicableTrait {
-
-    public ParrotTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.parrot-color")){
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class ParrotTrait implements ApplicableTrait {
         if(original instanceof Parrot){
             ((Parrot) spawned).setVariant(((Parrot) original).getVariant());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.parrot-color";
     }
 }

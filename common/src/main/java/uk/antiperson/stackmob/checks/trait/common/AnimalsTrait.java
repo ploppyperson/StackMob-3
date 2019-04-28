@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class AnimalsTrait implements ApplicableTrait {
-
-    public AnimalsTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.can-breed")){
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class AnimalsTrait implements ApplicableTrait {
         if(original instanceof Animals){
             ((Animals) spawned).setBreed(((Animals) original).canBreed());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.can-breed";
     }
 }

@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class LlamaTrait implements ApplicableTrait {
-
-    public LlamaTrait(TraitManager tc){
-        if (tc.getStackMob().getCustomConfig().getBoolean("compare.llama-color")){
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class LlamaTrait implements ApplicableTrait {
         if(original instanceof Llama){
             ((Llama) spawned).setColor(((Llama) original).getColor());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.llama-color";
     }
 }

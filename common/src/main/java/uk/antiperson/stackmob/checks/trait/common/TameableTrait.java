@@ -1,18 +1,11 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Tameable;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.SingleTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
+import uk.antiperson.stackmob.api.checks.SingleTrait;
 
 public class TameableTrait implements ApplicableTrait, SingleTrait {
-
-    public TameableTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("check.tamed")){
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -36,5 +29,10 @@ public class TameableTrait implements ApplicableTrait, SingleTrait {
             ((Tameable) spawned).setTamed(((Tameable) original).isTamed());
             ((Tameable) spawned).setOwner(((Tameable) original).getOwner());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "check.tamed";
     }
 }

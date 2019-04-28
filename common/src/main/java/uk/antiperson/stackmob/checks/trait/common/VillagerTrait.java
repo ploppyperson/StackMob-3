@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class VillagerTrait implements ApplicableTrait {
-
-    public VillagerTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.villager-profession")) {
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -30,5 +23,10 @@ public class VillagerTrait implements ApplicableTrait {
             ((Villager) original).setProfession(((Villager) original).getProfession());
             ((Villager) original).setCareer(((Villager) original).getCareer());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.villager-profession";
     }
 }

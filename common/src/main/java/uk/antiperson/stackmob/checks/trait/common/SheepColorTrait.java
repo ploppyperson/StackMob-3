@@ -1,17 +1,10 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class SheepColorTrait implements ApplicableTrait {
-
-    public SheepColorTrait(TraitManager tc){
-        if (tc.getStackMob().getCustomConfig().getBoolean("compare.sheep-wool-color")) {
-            tc.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -26,5 +19,10 @@ public class SheepColorTrait implements ApplicableTrait {
         if(original instanceof Sheep){
             ((Sheep) spawned).setColor(((Sheep) original).getColor());
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "compare.sheep-wool-color";
     }
 }

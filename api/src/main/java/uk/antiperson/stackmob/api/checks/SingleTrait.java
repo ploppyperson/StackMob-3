@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.checks;
+package uk.antiperson.stackmob.api.checks;
 
 import org.bukkit.entity.Entity;
 

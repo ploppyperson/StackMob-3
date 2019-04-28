@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.bukkit;
+package uk.antiperson.stackmob.api.bukkit;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;

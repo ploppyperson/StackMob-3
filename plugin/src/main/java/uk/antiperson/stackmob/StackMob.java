@@ -5,10 +5,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.stackmob.cache.StorageManager;
+import uk.antiperson.stackmob.checks.TraitManager;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.entity.EntityTools;
-import uk.antiperson.stackmob.checks.TraitManager;
+
 import uk.antiperson.stackmob.entity.StackLogic;
 import uk.antiperson.stackmob.entity.death.DeathManager;
 import uk.antiperson.stackmob.entity.multiplication.DropTools;

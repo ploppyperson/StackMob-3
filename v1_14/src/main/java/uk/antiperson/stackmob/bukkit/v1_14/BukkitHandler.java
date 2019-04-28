@@ -6,7 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
-import uk.antiperson.stackmob.bukkit.BukkitCompat;
+import uk.antiperson.stackmob.api.bukkit.BukkitCompat;
 
 public class BukkitHandler implements BukkitCompat {
 

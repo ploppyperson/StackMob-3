@@ -1,10 +1,9 @@
-package uk.antiperson.stackmob.checks.trait;
+package uk.antiperson.stackmob.checks.trait.common;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Drowned;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.checks.ApplicableTrait;
-import uk.antiperson.stackmob.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,11 +11,6 @@ import java.util.List;
 public class DrownedTrait implements ApplicableTrait {
 
     private List<Material> materials = Arrays.asList(Material.NAUTILUS_SHELL, Material.TRIDENT);
-    public DrownedTrait(TraitManager tm){
-        if(tm.getStackMob().getCustomConfig().getBoolean("compare.drowned-hand-item")){
-            tm.registerTrait(this);
-        }
-    }
 
     @Override
     public boolean checkTrait(Entity original, Entity nearby) {
@@ -51,5 +45,10 @@ public class DrownedTrait implements ApplicableTrait {
                 spawnDrowned.getEquipment().setItemInOffHand(oriDrowned.getEquipment().getItemInOffHand());
             }
         }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "ompare.drowned-hand-item";
     }
 }
