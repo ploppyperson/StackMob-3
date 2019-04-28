@@ -1,4 +1,4 @@
-package uk.antiperson.stackmob.checks.trait.common;
+package uk.antiperson.stackmob.checks.trait.v1_13;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;

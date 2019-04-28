@@ -101,6 +101,9 @@ compare:
   llama-color: true
   parrot-color: true
   drowned-hand-item: true
+  mooshroom-color: true
+  cat-type: true
+  fox-type: true
   # Applies to more than one type of entity:
   entity-age: true
   can-breed: true
