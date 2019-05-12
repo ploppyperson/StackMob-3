@@ -16,7 +16,7 @@ public class UpdateChecker {
         this.sm = sm;
     }
 
-    public String getLatestVersion(){
+    private String getLatestVersion(){
         try{
             URL updateUrl = new URL("https://api.spigotmc.org/legacy/update.php?resource=29999");
             HttpURLConnection connect = (HttpURLConnection) updateUrl.openConnection();
@@ -36,7 +36,7 @@ public class UpdateChecker {
         if(!latestVersion.replace("v", "").equals(sm.getDescription().getVersion())){
             return "A new version (" + latestVersion + ") is currently available! Type '/sm update' to download, then restart your server.";
         }
-         return "There is no new version at this time.";
+        return "There is no new version at this time.";
     }
 
     public String update(){

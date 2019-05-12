@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob.listeners.entity;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

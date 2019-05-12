@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class MySQL extends StackStorage implements DisableCleanup {
 
