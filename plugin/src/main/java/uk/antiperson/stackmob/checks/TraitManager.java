@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob.checks;
 
-import io.github.classgraph.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMob;
@@ -12,7 +11,6 @@ import uk.antiperson.stackmob.tools.VersionHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class TraitManager {
 
@@ -24,31 +22,20 @@ public class TraitManager {
 
     public void registerTraits(){
         String pkg = "uk.antiperson.stackmob.checks.trait";
-        try (ScanResult scanResult =
-                     new ClassGraph()
-                             .enableAllInfo()             // Scan classes, methods, fields, annotations
-                             .whitelistPackages(pkg)      // Scan com.xyz and subpackages (omit to scan all packages)
-                             .scan()) {                   // Start the scan
-            for (ClassInfo routeClassInfo : scanResult.getAllClasses()) {
-                Class<?> clazz = routeClassInfo.loadClass();
+        for (Class<?> clazz : VersionHelper.scanClasses(pkg, ComparableTrait.class)) {
+            try {
+                ComparableTrait comparableTrait;
                 try {
-                    if (isAllowed(clazz.getName())) {
-                        if (ComparableTrait.class.isAssignableFrom(clazz)) {
-                            ComparableTrait comparableTrait;
-                            try {
-                                comparableTrait = (ComparableTrait) clazz.getConstructor().newInstance();
-                            } catch (NoSuchMethodException e) {
-                                // this is way too hacky for my liking but it works so idk
-                                comparableTrait = (ComparableTrait) clazz.getConstructor(FileConfiguration.class).newInstance(getStackMob().getCustomConfig());
-                            }
-                            if (getStackMob().getCustomConfig().getBoolean(comparableTrait.getConfigPath())) {
-                                registerTrait(comparableTrait);
-                            }
-                        }
-                    }
-                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    comparableTrait = (ComparableTrait) clazz.getConstructor().newInstance();
+                } catch (NoSuchMethodException e) {
+                    // this is way too hacky for my liking but it works so idk
+                    comparableTrait = (ComparableTrait) clazz.getConstructor(FileConfiguration.class).newInstance(getStackMob().getCustomConfig());
                 }
+                if (getStackMob().getCustomConfig().getBoolean(comparableTrait.getConfigPath())) {
+                    registerTrait(comparableTrait);
+                }
+            } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -89,8 +76,5 @@ public class TraitManager {
         return sm;
     }
 
-    private boolean isAllowed(String classPath) {
-        String a = classPath.split(Pattern.quote("."))[5];
-        return a.equals("common") || a.equalsIgnoreCase(VersionHelper.getVersion().toString());
-    }
+
 }
