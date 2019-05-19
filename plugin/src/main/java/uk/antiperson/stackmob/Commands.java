@@ -67,6 +67,7 @@ public class Commands implements CommandExecutor {
                 sm.getGeneralFile().reloadCustomConfig();
                 sm.getTranslationFile().reloadCustomConfig();
                 sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GREEN + "The configuration files have been reloaded.");
+                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Note: Some changes may not take place until the server is restarted.");
                 break;
             }
 
