@@ -140,6 +140,9 @@ public class DropTools {
         return false;
     }
 
+    /**
+     * TODO: Fix this
+     */
     private Map<ItemStack, Integer> compressDrops(Map<ItemStack, Integer> items){
         Map<ItemStack, Integer> list = new HashMap<>();
         for(Map.Entry<ItemStack, Integer> entry : items.entrySet()){
