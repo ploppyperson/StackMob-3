@@ -22,7 +22,7 @@ public class ServerLoad  implements Listener {
         List<World> worlds = Bukkit.getWorlds();
         for(int i = 0; i < worlds.size(); i++){
             int period = (int) Math.round(sm.getCustomConfig().getDouble("task-delay") / worlds.size()) * i;
-            new StackTask(sm, worlds.get(i)).runTaskTimer(sm, period, 100);
+            new StackTask(sm, worlds.get(i)).runTaskTimer(sm, 100, period);
         }
     }
 }
