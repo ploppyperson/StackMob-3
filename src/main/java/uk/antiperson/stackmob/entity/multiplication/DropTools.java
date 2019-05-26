@@ -52,6 +52,9 @@ public class DropTools {
                 if(stack == null || stack.getType() == Material.AIR){
                     continue;
                 }
+                if(dropIsArmor(dead, stack)){
+                    continue;
+                }
                 if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
                         .contains(stack.getType().toString())){
                     continue;
