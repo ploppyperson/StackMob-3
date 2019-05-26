@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.entity.multiplication;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Ageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
@@ -13,12 +14,7 @@ import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -82,6 +78,11 @@ public class DropTools {
             CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
             if(cdh.hasCustomDrops(dead)){
                 return cdh.getDrops(dead);
+            }
+        }
+        if(dead instanceof Ageable){
+            if(!((Ageable) dead).isAdult()){
+                return Collections.emptySet();
             }
         }
         LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
