@@ -7,6 +7,8 @@
     <modules>
         <module>API</module>
         <module>Plugin</module>
+        <module>v1_13</module>
+        <module>v1_14</module>
     </modules>
 
     <properties>
