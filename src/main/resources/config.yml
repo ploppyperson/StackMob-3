@@ -1,4 +1,4 @@
-# StackMob 3 created by antiPerson.
+# StackMobPlugin 3 created by antiPerson.
 # Report issues that you have experienced in the discussion thread.
 # If the comments have been removed, see the config.yml file in the defaults folder!
 
@@ -207,7 +207,7 @@ multiply-drops:
 multiply-exp:
   enabled: true
   # Algorithms that should be used for multiplying experience.
-  # LEGACY - algorithm used in StackMob v2.2.9 and older
+  # LEGACY - algorithm used in StackMobPlugin v2.2.9 and older
   # MINIMAL - only add a small amount of extra experience.
   # NORMAL - the default amount of extra experience.
   # GENEROUS - adds a significant amount of extra experience.
