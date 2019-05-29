@@ -16,11 +16,8 @@ public class ItemTools {
 
     public static ItemStack damageItem(ItemStack item, int stackSize){
         Damageable meta = (Damageable) item.getItemMeta();
-        int newDamage = meta.getDamage() + stackSize;
-        if(newDamage <= item.getType().getMaxDurability()){
-            meta.setDamage(meta.getDamage() + stackSize);
-            item.setItemMeta((ItemMeta) meta);
-        }
+        meta.setDamage(meta.getDamage() + stackSize);
+        item.setItemMeta((ItemMeta) meta);
         return item;
     }
 

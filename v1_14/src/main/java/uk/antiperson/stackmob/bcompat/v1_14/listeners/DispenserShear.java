@@ -26,10 +26,11 @@ public class DispenserShear implements Listener {
             Sheep sheep = (Sheep) event.getEntity();
             if(sm.getLogic().doSheepShearAll(sheep, event.getTool())){
                 ItemStack is = ItemTools.damageItem(event.getTool(), StackTools.getSize(event.getEntity()));
-                Container dispenser = (Container) event.getBlock().getBlockData();
-                int itemId = dispenser.getInventory().first(event.getTool());
-                dispenser.getInventory().setItem(itemId, is);
-                dispenser.update();
+                sm.getServer().getScheduler().runTask(sm, () -> {
+                    Container dispenser = (Container) event.getBlock().getState();
+                    int itemId = dispenser.getInventory().first(event.getTool());
+                    dispenser.getInventory().setItem(itemId, is);
+                });
                 return;
             }
             sm.getLogic().doSheepShearSingle(sheep);
