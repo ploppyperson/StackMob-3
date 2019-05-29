@@ -52,7 +52,7 @@ public class StackedEntity {
      * @param value Boolean value for if entities should be excluded from stacking.
      */
     public void setPreventFromStacking(boolean value){
-        entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue((JavaPlugin) sm, value));
+        entity.setMetadata(GlobalValues.NO_STACK, new FixedMetadataValue(sm, value));
     }
 
     /**
@@ -69,7 +69,7 @@ public class StackedEntity {
      * Adds metadata so when the entity is killed, only one is removed from the stack.
      */
     public void setSingleDeath(){
-        entity.setMetadata(GlobalValues.KILL_ONE, new FixedMetadataValue((JavaPlugin) sm, true));
+        entity.setMetadata(GlobalValues.KILL_ONE, new FixedMetadataValue(sm, true));
     }
 
     /**
