@@ -31,7 +31,6 @@ public class TraitManager implements uk.antiperson.stackmob.api.checks.TraitMana
         registerTrait(new SheepShearedTrait());
         registerTrait(new SlimeTrait());
         registerTrait(new TameableTrait());
-        registerTrait(new VillagerTrait());
         registerTrait(new ZombieTrait());
         registerTrait(new DrownedTrait());
         registerTrait(new LoveTrait());
