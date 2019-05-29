@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.api.entity.IEntityTools;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
@@ -17,8 +17,8 @@ import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
  */
 public class EntityTools implements IEntityTools {
 
-    private StackMob sm;
-    public EntityTools(StackMob sm){
+    private IStackMob sm;
+    public EntityTools(IStackMob sm){
         this.sm = sm;
     }
 

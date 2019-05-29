@@ -6,14 +6,14 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.bcompat.Compat;
 import uk.antiperson.stackmob.bcompat.v1_13.checks.trait.VillagerTrait;
 
 public class BukkitCompat implements Compat {
 
-    private StackMob sm;
-    public BukkitCompat(StackMob sm){
+    private IStackMob sm;
+    public BukkitCompat(IStackMob sm){
         this.sm = sm;
     }
 

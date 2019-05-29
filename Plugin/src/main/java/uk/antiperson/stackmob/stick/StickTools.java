@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.stick.IStickTools;
 import uk.antiperson.stackmob.api.stick.StickMode;
@@ -23,11 +23,11 @@ import java.util.UUID;
 
 public class StickTools implements IStickTools {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
     private String itemName;
     private List<String> itemLore = new ArrayList<>();
     private Material material;
-    public StickTools(StackMobPlugin sm){
+    public StickTools(StackMob sm){
         this.sm = sm;
         String name = sm.getGeneralConfig().getString("stack-tool.name");
         itemName = ChatColor.translateAlternateColorCodes('&', name);

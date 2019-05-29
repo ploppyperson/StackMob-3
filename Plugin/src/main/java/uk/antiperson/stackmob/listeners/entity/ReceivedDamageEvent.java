@@ -5,14 +5,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class ReceivedDamageEvent implements Listener {
 
-    private StackMobPlugin sm;
-    public ReceivedDamageEvent(StackMobPlugin sm) {
+    private StackMob sm;
+    public ReceivedDamageEvent(StackMob sm) {
         this.sm = sm;
     }
 

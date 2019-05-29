@@ -4,6 +4,7 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.bcompat.Compat;
 import uk.antiperson.stackmob.api.cache.IStorageManager;
 import uk.antiperson.stackmob.api.checks.ITraitManager;
@@ -28,7 +29,6 @@ import uk.antiperson.stackmob.stick.StickTools;
 import uk.antiperson.stackmob.tasks.CacheTask;
 import uk.antiperson.stackmob.tasks.ShowTagTask;
 import uk.antiperson.stackmob.tasks.TagTask;
-import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.entity.EntityTools;
@@ -50,7 +50,7 @@ import java.util.UUID;
 /**
  * Created by nathat on 23/07/17.
  */
-public class StackMobPlugin extends JavaPlugin implements StackMob {
+public class StackMob extends JavaPlugin implements IStackMob {
     
     private ConfigFile config;
     private EntityLangFile entityLang;
@@ -75,7 +75,7 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     @Override
     public void onEnable(){
         // Startup messages
-        getLogger().info("StackMobPlugin v" + getDescription().getVersion() + " created by antiPerson (pas_francais)");
+        getLogger().info("StackMob v" + getDescription().getVersion() + " created by antiPerson (pas_francais)");
         getLogger().info("Documentation can be found at " + getDescription().getWebsite());
         getLogger().info("GitHub repository can be found at " + GlobalValues.GITHUB);
 
@@ -205,7 +205,7 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     public void doBukkitCompat(){
         try {
             Class clazz = Class.forName("uk.antiperson.stackmob.bcompat." + VersionHelper.getVersion().toString().toLowerCase() + ".BukkitCompat");
-            Compat compat = (Compat) clazz.getConstructor(StackMob.class).newInstance(this);
+            Compat compat = (Compat) clazz.getConstructor(IStackMob.class).newInstance(this);
             compat.onEnable();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  | InvocationTargetException e) {
             getLogger().warning("The BukkitCompat was unable to be loaded!");

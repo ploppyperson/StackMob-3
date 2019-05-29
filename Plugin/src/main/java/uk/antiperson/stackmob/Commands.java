@@ -21,9 +21,9 @@ import java.util.function.Function;
 
 public class Commands implements CommandExecutor {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
 
-    public Commands(StackMobPlugin sm) {
+    public Commands(StackMob sm) {
         this.sm = sm;
     }
 
@@ -32,7 +32,7 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args) {
-        if (!sender.hasPermission("StackMobPlugin.*") && !sender.hasPermission("StackMobPlugin.Admin")) {
+        if (!sender.hasPermission("StackMob.*") && !sender.hasPermission("StackMob.Admin")) {
             sender.sendMessage(noPerm);
             return true;
         }
@@ -48,7 +48,7 @@ public class Commands implements CommandExecutor {
                 break;
 
             case "about": {
-                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "StackMobPlugin v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
+                sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.GOLD + "StackMob v" + sm.getDescription().getVersion() + " by antiPerson and contributors.");
                 sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Find out more at " + sm.getDescription().getWebsite());
                 sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Find the source code at " + GlobalValues.GITHUB);
                 sender.sendMessage(GlobalValues.PLUGIN_TAG + ChatColor.YELLOW + "Has this plugin helped your server? Please leave a review!");

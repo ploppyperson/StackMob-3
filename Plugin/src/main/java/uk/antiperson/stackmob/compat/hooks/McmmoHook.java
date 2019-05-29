@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.compat.hooks;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.compat.IHookManager;
 import uk.antiperson.stackmob.api.compat.CloneTrait;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
@@ -11,7 +11,7 @@ import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class McmmoHook extends PluginHook implements CloneTrait {
 
-    public McmmoHook(IHookManager hm, StackMobPlugin sm){
+    public McmmoHook(IHookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MCMMO);
     }
 

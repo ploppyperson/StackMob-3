@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob.cache;
 
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 
 public abstract class StackStorage implements uk.antiperson.stackmob.api.cache.StackStorage {
 
@@ -15,7 +15,7 @@ public abstract class StackStorage implements uk.antiperson.stackmob.api.cache.S
     }
 
     @Override
-    public StackMobPlugin getStackMob(){
+    public StackMob getStackMob(){
         return storageManager.getStackMob();
     }
 

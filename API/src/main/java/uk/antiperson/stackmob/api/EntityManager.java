@@ -5,8 +5,8 @@ import uk.antiperson.stackmob.api.entity.StackTools;
 
 public class EntityManager {
 
-    private StackMob sm;
-    public EntityManager (StackMob sm){
+    private IStackMob sm;
+    public EntityManager (IStackMob sm){
         this.sm = sm;
     }
 

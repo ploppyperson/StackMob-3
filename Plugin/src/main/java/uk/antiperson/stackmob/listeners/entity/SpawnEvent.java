@@ -6,13 +6,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tasks.SpawnTask;
 
 public class SpawnEvent implements Listener {
 
-    private StackMobPlugin sm;
-    public SpawnEvent(StackMobPlugin sm){
+    private StackMob sm;
+    public SpawnEvent(StackMob sm){
         this.sm = sm;
     }
 

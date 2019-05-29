@@ -4,13 +4,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class QuitEvent implements Listener {
 
-    private StackMobPlugin sm;
-    public QuitEvent(StackMobPlugin sm){
+    private StackMob sm;
+    public QuitEvent(StackMob sm){
         this.sm = sm;
     }
 

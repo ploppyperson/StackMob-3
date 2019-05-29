@@ -6,7 +6,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 import org.bukkit.material.Wool;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.entity.IStackLogic;
 import uk.antiperson.stackmob.api.entity.StackTools;
@@ -21,11 +21,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class StackLogic implements IStackLogic {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
     private double xRadius;
     private double yRadius;
     private double zRadius;
-    public StackLogic(StackMobPlugin sm){
+    public StackLogic(StackMob sm){
         this.sm = sm;
         xRadius = sm.getCustomConfig().getDouble("check-area.x");
         yRadius = sm.getCustomConfig().getDouble("check-area.y");

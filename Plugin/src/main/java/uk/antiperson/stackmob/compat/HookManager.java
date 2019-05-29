@@ -1,7 +1,7 @@
 package uk.antiperson.stackmob.compat;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.compat.*;
 import uk.antiperson.stackmob.api.compat.Comparable;
 import uk.antiperson.stackmob.compat.hooks.*;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class HookManager implements IHookManager {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
     private Map<PluginCompat, uk.antiperson.stackmob.api.compat.PluginHook> hooks = new EnumMap<>(PluginCompat.class);
-    public HookManager(StackMobPlugin sm){
+    public HookManager(StackMob sm){
         this.sm = sm;
     }
 

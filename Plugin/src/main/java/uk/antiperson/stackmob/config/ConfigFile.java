@@ -1,10 +1,10 @@
 package uk.antiperson.stackmob.config;
 
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 
 public class ConfigFile extends ConfigLoader {
 
-    public ConfigFile(StackMobPlugin sm){
+    public ConfigFile(StackMob sm){
         super(sm, "config");
     }
 }

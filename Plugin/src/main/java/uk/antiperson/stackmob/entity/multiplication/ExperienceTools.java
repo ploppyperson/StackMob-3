@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob.entity.multiplication;
 
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.multiplication.Algorithm;
 import uk.antiperson.stackmob.api.entity.multiplication.IExperienceTools;
 
@@ -10,8 +10,8 @@ import static uk.antiperson.stackmob.api.entity.multiplication.Algorithm.*;
 
 public class ExperienceTools implements IExperienceTools {
 
-    private StackMob sm;
-    public ExperienceTools(StackMob sm){
+    private IStackMob sm;
+    public ExperienceTools(IStackMob sm){
         this.sm = sm;
     }
 

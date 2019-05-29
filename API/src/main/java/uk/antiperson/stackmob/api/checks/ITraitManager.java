@@ -1,7 +1,7 @@
 package uk.antiperson.stackmob.api.checks;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 
 public interface ITraitManager {
     void registerTraits();
@@ -14,5 +14,5 @@ public interface ITraitManager {
 
     void registerTrait(ComparableTrait trait);
 
-    StackMob getStackMob();
+    IStackMob getStackMob();
 }

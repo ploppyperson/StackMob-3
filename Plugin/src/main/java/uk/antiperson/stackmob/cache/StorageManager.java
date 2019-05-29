@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob.cache;
 
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.cache.IStorageManager;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
@@ -15,10 +15,10 @@ import java.util.logging.Level;
 
 public class StorageManager implements IStorageManager {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
     private StackStorage stackStorage;
     private Map<UUID, Integer> amountCache = new HashMap<>();
-    public StorageManager(StackMobPlugin sm){
+    public StorageManager(StackMob sm){
         this.sm = sm;
     }
 
@@ -63,7 +63,7 @@ public class StorageManager implements IStorageManager {
     }
 
     @Override
-    public StackMobPlugin getStackMob() {
+    public StackMob getStackMob() {
         return sm;
     }
 

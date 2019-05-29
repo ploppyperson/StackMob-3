@@ -7,13 +7,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 
 public class WorldGuardCompat {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
     private static final StateFlag ENTITY_FLAG = new StateFlag("entity-stacking", true);
-    public WorldGuardCompat(StackMobPlugin sm){
+    public WorldGuardCompat(StackMob sm){
         this.sm = sm;
     }
 

@@ -5,13 +5,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 
 public class TargetEvent implements Listener {
 
-    private StackMob sm;
-    public TargetEvent(StackMob sm) {
+    private IStackMob sm;
+    public TargetEvent(IStackMob sm) {
         this.sm = sm;
     }
 

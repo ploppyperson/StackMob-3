@@ -1,10 +1,10 @@
 package uk.antiperson.stackmob.entity.death;
 
 import org.bukkit.entity.LivingEntity;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.death.IDeathManager;
 import uk.antiperson.stackmob.entity.death.method.KillStep;
 import uk.antiperson.stackmob.entity.death.method.KillStepDamage;
-import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.api.entity.death.DeathStep;
 import uk.antiperson.stackmob.api.entity.death.DeathType;
 import uk.antiperson.stackmob.entity.death.method.KillAll;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class DeathManager implements IDeathManager {
 
     private Map<DeathType, DeathStep> deathMap = new HashMap<>();
-    public DeathManager(StackMob sm){
+    public DeathManager(IStackMob sm){
         deathMap.put(DeathType.KILL_ALL, new KillAll(sm));
         deathMap.put(DeathType.KILL_STEP, new KillStep(sm));
         deathMap.put(DeathType.KILL_STEP_DAMAGE, new KillStepDamage(sm));

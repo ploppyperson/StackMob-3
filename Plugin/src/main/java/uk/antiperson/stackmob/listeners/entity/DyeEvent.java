@@ -4,13 +4,13 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SheepDyeWoolEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 
 public class DyeEvent implements Listener {
 
-    private StackMob sm;
-    public DyeEvent(StackMob sm) {
+    private IStackMob sm;
+    public DyeEvent(IStackMob sm) {
         this.sm = sm;
     }
 

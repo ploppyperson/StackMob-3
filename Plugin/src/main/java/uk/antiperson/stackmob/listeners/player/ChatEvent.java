@@ -4,14 +4,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class ChatEvent implements Listener {
 
-    private StackMob sm;
-    public ChatEvent(StackMob sm){
+    private IStackMob sm;
+    public ChatEvent(IStackMob sm){
         this.sm = sm;
     }
 

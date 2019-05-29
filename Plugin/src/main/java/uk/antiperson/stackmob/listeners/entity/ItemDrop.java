@@ -7,16 +7,16 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ItemDrop implements Listener {
 
-    private StackMob sm;
+    private IStackMob sm;
 
-    public ItemDrop(StackMob sm) {
+    public ItemDrop(IStackMob sm) {
         this.sm = sm;
     }
 

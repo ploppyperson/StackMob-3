@@ -4,14 +4,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 
 public class TameEvent implements Listener {
 
-    private StackMob sm;
+    private IStackMob sm;
 
-    public TameEvent(StackMob sm) {
+    public TameEvent(IStackMob sm) {
         this.sm = sm;
     }
 

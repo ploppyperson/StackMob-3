@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
 import uk.antiperson.stackmob.api.entity.StackTools;
@@ -17,8 +17,8 @@ import uk.antiperson.stackmob.api.tools.WorldTools;
  */
 public class TagTask extends BukkitRunnable {
 
-    private StackMob sm;
-    public TagTask(StackMob sm){
+    private IStackMob sm;
+    public TagTask(IStackMob sm){
         this.sm = sm;
     }
 

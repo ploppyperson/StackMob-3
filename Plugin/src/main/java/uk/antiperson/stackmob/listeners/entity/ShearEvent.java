@@ -6,14 +6,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.ItemTools;
 
 public class ShearEvent implements Listener {
 
-    private StackMob sm;
-    public ShearEvent(StackMob sm) {
+    private IStackMob sm;
+    public ShearEvent(IStackMob sm) {
         this.sm = sm;
     }
 

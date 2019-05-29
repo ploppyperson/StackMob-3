@@ -6,7 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.bcompat.Compat;
 import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.CatTrait;
 import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.FoxTrait;
@@ -16,8 +16,8 @@ import uk.antiperson.stackmob.bcompat.v1_14.listeners.DispenserShear;
 
 public class BukkitCompat implements Compat {
 
-    private StackMob sm;
-    public BukkitCompat(StackMob sm) {
+    private IStackMob sm;
+    public BukkitCompat(IStackMob sm) {
         this.sm = sm;
     }
 

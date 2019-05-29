@@ -5,7 +5,7 @@ import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.compat.PluginHook;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MythicMobsHook extends PluginHook implements Comparable {
 
-    public MythicMobsHook(HookManager hm, StackMobPlugin sm){
+    public MythicMobsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MYTHICMOBS);
     }
 

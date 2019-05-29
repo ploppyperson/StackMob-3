@@ -8,14 +8,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class StickInteractEvent implements Listener {
 
-    private StackMobPlugin sm;
-    public StickInteractEvent(StackMobPlugin sm){
+    private StackMob sm;
+    public StickInteractEvent(StackMob sm){
         this.sm = sm;
     }
 

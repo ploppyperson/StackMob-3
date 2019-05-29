@@ -1,7 +1,7 @@
 package uk.antiperson.stackmob.checks;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 import uk.antiperson.stackmob.api.checks.ComparableTrait;
 import uk.antiperson.stackmob.api.checks.ITraitManager;
@@ -14,8 +14,8 @@ import java.util.Set;
 public class TraitManager implements ITraitManager {
 
     private Set<ComparableTrait> comparableTraits = new HashSet<>();
-    private StackMob sm;
-    public TraitManager(StackMob sm){
+    private IStackMob sm;
+    public TraitManager(IStackMob sm){
         this.sm = sm;
     }
 
@@ -77,7 +77,7 @@ public class TraitManager implements ITraitManager {
     }
 
     @Override
-    public StackMob getStackMob() {
+    public IStackMob getStackMob() {
         return sm;
     }
     

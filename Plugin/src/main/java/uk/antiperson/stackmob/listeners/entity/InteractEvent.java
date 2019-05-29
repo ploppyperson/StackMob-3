@@ -7,13 +7,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 
 public class InteractEvent implements Listener {
 
-    private StackMob sm;
-    public InteractEvent(StackMob sm) {
+    private IStackMob sm;
+    public InteractEvent(IStackMob sm) {
         this.sm = sm;
     }
 

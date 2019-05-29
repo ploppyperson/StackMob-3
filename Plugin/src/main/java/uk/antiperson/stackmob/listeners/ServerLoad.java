@@ -5,15 +5,15 @@ import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.tasks.StackTask;
 
 import java.util.List;
 
 public class ServerLoad  implements Listener {
 
-    private StackMobPlugin sm;
-    public ServerLoad(StackMobPlugin sm){
+    private StackMob sm;
+    public ServerLoad(StackMob sm){
         this.sm = sm;
     }
 

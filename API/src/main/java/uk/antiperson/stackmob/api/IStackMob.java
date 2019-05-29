@@ -17,7 +17,7 @@ import uk.antiperson.stackmob.api.tools.IUpdateChecker;
 import java.util.Map;
 import java.util.UUID;
 
-public interface StackMob extends Plugin {
+public interface IStackMob extends Plugin {
     FileConfiguration getCustomConfig();
 
     IConfigLoader getConfigFile();

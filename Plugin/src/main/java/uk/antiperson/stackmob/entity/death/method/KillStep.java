@@ -1,7 +1,7 @@
 package uk.antiperson.stackmob.entity.death.method;
 
 import org.bukkit.entity.LivingEntity;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.entity.death.DeathStep;
 import uk.antiperson.stackmob.api.entity.death.DeathType;
@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KillStep extends DeathStep {
 
-    public KillStep(StackMob sm){
+    public KillStep(IStackMob sm){
         super(sm, DeathType.KILL_STEP);
     }
 

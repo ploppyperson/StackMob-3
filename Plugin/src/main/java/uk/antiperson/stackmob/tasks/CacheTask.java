@@ -1,15 +1,15 @@
 package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class CacheTask extends BukkitRunnable {
 
-    private StackMobPlugin sm;
-    public CacheTask(StackMobPlugin sm){
+    private StackMob sm;
+    public CacheTask(StackMob sm){
         this.sm = sm;
     }
 

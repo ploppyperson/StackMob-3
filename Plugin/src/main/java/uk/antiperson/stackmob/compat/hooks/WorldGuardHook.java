@@ -1,7 +1,7 @@
 package uk.antiperson.stackmob.compat.hooks;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.compat.IHookManager;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.PluginHook;
@@ -10,7 +10,7 @@ import uk.antiperson.stackmob.api.compat.Testable;
 public class WorldGuardHook extends PluginHook implements Testable {
 
     private WorldGuardCompat worldGuardCompat;
-    public WorldGuardHook(IHookManager hm, StackMobPlugin sm){
+    public WorldGuardHook(IHookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.WORLDGUARD);
         if(isCorrectVersion()){
             worldGuardCompat = new WorldGuardCompat(sm);

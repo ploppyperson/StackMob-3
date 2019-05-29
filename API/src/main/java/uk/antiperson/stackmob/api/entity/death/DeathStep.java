@@ -1,13 +1,13 @@
 package uk.antiperson.stackmob.api.entity.death;
 
 import org.bukkit.entity.LivingEntity;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 
 public abstract class DeathStep implements DeathMethod {
 
     private DeathType dt;
-    private StackMob sm;
-    public DeathStep(StackMob sm, DeathType dt){
+    private IStackMob sm;
+    public DeathStep(IStackMob sm, DeathType dt){
         this.sm = sm;
         this.dt = dt;
     }
@@ -32,7 +32,7 @@ public abstract class DeathStep implements DeathMethod {
                 .contains(dead.getType().toString()));
     }
 
-    public StackMob getStackMob() {
+    public IStackMob getStackMob() {
         return sm;
     }
 }

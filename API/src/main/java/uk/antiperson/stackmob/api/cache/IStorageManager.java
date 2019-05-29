@@ -1,6 +1,6 @@
 package uk.antiperson.stackmob.api.cache;
 
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 
 import java.util.Map;
 import java.util.UUID;
@@ -14,7 +14,7 @@ public interface IStorageManager {
 
     void saveStorage();
 
-    StackMob getStackMob();
+    IStackMob getStackMob();
 
     StackStorage getStackStorage();
 

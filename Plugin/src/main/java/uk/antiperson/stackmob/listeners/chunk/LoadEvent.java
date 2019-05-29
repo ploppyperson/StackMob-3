@@ -5,15 +5,15 @@ import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class LoadEvent implements Listener {
 
-    private StackMob sm;
+    private IStackMob sm;
 
-    public LoadEvent(StackMob sm) {
+    public LoadEvent(IStackMob sm) {
         this.sm = sm;
     }
 

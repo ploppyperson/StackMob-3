@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.loot.LootContext;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.api.entity.multiplication.IDropTools;
 import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
@@ -27,8 +27,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class DropTools implements IDropTools {
 
-    private StackMobPlugin sm;
-    public DropTools(StackMobPlugin sm){
+    private StackMob sm;
+    public DropTools(StackMob sm){
         this.sm = sm;
     }
 

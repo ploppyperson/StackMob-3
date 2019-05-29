@@ -6,15 +6,15 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class EntityRemoveListener implements Listener {
 
-    private StackMob sm;
+    private IStackMob sm;
 
-    public EntityRemoveListener(StackMob sm) {
+    public EntityRemoveListener(IStackMob sm) {
         this.sm = sm;
     }
 

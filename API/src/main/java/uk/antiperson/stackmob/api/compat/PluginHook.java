@@ -1,14 +1,14 @@
 package uk.antiperson.stackmob.api.compat;
 
 import org.bukkit.plugin.Plugin;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 
 public interface PluginHook extends PluginChecks {
     String getPluginName();
 
     Plugin getPlugin();
 
-    StackMob getStackMob();
+    IStackMob getStackMob();
 
     IHookManager getHookManager();
 

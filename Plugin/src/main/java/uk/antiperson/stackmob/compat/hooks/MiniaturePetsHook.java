@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.compat.hooks;
 
 import com.kirelcodes.miniaturepets.api.APIUtils;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.compat.HookManager;
 import uk.antiperson.stackmob.compat.PluginHook;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
@@ -10,7 +10,7 @@ import uk.antiperson.stackmob.api.compat.Testable;
 
 public class MiniaturePetsHook extends PluginHook implements Testable {
 
-    public MiniaturePetsHook(HookManager hm, StackMobPlugin sm){
+    public MiniaturePetsHook(HookManager hm, StackMob sm){
         super(hm, sm, PluginCompat.MINIATUREPETS);
     }
 

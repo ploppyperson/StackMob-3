@@ -8,8 +8,8 @@ import uk.antiperson.stackmob.api.tools.GlobalValues;
 public class StackedEntity {
 
     private Entity entity;
-    private StackMob sm;
-    public StackedEntity(Entity entity, StackMob sm){
+    private IStackMob sm;
+    public StackedEntity(Entity entity, IStackMob sm){
         this.entity = entity;
         this.sm = sm;
     }

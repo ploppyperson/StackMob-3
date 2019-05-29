@@ -5,7 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.hooks.ProtocolLibHook;
 import uk.antiperson.stackmob.api.entity.StackTools;
@@ -15,11 +15,11 @@ import java.util.List;
 
 public class ShowTagTask extends BukkitRunnable {
 
-    public StackMob sm;
+    public IStackMob sm;
     private int x;
     private int y;
     private int z;
-    public ShowTagTask(StackMob sm){
+    public ShowTagTask(IStackMob sm){
         this.sm = sm;
         x = sm.getCustomConfig().getInt("tag.show-player-nearby.x");
         y = sm.getCustomConfig().getInt("tag.show-player-nearby.y");

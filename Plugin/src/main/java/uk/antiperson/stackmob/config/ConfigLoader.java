@@ -3,7 +3,7 @@ package uk.antiperson.stackmob.config;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.config.IConfigLoader;
 
 import java.io.*;
@@ -17,9 +17,9 @@ public class ConfigLoader implements IConfigLoader {
     private FileConfiguration fc;
     private File file;
     private File defaultFile;
-    private StackMobPlugin sm;
+    private StackMob sm;
     private String filename;
-    public ConfigLoader(StackMobPlugin sm, String filename){
+    public ConfigLoader(StackMob sm, String filename){
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");

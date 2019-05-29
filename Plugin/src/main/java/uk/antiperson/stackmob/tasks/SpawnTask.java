@@ -2,15 +2,15 @@ package uk.antiperson.stackmob.tasks;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.IStackMob;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
 public class SpawnTask extends BukkitRunnable {
 
     private LivingEntity entity;
-    private StackMob sm;
-    public SpawnTask(StackMob sm, LivingEntity entity){
+    private IStackMob sm;
+    public SpawnTask(IStackMob sm, LivingEntity entity){
         this.sm = sm;
         this.entity = entity;
     }

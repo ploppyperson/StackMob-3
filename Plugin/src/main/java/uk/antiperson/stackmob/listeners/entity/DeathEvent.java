@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.events.StackDeathEvent;
 import uk.antiperson.stackmob.api.entity.death.DeathStep;
@@ -19,9 +19,9 @@ import java.util.List;
 
 public class DeathEvent implements Listener {
 
-    private StackMobPlugin sm;
+    private StackMob sm;
 
-    public DeathEvent(StackMobPlugin sm) {
+    public DeathEvent(StackMob sm) {
         this.sm = sm;
     }
 
