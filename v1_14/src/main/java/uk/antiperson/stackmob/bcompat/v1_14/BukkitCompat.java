@@ -6,9 +6,29 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
+import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.api.bcompat.Compat;
+import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.CatTrait;
+import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.FoxTrait;
+import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.MooshroomTrait;
+import uk.antiperson.stackmob.bcompat.v1_14.checks.trait.VillagerTrait;
+import uk.antiperson.stackmob.bcompat.v1_14.listeners.DispenserShear;
 
 public class BukkitCompat implements Compat {
+
+    private StackMob sm;
+    public BukkitCompat(StackMob sm) {
+        this.sm = sm;
+    }
+
+    @Override
+    public void onEnable(){
+        sm.getServer().getPluginManager().registerEvents(new DispenserShear(sm), sm);
+        sm.getTraitManager().registerTrait(new CatTrait());
+        sm.getTraitManager().registerTrait(new FoxTrait());
+        sm.getTraitManager().registerTrait(new MooshroomTrait());
+        sm.getTraitManager().registerTrait(new VillagerTrait());
+    }
 
     @Override
     public boolean checkFood(Entity entity, ItemStack food) {
