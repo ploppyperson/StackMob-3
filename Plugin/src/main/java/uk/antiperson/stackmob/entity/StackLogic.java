@@ -1,15 +1,23 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootContext;
+import org.bukkit.material.Wool;
 import uk.antiperson.stackmob.StackMobPlugin;
 import uk.antiperson.stackmob.api.StackedEntity;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
+import uk.antiperson.stackmob.api.tools.ItemTools;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class StackLogic implements uk.antiperson.stackmob.api.entity.StackLogic {
 
@@ -212,5 +220,27 @@ public class StackLogic implements uk.antiperson.stackmob.api.entity.StackLogic 
         dead.removeMetadata(GlobalValues.KILL_ONE, sm);
         dead.removeMetadata(GlobalValues.LEFTOVER_DAMAGE, sm);
         StackTools.removeSize(dead);
+    }
+
+    @Override
+    public void doSheepShear(Sheep sheared, Player player) {
+        int stackSize = StackTools.getSize(sheared);
+        if(sm.getCustomConfig().getBoolean("multiply.sheep-wool") && ItemTools.hasEnoughDurability(player, stackSize)){
+            LootContext lootContext = new LootContext.Builder(sheared.getLocation()).lootedEntity(sheared).build();
+            Collection<ItemStack> loot = sheared.getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
+            for(ItemStack itemStack : loot){
+                if(itemStack.getData() instanceof Wool) {
+                    sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), sheared.getLocation());
+                }
+            }
+
+            ItemTools.damageItemInHand(player, stackSize);
+        }else if(sm.getCustomConfig().getBoolean("divide-on.sheep-shear")){
+            Sheep newEntity = (Sheep) sm.getTools().duplicate(sheared);
+            newEntity.setSheared(false);
+
+            StackTools.setSize(newEntity,stackSize - 1);
+            StackTools.makeSingle(sheared);
+        }
     }
 }
