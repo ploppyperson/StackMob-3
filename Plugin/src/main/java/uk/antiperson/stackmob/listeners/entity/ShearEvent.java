@@ -29,7 +29,13 @@ public class ShearEvent implements Listener {
         Entity oldEntity = event.getEntity();
         int stackSize = StackTools.getSize(oldEntity);
         if(oldEntity instanceof Sheep){
-            sm.getLogic().doSheepShear((Sheep) oldEntity, event.getPlayer());
+            Sheep sheep = (Sheep) oldEntity;
+            ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+            if(sm.getLogic().doSheepShearAll(sheep, item)){
+                ItemTools.damageItemInHand(event.getPlayer(), stackSize);
+            }else{
+                sm.getLogic().doSheepShearSingle(sheep);
+            }
         }
 
         // TODO: Make method in stacklogic class for this as well.

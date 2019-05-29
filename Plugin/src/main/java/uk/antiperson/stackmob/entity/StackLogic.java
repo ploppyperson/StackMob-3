@@ -223,9 +223,9 @@ public class StackLogic implements uk.antiperson.stackmob.api.entity.StackLogic 
     }
 
     @Override
-    public void doSheepShear(Sheep sheared, Player player) {
+    public boolean doSheepShearAll(Sheep sheared, ItemStack tool) {
         int stackSize = StackTools.getSize(sheared);
-        if(sm.getCustomConfig().getBoolean("multiply.sheep-wool") && ItemTools.hasEnoughDurability(player, stackSize)){
+        if(sm.getCustomConfig().getBoolean("multiply.sheep-wool") && ItemTools.hasEnoughDurability(tool, stackSize)){
             LootContext lootContext = new LootContext.Builder(sheared.getLocation()).lootedEntity(sheared).build();
             Collection<ItemStack> loot = sheared.getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
             for(ItemStack itemStack : loot){
@@ -233,9 +233,15 @@ public class StackLogic implements uk.antiperson.stackmob.api.entity.StackLogic 
                     sm.getDropTools().dropDrops(itemStack, sm.getDropTools().calculateAmount(stackSize), sheared.getLocation());
                 }
             }
+            return true;
+        }
+        return false;
+    }
 
-            ItemTools.damageItemInHand(player, stackSize);
-        }else if(sm.getCustomConfig().getBoolean("divide-on.sheep-shear")){
+    @Override
+    public void doSheepShearSingle(Sheep sheared) {
+        int stackSize = StackTools.getSize(sheared);
+        if(sm.getCustomConfig().getBoolean("divide-on.sheep-shear")){
             Sheep newEntity = (Sheep) sm.getTools().duplicate(sheared);
             newEntity.setSheared(false);
 

@@ -9,28 +9,33 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemTools {
 
-    public static void damageItemInHand(Player player, int stackSize){
-        ItemStack item = player.getInventory().getItemInMainHand();
+    public static void damageItemInHand(Player player, int stackSize) {
+        ItemStack is = damageItem(player.getInventory().getItemInMainHand(), stackSize);
+        player.getInventory().setItemInMainHand(is);
+    }
+
+    public static ItemStack damageItem(ItemStack item, int stackSize){
         Damageable meta = (Damageable) item.getItemMeta();
         int newDamage = meta.getDamage() + stackSize;
         if(newDamage <= item.getType().getMaxDurability()){
             meta.setDamage(meta.getDamage() + stackSize);
             item.setItemMeta((ItemMeta) meta);
-            player.getInventory().setItemInMainHand(item);
-            return;
         }
-        player.getInventory().setItemInMainHand(null);
+        return item;
     }
 
     public static boolean hasEnoughDurability(Player player, int stackSize) {
-        ItemStack item = player.getInventory().getItemInMainHand();
-        Damageable meta = (Damageable) item.getItemMeta();
-        int newDamage = meta.getDamage() + stackSize;
-        if(newDamage >= item.getType().getMaxDurability()){
+        if(!hasEnoughDurability(player.getInventory().getItemInMainHand(), stackSize)){
             player.sendActionBar(ChatColor.RED + "Item is too damaged to shear all!");
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 1);
             return false;
         }
         return true;
+    }
+
+    public static boolean hasEnoughDurability(ItemStack item, int stackSize) {
+        Damageable meta = (Damageable) item.getItemMeta();
+        int newDamage = meta.getDamage() + stackSize;
+        return newDamage <= item.getType().getMaxDurability();
     }
 }

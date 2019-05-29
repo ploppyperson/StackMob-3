@@ -4,6 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 public interface StackLogic {
     boolean foundMatch(Entity original);
@@ -30,5 +31,7 @@ public interface StackLogic {
 
     void cleanup(Entity dead);
 
-    void doSheepShear(Sheep sheared, Player player);
+    boolean doSheepShearAll(Sheep sheared, ItemStack tool);
+
+    void doSheepShearSingle(Sheep sheared);
 }

@@ -105,6 +105,10 @@ compare:
   entity-age: true
   can-breed: true
   love-mode: true
+  # 1.14 and newer only
+  cat-type: true
+  mooshroom-variant: true
+  fox-type: true
 
 # Check these attributes before stacking.
 check:
