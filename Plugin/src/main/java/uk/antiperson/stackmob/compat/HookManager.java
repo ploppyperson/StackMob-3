@@ -9,7 +9,7 @@ import uk.antiperson.stackmob.compat.hooks.*;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class HookManager implements uk.antiperson.stackmob.api.compat.HookManager {
+public class HookManager implements IHookManager {
 
     private StackMobPlugin sm;
     private Map<PluginCompat, uk.antiperson.stackmob.api.compat.PluginHook> hooks = new EnumMap<>(PluginCompat.class);

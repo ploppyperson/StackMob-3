@@ -2,17 +2,17 @@ package uk.antiperson.stackmob.api;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import uk.antiperson.stackmob.api.cache.StorageManager;
-import uk.antiperson.stackmob.api.checks.TraitManager;
-import uk.antiperson.stackmob.api.compat.HookManager;
-import uk.antiperson.stackmob.api.config.ConfigLoader;
-import uk.antiperson.stackmob.api.entity.EntityTools;
-import uk.antiperson.stackmob.api.entity.StackLogic;
-import uk.antiperson.stackmob.api.entity.death.DeathManager;
-import uk.antiperson.stackmob.api.entity.multiplication.DropTools;
-import uk.antiperson.stackmob.api.entity.multiplication.ExperienceTools;
-import uk.antiperson.stackmob.api.stick.StickTools;
-import uk.antiperson.stackmob.api.tools.UpdateChecker;
+import uk.antiperson.stackmob.api.cache.IStorageManager;
+import uk.antiperson.stackmob.api.checks.ITraitManager;
+import uk.antiperson.stackmob.api.compat.IHookManager;
+import uk.antiperson.stackmob.api.config.IConfigLoader;
+import uk.antiperson.stackmob.api.entity.IEntityTools;
+import uk.antiperson.stackmob.api.entity.IStackLogic;
+import uk.antiperson.stackmob.api.entity.death.IDeathManager;
+import uk.antiperson.stackmob.api.entity.multiplication.IDropTools;
+import uk.antiperson.stackmob.api.entity.multiplication.IExperienceTools;
+import uk.antiperson.stackmob.api.stick.IStickTools;
+import uk.antiperson.stackmob.api.tools.IUpdateChecker;
 
 import java.util.Map;
 import java.util.UUID;
@@ -20,35 +20,35 @@ import java.util.UUID;
 public interface StackMob extends Plugin {
     FileConfiguration getCustomConfig();
 
-    ConfigLoader getConfigFile();
+    IConfigLoader getConfigFile();
 
-    HookManager getHookManager();
+    IHookManager getHookManager();
 
-    StorageManager getStorageManager();
+    IStorageManager getStorageManager();
 
-    TraitManager getTraitManager();
+    ITraitManager getTraitManager();
 
-    DeathManager getDeathManager();
+    IDeathManager getDeathManager();
 
-    EntityTools getTools();
+    IEntityTools getTools();
 
-    DropTools getDropTools();
+    IDropTools getDropTools();
 
-    StickTools getStickTools();
+    IStickTools getStickTools();
 
     FileConfiguration getTranslationConfig();
 
-    ConfigLoader getTranslationFile();
+    IConfigLoader getTranslationFile();
 
-    ExperienceTools getExpTools();
+    IExperienceTools getExpTools();
 
     FileConfiguration getGeneralConfig();
 
-    ConfigLoader getGeneralFile();
+    IConfigLoader getGeneralFile();
 
-    UpdateChecker getUpdater();
+    IUpdateChecker getUpdater();
 
-    StackLogic getLogic();
+    IStackLogic getLogic();
 
     Map<UUID, Integer> getCache();
 }

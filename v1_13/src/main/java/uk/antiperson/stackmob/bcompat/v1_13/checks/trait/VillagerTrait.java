@@ -2,7 +2,6 @@ package uk.antiperson.stackmob.bcompat.v1_13.checks.trait;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
-import uk.antiperson.stackmob.api.checks.TraitManager;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class VillagerTrait implements ApplicableTrait {

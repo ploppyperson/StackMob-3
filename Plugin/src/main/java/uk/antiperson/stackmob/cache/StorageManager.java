@@ -1,6 +1,7 @@
 package uk.antiperson.stackmob.cache;
 
 import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.api.cache.IStorageManager;
 import uk.antiperson.stackmob.cache.storage.FlatFile;
 import uk.antiperson.stackmob.cache.storage.MySQL;
 import uk.antiperson.stackmob.api.cache.DisableCleanup;
@@ -12,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class StorageManager implements uk.antiperson.stackmob.api.cache.StorageManager {
+public class StorageManager implements IStorageManager {
 
     private StackMobPlugin sm;
     private StackStorage stackStorage;

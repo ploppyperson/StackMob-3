@@ -2,14 +2,14 @@ package uk.antiperson.stackmob.compat.hooks;
 
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.StackMobPlugin;
-import uk.antiperson.stackmob.api.compat.HookManager;
+import uk.antiperson.stackmob.api.compat.IHookManager;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.PluginHook;
 import uk.antiperson.stackmob.api.compat.Testable;
 
 public class CitizensHook extends PluginHook implements Testable {
 
-    public CitizensHook(HookManager hm, StackMobPlugin sm){
+    public CitizensHook(IHookManager hm, StackMobPlugin sm){
         super(hm, sm, PluginCompat.CITIZENS);
     }
 

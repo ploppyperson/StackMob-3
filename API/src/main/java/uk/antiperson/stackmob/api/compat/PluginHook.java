@@ -10,7 +10,7 @@ public interface PluginHook extends PluginChecks {
 
     StackMob getStackMob();
 
-    HookManager getHookManager();
+    IHookManager getHookManager();
 
     PluginCompat getPluginCompat();
 }

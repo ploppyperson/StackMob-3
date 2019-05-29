@@ -1,13 +1,13 @@
 package uk.antiperson.stackmob.checks.trait;
 
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.api.checks.TraitManager;
+import uk.antiperson.stackmob.api.checks.ITraitManager;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class FireTrait implements ApplicableTrait {
 
-    private TraitManager traitManager;
-    public FireTrait(TraitManager traitManager){
+    private ITraitManager traitManager;
+    public FireTrait(ITraitManager traitManager){
         this.traitManager = traitManager;
     }
 

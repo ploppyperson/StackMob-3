@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import uk.antiperson.stackmob.StackMobPlugin;
 import uk.antiperson.stackmob.api.entity.StackTools;
+import uk.antiperson.stackmob.api.stick.IStickTools;
 import uk.antiperson.stackmob.api.stick.StickMode;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class StickTools implements uk.antiperson.stackmob.api.stick.StickTools {
+public class StickTools implements IStickTools {
 
     private StackMobPlugin sm;
     private String itemName;

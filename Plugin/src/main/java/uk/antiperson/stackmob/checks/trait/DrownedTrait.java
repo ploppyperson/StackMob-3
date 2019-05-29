@@ -3,7 +3,6 @@ package uk.antiperson.stackmob.checks.trait;
 import org.bukkit.Material;
 import org.bukkit.entity.Drowned;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.api.checks.TraitManager;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 import java.util.Arrays;

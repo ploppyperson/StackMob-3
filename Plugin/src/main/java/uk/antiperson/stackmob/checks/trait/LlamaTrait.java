@@ -2,7 +2,6 @@ package uk.antiperson.stackmob.checks.trait;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
-import uk.antiperson.stackmob.api.checks.TraitManager;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class LlamaTrait implements ApplicableTrait {

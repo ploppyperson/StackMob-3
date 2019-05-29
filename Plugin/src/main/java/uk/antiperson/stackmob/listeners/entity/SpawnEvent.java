@@ -20,7 +20,7 @@ public class SpawnEvent implements Listener {
     public void onCreatureSpawn(CreatureSpawnEvent e){
         LivingEntity entity = e.getEntity();
 
-        // EntityTools before running task
+        // IEntityTools before running task
         if(!(entity instanceof Mob)){
             return;
         }

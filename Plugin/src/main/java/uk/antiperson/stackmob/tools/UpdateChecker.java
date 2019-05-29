@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.tools;
 
 import org.apache.commons.io.FileUtils;
 import uk.antiperson.stackmob.StackMobPlugin;
-import uk.antiperson.stackmob.api.StackMob;
+import uk.antiperson.stackmob.api.tools.IUpdateChecker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UpdateChecker implements uk.antiperson.stackmob.api.tools.UpdateChecker {
+public class UpdateChecker implements IUpdateChecker {
 
     private StackMobPlugin sm;
     public UpdateChecker(StackMobPlugin sm){

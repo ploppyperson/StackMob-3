@@ -3,7 +3,7 @@ package uk.antiperson.stackmob.api.checks;
 import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.api.StackMob;
 
-public interface TraitManager {
+public interface ITraitManager {
     void registerTraits();
 
     boolean checkTraits(Entity original, Entity nearby);

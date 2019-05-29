@@ -5,7 +5,7 @@ import uk.antiperson.stackmob.api.StackMob;
 import java.util.Map;
 import java.util.UUID;
 
-public interface StorageManager {
+public interface IStorageManager {
     void onServerEnable();
 
     void onServerDisable();

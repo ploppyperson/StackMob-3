@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
+import uk.antiperson.stackmob.api.entity.IEntityTools;
 import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
 
 /**
@@ -14,7 +15,7 @@ import uk.antiperson.stackmob.compat.hooks.MythicMobsHook;
  *
  * Strictly stuff to do with entities, but not stacking.
  */
-public class EntityTools implements uk.antiperson.stackmob.api.entity.EntityTools {
+public class EntityTools implements IEntityTools {
 
     private StackMob sm;
     public EntityTools(StackMob sm){

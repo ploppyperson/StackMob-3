@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public interface DropTools {
+public interface IDropTools {
     void doDrops(int deadAmount, LivingEntity dead);
 
     // Calculate a random drop amount.

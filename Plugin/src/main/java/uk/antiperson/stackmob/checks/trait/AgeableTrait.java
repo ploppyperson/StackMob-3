@@ -2,7 +2,6 @@ package uk.antiperson.stackmob.checks.trait;
 
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
-import uk.antiperson.stackmob.api.checks.TraitManager;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class AgeableTrait implements ApplicableTrait {

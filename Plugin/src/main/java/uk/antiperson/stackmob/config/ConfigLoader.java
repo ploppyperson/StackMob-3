@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import uk.antiperson.stackmob.StackMobPlugin;
+import uk.antiperson.stackmob.api.config.IConfigLoader;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by nathat on 01/06/17.
  */
-public class ConfigLoader implements uk.antiperson.stackmob.api.config.ConfigLoader {
+public class ConfigLoader implements IConfigLoader {
 
     private FileConfiguration fc;
     private File file;

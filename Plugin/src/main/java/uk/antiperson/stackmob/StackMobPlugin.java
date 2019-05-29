@@ -4,8 +4,18 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.antiperson.stackmob.api.cache.IStorageManager;
+import uk.antiperson.stackmob.api.checks.ITraitManager;
+import uk.antiperson.stackmob.api.compat.IHookManager;
+import uk.antiperson.stackmob.api.entity.IEntityTools;
+import uk.antiperson.stackmob.api.entity.IStackLogic;
+import uk.antiperson.stackmob.api.entity.death.IDeathManager;
+import uk.antiperson.stackmob.api.entity.multiplication.IDropTools;
+import uk.antiperson.stackmob.api.entity.multiplication.IExperienceTools;
+import uk.antiperson.stackmob.api.stick.IStickTools;
 import uk.antiperson.stackmob.api.tools.BukkitVersion;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
+import uk.antiperson.stackmob.api.tools.IUpdateChecker;
 import uk.antiperson.stackmob.tools.UpdateChecker;
 import uk.antiperson.stackmob.api.tools.VersionHelper;
 import uk.antiperson.stackmob.cache.StorageManager;
@@ -43,16 +53,16 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     private ConfigFile config;
     private EntityLangFile entityLang;
     private GeneralLangFile generalLang;
-    private uk.antiperson.stackmob.api.entity.EntityTools entityTools;
-    private uk.antiperson.stackmob.api.entity.multiplication.DropTools dropTools;
-    private uk.antiperson.stackmob.api.stick.StickTools stickTools;
-    private uk.antiperson.stackmob.api.entity.multiplication.ExperienceTools expTools;
-    private uk.antiperson.stackmob.api.entity.StackLogic logic;
-    private uk.antiperson.stackmob.api.cache.StorageManager storageManager;
-    private uk.antiperson.stackmob.api.compat.HookManager hookManager;
-    private uk.antiperson.stackmob.api.checks.TraitManager traitManager;
-    private uk.antiperson.stackmob.api.entity.death.DeathManager deathManager;
-    private uk.antiperson.stackmob.api.tools.UpdateChecker updater;
+    private IEntityTools entityTools;
+    private IDropTools dropTools;
+    private IStickTools stickTools;
+    private IExperienceTools expTools;
+    private IStackLogic logic;
+    private IStorageManager storageManager;
+    private IHookManager hookManager;
+    private ITraitManager traitManager;
+    private IDeathManager deathManager;
+    private IUpdateChecker updater;
 
     @Override
     public void onLoad(){
@@ -139,7 +149,7 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
         getServer().getPluginManager().registerEvents(new LoadEvent(this), this);
         getServer().getPluginManager().registerEvents(new EntityRemoveListener(this), this);
         getServer().getPluginManager().registerEvents(new ServerLoad(this), this);
-        getCommand("uk/antiperson/stackmob").setExecutor(new Commands(this));
+        getCommand("stackmob").setExecutor(new Commands(this));
         startTasks();
     }
 
@@ -199,37 +209,37 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     }
 
     @Override
-    public uk.antiperson.stackmob.api.compat.HookManager getHookManager() {
+    public IHookManager getHookManager() {
         return hookManager;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.cache.StorageManager getStorageManager() {
+    public IStorageManager getStorageManager() {
         return storageManager;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.checks.TraitManager getTraitManager() {
+    public ITraitManager getTraitManager() {
         return traitManager;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.entity.death.DeathManager getDeathManager() {
+    public IDeathManager getDeathManager() {
         return deathManager;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.entity.EntityTools getTools() {
+    public IEntityTools getTools() {
         return entityTools;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.entity.multiplication.DropTools getDropTools() {
+    public IDropTools getDropTools() {
         return dropTools;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.stick.StickTools getStickTools() {
+    public IStickTools getStickTools() {
         return stickTools;
     }
 
@@ -244,7 +254,7 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     }
 
     @Override
-    public uk.antiperson.stackmob.api.entity.multiplication.ExperienceTools getExpTools() {
+    public IExperienceTools getExpTools() {
         return expTools;
     }
 
@@ -259,12 +269,12 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
     }
 
     @Override
-    public uk.antiperson.stackmob.api.tools.UpdateChecker getUpdater() {
+    public IUpdateChecker getUpdater() {
         return updater;
     }
 
     @Override
-    public uk.antiperson.stackmob.api.entity.StackLogic getLogic() {
+    public IStackLogic getLogic() {
         return logic;
     }
 

@@ -4,13 +4,14 @@ import org.bukkit.entity.Entity;
 import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 import uk.antiperson.stackmob.api.checks.ComparableTrait;
+import uk.antiperson.stackmob.api.checks.ITraitManager;
 import uk.antiperson.stackmob.api.checks.SingleTrait;
 import uk.antiperson.stackmob.checks.trait.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class TraitManager implements uk.antiperson.stackmob.api.checks.TraitManager {
+public class TraitManager implements ITraitManager {
 
     private Set<ComparableTrait> comparableTraits = new HashSet<>();
     private StackMob sm;

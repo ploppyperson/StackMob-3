@@ -6,7 +6,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-public interface StackLogic {
+public interface IStackLogic {
     boolean foundMatch(Entity original);
 
     void merge(Entity original, Entity nearby);

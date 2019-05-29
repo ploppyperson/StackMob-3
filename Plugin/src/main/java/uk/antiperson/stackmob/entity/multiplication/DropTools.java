@@ -11,6 +11,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.loot.LootContext;
 import uk.antiperson.stackmob.StackMobPlugin;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
+import uk.antiperson.stackmob.api.entity.multiplication.IDropTools;
 import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Class to calculate the correct amount of entity drops.
  */
-public class DropTools implements uk.antiperson.stackmob.api.entity.multiplication.DropTools {
+public class DropTools implements IDropTools {
 
     private StackMobPlugin sm;
     public DropTools(StackMobPlugin sm){

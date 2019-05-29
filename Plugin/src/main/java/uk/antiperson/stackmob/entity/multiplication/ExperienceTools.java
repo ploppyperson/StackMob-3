@@ -2,12 +2,13 @@ package uk.antiperson.stackmob.entity.multiplication;
 
 import uk.antiperson.stackmob.api.StackMob;
 import uk.antiperson.stackmob.api.entity.multiplication.Algorithm;
+import uk.antiperson.stackmob.api.entity.multiplication.IExperienceTools;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import static uk.antiperson.stackmob.api.entity.multiplication.Algorithm.*;
 
-public class ExperienceTools implements uk.antiperson.stackmob.api.entity.multiplication.ExperienceTools {
+public class ExperienceTools implements IExperienceTools {
 
     private StackMob sm;
     public ExperienceTools(StackMob sm){

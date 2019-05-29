@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 
-public interface ConfigLoader {
+public interface IConfigLoader {
     boolean check(String config, String toCheck);
 
     void reloadCustomConfig();

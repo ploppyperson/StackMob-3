@@ -8,7 +8,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import uk.antiperson.stackmob.StackMobPlugin;
-import uk.antiperson.stackmob.api.compat.HookManager;
+import uk.antiperson.stackmob.api.compat.IHookManager;
 import uk.antiperson.stackmob.api.compat.Errorable;
 import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.compat.PluginHook;
@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 public class ProtocolLibHook extends PluginHook implements Errorable {
 
     private ProtocolManager protocolManager;
-    public ProtocolLibHook(HookManager hm, StackMobPlugin sm){
+    public ProtocolLibHook(IHookManager hm, StackMobPlugin sm){
         super(hm, sm, PluginCompat.PROCOTOLLIB);
     }
 

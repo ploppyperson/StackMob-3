@@ -1,7 +1,6 @@
 package uk.antiperson.stackmob.entity;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +8,7 @@ import org.bukkit.loot.LootContext;
 import org.bukkit.material.Wool;
 import uk.antiperson.stackmob.StackMobPlugin;
 import uk.antiperson.stackmob.api.StackedEntity;
+import uk.antiperson.stackmob.api.entity.IStackLogic;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.events.EntityStackEvent;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class StackLogic implements uk.antiperson.stackmob.api.entity.StackLogic {
+public class StackLogic implements IStackLogic {
 
     private StackMobPlugin sm;
     private double xRadius;

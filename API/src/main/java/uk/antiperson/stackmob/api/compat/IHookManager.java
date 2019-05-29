@@ -2,7 +2,7 @@ package uk.antiperson.stackmob.api.compat;
 
 import org.bukkit.entity.Entity;
 
-public interface HookManager {
+public interface IHookManager {
     void onServerLoad();
 
     void registerHooks();
