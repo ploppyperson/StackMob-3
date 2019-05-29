@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class ZombieTrait implements ApplicableTrait {
 
-    public ZombieTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.entity-age")) {
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.entity-age";
     }
 
     @Override

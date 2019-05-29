@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class ParrotTrait implements ApplicableTrait {
 
-    public ParrotTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.parrot-color")){
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.parrot-color";
     }
 
     @Override

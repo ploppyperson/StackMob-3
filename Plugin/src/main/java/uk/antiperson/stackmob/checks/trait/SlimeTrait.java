@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class SlimeTrait implements ApplicableTrait {
 
-    public SlimeTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.slime-size")) {
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.slime-size";
     }
 
     @Override

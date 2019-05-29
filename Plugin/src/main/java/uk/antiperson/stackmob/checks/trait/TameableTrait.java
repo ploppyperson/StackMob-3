@@ -8,10 +8,8 @@ import uk.antiperson.stackmob.api.checks.SingleTrait;
 
 public class TameableTrait implements ApplicableTrait, SingleTrait {
 
-    public TameableTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("check.tamed")){
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return"check.tamed";
     }
 
     @Override

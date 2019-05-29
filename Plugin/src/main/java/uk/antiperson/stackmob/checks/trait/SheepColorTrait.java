@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class SheepColorTrait implements ApplicableTrait {
 
-    public SheepColorTrait(TraitManager tc){
-        if (tc.getStackMob().getCustomConfig().getBoolean("compare.sheep-wool-color")) {
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.sheep-wool-color";
     }
 
     @Override

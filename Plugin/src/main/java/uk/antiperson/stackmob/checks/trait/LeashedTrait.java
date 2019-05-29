@@ -8,10 +8,8 @@ import uk.antiperson.stackmob.api.checks.SingleTrait;
 
 public class LeashedTrait implements ComparableTrait, SingleTrait {
 
-    public LeashedTrait(TraitManager tc){
-        if (tc.getStackMob().getCustomConfig().getBoolean("check.leashed")) {
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "check.leashed";
     }
 
     @Override

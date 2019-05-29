@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class LoveTrait implements ApplicableTrait {
 
-    public LoveTrait(TraitManager tm){
-        if (tm.getStackMob().getCustomConfig().getBoolean("compare.love-mode")) {
-            tm.registerTrait(this);
-        }
+    public String getConfigPath(){
+       return "compare.love-mode";
     }
 
     @Override

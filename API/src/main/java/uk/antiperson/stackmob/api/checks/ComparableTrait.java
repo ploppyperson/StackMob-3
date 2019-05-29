@@ -6,4 +6,6 @@ public interface ComparableTrait {
 
     boolean checkTrait(Entity original, Entity nearby);
 
+    String getConfigPath();
+
 }

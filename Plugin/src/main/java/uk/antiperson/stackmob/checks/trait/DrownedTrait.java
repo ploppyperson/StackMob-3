@@ -12,10 +12,8 @@ import java.util.List;
 public class DrownedTrait implements ApplicableTrait {
 
     private List<Material> materials = Arrays.asList(Material.NAUTILUS_SHELL, Material.TRIDENT);
-    public DrownedTrait(TraitManager tm){
-        if(tm.getStackMob().getCustomConfig().getBoolean("compare.drowned-hand-item")){
-            tm.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.drowned-hand-item";
     }
 
     @Override

@@ -7,11 +7,13 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 public class FireTrait implements ApplicableTrait {
 
     private TraitManager traitManager;
-    public FireTrait(uk.antiperson.stackmob.api.checks.TraitManager traitManager){
+    public FireTrait(TraitManager traitManager){
         this.traitManager = traitManager;
-        if(traitManager.getStackMob().getCustomConfig().getBoolean("fire-ticks.enabled")) {
-            traitManager.registerTrait(this);
-        }
+    }
+
+    @Override
+    public String getConfigPath() {
+        return "fire-ticks.enabled";
     }
 
     @Override

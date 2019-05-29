@@ -20,21 +20,21 @@ public class TraitManager implements uk.antiperson.stackmob.api.checks.TraitMana
 
     @Override
     public void registerTraits(){
-        new AgeableTrait(this);
-        new AnimalsTrait(this);
-        new FireTrait(this);
-        new HorseTrait(this);
-        new LeashedTrait(this);
-        new LlamaTrait(this);
-        new ParrotTrait(this);
-        new SheepColorTrait(this);
-        new SheepShearedTrait(this);
-        new SlimeTrait(this);
-        new TameableTrait(this);
-        new VillagerTrait(this);
-        new ZombieTrait(this);
-        new DrownedTrait(this);
-        new LoveTrait(this);
+        registerTrait(new AgeableTrait());
+        registerTrait(new AnimalsTrait());
+        registerTrait(new FireTrait(this));
+        registerTrait(new HorseTrait());
+        registerTrait(new LeashedTrait());
+        registerTrait(new LlamaTrait());
+        registerTrait(new ParrotTrait());
+        registerTrait(new SheepColorTrait());
+        registerTrait(new SheepShearedTrait());
+        registerTrait(new SlimeTrait());
+        registerTrait(new TameableTrait());
+        registerTrait(new VillagerTrait());
+        registerTrait(new ZombieTrait());
+        registerTrait(new DrownedTrait());
+        registerTrait(new LoveTrait());
     }
 
     @Override
@@ -70,6 +70,9 @@ public class TraitManager implements uk.antiperson.stackmob.api.checks.TraitMana
 
     @Override
     public void registerTrait(ComparableTrait trait){
+        if(!sm.getCustomConfig().getBoolean(trait.getConfigPath())){
+            return;
+        }
         comparableTraits.add(trait);
     }
 
@@ -77,4 +80,5 @@ public class TraitManager implements uk.antiperson.stackmob.api.checks.TraitMana
     public StackMob getStackMob() {
         return sm;
     }
+    
 }

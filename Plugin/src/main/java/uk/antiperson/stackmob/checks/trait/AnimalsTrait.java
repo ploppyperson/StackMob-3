@@ -7,10 +7,8 @@ import uk.antiperson.stackmob.api.checks.ApplicableTrait;
 
 public class AnimalsTrait implements ApplicableTrait {
 
-    public AnimalsTrait(TraitManager tc){
-        if(tc.getStackMob().getCustomConfig().getBoolean("compare.can-breed")){
-            tc.registerTrait(this);
-        }
+    public String getConfigPath(){
+        return "compare.can-breed";
     }
 
     @Override
