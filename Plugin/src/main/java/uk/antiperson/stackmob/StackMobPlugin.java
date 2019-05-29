@@ -4,6 +4,7 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.antiperson.stackmob.api.bcompat.Compat;
 import uk.antiperson.stackmob.api.cache.IStorageManager;
 import uk.antiperson.stackmob.api.checks.ITraitManager;
 import uk.antiperson.stackmob.api.compat.IHookManager;
@@ -42,6 +43,7 @@ import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
 import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -94,6 +96,8 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
         getHookManager().registerHooks();
         // Register traits for entity comparison.
         getTraitManager().registerTraits();
+
+        doBukkitCompat();
 
         if(getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
@@ -195,6 +199,18 @@ public class StackMobPlugin extends JavaPlugin implements StackMob {
         }
         if(getCustomConfig().getInt("storage.delay") > 0) {
             new CacheTask(this).runTaskTimer(this, 0, getCustomConfig().getInt("storage.delay") * 20);
+        }
+    }
+
+    public void doBukkitCompat(){
+        try {
+            Class clazz = Class.forName("uk.antiperson.stackmob.bcompat." + VersionHelper.getVersion().toString().toLowerCase() + ".BukkitCompat");
+            Compat compat = (Compat) clazz.getConstructor(StackMob.class).newInstance(this);
+            compat.onEnable();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  | InvocationTargetException e) {
+            getLogger().warning("The BukkitCompat was unable to be loaded!");
+            getLogger().warning("Make sure that the plugin is updated.");
+            e.printStackTrace();
         }
     }
 
