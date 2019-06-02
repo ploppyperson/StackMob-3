@@ -11,4 +11,8 @@ public final class UuidUtil {
         return UUID.fromString(UUID_PATTERN.matcher(raw).replaceAll("$1-$2-$3-$4-$5"));
     }
 
+    public static String filterString(String original) {
+        return original.replace("-", "");
+    }
+
 }

@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.cache.storage;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import uk.antiperson.stackmob.api.tools.UuidUtil;
 import uk.antiperson.stackmob.cache.StackStorage;
 import uk.antiperson.stackmob.cache.StorageManager;
 
@@ -23,7 +24,7 @@ public class FlatFile extends StackStorage {
     @Override
     public void loadStorage(){
         for(String key : fileCon.getKeys(false)){
-            getStorageManager().getAmountCache().put(UUID.fromString(key), fileCon.getInt(key));
+            getStorageManager().getAmountCache().put(UuidUtil.fromString(key), fileCon.getInt(key));
         }
     }
 
@@ -33,7 +34,7 @@ public class FlatFile extends StackStorage {
         reloadFile();
 
         for(Map.Entry<UUID, Integer> entry : values.entrySet()){
-            fileCon.set(entry.getKey().toString(), entry.getValue());
+            fileCon.set(UuidUtil.filterString(entry.getKey().toString()), entry.getValue());
         }
 
         try{

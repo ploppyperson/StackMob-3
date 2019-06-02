@@ -88,7 +88,7 @@ public class MySQL extends StackStorage implements DisableCleanup {
             try (PreparedStatement statement = connection.prepareStatement("INSERT INTO stackmob (uuid, size) VALUES (UNHEX(?), ?)")) {
                 for (Map.Entry<UUID, Integer> entry : values.entrySet()) {
                     if (entry.getValue() <= 1) continue;
-                    statement.setString(1, entry.getKey().toString().replace("-", ""));
+                    statement.setString(1, UuidUtil.filterString(entry.getKey().toString()));
                     statement.setInt(2, entry.getValue());
                     statement.addBatch();
                 }
