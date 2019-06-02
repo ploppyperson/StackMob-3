@@ -76,6 +76,7 @@ public class StackTools {
 
     public static void removeSize(Entity entity){
         currentEntities.remove(entity.getUniqueId());
+        persistentEntities.remove(entity.getUniqueId());
         removeTag(entity);
     }
 

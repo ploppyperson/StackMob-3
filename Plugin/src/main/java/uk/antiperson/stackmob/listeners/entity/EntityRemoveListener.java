@@ -48,8 +48,7 @@ public class EntityRemoveListener implements Listener {
         if (StackTools.hasValidData(entity)) {
             int stackSize = StackTools.getSize(entity);
             StackTools.removeSize(entity);
-            if (sm.getCustomConfig().getBoolean("convert-existing-entities")
-                    && stackSize <= 1 && stackSize != GlobalValues.NO_STACKING) {
+            if (stackSize <= 1 && stackSize != GlobalValues.NO_STACKING) {
                 return;
             }
             if (sm.getCustomConfig().getBoolean("remove-chunk-unload")) {
