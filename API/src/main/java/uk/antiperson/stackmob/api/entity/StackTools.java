@@ -67,7 +67,7 @@ public class StackTools {
     public static void setSize(Entity entity, int newSize){
         currentEntities.put(entity.getUniqueId(), newSize);
         if (!(entity instanceof Monster)) {
-            if (newSize <= 1) {
+            if (newSize <= 1 && newSize != GlobalValues.NO_STACKING) {
                 persistentEntities.remove(entity.getUniqueId());
                 return;
             }
