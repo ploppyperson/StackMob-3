@@ -3,6 +3,7 @@ package uk.antiperson.stackmob.entity.multiplication;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Ageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
@@ -14,12 +15,7 @@ import uk.antiperson.stackmob.api.compat.PluginCompat;
 import uk.antiperson.stackmob.api.entity.multiplication.IDropTools;
 import uk.antiperson.stackmob.compat.hooks.CustomDropsHook;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -54,6 +50,9 @@ public class DropTools implements IDropTools {
                 if(stack == null || stack.getType() == Material.AIR){
                     continue;
                 }
+                if(dropIsArmor(dead, stack)){
+                    continue;
+                }
                 if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
                         .contains(stack.getType().toString())){
                     continue;
@@ -81,6 +80,11 @@ public class DropTools implements IDropTools {
             CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
             if(cdh.hasCustomDrops(dead)){
                 return cdh.getDrops(dead);
+            }
+        }
+        if(dead instanceof Ageable){
+            if(!((Ageable) dead).isAdult()){
+                return Collections.emptySet();
             }
         }
         LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
@@ -141,6 +145,9 @@ public class DropTools implements IDropTools {
         return false;
     }
 
+    /**
+     * TODO: Fix this
+     */
     private Map<ItemStack, Integer> compressDrops(Map<ItemStack, Integer> items){
         Map<ItemStack, Integer> list = new HashMap<>();
         for(Map.Entry<ItemStack, Integer> entry : items.entrySet()){
