@@ -49,8 +49,17 @@ public class StorageManager implements IStorageManager {
     }
 
     @Override
+    public Map<UUID, Integer> getCombinedMap(){
+        Map<UUID, Integer> persistent = StackTools.getPersistentEntries();
+        Map<UUID, Integer> toSave = new HashMap<>(getAmountCache().size() + persistent.size());
+        toSave.putAll(getAmountCache());
+        toSave.putAll(persistent);
+        return toSave;
+    }
+
+    @Override
     public void saveStorage(){
-        stackStorage.saveStorage(StackTools.getPersistentEntries());
+        stackStorage.saveStorage(getCombinedMap());
     }
 
     @Override

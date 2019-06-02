@@ -10,6 +10,8 @@ public interface IStorageManager {
 
     void onServerDisable();
 
+    Map<UUID, Integer> getCombinedMap();
+
     void saveStorage();
 
     IStackMob getStackMob();

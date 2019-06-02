@@ -67,9 +67,6 @@ public class StackTools {
     public static void setSize(Entity entity, int newSize){
         currentEntities.put(entity.getUniqueId(), newSize);
         if (!(entity instanceof Monster)) {
-            if (newSize == GlobalValues.NOT_ENOUGH_NEAR || newSize == 1) {
-                return;
-            }
             persistentEntities.add(entity.getUniqueId());
         }
     }
@@ -98,10 +95,7 @@ public class StackTools {
         Map<UUID, Integer> ret = new HashMap<>();
         for (UUID uuid : persistentEntities) {
             Integer found = currentEntities.get(uuid);
-            if (found == null) {
-                continue;
-            }
-            ret.put(uuid, found);
+            if (found != null) ret.put(uuid, found);
         }
         return ret;
     }
