@@ -67,6 +67,10 @@ public class StackTools {
     public static void setSize(Entity entity, int newSize){
         currentEntities.put(entity.getUniqueId(), newSize);
         if (!(entity instanceof Monster)) {
+            if (newSize <= 1) {
+                persistentEntities.remove(entity.getUniqueId());
+                return;
+            }
             persistentEntities.add(entity.getUniqueId());
         }
     }
