@@ -7,10 +7,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import uk.antiperson.stackmob.api.entity.StackTools;
 import uk.antiperson.stackmob.api.tools.GlobalValues;
 
@@ -94,11 +91,13 @@ public class Commands implements CommandExecutor {
                     case "hostile":
                         filter = entity -> entity instanceof Monster;
                         break;
-
+                    case "animals":
+                        filter = entity -> entity instanceof Animals;
+                        break;
                     default:
                         // If any other cases are added, they should also be added to this error.
                         sender.sendMessage(GlobalValues.PLUGIN_TAG + GlobalValues.ERROR_TAG +
-                            "Invalid filter type, expected 'hostile'");
+                            "Invalid filter type, expected 'hostile', 'animals'");
                         return true;
                 }
 
