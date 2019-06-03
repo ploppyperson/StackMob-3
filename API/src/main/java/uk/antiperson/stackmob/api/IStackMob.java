@@ -2,6 +2,7 @@ package uk.antiperson.stackmob.api;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import uk.antiperson.stackmob.api.bcompat.Compat;
 import uk.antiperson.stackmob.api.cache.IStorageManager;
 import uk.antiperson.stackmob.api.checks.ITraitManager;
 import uk.antiperson.stackmob.api.compat.IHookManager;
@@ -49,6 +50,8 @@ public interface IStackMob extends Plugin {
     IUpdateChecker getUpdater();
 
     IStackLogic getLogic();
+
+    Compat getCompat();
 
     Map<UUID, Integer> getCache();
 }

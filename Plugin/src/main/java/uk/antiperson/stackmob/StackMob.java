@@ -43,7 +43,6 @@ import uk.antiperson.stackmob.listeners.player.ChatEvent;
 import uk.antiperson.stackmob.listeners.player.QuitEvent;
 import uk.antiperson.stackmob.listeners.player.StickInteractEvent;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -65,6 +64,7 @@ public class StackMob extends JavaPlugin implements IStackMob {
     private ITraitManager traitManager;
     private IDeathManager deathManager;
     private IUpdateChecker updater;
+    private Compat compat;
 
     @Override
     public void onLoad(){
@@ -97,7 +97,7 @@ public class StackMob extends JavaPlugin implements IStackMob {
         // Register traits for entity comparison.
         getTraitManager().registerTraits();
 
-        doBukkitCompat();
+        initBukkitCompat();
 
         if(getCustomConfig().isBoolean("plugin.loginupdatechecker")){
             getLogger().info("An old version of the configuration file has been detected!");
@@ -202,16 +202,14 @@ public class StackMob extends JavaPlugin implements IStackMob {
         }
     }
 
-    public void doBukkitCompat(){
-        try {
-            Class clazz = Class.forName("uk.antiperson.stackmob.bcompat." + VersionHelper.getVersion().toString().toLowerCase() + ".BukkitCompat");
-            Compat compat = (Compat) clazz.getConstructor(IStackMob.class).newInstance(this);
-            compat.onEnable();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  | InvocationTargetException e) {
-            getLogger().warning("The BukkitCompat was unable to be loaded!");
-            getLogger().warning("Make sure that the plugin is updated.");
-            e.printStackTrace();
+    private void initBukkitCompat(){
+        compat = VersionHelper.getBukkitCompat();
+        if (compat == null) {
+            getLogger().warning("An error occurred while trying to load bukkit compatibility measures.");
+            getLogger().warning("This will mean that certain features of your Mincraft version won't be supported, and some errors may occur.");
+            getLogger().warning("Make sure that the plugin is fully updated, by running the command '/sm check'");
         }
+        compat.onEnable();
     }
 
     @Override
@@ -292,6 +290,11 @@ public class StackMob extends JavaPlugin implements IStackMob {
     @Override
     public IStackLogic getLogic() {
         return logic;
+    }
+
+    @Override
+    public Compat getCompat() {
+        return compat;
     }
 
     @Override

@@ -1,6 +1,10 @@
 package uk.antiperson.stackmob.api.tools;
 
 import org.bukkit.Bukkit;
+import uk.antiperson.stackmob.api.IStackMob;
+import uk.antiperson.stackmob.api.bcompat.Compat;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class VersionHelper {
 
@@ -15,5 +19,15 @@ public class VersionHelper {
 
     public static boolean isVersionNewerThan(BukkitVersion version) {
         return version.getId() >= getVersion().getId();
+    }
+
+    public static Compat getBukkitCompat() {
+        try {
+            Class clazz = Class.forName("uk.antiperson.stackmob.bcompat." + getVersion().toString().toLowerCase() + ".BukkitCompat");
+            return (Compat) clazz.getConstructor(IStackMob.class).newInstance(this);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
