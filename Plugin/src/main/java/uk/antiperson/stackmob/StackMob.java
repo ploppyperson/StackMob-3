@@ -203,7 +203,7 @@ public class StackMob extends JavaPlugin implements IStackMob {
     }
 
     private void initBukkitCompat(){
-        compat = VersionHelper.getBukkitCompat();
+        compat = VersionHelper.getBukkitCompat(this);
         if (compat == null) {
             getLogger().warning("An error occurred while trying to load bukkit compatibility measures.");
             getLogger().warning("This will mean that certain features of your Mincraft version won't be supported, and some errors may occur.");

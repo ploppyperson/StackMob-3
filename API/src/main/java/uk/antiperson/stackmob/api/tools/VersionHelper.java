@@ -21,10 +21,10 @@ public class VersionHelper {
         return version.getId() >= getVersion().getId();
     }
 
-    public static Compat getBukkitCompat() {
+    public static Compat getBukkitCompat(IStackMob sm) {
         try {
             Class clazz = Class.forName("uk.antiperson.stackmob.bcompat." + getVersion().toString().toLowerCase() + ".BukkitCompat");
-            return (Compat) clazz.getConstructor(IStackMob.class).newInstance(this);
+            return (Compat) clazz.getConstructor(IStackMob.class).newInstance(sm);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  | InvocationTargetException e) {
             e.printStackTrace();
             return null;
