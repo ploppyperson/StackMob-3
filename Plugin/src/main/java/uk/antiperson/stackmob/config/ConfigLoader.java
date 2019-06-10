@@ -77,11 +77,10 @@ public class ConfigLoader implements IConfigLoader {
     }
 
     @Override
-    public void copyDefault(){
-        InputStream is = sm.getResource(filename +  ".yml");
+    public void copyDefault() {
         try {
-            FileUtils.copyToFile(is, defaultFile);
-        }catch (IOException e){
+            sm.saveDefaultConfig();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
