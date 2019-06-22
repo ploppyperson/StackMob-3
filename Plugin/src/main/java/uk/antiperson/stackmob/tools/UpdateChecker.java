@@ -1,14 +1,16 @@
 package uk.antiperson.stackmob.tools;
 
-import org.apache.commons.io.FileUtils;
 import uk.antiperson.stackmob.StackMob;
 import uk.antiperson.stackmob.api.tools.IUpdateChecker;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class UpdateChecker implements IUpdateChecker {
 
@@ -47,8 +49,9 @@ public class UpdateChecker implements IUpdateChecker {
         File currentFile = new File(sm.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         try{
             URL fileUrl = new URL("https://api.spiget.org/v2/resources/29999/download");
-            FileUtils.copyURLToFile(fileUrl,
-                    new File(sm.getServer().getUpdateFolderFile(), currentFile.getName()));
+            try (InputStream in = fileUrl.openStream()) {
+                Files.copy(in, currentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
             return "Downloaded latest version successfully!";
         }catch (Exception e){
             e.printStackTrace();

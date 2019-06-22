@@ -1,6 +1,5 @@
 package uk.antiperson.stackmob.config;
 
-import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import uk.antiperson.stackmob.StackMob;
@@ -8,6 +7,8 @@ import uk.antiperson.stackmob.api.config.IConfigLoader;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Created by nathat on 01/06/17.
@@ -16,14 +17,17 @@ public class ConfigLoader implements IConfigLoader {
 
     private FileConfiguration fc;
     private File file;
+    private File defaultFolder;
     private File defaultFile;
     private StackMob sm;
     private String filename;
+    
     public ConfigLoader(StackMob sm, String filename){
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");
-        this.defaultFile = new File(sm.getDataFolder() + File.separator + "defaults",filename + ".yml");
+        this.defaultFolder = new File(sm.getDataFolder() + File.separator + "defaults");
+        this.defaultFile = new File(defaultFolder,filename + ".yml");
     }
 
     @Override
@@ -40,6 +44,9 @@ public class ConfigLoader implements IConfigLoader {
 
     @Override
     public void reloadCustomConfig() {
+        if(!defaultFolder.exists()){
+            defaultFolder.mkdir();
+        }
         if(!file.exists()){
             sm.saveResource(filename + ".yml", false);
         }
@@ -69,7 +76,8 @@ public class ConfigLoader implements IConfigLoader {
     public void generateNewVersion(){
         File file = new File(sm.getDataFolder(), filename + ".old");
         try{
-            FileUtils.moveFile(getF(), file);
+            Files.move(getF().toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            getF().delete();
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -77,11 +85,11 @@ public class ConfigLoader implements IConfigLoader {
     }
 
     @Override
-    public void copyDefault(){
-        InputStream is = sm.getResource(filename +  ".yml");
+    public void copyDefault() {
+        InputStream is = sm.getResource(filename + ".yml");
         try {
-            FileUtils.copyToFile(is, defaultFile);
-        }catch (IOException e){
+            Files.copy(is, defaultFile.toPath());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
