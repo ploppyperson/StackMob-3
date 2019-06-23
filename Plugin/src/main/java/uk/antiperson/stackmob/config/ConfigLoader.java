@@ -17,7 +17,6 @@ public class ConfigLoader implements IConfigLoader {
 
     private FileConfiguration fc;
     private File file;
-    private File defaultFolder;
     private File defaultFile;
     private StackMob sm;
     private String filename;
@@ -26,8 +25,7 @@ public class ConfigLoader implements IConfigLoader {
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");
-        this.defaultFolder = new File(sm.getDataFolder() + File.separator + "defaults");
-        this.defaultFile = new File(defaultFolder,filename + ".yml");
+        this.defaultFile = new File(sm.getDataFolder() + File.separator + "defaults" ,filename + ".yml");
     }
 
     @Override
@@ -44,14 +42,15 @@ public class ConfigLoader implements IConfigLoader {
 
     @Override
     public void reloadCustomConfig() {
-        if(!defaultFolder.exists()){
-            defaultFolder.mkdir();
-        }
         if(!file.exists()){
             sm.saveResource(filename + ".yml", false);
         }
         if(!defaultFile.exists()){
-            copyDefault();
+            try {
+                copyDefault();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         fc = YamlConfiguration.loadConfiguration(file);
         if(updateConfig()){
@@ -85,13 +84,13 @@ public class ConfigLoader implements IConfigLoader {
     }
 
     @Override
-    public void copyDefault() {
-        InputStream is = sm.getResource(filename + ".yml");
-        try {
-            Files.copy(is, defaultFile.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void copyDefault() throws IOException{
+        File parentFile = defaultFile.getParentFile();
+        if(!parentFile.exists()){
+            Files.createDirectories(parentFile.toPath());
         }
+        InputStream is = sm.getResource(filename + ".yml");
+        Files.copy(is, defaultFile.toPath());
     }
 
     @Override
@@ -110,8 +109,8 @@ public class ConfigLoader implements IConfigLoader {
         }
         // Save the changes made, copy the default file.
         if(!(getCustomConfig().saveToString().equals(originalFile.saveToString()))){
-            copyDefault();
             try {
+                copyDefault();
                 fc.save(file);
                 return true;
             }catch (IOException e){
