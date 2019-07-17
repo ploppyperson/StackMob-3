@@ -47,12 +47,10 @@ public class UpdateChecker implements IUpdateChecker {
     @Override
     public String update(){
         File currentFile = new File(sm.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-        File updateFile = new File(currentFile.getParent() + File.separator + "update", currentFile.getName());
         try{
-            URL fileUrl = new URL("http://aqua.api.spiget.org/v2/resources/29999/download");
+            URL fileUrl = new URL("https://api.spiget.org/v2/resources/29999/download");
             try (InputStream in = fileUrl.openStream()) {
-                Files.createDirectories(updateFile.getParentFile().toPath());
-                Files.copy(in, updateFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(in, currentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
             return "Downloaded latest version successfully!";
         }catch (Exception e){
