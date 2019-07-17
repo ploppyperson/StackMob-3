@@ -8,7 +8,6 @@ import uk.antiperson.stackmob.api.config.IConfigLoader;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 /**
  * Created by nathat on 01/06/17.
@@ -17,16 +16,13 @@ public class ConfigLoader implements IConfigLoader {
 
     private FileConfiguration fc;
     private File file;
-    private File defaultFolder;
     private File defaultFile;
     private StackMob sm;
     private String filename;
-    
     public ConfigLoader(StackMob sm, String filename){
         this.sm = sm;
         this.filename = filename;
         this.file = new File(sm.getDataFolder(), filename + ".yml");
-        this.defaultFolder = new File(sm.getDataFolder() + File.separator + "defaults");
         this.defaultFile = new File(sm.getDataFolder() + File.separator + "defaults",filename + ".yml");
     }
 
@@ -44,9 +40,6 @@ public class ConfigLoader implements IConfigLoader {
 
     @Override
     public void reloadCustomConfig() {
-        if(!defaultFolder.exists()){
-            defaultFolder.mkdir();
-        }
         if(!file.exists()){
             sm.saveResource(filename + ".yml", false);
         }
@@ -86,7 +79,7 @@ public class ConfigLoader implements IConfigLoader {
     @Override
     public void copyDefault() {
         try {
-            Files.copy(is, defaultFile.toPath());
+            sm.saveDefaultConfig();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
