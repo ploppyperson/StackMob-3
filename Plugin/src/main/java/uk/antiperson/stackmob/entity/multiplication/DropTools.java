@@ -46,7 +46,7 @@ public class DropTools implements IDropTools {
     private Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead, List<ItemStack> drops){
         HashMap<ItemStack, Integer> toDrop = new HashMap<>();
         for(int i = 0; i < deadAmount; i++){
-            for(ItemStack stack : drops){
+            for(ItemStack stack : generateLoot(dead, drops)){
                 if(stack == null || stack.getType() == Material.AIR){
                     continue;
                 }
@@ -68,7 +68,7 @@ public class DropTools implements IDropTools {
         return toDrop;
     }
 
-    private Collection<ItemStack> generateLoot(LivingEntity dead){
+    private Collection<ItemStack> generateLoot(LivingEntity dead, List<ItemStack> drops){
         if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
             CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
             if(cdh.hasCustomDrops(dead)){
@@ -80,8 +80,13 @@ public class DropTools implements IDropTools {
                 return Collections.emptySet();
             }
         }
-        LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
-        return ((Mob) dead).getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
+
+        // Default to true to keep the usual behaviour
+        if (sm.getConfig().getBoolean("use-loot-table-for-drops", true)) {
+            LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
+            return ((Mob) dead).getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
+        } else
+            return drops;
     }
 
     // Calculate a random drop amount.
