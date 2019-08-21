@@ -23,17 +23,17 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class DropTools implements IDropTools {
 
-    private StackMob sm;
+    private final StackMob sm;
     public DropTools(StackMob sm){
         this.sm = sm;
     }
 
     @Override
-    public void doDrops(int deadAmount, LivingEntity dead){
+    public void doDrops(int deadAmount, LivingEntity dead, List<ItemStack> drops){
         if(deadAmount > sm.getCustomConfig().getInt("multiply-drops.entity-limit")){
             deadAmount = sm.getCustomConfig().getInt("multiply-drops.entity-limit");
         }
-        Map<ItemStack, Integer> rawDrops = calculateDrops(deadAmount, dead);
+        Map<ItemStack, Integer> rawDrops = calculateDrops(deadAmount, dead, drops);
         if(sm.getCustomConfig().getBoolean("multiply-drops.compress")){
             rawDrops = compressDrops(rawDrops);
         }
@@ -43,10 +43,10 @@ public class DropTools implements IDropTools {
         }
     }
 
-    private Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead){
-        Map<ItemStack, Integer> drops = new HashMap<>();
+    private Map<ItemStack, Integer> calculateDrops(int deadAmount, LivingEntity dead, List<ItemStack> drops){
+        HashMap<ItemStack, Integer> toDrop = new HashMap<>();
         for(int i = 0; i < deadAmount; i++){
-            for(ItemStack stack : generateLoot(dead)){
+            for(ItemStack stack : generateLoot(dead, drops)){
                 if(stack == null || stack.getType() == Material.AIR){
                     continue;
                 }
@@ -54,28 +54,21 @@ public class DropTools implements IDropTools {
                     continue;
                 }
                 if(sm.getCustomConfig().getStringList("multiply-drops.drops-blacklist")
-                        .contains(stack.getType().toString())){
+                    .contains(stack.getType().toString())){
                     continue;
                 }
                 if(sm.getCustomConfig().getStringList("multiply-drops.drop-one-per")
-                        .contains(stack.getType().toString())){
+                    .contains(stack.getType().toString())){
                     stack.setAmount(1);
                 }
-                for(ItemStack itemStack : drops.keySet()){
-                    if(itemStack.isSimilar(stack)){
-                        drops.put(itemStack, drops.get(itemStack) + stack.getAmount());
-                        break;
-                    }
-                }
-                if(!drops.containsKey(stack)) {
-                    drops.put(stack, stack.getAmount());
-                }
+
+                toDrop.merge(stack, stack.getAmount(), Integer::sum);
             }
         }
-        return drops;
+        return toDrop;
     }
 
-    private Collection<ItemStack> generateLoot(LivingEntity dead){
+    private Collection<ItemStack> generateLoot(LivingEntity dead, List<ItemStack> drops){
         if(sm.getHookManager().isHookRegistered(PluginCompat.CUSTOMDROPS)){
             CustomDropsHook cdh = (CustomDropsHook) sm.getHookManager().getHook(PluginCompat.CUSTOMDROPS);
             if(cdh.hasCustomDrops(dead)){
@@ -87,8 +80,13 @@ public class DropTools implements IDropTools {
                 return Collections.emptySet();
             }
         }
-        LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
-        return ((Mob) dead).getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
+
+        // Default to true to keep the usual behaviour
+        if (sm.getConfig().getBoolean("use-loot-table-for-drops", true)) {
+            LootContext lootContext = new LootContext.Builder(dead.getLocation()).lootedEntity(dead).killer(dead.getKiller()).build();
+            return ((Mob) dead).getLootTable().populateLoot(ThreadLocalRandom.current(), lootContext);
+        } else
+            return drops;
     }
 
     // Calculate a random drop amount.

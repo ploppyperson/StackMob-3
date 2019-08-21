@@ -76,6 +76,11 @@ no-stack-worlds:
 # Set to 0 to disable this feature.
 dont-stack-until: 5
 
+# Use the Minecraft loot table to determine entity drops (used for multiplication).
+# If you use plugins which change mob drops (for example, spawner plugins such as EpicSpawners) then this wont
+# multiply drops unless it's disabled.
+use-loot-table-for-drops: true
+
 # If specific entities should have a waiting time before their first stack.
 # Designed for monster grinders etc.
 wait-to-stack:
