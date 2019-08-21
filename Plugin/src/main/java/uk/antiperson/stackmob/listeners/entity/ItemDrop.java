@@ -23,6 +23,8 @@ public class ItemDrop implements Listener {
     @EventHandler
     public void onEggDrop(ItemSpawnEvent event) {
         switch (event.getEntity().getItemStack().getType()) {
+            default:
+                //Nothing to do, without it's considered as a bug by CodeFactor.
             case EGG:
                 // You might be wondering why, but it's to prevent the eggs being multiplied.
                 // Metadata doesn't work because this event is fired before the metadata would be set.
