@@ -10,18 +10,19 @@ import uk.antiperson.stackmob.tasks.StackTask;
 
 import java.util.List;
 
-public class ServerLoad  implements Listener {
+public class ServerLoad implements Listener {
 
-    private StackMob sm;
-    public ServerLoad(StackMob sm){
+    private final StackMob sm;
+
+    public ServerLoad(StackMob sm) {
         this.sm = sm;
     }
 
     @EventHandler
-    public void onServerLoad(ServerLoadEvent event){
+    public void onServerLoad(ServerLoadEvent event) {
         List<World> worlds = Bukkit.getWorlds();
-        for(int i = 0; i < worlds.size(); i++){
-            int period = (int) Math.round(sm.getCustomConfig().getDouble("task-delay") / worlds.size()) * i;
+        for (int i = 0; i < worlds.size(); i++) {
+            int period = (int) Math.round(sm.getCustomConfig().getDouble("task-delay") / worlds.size()) * (i == 0 ? 1 : i);
             new StackTask(sm, worlds.get(i)).runTaskTimer(sm, 100, period);
         }
     }
