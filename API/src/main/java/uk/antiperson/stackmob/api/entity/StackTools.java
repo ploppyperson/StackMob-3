@@ -57,11 +57,11 @@ public class StackTools {
     }
 
     public static int getWaitingTime(Entity entity){
-        return waiting.get(entity.getUniqueId());
+        return waiting.getOrDefault(entity.getUniqueId(), -1);
     }
 
     public static int getSize(Entity entity){
-        return currentEntities.get(entity.getUniqueId());
+        return currentEntities.getOrDefault(entity.getUniqueId(), -1);
     }
 
     public static void setSize(Entity entity, int newSize){
