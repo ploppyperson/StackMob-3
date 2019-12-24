@@ -61,7 +61,7 @@ public class StackTools {
     }
 
     public static int getSize(Entity entity){
-        return currentEntities.getOrDefault(entity.getUniqueId(), -1);
+        return currentEntities.getOrDefault(entity.getUniqueId(), 1);
     }
 
     public static void setSize(Entity entity, int newSize){
